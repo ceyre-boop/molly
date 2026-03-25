@@ -1,8 +1,10 @@
 # Health Check Script for Colin's Projects
 # Checks: TABOOST, TABOOST-Shop, Data Sync, GitHub Pages
 
-$LogPath = "C:\Users\Admin\clawd\molly\logs\health-checks.log"
-$ReportPath = "C:\Users\Admin\clawd\molly\logs\latest-health-report.txt"
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$RootDir = Split-Path -Parent $ScriptDir
+$LogPath = Join-Path $RootDir "logs\health-checks.log"
+$ReportPath = Join-Path $RootDir "logs\latest-health-report.txt"
 $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
 Write-Host ""
@@ -19,10 +21,11 @@ $Report = @("Health Check Report - $Timestamp", "=" * 50, "")
 # 1. TABOOST Data Check
 # ============================================
 Write-Host "📊 TABOOST Data Files:" -ForegroundColor White
+$Report = @()
 $Report += "📊 TABOOST Data Files:"
 
 try {
-    $DataPath = "C:\Users\Admin\clawd\TABOOST_Platfrom\data"
+    $DataPath = Join-Path $RootDir "..\TABOOST_Platfrom\data" | Resolve-Path
     $Files = Get-ChildItem $DataPath\*.csv -ErrorAction Stop | 
              Select-Object Name, LastWriteTime, @{N="HoursOld";E={[math]::Round(((Get-Date)-$_.LastWriteTime).TotalHours,1)}}
     
@@ -50,7 +53,7 @@ Write-Host "🛒 TABOOST-Shop Data Files:" -ForegroundColor White
 $Report += "🛒 TABOOST-Shop Data Files:"
 
 try {
-    $DataPath = "C:\Users\Admin\clawd\TABOOST-Shop-temp\data"
+    $DataPath = Join-Path $RootDir "..\TABOOST-Shop-temp\data" | Resolve-Path
     $Files = Get-ChildItem $DataPath\*.csv -ErrorAction Stop | 
              Select-Object Name, LastWriteTime, @{N="HoursOld";E={[math]::Round(((Get-Date)-$_.LastWriteTime).TotalHours,1)}}
     

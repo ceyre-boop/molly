@@ -1,8 +1,10 @@
 # Deploy TABOOST Platform
 # Usage: .\deploy-taboost.ps1 [message]
 
-$RepoPath = "C:\Users\Admin\clawd\TABOOST_Platfrom"
-$LogPath = "C:\Users\Admin\clawd\molly\logs\deployments.log"
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$RootDir = Split-Path -Parent $ScriptDir
+$RepoPath = Join-Path $RootDir "..\TABOOST_Platfrom" | Resolve-Path
+$LogPath = Join-Path $RootDir "logs\deployments.log"
 
 Write-Host ""
 Write-Host "╔══════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan

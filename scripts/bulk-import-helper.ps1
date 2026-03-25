@@ -1,6 +1,9 @@
 # Bulk Import Helper for TABOOST
 # Guides through the new creator import process
 
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$RootDir = Split-Path -Parent $ScriptDir
+
 Write-Host ""
 Write-Host "╔══════════════════════════════════════════════════════════════╗" -ForegroundColor Green
 Write-Host "║           TABOOST — BULK IMPORT HELPER                       ║" -ForegroundColor Green
@@ -11,7 +14,7 @@ Write-Host ""
 $SearchPaths = @(
     "$env:USERPROFILE\Downloads",
     "$env:USERPROFILE\Desktop",
-    "C:\Users\Admin\clawd\TABOOST_Platfrom\data"
+    (Join-Path $RootDir "..\TABOOST_Platfrom\data" | Resolve-Path)
 )
 
 Write-Host "🔍 Scanning for CSV files..." -ForegroundColor White

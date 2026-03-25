@@ -1,8 +1,10 @@
 # Deploy TABOOST-Shop
 # Usage: .\deploy-shop.ps1 [message]
 
-$RepoPath = "C:\Users\Admin\clawd\TABOOST-Shop-temp"
-$LogPath = "C:\Users\Admin\clawd\molly\logs\deployments.log"
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$RootDir = Split-Path -Parent $ScriptDir
+$RepoPath = Join-Path $RootDir "..\TABOOST-Shop-temp" | Resolve-Path
+$LogPath = Join-Path $RootDir "logs\deployments.log"
 
 Write-Host ""
 Write-Host "╔══════════════════════════════════════════════════════════════╗" -ForegroundColor Magenta
