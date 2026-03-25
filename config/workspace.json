@@ -1,0 +1,48 @@
+{
+  "workspace": {
+    "name": "molly",
+    "owner": "Colin Eyre",
+    "purpose": "Proactive automation and workflow optimization",
+    "created": "2026-03-25"
+  },
+  "projects": [
+    {
+      "name": "TABOOST Platform",
+      "path": "C:\\Users\\Admin\\clawd\\TABOOST_Platfrom",
+      "url": "https://live.taboost.me",
+      "type": "github-pages",
+      "autoDeploy": false
+    },
+    {
+      "name": "TABOOST Shop",
+      "path": "C:\\Users\\Admin\\clawd\\TABOOST-Shop-temp",
+      "url": "https://ceyre-boop.github.io/TABOOST-Shop/",
+      "type": "github-pages",
+      "autoDeploy": false
+    },
+    {
+      "name": "clawd_trading",
+      "path": "C:\\Users\\Admin\\clawd\\quant",
+      "url": "https://ceyre-boop.github.io/quant/",
+      "type": "github-pages",
+      "autoDeploy": false
+    }
+  ],
+  "automation": {
+    "healthCheck": {
+      "enabled": true,
+      "schedule": "daily",
+      "time": "09:00"
+    },
+    "dataSyncCheck": {
+      "enabled": true,
+      "schedule": "daily",
+      "time": "10:00"
+    }
+  },
+  "notifications": {
+    "telegram": true,
+    "alertsOnFailure": true,
+    "dailySummary": false
+  }
+}
