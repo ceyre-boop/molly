@@ -3,536 +3,869 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Molly | Autonomous AI Assistant</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Molly — Your Command Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0a0a0f;
-            --surface: #13131a;
-            --surface-2: #1a1a25;
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #16161f;
+            --bg-card-hover: #1a1a25;
+            --bg-elevated: #1e1e2a;
             --border: #2a2a3a;
-            --text: #f0f0f5;
-            --text-muted: #6b6b7b;
-            --accent: #8b5cf6;
-            --accent-light: #a78bfa;
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --info: #3b82f6;
+            --border-subtle: #1f1f2f;
+            --text-primary: #f0f0f5;
+            --text-secondary: #8888a0;
+            --text-muted: #55556a;
+            --accent: #7c5cff;
+            --accent-glow: rgba(124, 92, 255, 0.15);
+            --accent-soft: rgba(124, 92, 255, 0.08);
+            --green: #34d399;
+            --green-soft: rgba(52, 211, 153, 0.1);
+            --yellow: #fbbf24;
+            --yellow-soft: rgba(251, 191, 36, 0.1);
+            --red: #f87171;
+            --red-soft: rgba(248, 113, 113, 0.1);
+            --blue: #60a5fa;
+            --blue-soft: rgba(96, 165, 250, 0.1);
+            --orange: #fb923c;
+            --orange-soft: rgba(251, 146, 60, 0.1);
+            --pink: #f472b6;
+            --pink-soft: rgba(244, 114, 182, 0.1);
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
-            line-height: 1.6;
+            overflow-x: hidden;
         }
-        
-        .header {
-            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
-            border-bottom: 1px solid var(--border);
-            padding: 32px 40px;
+
+        /* Ambient background glow */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(124, 92, 255, 0.04) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(96, 165, 250, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
+
+        /* ─── Layout ─── */
+        .app { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 24px; }
+
+        /* ─── Top Bar ─── */
+        .topbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-subtle);
         }
-        .header h1 {
+        .greeting h1 {
             font-size: 28px;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-light), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
         }
-        .header p {
-            color: var(--text-muted);
+        .greeting h1 span { color: var(--accent); }
+        .greeting .date {
             font-size: 14px;
+            color: var(--text-secondary);
             margin-top: 4px;
         }
-        .status-pill {
+        .topbar-actions {
             display: flex;
-            align-items: center;
             gap: 8px;
-            padding: 8px 16px;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.2);
-            border-radius: 20px;
-            font-size: 13px;
-            color: var(--success);
-        }
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--success);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 32px 40px;
-        }
-        
-        .autonomy-banner {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 32px;
-            display: flex;
             align-items: center;
-            gap: 20px;
         }
-        .autonomy-icon {
-            font-size: 40px;
-            width: 64px;
-            height: 64px;
-            background: var(--surface-2);
-            border-radius: 16px;
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        .autonomy-text h2 {
             font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 4px;
+            transition: all 0.2s;
         }
-        .autonomy-text p {
-            color: var(--text-muted);
-            font-size: 14px;
+        .btn-icon:hover { background: var(--bg-card-hover); color: var(--text-primary); border-color: var(--accent); }
+
+        /* ─── Grid ─── */
+        .grid { display: grid; gap: 20px; }
+        .grid-main {
+            grid-template-columns: 1fr 380px;
+            grid-template-rows: auto auto auto;
         }
-        .autonomy-stats {
-            display: flex;
-            gap: 24px;
-            margin-left: auto;
-        }
-        .autonomy-stat {
-            text-align: center;
-        }
-        .autonomy-stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--accent-light);
-        }
-        .autonomy-stat-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 20px;
-        }
-        
+
+        /* ─── Cards ─── */
         .card {
-            background: var(--surface);
+            background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.2s;
         }
+        .card:hover { border-color: rgba(124, 92, 255, 0.3); }
         .card-header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 16px;
         }
         .card-title {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
+            color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+        .card-title .icon { font-size: 18px; }
         .card-badge {
             font-size: 11px;
-            padding: 2px 8px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* ─── Daily Goals Section ─── */
+        .goals-section { grid-column: 1; grid-row: 1; }
+        .goals-list { display: flex; flex-direction: column; gap: 8px; }
+        .goal-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
             border-radius: 12px;
-            background: rgba(34, 197, 94, 0.1);
-            color: var(--success);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
         }
-        .card-badge.warning {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--warning);
-        }
-        
-        .activity-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .activity-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 12px;
-            background: var(--surface-2);
-            border-radius: 8px;
-        }
-        .activity-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+        .goal-item:hover { background: var(--bg-elevated); border-color: var(--border); }
+        .goal-item.completed { opacity: 0.5; }
+        .goal-item.completed .goal-text { text-decoration: line-through; }
+        .goal-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 2px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
             flex-shrink: 0;
-        }
-        .activity-icon.success { background: rgba(34, 197, 94, 0.1); }
-        .activity-icon.fix { background: rgba(59, 130, 246, 0.1); }
-        .activity-icon.warn { background: rgba(245, 158, 11, 0.1); }
-        .activity-content {
-            flex: 1;
-        }
-        .activity-text {
+            transition: all 0.2s;
             font-size: 13px;
-            margin-bottom: 2px;
+            color: transparent;
         }
-        .activity-time {
+        .goal-item.completed .goal-check {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+        .goal-text { font-size: 14px; line-height: 1.5; flex: 1; }
+        .goal-tag {
             font-size: 11px;
-            color: var(--text-muted);
-        }
-        
-        .project-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .project-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 16px;
-            background: var(--surface-2);
-            border-radius: 8px;
-            text-decoration: none;
-            color: var(--text);
-            transition: all 0.15s;
-        }
-        .project-item:hover {
-            background: var(--border);
-            transform: translateY(-1px);
-        }
-        .project-info h3 {
-            font-size: 14px;
+            padding: 2px 8px;
+            border-radius: 6px;
             font-weight: 500;
-            margin-bottom: 2px;
         }
-        .project-info span {
+        .tag-trading { background: var(--green-soft); color: var(--green); }
+        .tag-agency { background: var(--blue-soft); color: var(--blue); }
+        .tag-dev { background: var(--accent-soft); color: var(--accent); }
+        .tag-school { background: var(--yellow-soft); color: var(--yellow); }
+        .tag-personal { background: var(--pink-soft); color: var(--pink); }
+
+        .add-goal {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .add-goal input {
+            flex: 1;
+            padding: 10px 14px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .add-goal input:focus { border-color: var(--accent); }
+        .add-goal input::placeholder { color: var(--text-muted); }
+        .add-goal button {
+            padding: 10px 18px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .add-goal button:hover { filter: brightness(1.15); }
+
+        /* ─── Brain Dump ─── */
+        .braindump-section { grid-column: 2; grid-row: 1 / 3; }
+        .braindump-area {
+            width: 100%;
+            min-height: 280px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .braindump-area:focus { border-color: var(--accent); }
+        .braindump-area::placeholder { color: var(--text-muted); }
+        .braindump-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
             font-size: 12px;
             color: var(--text-muted);
         }
-        .project-meta {
+
+        /* ─── AI Tools Hub ─── */
+        .ai-tools-section { grid-column: 1; grid-row: 2; }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+            gap: 10px;
+        }
+        .tool-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+        .tool-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+            background: var(--bg-elevated);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .tool-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .tool-name { font-size: 13px; font-weight: 600; text-align: center; }
+        .tool-desc { font-size: 11px; color: var(--text-muted); text-align: center; line-height: 1.3; }
+        .tool-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-free { background: var(--green-soft); color: var(--green); }
+        .badge-new { background: var(--accent-soft); color: var(--accent); }
+        .badge-fav { background: var(--yellow-soft); color: var(--yellow); }
+
+        /* ─── Projects Quick Access ─── */
+        .projects-section { grid-column: 1 / -1; grid-row: 3; }
+        .projects-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 12px;
         }
+        .project-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+        .project-card:hover {
+            border-color: var(--accent);
+            background: var(--bg-elevated);
+        }
+        .project-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .project-info { flex: 1; }
+        .project-name { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+        .project-url { font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
         .project-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .status-live { background: var(--green); box-shadow: 0 0 8px rgba(52, 211, 153, 0.5); }
+        .status-dev { background: var(--yellow); box-shadow: 0 0 8px rgba(251, 191, 36, 0.5); }
+
+        /* ─── Activity Feed ─── */
+        .activity-section { grid-column: 2; grid-row: 3; display: none; }
+        .activity-list { display: flex; flex-direction: column; gap: 6px; }
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 10px 12px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            font-size: 13px;
+        }
+        .activity-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--success);
+            margin-top: 5px;
+            flex-shrink: 0;
         }
-        .project-status.warning { background: var(--warning); }
-        .project-arrow {
-            color: var(--text-muted);
+        .activity-text { color: var(--text-secondary); line-height: 1.4; }
+        .activity-text strong { color: var(--text-primary); }
+        .activity-time { color: var(--text-muted); font-size: 11px; margin-top: 2px; }
+
+        /* ─── Quick Links Bar ─── */
+        .quicklinks {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
         }
-        
-        .script-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-        .script-item {
+        .quicklink {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: var(--surface-2);
-            border-radius: 8px;
-            font-family: 'SF Mono', monospace;
-            font-size: 12px;
-        }
-        .script-icon {
-            font-size: 16px;
-        }
-        .script-name {
-            color: var(--accent-light);
-        }
-        
-        .metric-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .metric-row:last-child {
-            border-bottom: none;
-        }
-        .metric-label {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-        .metric-value {
+            gap: 6px;
+            padding: 8px 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            text-decoration: none;
             font-size: 13px;
             font-weight: 500;
+            transition: all 0.2s;
         }
-        .metric-value.good { color: var(--success); }
-        .metric-value.warn { color: var(--warning); }
-        
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-muted);
-            font-size: 13px;
-            border-top: 1px solid var(--border);
-            margin-top: 40px;
+        .quicklink:hover { background: var(--bg-card-hover); color: var(--text-primary); border-color: var(--accent); }
+        .quicklink .ql-icon { font-size: 15px; }
+
+        /* ─── GitHub Activity Row ─── */
+        .github-row {
+            margin-top: 20px;
+            grid-column: 1 / -1;
         }
-        
-        .refresh-bar {
+        .commits-list { display: flex; flex-direction: column; gap: 6px; }
+        .commit-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px;
-            background: var(--surface);
-            border-radius: 8px;
-            margin-bottom: 24px;
+            gap: 12px;
+            padding: 10px 14px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
             font-size: 13px;
+        }
+        .commit-repo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .commit-msg { color: var(--text-secondary); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .commit-time { color: var(--text-muted); font-size: 11px; white-space: nowrap; }
+        .commit-sha {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        /* ─── Footer ─── */
+        .footer {
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+            font-size: 12px;
             color: var(--text-muted);
         }
+        .footer a { color: var(--accent); text-decoration: none; }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 900px) {
+            .grid-main { grid-template-columns: 1fr; }
+            .braindump-section { grid-column: 1; grid-row: auto; }
+            .goals-section { grid-column: 1; }
+            .ai-tools-section { grid-column: 1; }
+            .projects-section { grid-column: 1; }
+            .github-row { grid-column: 1; }
+        }
+        @media (max-width: 600px) {
+            .app { padding: 16px; }
+            .greeting h1 { font-size: 22px; }
+            .tools-grid { grid-template-columns: repeat(2, 1fr); }
+            .projects-row { grid-template-columns: 1fr; }
+        }
+
+        /* ─── Animations ─── */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .card { animation: fadeIn 0.4s ease both; }
+        .card:nth-child(1) { animation-delay: 0.05s; }
+        .card:nth-child(2) { animation-delay: 0.1s; }
+        .card:nth-child(3) { animation-delay: 0.15s; }
+        .card:nth-child(4) { animation-delay: 0.2s; }
+
+        /* ─── Scrollbar ─── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+        /* ─── Motivational Quote ─── */
+        .quote-bar {
+            text-align: center;
+            padding: 14px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-style: italic;
+            opacity: 0.8;
+        }
+        .quote-bar span { color: var(--accent); font-style: normal; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-content">
-            <div>
-                <h1>🤖 Molly</h1>
-                <p>Autonomous AI Assistant for Colin's Workflow</p>
+    <div class="app">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="greeting">
+                <h1>Good <span id="timeOfDay">morning</span>, Colin ⚡</h1>
+                <div class="date" id="currentDate"></div>
             </div>
-            <div class="status-pill">
-                <span class="status-dot"></span>
-                <span>Autonomous Mode Active</span>
+            <div class="topbar-actions">
+                <button class="btn-icon" onclick="shuffleQuote()" title="New quote">💭</button>
+                <button class="btn-icon" onclick="resetDay()" title="Reset day">🔄</button>
+                <button class="btn-icon" onclick="toggleTheme()" title="Theme">🌙</button>
             </div>
+        </div>
+
+        <!-- Motivational Quote -->
+        <div class="quote-bar" id="quoteBar"></div>
+
+        <!-- Quick Links -->
+        <div class="quicklinks">
+            <a href="https://mail.google.com" target="_blank" class="quicklink"><span class="ql-icon">📧</span> Gmail</a>
+            <a href="https://github.com/ceyre-boop" target="_blank" class="quicklink"><span class="ql-icon">🐙</span> GitHub</a>
+            <a href="https://live.taboost.me" target="_blank" class="quicklink"><span class="ql-icon">🚀</span> TABOOST</a>
+            <a href="https://ceyre-boop.github.io/quant/" target="_blank" class="quicklink"><span class="ql-icon">📊</span> Quant</a>
+            <a href="https://web.telegram.org" target="_blank" class="quicklink"><span class="ql-icon">💬</span> Telegram</a>
+            <a href="https://docs.google.com/spreadsheets" target="_blank" class="quicklink"><span class="ql-icon">📋</span> Sheets</a>
+            <a href="https://firebase.google.com/console" target="_blank" class="quicklink"><span class="ql-icon">🔥</span> Firebase</a>
+            <a href="https://canvas.instructure.com" target="_blank" class="quicklink"><span class="ql-icon">🎓</span> Canvas</a>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid grid-main">
+            <!-- Daily Goals -->
+            <div class="card goals-section">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">🎯</span> Today's Goals</div>
+                    <span class="card-badge" style="background: var(--green-soft); color: var(--green);" id="goalProgress">0/0</span>
+                </div>
+                <div class="goals-list" id="goalsList"></div>
+                <div class="add-goal">
+                    <input type="text" id="newGoalInput" placeholder="Add a goal..." onkeydown="if(event.key==='Enter')addGoal()">
+                    <button onclick="addGoal()">Add</button>
+                </div>
+            </div>
+
+            <!-- Brain Dump -->
+            <div class="card braindump-section">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">🧠</span> Brain Dump</div>
+                    <span class="card-badge" style="background: var(--accent-soft); color: var(--accent);" id="dumpStatus">Auto-saved</span>
+                </div>
+                <textarea class="braindump-area" id="brainDump" placeholder="Dump your thoughts here... ideas, tasks, notes, whatever's on your mind. This saves automatically."></textarea>
+                <div class="braindump-footer">
+                    <span id="charCount">0 chars</span>
+                    <span id="lastSaved">Not yet saved</span>
+                </div>
+            </div>
+
+            <!-- AI Tools Hub -->
+            <div class="card ai-tools-section">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">🤖</span> AI Tools</div>
+                    <span class="card-badge" style="background: var(--accent-soft); color: var(--accent);">Your toolkit</span>
+                </div>
+                <div class="tools-grid" id="toolsGrid"></div>
+            </div>
+
+            <!-- Projects -->
+            <div class="card projects-section">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">📂</span> Projects</div>
+                </div>
+                <div class="projects-row" id="projectsRow"></div>
+            </div>
+
+            <!-- GitHub Activity -->
+            <div class="card github-row">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">🐙</span> Recent Activity</div>
+                    <span class="card-badge" style="background: var(--blue-soft); color: var(--blue);" id="activityBadge">Loading...</span>
+                </div>
+                <div class="commits-list" id="commitsList">
+                    <div style="text-align: center; padding: 20px; color: var(--text-muted);">Loading GitHub activity...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <strong>Molly</strong> — built by <a href="https://github.com/ceyre-boop" target="_blank">Colin Eyre</a> · powered by autonomy
         </div>
     </div>
+
+<script>
+// ─── Config ───
+const GITHUB_USER = 'ceyre-boop';
+const REPOS = ['molly', 'TABOOST-Shop', 'quant', 'TABOOST_Platfrom'];
+const TODAY_KEY = () => `molly_${new Date().toISOString().slice(0, 10)}`;
+
+// ─── Time of Day ───
+function updateGreeting() {
+    const h = new Date().getHours();
+    const el = document.getElementById('timeOfDay');
+    if (h < 12) el.textContent = 'morning';
+    else if (h < 17) el.textContent = 'afternoon';
+    else el.textContent = 'evening';
     
-    <div class="container">
-        <div class="autonomy-banner">
-            <div class="autonomy-icon">🧠</div>
-            <div class="autonomy-text">
-                <h2>Full Autonomy Enabled</h2>
-                <p>I monitor your systems 24/7, fix common issues automatically, and optimize your workflow without you asking.</p>
+    const d = new Date();
+    const opts = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+    document.getElementById('currentDate').textContent = d.toLocaleDateString('en-US', opts);
+}
+updateGreeting();
+
+// ─── Quotes ───
+const quotes = [
+    { text: "The best way to predict the future is to create it.", author: "Peter Drucker" },
+    { text: "Done is better than perfect.", author: "Sheryl Sandberg" },
+    { text: "Discipline is choosing between what you want now and what you want most.", author: "Abraham Lincoln" },
+    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+    { text: "Systems beat goals. Build the system.", author: "James Clear" },
+    { text: "Ship it, then iterate.", author: "Reid Hoffman" },
+    { text: "Small daily improvements are the key to staggering long-term results.", author: "Robin Sharma" },
+    { text: "Automate the boring stuff. Focus on what matters.", author: "Al Sweigart" },
+    { text: "The market rewards conviction and punishes hesitation.", author: "Trading wisdom" },
+    { text: "Your network is your net worth.", author: "Porter Gale" },
+    { text: "First, solve the problem. Then, write the code.", author: "John Johnson" },
+    { text: "Every expert was once a beginner.", author: "Helen Hayes" },
+];
+function shuffleQuote() {
+    const q = quotes[Math.floor(Math.random() * quotes.length)];
+    document.getElementById('quoteBar').innerHTML = `"${q.text}" — <span>${q.author}</span>`;
+}
+shuffleQuote();
+
+// ─── AI Tools ───
+const aiTools = [
+    { name: 'Claude', desc: 'Deep reasoning', icon: '🟣', color: '#7c5cff', url: 'https://claude.ai', badge: 'fav' },
+    { name: 'ChatGPT', desc: 'General AI', icon: '🟢', color: '#10a37f', url: 'https://chat.openai.com', badge: 'fav' },
+    { name: 'MolyBot', desc: 'Telegram assistant', icon: '🤖', color: '#0088cc', url: 'https://web.telegram.org', badge: 'fav' },
+    { name: 'Viktor', desc: 'Autonomous agent', icon: '⚡', color: '#7c5cff', url: 'https://www.viktor.ai', badge: 'new' },
+    { name: 'Cursor', desc: 'AI code editor', icon: '▶️', color: '#60a5fa', url: 'https://cursor.sh', badge: 'free' },
+    { name: 'Windsurf', desc: 'AI-powered IDE', icon: '🏄', color: '#34d399', url: 'https://codeium.com/windsurf', badge: 'free' },
+    { name: 'v0.dev', desc: 'UI generation', icon: '🎨', color: '#f0f0f5', url: 'https://v0.dev', badge: 'free' },
+    { name: 'bolt.new', desc: 'Full-stack builder', icon: '⚡', color: '#fb923c', url: 'https://bolt.new', badge: 'free' },
+    { name: 'Replit Agent', desc: 'Build anything', icon: '💻', color: '#fb923c', url: 'https://replit.com', badge: 'free' },
+    { name: 'Gemini', desc: 'Google AI', icon: '💎', color: '#60a5fa', url: 'https://gemini.google.com', badge: null },
+    { name: 'Perplexity', desc: 'AI search', icon: '🔍', color: '#60a5fa', url: 'https://perplexity.ai', badge: 'free' },
+    { name: 'GitHub Copilot', desc: 'Code completion', icon: '🐙', color: '#f0f0f5', url: 'https://github.com/features/copilot', badge: 'free' },
+    { name: 'Lovable', desc: 'AI app builder', icon: '💜', color: '#c084fc', url: 'https://lovable.dev', badge: 'new' },
+    { name: 'Devin', desc: 'AI engineer', icon: '🧑‍💻', color: '#34d399', url: 'https://devin.ai', badge: 'new' },
+    { name: 'Grok', desc: 'xAI assistant', icon: '🅧', color: '#f0f0f5', url: 'https://grok.x.ai', badge: 'free' },
+];
+
+function renderTools() {
+    const grid = document.getElementById('toolsGrid');
+    grid.innerHTML = aiTools.map(t => `
+        <a href="${t.url}" target="_blank" class="tool-card">
+            ${t.badge ? `<span class="tool-badge badge-${t.badge}">${t.badge}</span>` : ''}
+            <div class="tool-icon" style="background: ${t.color}20; color: ${t.color}">${t.icon}</div>
+            <div class="tool-name">${t.name}</div>
+            <div class="tool-desc">${t.desc}</div>
+        </a>
+    `).join('');
+}
+renderTools();
+
+// ─── Projects ───
+const projects = [
+    { name: 'TABOOST Platform', url: 'https://live.taboost.me', repo: 'https://github.com/ceyre-boop/TABOOST_Platfrom', icon: '🚀', color: 'var(--accent)', status: 'live' },
+    { name: 'TABOOST Shop', url: 'https://ceyre-boop.github.io/TABOOST-Shop/', repo: 'https://github.com/ceyre-boop/TABOOST-Shop', icon: '🛍️', color: 'var(--blue)', status: 'live' },
+    { name: 'Quant Dashboard', url: 'https://ceyre-boop.github.io/quant/', repo: 'https://github.com/ceyre-boop/quant', icon: '📊', color: 'var(--green)', status: 'live' },
+    { name: 'Molly', url: 'https://ceyre-boop.github.io/molly/', repo: 'https://github.com/ceyre-boop/molly', icon: '⚡', color: 'var(--accent)', status: 'dev' },
+];
+
+function renderProjects() {
+    document.getElementById('projectsRow').innerHTML = projects.map(p => `
+        <a href="${p.url}" target="_blank" class="project-card">
+            <div class="project-icon" style="background: ${p.color}15; color: ${p.color}">${p.icon}</div>
+            <div class="project-info">
+                <div class="project-name">${p.name}</div>
+                <div class="project-url">${p.url.replace('https://', '')}</div>
             </div>
-            <div class="autonomy-stats">
-                <div class="autonomy-stat">
-                    <div class="autonomy-stat-value" id="checks-today">0</div>
-                    <div class="autonomy-stat-label">Checks Today</div>
-                </div>
-                <div class="autonomy-stat">
-                    <div class="autonomy-stat-value" id="issues-fixed">0</div>
-                    <div class="autonomy-stat-label">Issues Fixed</div>
-                </div>
-                <div class="autonomy-stat">
-                    <div class="autonomy-stat-value" id="uptime">100%</div>
-                    <div class="autonomy-stat-label">Uptime</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="refresh-bar">
-            <span>🔄</span>
-            <span>Auto-refresh every 5 minutes • Last check: <span id="last-check">Just now</span></span>
-        </div>
-        
-        <div class="grid">
-            <!-- Recent Activity -->
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-title">🔄 Autonomous Activity</span>
-                    <span class="card-badge">Live</span>
-                </div>
-                <div class="activity-list">
-                    <div class="activity-item">
-                        <div class="activity-icon success">✅</div>
-                        <div class="activity-content">
-                            <div class="activity-text">Health check passed - All systems operational</div>
-                            <div class="activity-time">5 minutes ago</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon fix">🔧</div>
-                        <div class="activity-content">
-                            <div class="activity-text">Auto-fixed stale CSV warning - Verified Apps Script sync</div>
-                            <div class="activity-time">2 hours ago</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon success">🚀</div>
-                        <div class="activity-content">
-                            <div class="activity-text">Auto-deployed uncommitted changes to TABOOST</div>
-                            <div class="activity-time">4 hours ago</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon warn">⚠️</div>
-                        <div class="activity-content">
-                            <div class="activity-text">Detected 12 stale git branches - Cleanup recommended</div>
-                            <div class="activity-time">Yesterday</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Project Status -->
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-title">📁 Project Status</span>
-                </div>
-                <div class="project-list">
-                    <a class="project-item" href="https://live.taboost.me" target="_blank">
-                        <div class="project-info">
-                            <h3>TABOOST Platform</h3>
-                            <span>826 creators • Auto-sync enabled</span>
-                        </div>
-                        <div class="project-meta">
-                            <span class="project-status"></span>
-                            <span class="project-arrow">→</span>
-                        </div>
-                    </a>
-                    <a class="project-item" href="https://ceyre-boop.github.io/TABOOST-Shop/" target="_blank">
-                        <div class="project-info">
-                            <h3>TABOOST Shop</h3>
-                            <span>1000+ products • Live</span>
-                        </div>
-                        <div class="project-meta">
-                            <span class="project-status"></span>
-                            <span class="project-arrow">→</span>
-                        </div>
-                    </a>
-                    <a class="project-item" href="https://ceyre-boop.github.io/quant/" target="_blank">
-                        <div class="project-info">
-                            <h3>Quant Trading</h3>
-                            <span>NAS100 • 3-layer system</span>
-                        </div>
-                        <div class="project-meta">
-                            <span class="project-status"></span>
-                            <span class="project-arrow">→</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Automation Scripts -->
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-title">⚡ Autonomous Scripts</span>
-                </div>
-                <div class="script-grid">
-                    <div class="script-item">
-                        <span class="script-icon">🤖</span>
-                        <code class="script-name">autonomous-monitor</code>
-                    </div>
-                    <div class="script-item">
-                        <span class="script-icon">🚀</span>
-                        <code class="script-name">deploy-taboost</code>
-                    </div>
-                    <div class="script-item">
-                        <span class="script-icon">🛒</span>
-                        <code class="script-name">deploy-shop</code>
-                    </div>
-                    <div class="script-item">
-                        <span class="script-icon">🏥</span>
-                        <code class="script-name">health-check</code>
-                    </div>
-                </div>
-                <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);">
-                    <div class="metric-row">
-                        <span class="metric-label">Schedule</span>
-                        <span class="metric-value good">Every hour</span>
-                    </div>
-                    <div class="metric-row">
-                        <span class="metric-label">Auto-fix enabled</span>
-                        <span class="metric-value good">Yes</span>
-                    </div>
-                    <div class="metric-row">
-                        <span class="metric-label">Notifications</span>
-                        <span class="metric-value">On issues only</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- System Health -->
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-title">📊 System Health</span>
-                    <span class="card-badge">Good</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">Data Sync Status</span>
-                    <span class="metric-value good">✓ Current</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">GitHub Pages</span>
-                    <span class="metric-value good">✓ All online</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">Git Repositories</span>
-                    <span class="metric-value warn">12 branches to clean</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">Last Deployment</span>
-                    <span class="metric-value">4 hours ago</span>
-                </div>
-                <div class="metric-row">
-                    <span class="metric-label">Memory Files</span>
-                    <span class="metric-value">18 files, 2.3 MB</span>
-                </div>
-            </div>
-        </div>
-    </div>
+            <div class="project-status status-${p.status}" title="${p.status}"></div>
+        </a>
+    `).join('');
+}
+renderProjects();
+
+// ─── Goals System (localStorage persisted) ───
+function getGoals() {
+    const stored = localStorage.getItem('molly_goals_' + TODAY_KEY());
+    if (stored) return JSON.parse(stored);
+    // Default daily goals based on Colin's domains
+    return generateDailyGoals();
+}
+
+function generateDailyGoals() {
+    const day = new Date().getDay(); // 0=Sun, 1=Mon...
+    const isWeekday = day >= 1 && day <= 5;
     
-    <footer>
-        <p>Molly v2.0 • Full Autonomy Mode • GitHub: <a href="https://github.com/ceyre-boop/molly" style="color: var(--accent-light);">ceyre-boop/molly</a></p>
-        <p style="margin-top: 8px; font-size: 12px;">I work 24/7 so you don't have to worry about the details</p>
-    </footer>
+    const goals = [];
     
-    <script>
-        // Simulated real-time updates
-        setInterval(() => {
-            const now = new Date();
-            document.getElementById('last-check').textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        }, 300000); // Update every 5 minutes
+    // Always - morning routine
+    goals.push({ text: 'Morning review — check TABOOST systems & data sync', tag: 'agency', done: false });
+    
+    // Trading (weekdays only for market hours)
+    if (isWeekday) {
+        goals.push({ text: 'Review pre-market levels (NAS100, SPY, BTC)', tag: 'trading', done: false });
+        goals.push({ text: 'Log any trades taken today in trading journal', tag: 'trading', done: false });
+    }
+    
+    // Agency - always relevant
+    goals.push({ text: 'Check creator data pipeline — CSV freshness & Apps Script', tag: 'agency', done: false });
+    
+    // Dev rotation
+    const devGoals = [
+        'Push at least 1 commit to any active repo',
+        'Review and close stale branches in TABOOST-Shop',
+        'Check GitHub Pages deployments are healthy',
+        'Spend 30 min on Molly improvements',
+    ];
+    goals.push({ text: devGoals[day % devGoals.length], tag: 'dev', done: false });
+    
+    // School (weekdays)
+    if (isWeekday) {
+        goals.push({ text: 'Complete today\'s coursework / assignments', tag: 'school', done: false });
+    }
+    
+    // Personal growth
+    const personalGoals = [
+        'Read or listen to 20 min of something educational',
+        'Brain dump — write down everything on your mind',
+        'Review weekly goals and adjust priorities',
+        'Try one new AI tool or feature today',
+        'Take a real break — walk, stretch, no screens',
+        'Plan tomorrow before bed',
+        'Clean up digital workspace (close old tabs, organize)',
+    ];
+    goals.push({ text: personalGoals[day % personalGoals.length], tag: 'personal', done: false });
+    
+    return goals;
+}
+
+function saveGoals(goals) {
+    localStorage.setItem('molly_goals_' + TODAY_KEY(), JSON.stringify(goals));
+}
+
+function renderGoals() {
+    const goals = getGoals();
+    const list = document.getElementById('goalsList');
+    const done = goals.filter(g => g.done).length;
+    document.getElementById('goalProgress').textContent = `${done}/${goals.length}`;
+    
+    list.innerHTML = goals.map((g, i) => `
+        <div class="goal-item ${g.done ? 'completed' : ''}" onclick="toggleGoal(${i})">
+            <div class="goal-check">${g.done ? '✓' : ''}</div>
+            <div class="goal-text">${g.text}</div>
+            <span class="goal-tag tag-${g.tag}">${g.tag}</span>
+        </div>
+    `).join('');
+}
+
+function toggleGoal(index) {
+    const goals = getGoals();
+    goals[index].done = !goals[index].done;
+    saveGoals(goals);
+    renderGoals();
+}
+
+function addGoal() {
+    const input = document.getElementById('newGoalInput');
+    const text = input.value.trim();
+    if (!text) return;
+    
+    const goals = getGoals();
+    goals.push({ text, tag: 'personal', done: false });
+    saveGoals(goals);
+    renderGoals();
+    input.value = '';
+}
+
+function resetDay() {
+    if (confirm('Reset all goals for today?')) {
+        localStorage.removeItem('molly_goals_' + TODAY_KEY());
+        renderGoals();
+    }
+}
+
+renderGoals();
+
+// ─── Brain Dump (auto-save) ───
+const dumpArea = document.getElementById('brainDump');
+const dumpKey = 'molly_braindump';
+const charCount = document.getElementById('charCount');
+const lastSaved = document.getElementById('lastSaved');
+
+// Load saved dump
+dumpArea.value = localStorage.getItem(dumpKey) || '';
+charCount.textContent = `${dumpArea.value.length} chars`;
+
+let saveTimeout;
+dumpArea.addEventListener('input', () => {
+    charCount.textContent = `${dumpArea.value.length} chars`;
+    document.getElementById('dumpStatus').textContent = 'Typing...';
+    document.getElementById('dumpStatus').style.color = 'var(--yellow)';
+    
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => {
+        localStorage.setItem(dumpKey, dumpArea.value);
+        document.getElementById('dumpStatus').textContent = 'Auto-saved';
+        document.getElementById('dumpStatus').style.color = 'var(--accent)';
+        lastSaved.textContent = `Saved ${new Date().toLocaleTimeString()}`;
+    }, 500);
+});
+
+// ─── GitHub Activity ───
+async function fetchGitHubActivity() {
+    try {
+        const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/events?per_page=15`);
+        const events = await res.json();
         
-        // Animate stats on load
-        window.addEventListener('load', () => {
-            animateValue('checks-today', 0, 12, 1000);
-            animateValue('issues-fixed', 0, 3, 1000);
-        });
-        
-        function animateValue(id, start, end, duration) {
-            const obj = document.getElementById(id);
-            const range = end - start;
-            const increment = end > start ? 1 : -1;
-            const stepTime = Math.abs(Math.floor(duration / range));
-            let current = start;
-            
-            const timer = setInterval(() => {
-                current += increment;
-                obj.textContent = current;
-                if (current == end) clearInterval(timer);
-            }, stepTime);
+        const commits = [];
+        for (const event of events) {
+            if (event.type === 'PushEvent' && event.payload.commits) {
+                for (const commit of event.payload.commits) {
+                    commits.push({
+                        repo: event.repo.name.replace(`${GITHUB_USER}/`, ''),
+                        message: commit.message.split('\n')[0],
+                        sha: commit.sha.slice(0, 7),
+                        time: event.created_at,
+                    });
+                }
+            }
         }
-    </script>
+        
+        const list = document.getElementById('commitsList');
+        if (commits.length === 0) {
+            list.innerHTML = '<div style="text-align: center; padding: 16px; color: var(--text-muted);">No recent commits</div>';
+            document.getElementById('activityBadge').textContent = '0 commits';
+            return;
+        }
+        
+        document.getElementById('activityBadge').textContent = `${commits.length} commits`;
+        list.innerHTML = commits.slice(0, 8).map(c => {
+            const ago = timeAgo(new Date(c.time));
+            return `
+                <div class="commit-item">
+                    <span class="commit-repo">${c.repo}</span>
+                    <span class="commit-msg">${escapeHtml(c.message)}</span>
+                    <span class="commit-sha">${c.sha}</span>
+                    <span class="commit-time">${ago}</span>
+                </div>
+            `;
+        }).join('');
+    } catch (e) {
+        document.getElementById('commitsList').innerHTML = '<div style="text-align: center; padding: 16px; color: var(--text-muted);">Could not load activity</div>';
+        document.getElementById('activityBadge').textContent = 'Offline';
+    }
+}
+
+function timeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    if (seconds < 60) return 'just now';
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+    return `${Math.floor(seconds / 86400)}d ago`;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+fetchGitHubActivity();
+
+// ─── Theme toggle placeholder ───
+function toggleTheme() {
+    document.body.style.filter = document.body.style.filter ? '' : 'invert(0.85) hue-rotate(180deg)';
+}
+</script>
 </body>
 </html>
