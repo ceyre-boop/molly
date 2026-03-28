@@ -252,6 +252,57 @@
             font-size: 12px;
             color: var(--text-muted);
         }
+        .braindump-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .btn-viktor {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-viktor.send {
+            background: linear-gradient(135deg, var(--accent), #6366f1);
+            color: #fff;
+        }
+        .btn-viktor.send:hover { filter: brightness(1.15); transform: translateY(-1px); }
+        .btn-viktor.clear {
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+        .btn-viktor.clear:hover { border-color: var(--accent); color: var(--text-primary); }
+        .viktor-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--accent);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+        }
+        .viktor-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
 
         /* ─── AI Tools Hub ─── */
         .ai-tools-section { grid-column: 1; grid-row: 2; }
@@ -538,10 +589,18 @@
                     <div class="card-title"><span class="icon">🧠</span> Brain Dump</div>
                     <span class="card-badge" style="background: var(--accent-soft); color: var(--accent);" id="dumpStatus">Auto-saved</span>
                 </div>
-                <textarea class="braindump-area" id="brainDump" placeholder="Dump your thoughts here... ideas, tasks, notes, whatever's on your mind. This saves automatically."></textarea>
+                <textarea class="braindump-area" id="brainDump" placeholder="Dump your thoughts here... ideas, tasks, notes, whatever's on your mind. Hit 'Send to Viktor' and I'll organize it into goals, tasks, or whatever you need."></textarea>
                 <div class="braindump-footer">
                     <span id="charCount">0 chars</span>
                     <span id="lastSaved">Not yet saved</span>
+                </div>
+                <div class="braindump-actions">
+                    <button class="btn-viktor send" onclick="sendToViktor()" id="sendViktorBtn">
+                        <span>⚡</span> Send to Viktor
+                    </button>
+                    <button class="btn-viktor clear" onclick="clearDump()">
+                        <span>🗑️</span> Clear
+                    </button>
                 </div>
             </div>
 
@@ -801,6 +860,62 @@ dumpArea.addEventListener('input', () => {
     }, 500);
 });
 
+// ─── Send to Viktor ───
+function showToast(msg, duration = 3000) {
+    const toast = document.getElementById('viktorToast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), duration);
+}
+
+async function sendToViktor() {
+    const text = dumpArea.value.trim();
+    if (!text) {
+        showToast('✍️ Write something first!');
+        return;
+    }
+
+    const btn = document.getElementById('sendViktorBtn');
+    btn.innerHTML = '<span>⏳</span> Copying...';
+    
+    // Format the brain dump for Slack
+    const formatted = `🧠 Brain Dump from Molly:\n\n${text}`;
+    
+    try {
+        await navigator.clipboard.writeText(formatted);
+        
+        // Save to a history log in localStorage
+        const history = JSON.parse(localStorage.getItem('molly_viktor_history') || '[]');
+        history.unshift({ text, timestamp: new Date().toISOString() });
+        if (history.length > 50) history.pop();
+        localStorage.setItem('molly_viktor_history', JSON.stringify(history));
+        
+        showToast('📋 Copied! Opening Viktor DM — just paste & send');
+        
+        // Open Slack DM with Viktor
+        setTimeout(() => {
+            window.open('https://slack.com/app_redirect?channel=D0APQU5CA72', '_blank');
+        }, 600);
+        
+    } catch (e) {
+        // Fallback: select the text for manual copy
+        dumpArea.select();
+        document.execCommand('copy');
+        showToast('📋 Copied! Open Slack → DM Viktor → Paste');
+    }
+    
+    btn.innerHTML = '<span>⚡</span> Send to Viktor';
+}
+
+function clearDump() {
+    if (dumpArea.value.trim() && !confirm('Clear your brain dump?')) return;
+    dumpArea.value = '';
+    localStorage.setItem(dumpKey, '');
+    charCount.textContent = '0 chars';
+    document.getElementById('dumpStatus').textContent = 'Cleared';
+    showToast('🗑️ Brain dump cleared');
+}
+
 // ─── GitHub Activity ───
 async function fetchGitHubActivity() {
     try {
@@ -867,5 +982,6 @@ function toggleTheme() {
     document.body.style.filter = document.body.style.filter ? '' : 'invert(0.85) hue-rotate(180deg)';
 }
 </script>
+    <div class="viktor-toast" id="viktorToast"></div>
 </body>
 </html>
