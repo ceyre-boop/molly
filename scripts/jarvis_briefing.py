@@ -37,13 +37,13 @@ class DailyBriefing:
     
     def _trading_status(self) -> str:
         """Check trading system status."""
-        lines = ["📈 TRADING SYSTEM", "="*50]
+        lines = ["TRADING SYSTEM", "="*50]
         
         # Check if paper_trades.jsonl exists and has recent entries
         trades_file = Path('/workspaces/quant/paper_trades.jsonl')
         
         if trades_file.exists():
-            lines.append(f"Paper trades log: ✓ Found")
+            lines.append(f"Paper trades log: [OK] Found")
             
             # Count today's trades
             today = datetime.now().strftime('%Y-%m-%d')
@@ -57,14 +57,14 @@ class DailyBriefing:
             lines.append(f"Trades today: {trades_today}")
             
             if trades_today == 0:
-                lines.append("💡 No trades yet. Check if markets are open.")
+                lines.append("[INFO] No trades yet. Check if markets are open.")
         else:
             lines.append("⚠️  Paper trades log not found")
         
         # Check Monday protocol status
         weekday = datetime.now().weekday()
         if weekday == 0:  # Monday
-            lines.append("🎯 Today is Monday - NY Open protocol active")
+            lines.append("[*] Today is Monday - NY Open protocol active")
             lines.append("   Run: python check_monday_premarket.py (8:45 AM)")
         
         return "\n".join(lines)
@@ -94,15 +94,15 @@ class DailyBriefing:
                     hours_ago = (datetime.now() - mtime).total_seconds() / 3600
                     
                     if hours_ago < 24:
-                        lines.append(f"{name:10} ✓ Active ({hours_ago:.0f}h ago)")
+                        lines.append(f"{name:10} [OK] Active ({hours_ago:.0f}h ago)")
                     else:
-                        lines.append(f"{name:10} ⚠️  Stale ({hours_ago:.0f}h ago)")
+                        lines.append(f"{name:10} [!] Stale ({hours_ago:.0f}h ago)")
         
         return "\n".join(lines)
     
     def _todo_summary(self) -> str:
         """Summarize todos across all systems."""
-        lines = ["☐ TODOS", "="*50]
+        lines = ["TODOS", "="*50]
         
         # Check for todo files in various locations
         todo_locations = [
@@ -131,7 +131,7 @@ class DailyBriefing:
     
     def _github_activity(self) -> str:
         """Check recent GitHub activity."""
-        lines = ["🐙 GITHUB", "="*50]
+        lines = ["GITHUB", "="*50]
         
         try:
             # Check for uncommitted changes
@@ -144,9 +144,9 @@ class DailyBriefing:
             
             if result.stdout.strip():
                 changes = len(result.stdout.strip().split('\n'))
-                lines.append(f"⚠️  {changes} uncommitted changes in quant/")
+                lines.append(f"[!] {changes} uncommitted changes in quant/")
             else:
-                lines.append("✓ Working directory clean")
+                lines.append("[OK] Working directory clean")
             
             # Check recent commits
             result = subprocess.run(
@@ -168,7 +168,7 @@ class DailyBriefing:
     
     def _system_health(self) -> str:
         """Check overall system health."""
-        lines = ["💻 SYSTEM", "="*50]
+        lines = ["SYSTEM", "="*50]
         
         import shutil
         
@@ -177,9 +177,9 @@ class DailyBriefing:
         free_gb = free / (1024**3)
         
         if free_gb < 10:
-            lines.append(f"⚠️  Low disk space: {free_gb:.1f} GB free")
+            lines.append(f"[!] Low disk space: {free_gb:.1f} GB free")
         else:
-            lines.append(f"✓ Disk space: {free_gb:.1f} GB free")
+            lines.append(f"[OK] Disk space: {free_gb:.1f} GB free")
         
         # Check if important scripts exist
         scripts = [
@@ -189,9 +189,9 @@ class DailyBriefing:
         
         missing = [s for s in scripts if not Path(s).exists()]
         if missing:
-            lines.append(f"⚠️  Missing scripts: {', '.join(Path(m).name for m in missing)}")
+            lines.append(f"[!] Missing scripts: {', '.join(Path(m).name for m in missing)}")
         else:
-            lines.append("✓ All trading scripts present")
+            lines.append("[OK] All trading scripts present")
         
         return "\n".join(lines)
 
@@ -211,7 +211,7 @@ def main():
     date_str = datetime.now().strftime('%Y-%m-%d')
     brief_file = briefings_dir / f'briefing_{date_str}.txt'
     
-    with open(brief_file, 'w') as f:
+    with open(brief_file, 'w', encoding='utf-8') as f:
         f.write(output)
     
     print(f"\n\nSaved to: {brief_file}")
