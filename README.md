@@ -84,6 +84,21 @@ molly/
 
 ## Automation Scripts
 
+### Jarvis — Your Workflow Assistant
+
+New Python-based automation suite for context switching, organization, and daily workflow:
+
+| Script | Purpose | Example |
+|--------|---------|---------|
+| `jarvis` | Master launcher | `jarvis context quant` |
+| `jarvis_context.py` | Project context switching | `python jarvis_context.py switch quant` |
+| `jarvis_briefing.py` | Daily morning briefing | `python jarvis_briefing.py` |
+| `jarvis_todos.py` | Unified todo tracker | `python jarvis_todos.py scan` |
+| `jarvis_organizer.py` | File organization | `python jarvis_organizer.py downloads` |
+| `jarvis_vscode.py` | VS Code integration | `python jarvis_vscode.py open quant` |
+
+### Legacy Scripts
+
 | Script | Platform | Purpose |
 |--------|----------|---------|
 | `agency-health.sh` | macOS/Linux | Run comprehensive TABOOST health checks |
@@ -93,6 +108,26 @@ molly/
 | `bulk-import-helper.ps1` | Windows | Guided creator CSV import |
 
 ### Running Scripts
+
+#### Jarvis (Recommended)
+
+```bash
+# Add to your shell profile (.bashrc, .zshrc, or PowerShell profile):
+alias jarvis="python /workspaces/molly/scripts/jarvis"
+
+# Or on Windows PowerShell:
+function jarvis { python C:\workspaces\molly\scripts\jarvis $args }
+
+# Usage:
+jarvis context              # Show current project
+jarvis context quant        # Switch to quant project
+jarvis briefing             # Morning briefing
+jarvis todos list           # Show all todos
+jarvis organize downloads   # Organize Downloads folder
+jarvis code open quant      # Open quant in VS Code
+```
+
+#### Legacy Scripts
 
 ```bash
 # macOS / Linux
