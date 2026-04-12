@@ -620,33 +620,39 @@
                     <span class="card-badge" style="background: var(--green-soft); color: var(--green);">Terminal Commands</span>
                 </div>
                 <div class="jarvis-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px;">
-                    <div class="jarvis-cmd" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
-                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">jarvis briefing</div>
+                    <div class="jarvis-cmd" onclick="copyJarvisCmd(this, 'jarvis briefing')" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
+                        <div class="cmd-text" style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace;">jarvis briefing</div>
                         <div style="font-size: 13px; color: var(--text-secondary);">Daily morning status</div>
+                        <span class="copy-hint" style="position: absolute; top: 8px; right: 8px; font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.2s;">Click to copy</span>
                     </div>
-                    <div class="jarvis-cmd" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
-                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">jarvis context quant</div>
+                    <div class="jarvis-cmd" onclick="copyJarvisCmd(this, 'jarvis context quant')" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
+                        <div class="cmd-text" style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace;">jarvis context quant</div>
                         <div style="font-size: 13px; color: var(--text-secondary);">Switch to quant project</div>
+                        <span class="copy-hint" style="position: absolute; top: 8px; right: 8px; font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.2s;">Click to copy</span>
                     </div>
-                    <div class="jarvis-cmd" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
-                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">jarvis todos scan</div>
+                    <div class="jarvis-cmd" onclick="copyJarvisCmd(this, 'jarvis todos scan')" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
+                        <div class="cmd-text" style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace;">jarvis todos scan</div>
                         <div style="font-size: 13px; color: var(--text-secondary);">Find todos in all code</div>
+                        <span class="copy-hint" style="position: absolute; top: 8px; right: 8px; font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.2s;">Click to copy</span>
                     </div>
-                    <div class="jarvis-cmd" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
-                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">jarvis organize downloads</div>
+                    <div class="jarvis-cmd" onclick="copyJarvisCmd(this, 'jarvis organize downloads')" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
+                        <div class="cmd-text" style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace;">jarvis organize downloads</div>
                         <div style="font-size: 13px; color: var(--text-secondary);">Auto-organize files</div>
+                        <span class="copy-hint" style="position: absolute; top: 8px; right: 8px; font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.2s;">Click to copy</span>
                     </div>
-                    <div class="jarvis-cmd" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
-                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">jarvis code open quant</div>
+                    <div class="jarvis-cmd" onclick="copyJarvisCmd(this, 'jarvis code open quant')" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
+                        <div class="cmd-text" style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace;">jarvis code open quant</div>
                         <div style="font-size: 13px; color: var(--text-secondary);">Open in VS Code</div>
+                        <span class="copy-hint" style="position: absolute; top: 8px; right: 8px; font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.2s;">Click to copy</span>
                     </div>
-                    <div class="jarvis-cmd" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
-                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">jarvis status</div>
+                    <div class="jarvis-cmd" onclick="copyJarvisCmd(this, 'jarvis status')" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
+                        <div class="cmd-text" style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace;">jarvis status</div>
                         <div style="font-size: 13px; color: var(--text-secondary);">Full system status</div>
+                        <span class="copy-hint" style="position: absolute; top: 8px; right: 8px; font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.2s;">Click to copy</span>
                     </div>
                 </div>
                 <div style="margin-top: 16px; padding: 12px; background: var(--bg-elevated); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
-                    <strong>Setup:</strong> Add <code style="background: var(--bg-card); padding: 2px 6px; border-radius: 4px;">alias jarvis="python /workspaces/molly/scripts/jarvis"</code> to your shell profile
+                    <strong>Setup:</strong> Add <code style="background: var(--bg-card); padding: 2px 6px; border-radius: 4px; cursor: pointer;" onclick="copyToClipboard('alias jarvis=\\'python /workspaces/molly/scripts/jarvis\\'')">alias jarvis="python /workspaces/molly/scripts/jarvis"</code> to your shell profile <span style="color: var(--accent);">(click to copy)</span>
                 </div>
             </div>
 
@@ -952,6 +958,56 @@ function clearDump() {
     document.getElementById('dumpStatus').textContent = 'Cleared';
     showToast('🗑️ Brain dump cleared');
 }
+
+// ─── Jarvis Command Copy ───
+async function copyJarvisCmd(element, cmd) {
+    try {
+        await navigator.clipboard.writeText(cmd);
+        
+        // Visual feedback
+        const originalBg = element.style.background;
+        const originalText = element.querySelector('.cmd-text').textContent;
+        
+        element.style.background = 'var(--accent-soft)';
+        element.style.borderColor = 'var(--accent)';
+        element.querySelector('.cmd-text').textContent = '✓ Copied!';
+        
+        showToast(`📋 Copied: ${cmd}`);
+        
+        setTimeout(() => {
+            element.style.background = originalBg;
+            element.style.borderColor = 'var(--border)';
+            element.querySelector('.cmd-text').textContent = originalText;
+        }, 1500);
+        
+    } catch (e) {
+        showToast('❌ Failed to copy');
+    }
+}
+
+async function copyToClipboard(text) {
+    try {
+        await navigator.clipboard.writeText(text);
+        showToast('📋 Alias copied! Add to your ~/.bashrc or ~/.zshrc');
+    } catch (e) {
+        showToast('❌ Failed to copy');
+    }
+}
+
+// Show copy hints on hover
+document.addEventListener('DOMContentLoaded', function() {
+    const jarvisCmds = document.querySelectorAll('.jarvis-cmd');
+    jarvisCmds.forEach(cmd => {
+        cmd.addEventListener('mouseenter', function() {
+            const hint = this.querySelector('.copy-hint');
+            if (hint) hint.style.opacity = '1';
+        });
+        cmd.addEventListener('mouseleave', function() {
+            const hint = this.querySelector('.copy-hint');
+            if (hint) hint.style.opacity = '0';
+        });
+    });
+});
 
 // ─── GitHub Activity ───
 async function fetchGitHubActivity() {
