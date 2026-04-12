@@ -613,6 +613,43 @@
                 <div class="tools-grid" id="toolsGrid"></div>
             </div>
 
+            <!-- Jarvis Automation -->
+            <div class="card jarvis-section" style="grid-column: span 2;">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">⚡</span> Jarvis Automation</div>
+                    <span class="card-badge" style="background: var(--green-soft); color: var(--green);">Terminal Commands</span>
+                </div>
+                <div class="jarvis-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px;">
+                    <div class="jarvis-cmd" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">jarvis briefing</div>
+                        <div style="font-size: 13px; color: var(--text-secondary);">Daily morning status</div>
+                    </div>
+                    <div class="jarvis-cmd" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">jarvis context quant</div>
+                        <div style="font-size: 13px; color: var(--text-secondary);">Switch to quant project</div>
+                    </div>
+                    <div class="jarvis-cmd" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">jarvis todos scan</div>
+                        <div style="font-size: 13px; color: var(--text-secondary);">Find todos in all code</div>
+                    </div>
+                    <div class="jarvis-cmd" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">jarvis organize downloads</div>
+                        <div style="font-size: 13px; color: var(--text-secondary);">Auto-organize files</div>
+                    </div>
+                    <div class="jarvis-cmd" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">jarvis code open quant</div>
+                        <div style="font-size: 13px; color: var(--text-secondary);">Open in VS Code</div>
+                    </div>
+                    <div class="jarvis-cmd" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">jarvis status</div>
+                        <div style="font-size: 13px; color: var(--text-secondary);">Full system status</div>
+                    </div>
+                </div>
+                <div style="margin-top: 16px; padding: 12px; background: var(--bg-elevated); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
+                    <strong>Setup:</strong> Add <code style="background: var(--bg-card); padding: 2px 6px; border-radius: 4px;">alias jarvis="python /workspaces/molly/scripts/jarvis"</code> to your shell profile
+                </div>
+            </div>
+
             <!-- Projects -->
             <div class="card projects-section">
                 <div class="card-header">

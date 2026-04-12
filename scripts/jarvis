@@ -1,0 +1,119 @@
+#!/usr/bin/env python3
+"""
+Jarvis Master Launcher
+
+Usage: jarvis <command> [args]
+
+Commands:
+  context              Show current project context
+  context <project>    Switch to project
+  workon <keyword>     Fuzzy switch to project
+  
+  briefing             Generate daily briefing
+  
+  todos scan           Scan all sources for todos
+  todos list           Show all pending todos
+  todos add --text "..."  Add new todo
+  todos done --index N Mark todo complete
+  
+  organize downloads   Organize Downloads folder (dry run)
+  organize downloads --execute  Actually organize
+  organize desktop     Organize Desktop
+  organize clean       Clean old temp files
+  
+  code open <project>  Open project in VS Code
+  code file <path>     Open file in VS Code
+  code palette         Open command palette
+  
+  status               Full system status
+"""
+
+import sys
+import subprocess
+from pathlib import Path
+
+# Map commands to scripts
+SCRIPTS = {
+    'context': 'jarvis_context.py',
+    'workon': 'jarvis_context.py',
+    'briefing': 'jarvis_briefing.py',
+    'todos': 'jarvis_todos.py',
+    'organize': 'jarvis_organizer.py',
+    'code': 'jarvis_vscode.py',
+}
+
+SCRIPTS_DIR = Path(__file__).parent
+
+
+def show_help():
+    """Show help message."""
+    print(__doc__)
+    print("\nExamples:")
+    print("  jarvis context              # Show current project")
+    print("  jarvis context quant        # Switch to quant project")
+    print("  jarvis briefing             # Daily morning briefing")
+    print("  jarvis todos scan           # Find all todos")
+    print("  jarvis organize downloads   # Organize Downloads")
+    print("  jarvis code open quant      # Open quant in VS Code")
+
+
+def main():
+    if len(sys.argv) < 2 or sys.argv[1] in ['--help', '-h', 'help']:
+        show_help()
+        return
+    
+    command = sys.argv[1]
+    args = sys.argv[2:]
+    
+    # Handle special cases
+    if command == 'status':
+        run_status()
+        return
+    
+    if command not in SCRIPTS:
+        print(f"Unknown command: {command}")
+        print(f"Available: {', '.join(SCRIPTS.keys())}")
+        return
+    
+    # Map to script
+    script = SCRIPTS[command]
+    script_path = SCRIPTS_DIR / script
+    
+    if not script_path.exists():
+        print(f"Script not found: {script_path}")
+        return
+    
+    # Run the script with arguments
+    cmd = [sys.executable, str(script_path)] + args
+    
+    if command == 'context' and len(args) == 1:
+        # Special: jarvis context quant -> jarvis_context.py switch quant
+        cmd = [sys.executable, str(script_path), 'switch', args[0]]
+    elif command == 'workon' and len(args) == 1:
+        # Special: jarvis workon quant -> jarvis_context.py workon quant
+        cmd = [sys.executable, str(script_path), 'workon', args[0]]
+    
+    subprocess.run(cmd)
+
+
+def run_status():
+    """Show full system status."""
+    print("="*60)
+    print("JARVIS SYSTEM STATUS")
+    print("="*60)
+    
+    # Run context status
+    print("\n📁 PROJECT CONTEXT:")
+    subprocess.run([sys.executable, str(SCRIPTS_DIR / 'jarvis_context.py')])
+    
+    # Run briefing
+    print("\n\n📈 TRADING & SYSTEM STATUS:")
+    subprocess.run([sys.executable, str(SCRIPTS_DIR / 'jarvis_briefing.py')])
+    
+    # Todo count
+    print("\n\n☐ TODOS:")
+    subprocess.run([sys.executable, str(SCRIPTS_DIR / 'jarvis_todos.py'), 'list'])
+
+
+if __name__ == '__main__':
+    main()
