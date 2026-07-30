@@ -37,9 +37,14 @@ Open `index.html` in your browser — or visit the live version on GitHub Pages.
 
 ```
 molly/
-├── index.html              # ⚡ Main application (single-file SPA)
+├── index.html              # ⚡ Molly Dashboard — Kanban command center (single file, zero deps)
+├── legacy.html             # Previous productivity dashboard (goals / brain dump / commits)
+├── ISA.md                  # Ideal State Artifact — what "done" means, 51 verified criteria
 ├── config/
+│   ├── tasks.json          # Board seed — edit this to author the board
 │   └── workspace.json      # Workspace configuration
+├── state/
+│   └── agent-state.json    # Agent heartbeat (status, currentTask, subagents) — polled every 5s
 ├── scripts/
 │   ├── agency-health.sh    # TABOOST health monitoring
 │   ├── autonomous-monitor  # Self-healing system (.sh + .ps1)
