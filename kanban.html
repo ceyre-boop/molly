@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Molly Dashboard</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<style>
+:root{
+  --bg-primary:#0a0a0f; --bg-secondary:#12121a; --bg-card:#16161f; --bg-card-hover:#1a1a25;
+  --bg-elevated:#1e1e2a; --border:#2a2a3a; --border-subtle:#1f1f2f;
+  --text-primary:#f0f0f5; --text-secondary:#8888a0; --text-muted:#55556a;
+  --accent:#7c5cff; --accent-glow:rgba(124,92,255,.15); --accent-soft:rgba(124,92,255,.08);
+  --green:#34d399; --green-soft:rgba(52,211,153,.10);
+  --yellow:#fbbf24; --yellow-soft:rgba(251,191,36,.10);
+  --red:#f87171;   --red-soft:rgba(248,113,113,.10);
+  --blue:#60a5fa;  --blue-soft:rgba(96,165,250,.10);
+  --orange:#fb923c;--orange-soft:rgba(251,146,60,.10);
+  --pink:#f472b6;  --pink-soft:rgba(244,114,182,.10);
+  --indigo:#818cf8;--indigo-soft:rgba(129,140,248,.10);
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{overflow-x:hidden}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg-primary); color:var(--text-primary);
+  min-height:100vh; font-size:14px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(700px circle at 12% 8%, var(--accent-glow), transparent 60%),
+    radial-gradient(600px circle at 88% 92%, rgba(96,165,250,.08), transparent 60%);
+}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:9px}
+::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
+
+/* ── shell ───────────────────────────────────────── */
+.app{position:relative;z-index:1;display:grid;grid-template-columns:230px minmax(0,1fr);gap:26px;padding:26px;max-width:1900px;margin:0 auto;align-items:start}
+
+/* ── left rail ───────────────────────────────────── */
+.rail{position:sticky;top:26px;display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:34px}
+.avatar-wrap{position:relative;width:126px;height:126px;display:grid;place-items:center}
+.avatar-ring{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,var(--accent),var(--blue),var(--pink),var(--accent));
+  filter:blur(11px);opacity:.55;animation:spin 9s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.avatar{
+  position:relative;width:108px;height:108px;border-radius:50%;
+  background:linear-gradient(150deg,#20202e,#14141d);
+  border:1px solid var(--border);
+  display:grid;place-items:center;font-size:52px;line-height:1;
+  box-shadow:0 10px 34px rgba(0,0,0,.55)
+}
+.rail h2{font-size:19px;font-weight:700;letter-spacing:-.01em}
+.agent-status{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-secondary)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);flex:none}
+.dot.live{animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.82)}}
+.status-box{
+  width:100%;padding:13px;border:1px solid var(--border-subtle);border-radius:12px;
+  background:var(--bg-secondary);color:var(--text-secondary);
+  font-size:12.5px;text-align:center;min-height:52px;display:grid;place-items:center;
+  word-break:break-word
+}
+.rail-counts{width:100%;display:flex;flex-direction:column;gap:5px;margin-top:2px}
+.rail-count{display:flex;justify-content:space-between;align-items:center;padding:7px 11px;border-radius:9px;background:var(--bg-secondary);border:1px solid var(--border-subtle);font-size:12px;color:var(--text-secondary)}
+.rail-count b{color:var(--text-primary);font-variant-numeric:tabular-nums}
+.subagents{width:100%;display:flex;flex-direction:column;gap:5px}
+.subagent{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--text-secondary);padding:6px 10px;border-radius:8px;background:var(--accent-soft);border:1px solid rgba(124,92,255,.18)}
+.rail-links{width:100%;display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.rail-links a{display:block;text-align:center;padding:8px;border-radius:9px;font-size:12px;text-decoration:none;color:var(--text-secondary);border:1px solid var(--border-subtle);background:var(--bg-secondary);transition:.15s}
+.rail-links a:hover{color:var(--text-primary);border-color:var(--accent);background:var(--accent-soft)}
+
+/* ── main panel ──────────────────────────────────── */
+.main{background:var(--bg-secondary);border:1px solid var(--border-subtle);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:20px;min-width:0}
+.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--border-subtle)}
+.brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:700;letter-spacing:-.02em}
+.brand .glyph{font-size:22px}
+.online{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--green);margin-left:2px}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sync{font-size:12px;color:var(--text-muted);font-variant-numeric:tabular-nums}
+.btn{padding:7px 15px;border:1px solid var(--border);border-radius:9px;font-size:12.5px;color:var(--text-secondary);background:var(--bg-card);transition:.15s}
+.btn:hover{color:var(--text-primary);border-color:var(--accent);background:var(--accent-soft)}
+.btn.primary{color:var(--accent);border-color:rgba(124,92,255,.35);background:var(--accent-soft)}
+
+/* ── board ───────────────────────────────────────── */
+.board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:start}
+.lane{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;min-width:0;transition:.15s}
+.lane.dragover{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.lane-head{display:flex;align-items:center;gap:9px;padding-bottom:11px;margin-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+.lane-head h3{font-size:14px;font-weight:650;letter-spacing:-.01em}
+.count{margin-left:auto;font-size:11px;color:var(--text-muted);background:var(--bg-elevated);padding:2px 8px;border-radius:20px;font-variant-numeric:tabular-nums}
+.lane-body{display:flex;flex-direction:column;gap:10px;min-height:120px}
+.placeholder{border:1.5px dashed var(--border);border-radius:10px;padding:22px 10px;text-align:center;font-size:11.5px;color:var(--text-muted)}
+.add{margin-top:11px;padding:9px;border:1px dashed var(--border);border-radius:10px;font-size:12px;color:var(--text-muted);text-align:center;transition:.15s;width:100%}
+.add:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+
+/* ── cards ───────────────────────────────────────── */
+.card{
+  position:relative;border-radius:10px;padding:12px 13px;cursor:grab;
+  border:1px solid var(--border-subtle);border-left:3px solid var(--text-muted);
+  background:var(--bg-elevated);transition:transform .12s,box-shadow .12s,background .12s
+}
+.card:hover{background:var(--bg-card-hover);box-shadow:0 6px 20px rgba(0,0,0,.35)}
+.card.dragging{opacity:.4;cursor:grabbing}
+.lane[data-col="todo"] .card    {border-left-color:var(--indigo); background:linear-gradient(180deg,var(--indigo-soft),transparent 140%),var(--bg-elevated)}
+.lane[data-col="progress"] .card{border-left-color:var(--orange); background:linear-gradient(180deg,var(--orange-soft),transparent 140%),var(--bg-elevated)}
+.lane[data-col="done"] .card    {border-left-color:var(--green);  background:linear-gradient(180deg,var(--green-soft),transparent 140%),var(--bg-elevated)}
+.card-title{font-size:13.5px;font-weight:600;line-height:1.4;overflow-wrap:anywhere;min-width:0}
+.card-meta{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:11px;color:var(--text-muted)}
+.chip{padding:1px 7px;border-radius:20px;background:var(--bg-card);border:1px solid var(--border-subtle);color:var(--text-secondary);font-size:10px}
+.card-actions{display:flex;gap:3px;margin-top:9px;opacity:0;transition:opacity .15s}
+.card:hover .card-actions,.card:focus-within .card-actions{opacity:1}
+@media (hover:none){.card-actions{opacity:1}}
+.card-actions button{width:24px;height:24px;border-radius:6px;font-size:12px;color:var(--text-muted);border:1px solid transparent;line-height:1}
+.card-actions button:hover{color:var(--text-primary);background:var(--bg-card);border-color:var(--border)}
+.card-actions button[data-act="del"]:hover{color:var(--red);border-color:var(--red)}
+.card-actions .spacer{flex:1}
+.card input.edit{width:100%;font:inherit;font-size:13.5px;font-weight:600;color:var(--text-primary);background:var(--bg-card);border:1px solid var(--accent);border-radius:7px;padding:5px 7px}
+/* archived = flat rows */
+.lane[data-col="archived"] .lane-body{gap:1px}
+.lane[data-col="archived"] .card{
+  position:relative;background:transparent;border:none;border-bottom:1px solid var(--border-subtle);border-radius:0;
+  padding:11px 3px;display:flex;align-items:center;gap:10px
+}
+/* actions float over the row so they never squeeze the title */
+.lane[data-col="archived"] .card-actions{
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
+  background:var(--bg-card-hover);border:1px solid var(--border);border-radius:8px;padding:2px
+}
+.lane[data-col="archived"] .card-actions .spacer{display:none}
+.lane[data-col="archived"] .card:hover{background:var(--bg-card-hover);box-shadow:none}
+.lane[data-col="archived"] .card-title{font-size:12.5px;font-weight:500;color:var(--text-secondary);flex:1}
+.lane[data-col="archived"] .card-meta{margin:0;flex:none}
+.lane[data-col="archived"] .chip{display:none}
+.lane[data-col="archived"] .card-actions{margin:0;flex:none}
+
+/* ── panels ──────────────────────────────────────── */
+.panel{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius);padding:16px}
+.panel-head{display:flex;align-items:center;gap:9px;margin-bottom:13px}
+.panel-head h3{font-size:14px;font-weight:650}
+.shelf{display:flex;gap:12px;overflow-x:auto;padding-bottom:5px}
+.tile{flex:0 0 232px;display:flex;align-items:center;gap:11px;padding:13px;border-radius:11px;background:var(--bg-elevated);border:1px solid var(--border-subtle);transition:.15s}
+.tile:hover{border-color:var(--accent);background:var(--bg-card-hover)}
+.tile .ico{width:36px;height:36px;border-radius:9px;background:var(--accent-soft);display:grid;place-items:center;font-size:18px;flex:none}
+.tile b{display:block;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile small{display:block;color:var(--text-muted);font-size:11px;margin:2px 0 4px}
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+textarea{
+  width:100%;min-height:132px;resize:vertical;padding:12px;border-radius:11px;
+  background:var(--bg-elevated);border:1px solid var(--border-subtle);
+  color:var(--text-primary);font:inherit;font-size:13px;line-height:1.6
+}
+textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.hint{font-size:11px;color:var(--text-muted);margin-top:7px}
+.log{display:flex;flex-direction:column;max-height:196px;overflow-y:auto}
+.log-row{display:flex;gap:11px;padding:8px 0;border-bottom:1px solid var(--border-subtle);font-size:12.5px}
+.log-row:last-child{border-bottom:none}
+.log-row time{color:var(--blue);flex:none;font-variant-numeric:tabular-nums;font-size:11.5px;padding-top:1px}
+.log-row span{color:var(--text-secondary);word-break:break-word}
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translate(-50%,80px);
+  background:var(--bg-elevated);border:1px solid var(--accent);color:var(--text-primary);
+  padding:11px 20px;border-radius:11px;font-size:13px;z-index:99;
+  box-shadow:0 12px 40px rgba(0,0,0,.6);opacity:0;transition:.25s;pointer-events:none;max-width:88vw;text-align:center
+}
+.toast.show{transform:translate(-50%,0);opacity:1}
+
+@media (max-width:1200px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr;padding:16px;gap:18px}
+  .rail{position:static;flex-direction:row;flex-wrap:wrap;justify-content:center;padding-top:0}
+  .rail-counts,.rail-links,.subagents{flex-direction:row;flex-wrap:wrap;justify-content:center}
+  .rail-count,.rail-links a{flex:1 1 128px}
+  .status-box{flex:1 1 200px}
+  .board{grid-template-columns:1fr}
+  .bottom{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- ── agent rail ───────────────────────────── -->
+  <aside class="rail">
+    <div class="avatar-wrap">
+      <div class="avatar-ring"></div>
+      <div class="avatar" id="avatar">⚡</div>
+    </div>
+    <h2 id="agentName">Molly</h2>
+    <div class="agent-status">
+      <span class="dot" id="agentDot"></span><span id="agentStatus">Idle</span>
+    </div>
+    <div class="status-box" id="agentMessage">Ready for tasks</div>
+    <div class="subagents" id="subagents"></div>
+    <div class="rail-counts" id="railCounts"></div>
+    <nav class="rail-links">
+      <a href="index.html">← Command Center</a>
+      <a href="https://github.com/ceyre-boop/molly" target="_blank" rel="noopener">Repo ↗</a>
+    </nav>
+  </aside>
+
+  <!-- ── main ─────────────────────────────────── -->
+  <main class="main">
+    <header class="topbar">
+      <div class="brand"><span class="glyph">⚡</span> Molly Dashboard</div>
+      <div class="online"><span class="dot live" id="connDot" style="background:var(--green)"></span><span id="connText">Online</span></div>
+      <div class="topbar-right">
+        <span class="sync">Last sync: <span id="lastSync">—</span></span>
+        <button class="btn" id="btnExport" title="Download the whole board as JSON">Export</button>
+        <button class="btn" id="btnImport" title="Load a board JSON file">Import</button>
+        <button class="btn" id="btnReset" title="No auth here — this clears local board state and re-seeds from config/tasks.json">Reset</button>
+      </div>
+    </header>
+
+    <section class="board" id="board"></section>
+
+    <section class="panel">
+      <div class="panel-head"><span>📁</span><h3>Deliverables</h3></div>
+      <div class="shelf" id="shelf"></div>
+    </section>
+
+    <div class="bottom">
+      <section class="panel">
+        <div class="panel-head"><span>📝</span><h3>Notes for Molly</h3></div>
+        <textarea id="notes" placeholder="Drop tasks, context, or corrections here — Molly reads this on every heartbeat."></textarea>
+        <div class="hint" id="notesHint">Saved automatically</div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><span>📋</span><h3>Action Log</h3></div>
+        <div class="log" id="log"></div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="filePicker" accept="application/json" hidden>
+
+<script type="application/json" id="seedFallback">
+{"version":1,"columns":[{"id":"todo","title":"To Do","icon":"📋"},{"id":"progress","title":"In Progress","icon":"⚡"},{"id":"done","title":"Done","icon":"✅"},{"id":"archived","title":"Archived","icon":"📦"}],"cards":[{"id":"s1","column":"todo","title":"Open config/tasks.json to seed your real board","date":"2026-07-30","tag":"Molly"},{"id":"s2","column":"progress","title":"Molly command center — Kanban dashboard","date":"2026-07-30","tag":"Molly"},{"id":"s3","column":"done","title":"Dashboard scaffolded","date":"2026-07-30","tag":"Molly"}],"deliverables":[],"notes":"","log":[]}
+</script>
+
+<script>
+(() => {
+'use strict';
+
+const KEY = 'molly.board.v1';
+const LOG_CAP = 60;
+const STATE_URL = 'state/agent-state.json';
+const SEED_URL  = 'config/tasks.json';
+
+const $ = id => document.getElementById(id);
+const el = (tag, cls, text) => {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text !== undefined) n.textContent = text;   // never innerHTML — ISC-42
+  return n;
+};
+
+/* ── storage (never throws) ─────────────────── */
+let memoryOnly = false;
+const store = {
+  read() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { console.warn('[molly] state unreadable, falling back to seed', e); return null; }
+  },
+  write(v) {
+    if (memoryOnly) return;
+    try { localStorage.setItem(KEY, JSON.stringify(v)); }
+    catch (e) { memoryOnly = true; toast('Storage unavailable — changes last for this session only'); }
+  },
+  clear() { try { localStorage.removeItem(KEY); } catch (e) {} }
+};
+
+/* ── state ──────────────────────────────────── */
+const DEFAULT_COLS = [
+  { id:'todo', title:'To Do', icon:'📋' },
+  { id:'progress', title:'In Progress', icon:'⚡' },
+  { id:'done', title:'Done', icon:'✅' },
+  { id:'archived', title:'Archived', icon:'📦' }
+];
+
+function normalize(raw) {
+  const d = raw && typeof raw === 'object' ? raw : {};
+  return {
+    version: 1,
+    columns: Array.isArray(d.columns) && d.columns.length ? d.columns : DEFAULT_COLS,
+    cards: Array.isArray(d.cards) ? d.cards.filter(c => c && c.id && c.column) : [],
+    deliverables: Array.isArray(d.deliverables) ? d.deliverables : [],
+    notes: typeof d.notes === 'string' ? d.notes : '',
+    log: Array.isArray(d.log) ? d.log.slice(0, LOG_CAP) : []
+  };
+}
+
+function inlineSeed() {
+  try { return normalize(JSON.parse($('seedFallback').textContent)); }
+  catch (e) { return normalize(null); }
+}
+
+let state = normalize(store.read()) ;
+let seededFromStorage = !!store.read();
+if (!seededFromStorage) state = inlineSeed();
+
+let live = null;          // agent-state.json payload when reachable
+let seq = 0;              // collision-free id suffix — ISC-47
+
+/* ── helpers ────────────────────────────────── */
+const uid = () => 'c-' + Date.now().toString(36) + '-' + (seq++).toString(36) + Math.random().toString(36).slice(2, 6);
+const todayISO = () => new Date().toISOString().slice(0, 10);
+const DATE_FMT = { month:'short', day:'numeric', year:'numeric' };
+const fmtDate = iso => {
+  // date-only strings must parse as LOCAL, not UTC — otherwise every date renders a day early
+  if (typeof iso === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(iso)) {
+    const [y, m, d] = iso.split('-').map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString('en-US', DATE_FMT);
+  }
+  const d = new Date(iso);
+  return isNaN(d) ? String(iso || '') : d.toLocaleDateString('en-US', DATE_FMT);
+};
+const fmtTime = iso => {
+  const d = new Date(iso);
+  return isNaN(d) ? '' : d.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' });
+};
+
+let toastTimer;
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+function logAction(text) {
+  state.log.unshift({ ts: new Date().toISOString(), text });
+  if (state.log.length > LOG_CAP) state.log.length = LOG_CAP;   // ISC-34
+}
+
+function save() {
+  store.write(state);
+  $('lastSync').textContent = new Date().toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', second:'2-digit' });
+}
+
+function commit(text) { if (text) logAction(text); save(); render(); }
+
+const colTitle = id => (state.columns.find(c => c.id === id) || {}).title || id;
+const cardsIn  = id => state.cards.filter(c => c.column === id);
+
+/* ── render ─────────────────────────────────── */
+function render() { renderBoard(); renderRail(); renderShelf(); renderLog(); }
+
+function renderBoard() {
+  const board = $('board');
+  board.textContent = '';
+  state.columns.forEach(col => {
+    const lane = el('section', 'lane');
+    lane.dataset.col = col.id;
+
+    const head = el('div', 'lane-head');
+    head.append(el('span', null, col.icon || '•'), el('h3', null, col.title));
+    head.append(el('span', 'count', String(cardsIn(col.id).length)));
+    lane.append(head);
+
+    const body = el('div', 'lane-body');
+    body.dataset.col = col.id;
+    const items = cardsIn(col.id);
+    if (!items.length) body.append(el('div', 'placeholder', 'Drop cards here'));   // ISC-51
+    items.forEach(c => body.append(cardNode(c)));
+
+    // drop target lives on the lane body — works even when empty (ISC-45)
+    body.addEventListener('dragover', e => { e.preventDefault(); lane.classList.add('dragover'); });
+    body.addEventListener('dragleave', e => { if (!body.contains(e.relatedTarget)) lane.classList.remove('dragover'); });
+    body.addEventListener('drop', e => {
+      e.preventDefault();
+      lane.classList.remove('dragover');
+      moveCard(e.dataTransfer.getData('text/plain'), col.id);
+    });
+
+    lane.append(body);
+
+    const add = el('button', 'add', '+ Add task');
+    add.addEventListener('click', () => addCard(col.id));
+    lane.append(add);
+
+    board.append(lane);
+  });
+}
+
+function cardNode(c) {
+  const node = el('article', 'card');
+  node.draggable = true;
+  node.dataset.id = c.id;
+
+  const title = el('div', 'card-title', c.title || 'Untitled');
+  title.addEventListener('click', () => editCard(node, c));
+  node.append(title);
+
+  const meta = el('div', 'card-meta');
+  meta.append(el('span', null, fmtDate(c.date)));
+  if (c.tag) meta.append(el('span', 'chip', c.tag));
+  node.append(meta);
+
+  const acts = el('div', 'card-actions');
+  const idx = state.columns.findIndex(x => x.id === c.column);
+  const mk = (label, act, title, disabled) => {
+    const b = el('button', null, label);
+    b.dataset.act = act; b.title = title; b.disabled = !!disabled;
+    if (disabled) b.style.opacity = '.25';
+    return b;
+  };
+  const prev = mk('‹', 'prev', 'Move left', idx <= 0);
+  const next = mk('›', 'next', 'Move right', idx >= state.columns.length - 1);
+  prev.addEventListener('click', e => { e.stopPropagation(); moveCard(c.id, state.columns[idx - 1].id); });
+  next.addEventListener('click', e => { e.stopPropagation(); moveCard(c.id, state.columns[idx + 1].id); });
+  const edit = mk('✎', 'edit', 'Rename');
+  edit.addEventListener('click', e => { e.stopPropagation(); editCard(node, c); });
+  const del = mk('✕', 'del', 'Delete');
+  del.addEventListener('click', e => { e.stopPropagation(); deleteCard(c); });
+  acts.append(prev, next, el('span', 'spacer'), edit, del);
+  node.append(acts);
+
+  node.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text/plain', c.id);
+    e.dataTransfer.effectAllowed = 'move';
+    node.classList.add('dragging');
+  });
+  node.addEventListener('dragend', () => {
+    node.classList.remove('dragging');
+    document.querySelectorAll('.lane.dragover').forEach(l => l.classList.remove('dragover'));
+  });
+  return node;
+}
+
+function renderRail() {
+  const inProgress = cardsIn('progress');
+  const heartbeatFresh = live && live.heartbeat && (Date.now() - new Date(live.heartbeat).getTime() < 120000);
+
+  let status, message, colour;
+  if (heartbeatFresh) {                                  // daemon is running
+    status  = live.status || 'idle';
+    message = live.message || live.currentTask || 'Ready for tasks';
+    colour  = { idle:'var(--text-muted)', thinking:'var(--blue)', working:'var(--orange)', spawning:'var(--accent)' }[status] || 'var(--green)';
+    $('connText').textContent = 'Online'; $('connDot').style.background = 'var(--green)';
+  } else {                                               // derived from the board — ISC-49
+    if (inProgress.length) { status = 'Working'; message = inProgress[0].title; colour = 'var(--orange)'; }
+    else                   { status = 'Idle';    message = 'Ready for tasks';   colour = 'var(--text-muted)'; }
+    $('connText').textContent = 'Local'; $('connDot').style.background = 'var(--text-muted)';
+  }
+
+  if (live && live.name)   $('agentName').textContent = live.name;
+  if (live && live.avatar) $('avatar').textContent = live.avatar;
+  $('agentStatus').textContent = status.charAt(0).toUpperCase() + status.slice(1);
+  $('agentMessage').textContent = message;
+  const dot = $('agentDot');
+  dot.style.background = colour;
+  dot.classList.toggle('live', status.toLowerCase() !== 'idle');
+
+  const subs = $('subagents');
+  subs.textContent = '';
+  ((live && live.subagents) || []).forEach(s => {
+    const row = el('div', 'subagent');
+    row.append(el('span', 'dot live', ''), el('span', null, typeof s === 'string' ? s : (s.name || 'agent')));
+    row.firstChild.style.background = 'var(--accent)';
+    subs.append(row);
+  });
+
+  const counts = $('railCounts');
+  counts.textContent = '';
+  state.columns.forEach(col => {
+    const row = el('div', 'rail-count');
+    row.append(el('span', null, col.title), el('b', null, String(cardsIn(col.id).length)));
+    counts.append(row);
+  });
+}
+
+function renderShelf() {
+  const shelf = $('shelf');
+  shelf.textContent = '';
+  if (!state.deliverables.length) { shelf.append(el('div', 'placeholder', 'No deliverables yet')); return; }
+  state.deliverables.forEach(d => {
+    const tile = el('div', 'tile');
+    tile.append(el('div', 'ico', d.icon || '📄'));
+    const body = el('div');
+    body.append(el('b', null, d.title || 'Untitled'), el('small', null, fmtDate(d.date)), el('span', 'chip', d.tag || 'Folder'));
+    tile.append(body);
+    shelf.append(tile);
+  });
+}
+
+function renderLog() {
+  const log = $('log');
+  log.textContent = '';
+  if (!state.log.length) { log.append(el('div', 'placeholder', 'Nothing logged yet')); return; }
+  state.log.forEach(e => {
+    const row = el('div', 'log-row');
+    const t = el('time', null, fmtTime(e.ts));
+    t.dateTime = e.ts || '';
+    row.append(t, el('span', null, e.text || ''));
+    log.append(row);
+  });
+}
+
+/* ── mutations ──────────────────────────────── */
+function moveCard(id, colId) {
+  const card = state.cards.find(c => c.id === id);
+  if (!card || card.column === colId) return;             // drop-outside / same-lane = no-op — ISC-46
+  const from = colTitle(card.column);
+  card.column = colId;
+  commit(`Moved “${card.title}” from ${from} → ${colTitle(colId)}`);
+}
+
+function addCard(colId) {
+  const card = { id: uid(), column: colId, title: 'New task', date: todayISO(), tag: '' };
+  state.cards.push(card);
+  logAction(`Added “${card.title}” to ${colTitle(colId)}`);
+  save(); render();
+  const node = document.querySelector(`.card[data-id="${card.id}"]`);
+  if (node) editCard(node, card);
+}
+
+function deleteCard(card) {
+  state.cards = state.cards.filter(c => c.id !== card.id);
+  commit(`Deleted “${card.title}” from ${colTitle(card.column)}`);
+}
+
+function editCard(node, card) {
+  const titleEl = node.querySelector('.card-title');
+  if (!titleEl || node.querySelector('input.edit')) return;
+  const input = el('input', 'edit');
+  input.type = 'text';
+  input.value = card.title || '';
+  node.draggable = false;
+  titleEl.replaceWith(input);
+  input.focus(); input.select();
+
+  let done = false;
+  const finish = commitEdit => {
+    if (done) return; done = true;
+    node.draggable = true;
+    const next = input.value.trim();
+    if (commitEdit && next && next !== card.title) {
+      const was = card.title; card.title = next;
+      commit(`Renamed “${was}” → “${next}”`);
+    } else { render(); }
+  };
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); finish(true); }
+    if (e.key === 'Escape') { e.preventDefault(); finish(false); }   // ISC-29
+  });
+  input.addEventListener('blur', () => finish(true));
+}
+
+/* ── notes ──────────────────────────────────── */
+let notesTimer;
+$('notes').addEventListener('input', e => {
+  state.notes = e.target.value;
+  $('notesHint').textContent = 'Saving…';
+  clearTimeout(notesTimer);
+  notesTimer = setTimeout(() => { save(); $('notesHint').textContent = 'Saved ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}); }, 500);
+});
+
+/* ── export / import / reset ────────────────── */
+$('btnExport').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const a = el('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `molly-board-${todayISO()}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast('Board exported');
+});
+
+$('btnImport').addEventListener('click', () => $('filePicker').click());
+$('filePicker').addEventListener('change', e => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      state = normalize(JSON.parse(r.result));
+      commit('Imported board from ' + file.name);
+      toast('Board imported');
+    } catch (err) { toast('That file is not valid board JSON'); }
+  };
+  r.readAsText(file);
+  e.target.value = '';
+});
+
+$('btnReset').addEventListener('click', () => {
+  toast('No login here — clearing local board and re-seeding from config/tasks.json');   // ISC-11
+  store.clear();
+  state = inlineSeed();
+  render();
+  loadSeed(true);
+});
+
+/* ── async: seed + live agent state ─────────── */
+async function loadSeed(force) {
+  if (!force && seededFromStorage) return;
+  try {
+    const res = await fetch(SEED_URL, { cache: 'no-store' });
+    if (!res.ok) throw new Error(res.status);
+    const seeded = normalize(await res.json());
+    if (seeded.cards.length) { state = seeded; save(); render(); }
+  } catch (e) {
+    console.info('[molly] seed unreachable (expected on file://) — using inline seed');   // ISC-38
+  }
+}
+
+async function pollAgent() {
+  try {
+    const res = await fetch(STATE_URL, { cache: 'no-store' });
+    if (!res.ok) throw new Error(res.status);
+    live = await res.json();
+  } catch (e) { live = null; }
+  renderRail();
+}
+
+/* ── boot ───────────────────────────────────── */
+$('notes').value = state.notes || '';
+render();
+$('lastSync').textContent = new Date().toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', second:'2-digit' });
+loadSeed(false);
+pollAgent();
+setInterval(pollAgent, 5000);
+})();
+</script>
+</body>
+</html>
