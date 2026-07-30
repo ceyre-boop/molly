@@ -2,46 +2,214 @@
   "version": 1,
   "updated": "2026-07-30",
   "columns": [
-    { "id": "todo",     "title": "To Do",       "icon": "📋" },
-    { "id": "progress", "title": "In Progress", "icon": "⚡" },
-    { "id": "done",     "title": "Done",        "icon": "✅" },
-    { "id": "archived", "title": "Archived",    "icon": "📦" }
+    {
+      "id": "todo",
+      "title": "To Do",
+      "icon": "📋"
+    },
+    {
+      "id": "progress",
+      "title": "In Progress",
+      "icon": "⚡"
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "icon": "✅"
+    },
+    {
+      "id": "archived",
+      "title": "Archived",
+      "icon": "📦"
+    }
   ],
   "cards": [
-    { "id": "t-sec-1",   "column": "todo",     "title": "Rotate Supabase prod DB credential + Hiram shared login", "date": "2026-07-30", "tag": "TABOOST" },
-    { "id": "t-alta-1",  "column": "todo",     "title": "Fix ict_scanner octal bug in launch script (10#$var)",     "date": "2026-07-30", "tag": "Alta" },
-    { "id": "t-alta-2",  "column": "todo",     "title": "Fill 4 ThetaDataLoader parsing bodies — VRP Stage 2",  "date": "2026-07-30", "tag": "Alta" },
-    { "id": "t-alta-3",  "column": "todo",     "title": "Restore comments in config/parameters.yml before commit",  "date": "2026-07-30", "tag": "Alta" },
-    { "id": "t-tb-1",    "column": "todo",     "title": "Evaluate Render alternative for draft reliability",        "date": "2026-07-29", "tag": "TABOOST" },
-    { "id": "t-sch-1",   "column": "todo",     "title": "UM Flint readmission application",                         "date": "2026-07-28", "tag": "School" },
-    { "id": "t-sch-2",   "column": "todo",     "title": "Register Mott Fall 2026 semester",                         "date": "2026-07-28", "tag": "School" },
-    { "id": "t-nb-1",    "column": "todo",     "title": "Build 2 spec portfolio pieces for Northbound",             "date": "2026-07-27", "tag": "Northbound" },
-
-    { "id": "p-molly-1", "column": "progress", "title": "Molly command center — Kanban dashboard",              "date": "2026-07-30", "tag": "Molly" },
-    { "id": "p-alta-1",  "column": "progress", "title": "G2 gate — collect 30 London Grade-A paper trades",     "date": "2026-07-30", "tag": "Alta" },
-    { "id": "p-tb-1",    "column": "progress", "title": "Marco CEO dashboard — admin-v3 scaffold",              "date": "2026-07-29", "tag": "TABOOST" },
-
-    { "id": "d-alta-1",  "column": "done",     "title": "Political-alpha HYP-085 event study sealed (p=0.3637)",    "date": "2026-07-08", "tag": "Alta" },
-    { "id": "d-alta-2",  "column": "done",     "title": "ThetaData v3 terminal online — FXE entitlement served","date": "2026-07-02", "tag": "Alta" },
-    { "id": "d-alta-3",  "column": "done",     "title": "Alta System knowledge graph — 480 Obsidian notes",     "date": "2026-06-27", "tag": "Alta" },
-    { "id": "d-alta-4",  "column": "done",     "title": "Proof of Life panel + Alta Status MCP server",             "date": "2026-06-23", "tag": "Alta" },
-    { "id": "d-ks-1",    "column": "done",     "title": "Keystone South — CNAME + Pages deploy restored",       "date": "2026-06-23", "tag": "Keystone" },
-    { "id": "d-molly-1", "column": "done",     "title": "Jarvis suite — context / briefing / todos / organizer", "date": "2026-07-20", "tag": "Molly" },
-
-    { "id": "a-1", "column": "archived", "title": "Sovereign v2 dashboard shipped to GitHub Pages", "date": "2026-06-22", "tag": "Alta" },
-    { "id": "a-2", "column": "archived", "title": "Email automation hard launch (multi-tenant)",    "date": "2026-03-28", "tag": "TABOOST" },
-    { "id": "a-3", "column": "archived", "title": "Northbound “Observatory” concept build", "date": "2026-05-28", "tag": "Northbound" }
+    {
+      "id": "t-sec-1",
+      "column": "todo",
+      "title": "Rotate Supabase prod DB credential + Hiram shared login",
+      "date": "2026-07-30",
+      "tag": "TABOOST"
+    },
+    {
+      "id": "t-alta-1",
+      "column": "todo",
+      "title": "Fix ict_scanner octal bug in launch script (10#$var)",
+      "date": "2026-07-30",
+      "tag": "Alta"
+    },
+    {
+      "id": "t-alta-2",
+      "column": "todo",
+      "title": "Fill 4 ThetaDataLoader parsing bodies — VRP Stage 2",
+      "date": "2026-07-30",
+      "tag": "Alta"
+    },
+    {
+      "id": "t-alta-3",
+      "column": "todo",
+      "title": "Restore comments in config/parameters.yml before commit",
+      "date": "2026-07-30",
+      "tag": "Alta"
+    },
+    {
+      "id": "t-tb-1",
+      "column": "todo",
+      "title": "Evaluate Render alternative for draft reliability",
+      "date": "2026-07-29",
+      "tag": "TABOOST"
+    },
+    {
+      "id": "t-sch-1",
+      "column": "todo",
+      "title": "UM Flint readmission application",
+      "date": "2026-07-28",
+      "tag": "School"
+    },
+    {
+      "id": "t-sch-2",
+      "column": "todo",
+      "title": "Register Mott Fall 2026 semester",
+      "date": "2026-07-28",
+      "tag": "School"
+    },
+    {
+      "id": "t-nb-1",
+      "column": "todo",
+      "title": "Build 2 spec portfolio pieces for Northbound",
+      "date": "2026-07-27",
+      "tag": "Northbound"
+    },
+    {
+      "id": "p-molly-1",
+      "column": "progress",
+      "title": "Molly command center — Kanban dashboard",
+      "date": "2026-07-30",
+      "tag": "Molly"
+    },
+    {
+      "id": "p-alta-1",
+      "column": "progress",
+      "title": "G2 gate — collect 30 London Grade-A paper trades",
+      "date": "2026-07-30",
+      "tag": "Alta"
+    },
+    {
+      "id": "p-tb-1",
+      "column": "progress",
+      "title": "Marco CEO dashboard — admin-v3 scaffold",
+      "date": "2026-07-29",
+      "tag": "TABOOST"
+    },
+    {
+      "id": "d-alta-1",
+      "column": "done",
+      "title": "Political-alpha HYP-085 event study sealed (p=0.3637)",
+      "date": "2026-07-08",
+      "tag": "Alta"
+    },
+    {
+      "id": "d-alta-2",
+      "column": "done",
+      "title": "ThetaData v3 terminal online — FXE entitlement served",
+      "date": "2026-07-02",
+      "tag": "Alta"
+    },
+    {
+      "id": "d-alta-3",
+      "column": "done",
+      "title": "Alta System knowledge graph — 480 Obsidian notes",
+      "date": "2026-06-27",
+      "tag": "Alta"
+    },
+    {
+      "id": "d-alta-4",
+      "column": "done",
+      "title": "Proof of Life panel + Alta Status MCP server",
+      "date": "2026-06-23",
+      "tag": "Alta"
+    },
+    {
+      "id": "d-ks-1",
+      "column": "done",
+      "title": "Keystone South — CNAME + Pages deploy restored",
+      "date": "2026-06-23",
+      "tag": "Keystone"
+    },
+    {
+      "id": "d-molly-1",
+      "column": "done",
+      "title": "Jarvis suite — context / briefing / todos / organizer",
+      "date": "2026-07-20",
+      "tag": "Molly"
+    },
+    {
+      "id": "a-1",
+      "column": "archived",
+      "title": "Sovereign v2 dashboard shipped to GitHub Pages",
+      "date": "2026-06-22",
+      "tag": "Alta"
+    },
+    {
+      "id": "a-2",
+      "column": "archived",
+      "title": "Email automation hard launch (multi-tenant)",
+      "date": "2026-03-28",
+      "tag": "TABOOST"
+    },
+    {
+      "id": "a-3",
+      "column": "archived",
+      "title": "Northbound “Observatory” concept build",
+      "date": "2026-05-28",
+      "tag": "Northbound"
+    }
   ],
   "deliverables": [
-    { "icon": "📈", "title": "Alta Daily Brief",          "date": "2026-07-30", "tag": "Folder" },
-    { "icon": "🧠", "title": "Obsidian Brain (00-BRAIN)", "date": "2026-07-30", "tag": "Vault" },
-    { "icon": "📊", "title": "TABOOST Creator Dashboard",  "date": "2026-07-29", "tag": "Live" },
-    { "icon": "🔒", "title": "Security Log",               "date": "2026-07-28", "tag": "Doc" },
-    { "icon": "📚", "title": "Discovery Ledger",           "date": "2026-06-23", "tag": "Doc" }
+    {
+      "icon": "📈",
+      "title": "Alta Daily Brief",
+      "date": "2026-07-30",
+      "tag": "Folder"
+    },
+    {
+      "icon": "🧠",
+      "title": "Obsidian Brain (00-BRAIN)",
+      "date": "2026-07-30",
+      "tag": "Vault"
+    },
+    {
+      "icon": "📊",
+      "title": "TABOOST Creator Dashboard",
+      "date": "2026-07-29",
+      "tag": "Live"
+    },
+    {
+      "icon": "🔒",
+      "title": "Security Log",
+      "date": "2026-07-28",
+      "tag": "Doc"
+    },
+    {
+      "icon": "📚",
+      "title": "Discovery Ledger",
+      "date": "2026-06-23",
+      "tag": "Doc"
+    }
   ],
   "notes": "",
   "log": [
-    { "ts": "2026-07-30T13:47:00", "text": "Board seeded from config/tasks.json" },
-    { "ts": "2026-07-30T13:40:00", "text": "Molly command center scaffolded in ~/molly" }
+    {
+      "ts": "2026-07-30T21:20:07.392Z",
+      "text": "Wired the dashboard to Pulse's Telegram agent"
+    },
+    {
+      "ts": "2026-07-30T13:47:00",
+      "text": "Board seeded from config/tasks.json"
+    },
+    {
+      "ts": "2026-07-30T13:40:00",
+      "text": "Molly command center scaffolded in ~/molly"
+    }
   ]
 }
