@@ -45,19 +45,18 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 /* ── left rail ───────────────────────────────────── */
 .rail{position:sticky;top:26px;display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:34px}
-.avatar-wrap{position:relative;width:126px;height:126px;display:grid;place-items:center}
-.avatar-ring{
-  position:absolute;inset:0;border-radius:50%;
-  background:conic-gradient(from 0deg,var(--accent),var(--blue),var(--pink),var(--accent));
-  filter:blur(11px);opacity:.55;animation:spin 9s linear infinite
+/* ── holographic companion ───────────────────────── */
+.holo{
+  position:relative;width:186px;height:222px;display:grid;place-items:center;
+  border-radius:16px;overflow:hidden;
+  background:radial-gradient(120% 80% at 50% 100%, rgba(96,165,250,.10), transparent 62%)
 }
-@keyframes spin{to{transform:rotate(360deg)}}
-.avatar{
-  position:relative;width:108px;height:108px;border-radius:50%;
-  background:linear-gradient(150deg,#20202e,#14141d);
-  border:1px solid var(--border);
-  display:grid;place-items:center;font-size:52px;line-height:1;
-  box-shadow:0 10px 34px rgba(0,0,0,.55)
+.holo canvas{width:186px;height:222px;display:block}
+/* fixed scanline veil over the whole projection */
+.holo::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,rgba(0,0,0,.32) 0 1px,transparent 1px 3px);
+  mix-blend-mode:multiply;opacity:.30
 }
 .rail h2{font-size:19px;font-weight:700;letter-spacing:-.01em}
 .agent-status{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-secondary)}
@@ -101,6 +100,17 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 }
 .quicklinks a:hover{color:var(--text-primary);border-color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
 .quicklinks .ql-icon{font-size:14px;line-height:1}
+
+/* ── handoff ─────────────────────────────────────── */
+.handoff{
+  position:relative;padding:15px 18px 15px 20px;border-radius:var(--radius);
+  background:linear-gradient(100deg,rgba(96,165,250,.10),rgba(124,92,255,.06) 60%,transparent),var(--bg-card);
+  border:1px solid rgba(96,165,250,.24);overflow:hidden
+}
+.handoff::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--blue),var(--accent))}
+.handoff-label{font-size:10.5px;letter-spacing:.10em;text-transform:uppercase;color:var(--blue);font-weight:650}
+.handoff-task{font-size:14.5px;font-weight:600;margin-top:5px;line-height:1.45;overflow-wrap:anywhere}
+.handoff-meta{font-size:11.5px;color:var(--text-muted);margin-top:6px}
 
 /* ── board ───────────────────────────────────────── */
 .board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:start}
@@ -203,10 +213,7 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 <div class="app">
   <!-- ── agent rail ───────────────────────────── -->
   <aside class="rail">
-    <div class="avatar-wrap">
-      <div class="avatar-ring"></div>
-      <div class="avatar" id="avatar">⚡</div>
-    </div>
+    <div class="holo"><canvas id="holo" width="372" height="444" aria-label="Molly — holographic status"></canvas></div>
     <h2 id="agentName">Molly</h2>
     <div class="agent-status">
       <span class="dot" id="agentDot"></span><span id="agentStatus">Idle</span>
@@ -243,6 +250,12 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
       <a href="https://firebase.google.com/console" target="_blank" rel="noopener"><span class="ql-icon">🔥</span> Firebase</a>
       <a href="https://canvas.instructure.com" target="_blank" rel="noopener"><span class="ql-icon">🎓</span> Canvas</a>
     </nav>
+
+    <section class="handoff" id="handoff" hidden>
+      <div class="handoff-label">Handoff → Molly</div>
+      <div class="handoff-task" id="handoffTask"></div>
+      <div class="handoff-meta" id="handoffMeta"></div>
+    </section>
 
     <section class="board" id="board"></section>
 
@@ -380,8 +393,153 @@ function commit(text) { if (text) logAction(text); save(); render(); }
 const colTitle = id => (state.columns.find(c => c.id === id) || {}).title || id;
 const cardsIn  = id => state.cards.filter(c => c.column === id);
 
+/* ── holographic companion ──────────────────── */
+/* A volumetric bust drawn as horizontal scan slices. No libraries, no assets:
+   the figure is parametric, so status changes are physics changes, not sprite swaps. */
+const holo = (() => {
+  const cv = $('holo');
+  if (!cv) return { set() {} };
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const MOODS = {
+    idle:     { rgb: [ 96,165,250], breathe: .55, jitter: .30, rings: 1, shards: 0, sweep: .45 },
+    thinking: { rgb: [129,140,248], breathe: 1.5, jitter: .75, rings: 3, shards: 0, sweep: 1.5 },
+    working:  { rgb: [251,146, 60], breathe: 2.4, jitter: 1.1, rings: 2, shards: 0, sweep: 2.4 },
+    spawning: { rgb: [124, 92,255], breathe: 2.0, jitter: 1.8, rings: 2, shards: 6, sweep: 2.0 }
+  };
+  let mood = MOODS.idle, target = MOODS.idle, glitch = 0, t = 0, raf = 0, last = 0;
+  // This dashboard is meant to sit open all day. 30fps is indistinguishable on a
+  // slow-breathing figure and halves the GPU/battery cost of leaving it up.
+  const FRAME_MS = 1000 / 30;
+
+  /** Half-width of the bust at normalised height y (0 = crown, 1 = base).
+      The neck has to pinch hard — without a visible waist between head and
+      shoulders the whole thing reads as a lampshade rather than a person. */
+  function silhouette(y) {
+    if (y < 0.04) return 0;
+    if (y < 0.34) {                                   // head — narrower than the torso, or it reads as a pawn
+      const u = (y - 0.04) / 0.30;
+      return Math.sin(u * Math.PI) * 0.27 + 0.02;
+    }
+    if (y < 0.42) return 0.075;                       // neck — deliberately thin
+    if (y < 0.52) return 0.075 + (y - 0.42) * 5.4;    // shoulders — a fast flare, not a slope
+    const u = (y - 0.52) / 0.48;                      // torso, tapering gently
+    return 0.615 + u * 0.10;
+  }
+
+  function frame(now) {
+    if (!still && now !== undefined) {
+      if (now - last < FRAME_MS) { raf = requestAnimationFrame(frame); return; }
+      last = now;
+    }
+    t += FRAME_MS / 1000;
+    // ease the palette so status changes melt rather than snap
+    mood = {
+      rgb: mood.rgb.map((c, i) => c + (target.rgb[i] - c) * 0.06),
+      breathe: mood.breathe + (target.breathe - mood.breathe) * 0.05,
+      jitter:  mood.jitter  + (target.jitter  - mood.jitter)  * 0.05,
+      rings: target.rings, shards: target.shards,
+      sweep: mood.sweep + (target.sweep - mood.sweep) * 0.05
+    };
+    const [r, g, b] = mood.rgb.map(Math.round);
+    const rgba = a => `rgba(${r},${g},${b},${a})`;
+
+    ctx.clearRect(0, 0, W, H);
+    if (glitch > 0) glitch -= 0.045;
+
+    const cx = W / 2, top = H * 0.10, figH = H * 0.70, baseY = top + figH;
+    const pulse = 1 + Math.sin(t * mood.breathe) * 0.022;
+
+    // projector footprint + light cone
+    const foot = ctx.createRadialGradient(cx, baseY, 2, cx, baseY, W * 0.42);
+    foot.addColorStop(0, rgba(.40)); foot.addColorStop(1, rgba(0));
+    ctx.fillStyle = foot;
+    ctx.beginPath(); ctx.ellipse(cx, baseY, W * 0.40, H * 0.035, 0, 0, 7); ctx.fill();
+    const cone = ctx.createLinearGradient(0, top, 0, baseY);
+    cone.addColorStop(0, rgba(0)); cone.addColorStop(1, rgba(.07));
+    ctx.fillStyle = cone;
+    ctx.beginPath(); ctx.moveTo(cx - W * .10, top); ctx.lineTo(cx + W * .10, top);
+    ctx.lineTo(cx + W * .38, baseY); ctx.lineTo(cx - W * .38, baseY); ctx.closePath(); ctx.fill();
+
+    // the figure, sliced
+    const STEP = 3, sweepY = (t * mood.sweep * 0.30) % 1.4 - 0.2;
+    ctx.lineWidth = 1.6;
+    for (let py = 0; py < figH; py += STEP) {
+      const y = py / figH;
+      const half = silhouette(y) * W * 0.42 * pulse;
+      if (half <= 0) continue;
+      const wob = Math.sin(y * 15 + t * 1.7) * mood.jitter + (glitch > 0 ? (Math.random() - .5) * 14 * glitch : 0);
+      const yy = top + py;
+      // brightness: denser near the sweep line, fading toward the base
+      const near = 1 - Math.min(1, Math.abs(y - sweepY) * 7);
+      const a = (0.26 + near * 0.52) * (1 - y * 0.22);
+      ctx.strokeStyle = rgba(a);
+      ctx.beginPath(); ctx.moveTo(cx - half + wob, yy); ctx.lineTo(cx + half + wob, yy); ctx.stroke();
+      // bright rim on the silhouette edge — this is what makes it read as a body
+      ctx.fillStyle = rgba(Math.min(1, a * 2.1));
+      ctx.fillRect(cx - half + wob - 1, yy - 0.8, 2.2, 2.2);
+      ctx.fillRect(cx + half + wob - 1.2, yy - 0.8, 2.2, 2.2);
+      // chromatic fringe — the tell that says "hologram"
+      ctx.strokeStyle = `rgba(255,90,160,${a * .30})`;
+      ctx.beginPath(); ctx.moveTo(cx - half + wob - 1.6, yy); ctx.lineTo(cx - half + wob + 2, yy); ctx.stroke();
+      ctx.strokeStyle = `rgba(90,255,235,${a * .30})`;
+      ctx.beginPath(); ctx.moveTo(cx + half + wob - 2, yy); ctx.lineTo(cx + half + wob + 1.6, yy); ctx.stroke();
+    }
+
+    // orbit rings — one per "thread of thought"
+    for (let i = 0; i < mood.rings; i++) {
+      const p = (t * (0.30 + i * 0.16)) % 1;
+      const ry = baseY - p * figH * 0.92;
+      const rr = W * (0.30 + Math.sin(p * Math.PI) * 0.10);
+      ctx.strokeStyle = rgba((1 - p) * 0.30);
+      ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.ellipse(cx, ry, rr, rr * 0.16, 0, 0, 7); ctx.stroke();
+    }
+
+    // sub-agents orbiting as shards
+    for (let i = 0; i < mood.shards; i++) {
+      const a = t * 1.15 + (i / mood.shards) * Math.PI * 2;
+      const sx = cx + Math.cos(a) * W * 0.36;
+      const sy = top + figH * 0.42 + Math.sin(a * 1.6) * figH * 0.24;
+      ctx.fillStyle = rgba(0.55 + Math.sin(a * 2) * 0.2);
+      ctx.beginPath(); ctx.arc(sx, sy, 2.6, 0, 7); ctx.fill();
+    }
+
+    if (!still) raf = requestAnimationFrame(frame);
+  }
+
+  // an always-on dashboard must not spin the GPU behind a hidden tab
+  document.addEventListener('visibilitychange', () => {
+    cancelAnimationFrame(raf);
+    if (!document.hidden && !still) raf = requestAnimationFrame(frame);
+  });
+
+  frame();
+  return {
+    set(status) {
+      const next = MOODS[status] || MOODS.idle;
+      if (next !== target) { target = next; glitch = 1; if (still) frame(); }
+    }
+  };
+})();
+
 /* ── render ─────────────────────────────────── */
-function render() { renderBoard(); renderRail(); renderShelf(); renderLog(); }
+function render() { renderBoard(); renderRail(); renderShelf(); renderLog(); renderHandoff(); }
+
+function renderHandoff() {
+  const panel = $('handoff');
+  const h = live && live.handoff;
+  if (!h || !h.task) { panel.hidden = true; return; }
+  panel.hidden = false;
+  $('handoffTask').textContent = h.task;
+  const bits = [];
+  if (h.from) bits.push('from ' + h.from);
+  if (h.source) bits.push(h.source);
+  if (h.ts) bits.push(fmtTime(h.ts));
+  $('handoffMeta').textContent = bits.join(' · ');
+}
 
 function renderBoard() {
   const board = $('board');
@@ -481,8 +639,8 @@ function renderRail() {
     $('connText').textContent = 'Local'; $('connDot').style.background = 'var(--text-muted)';
   }
 
-  if (live && live.name)   $('agentName').textContent = live.name;
-  if (live && live.avatar) $('avatar').textContent = live.avatar;
+  if (live && live.name) $('agentName').textContent = live.name;
+  holo.set(status.toLowerCase());
   $('agentStatus').textContent = status.charAt(0).toUpperCase() + status.slice(1);
   $('agentMessage').textContent = message;
   const dot = $('agentDot');
@@ -648,6 +806,7 @@ async function pollAgent() {
     live = await res.json();
   } catch (e) { live = null; }
   renderRail();
+  renderHandoff();
 }
 
 /* ── boot ───────────────────────────────────── */

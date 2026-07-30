@@ -8,6 +8,8 @@
  *
  * Usage:
  *   bun molly.ts status <idle|thinking|working|spawning> ["message"]
+ *   bun molly.ts handoff "what to do next" [--from Colin] [--source NEXT.md]
+ *   bun molly.ts handoff clear
  *   bun molly.ts heartbeat
  *   bun molly.ts subagents <name...>            # empty list clears
  *   bun molly.ts add <todo|progress|done|archived> "title" [--tag Alta]
@@ -44,6 +46,12 @@ interface Board {
   notes: string
   log: LogEntry[]
 }
+interface Handoff {
+  task: string
+  from: string
+  source: string
+  ts: string
+}
 interface AgentState {
   name: string
   avatar: string
@@ -52,6 +60,7 @@ interface AgentState {
   heartbeat: string
   currentTask: string | null
   subagents: string[]
+  handoff: Handoff | null
 }
 
 // ── io ─────────────────────────────────────────────────────────────
@@ -150,6 +159,7 @@ const defaultState: AgentState = {
   heartbeat: nowISO(),
   currentTask: null,
   subagents: [],
+  handoff: null,
 }
 
 const loadState = () => readJson<AgentState>(STATE, defaultState)
@@ -186,6 +196,21 @@ switch (cmd) {
       currentTask: status === "idle" ? null : message,
     })
     console.log(`${s.name} → ${s.status}: ${s.message}`)
+    break
+  }
+
+  case "handoff": {
+    if (rest[0] === "clear") {
+      saveState({ handoff: null })
+      console.log("handoff cleared")
+      break
+    }
+    const from = takeFlag(rest, "--from") ?? "Colin"
+    const source = takeFlag(rest, "--source") ?? "manual"
+    const task = rest.join(" ").trim()
+    if (!task) die('handoff needs a task — molly.ts handoff "Audit the ict_scanner launch script"')
+    saveState({ handoff: { task, from, source, ts: nowISO() } })
+    console.log(`handoff → ${task}  (from ${from} · ${source})`)
     break
   }
 
