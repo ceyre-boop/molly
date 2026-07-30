@@ -44,20 +44,32 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .app{position:relative;z-index:1;display:grid;grid-template-columns:230px minmax(0,1fr);gap:26px;padding:26px;max-width:1900px;margin:0 auto;align-items:start}
 
 /* ── left rail ───────────────────────────────────── */
-.rail{position:sticky;top:26px;display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:34px}
-/* ── holographic companion ───────────────────────── */
+.rail{position:sticky;top:26px;display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:72px}
+/* ── TEAL-01 holographic companion ───────────────── */
 .holo{
-  position:relative;width:186px;height:222px;display:grid;place-items:center;
-  border-radius:16px;overflow:hidden;
-  background:radial-gradient(120% 80% at 50% 100%, rgba(96,165,250,.10), transparent 62%)
+  position:relative;width:206px;height:214px;display:grid;place-items:center;
+  border-radius:16px;overflow:visible;
+  background:radial-gradient(120% 85% at 50% 88%, rgba(80,220,215,.10), transparent 64%)
 }
-.holo canvas{width:186px;height:222px;display:block}
-/* fixed scanline veil over the whole projection */
-.holo::after{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:repeating-linear-gradient(to bottom,rgba(0,0,0,.32) 0 1px,transparent 1px 3px);
-  mix-blend-mode:multiply;opacity:.30
+.holo svg{width:100%;height:100%;overflow:visible}
+.holo-shadow{
+  position:absolute;bottom:6%;width:42%;height:5%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(80,220,215,.34),rgba(0,0,0,0))
 }
+/* scanline veil — sits behind the puppet so it never dims the character */
+.holo::before{
+  content:'';position:absolute;inset:-6px;pointer-events:none;border-radius:18px;
+  background:repeating-linear-gradient(to bottom,rgba(80,220,215,.055) 0 1px,transparent 1px 3px)
+}
+.bubble{
+  position:absolute;left:50%;bottom:100%;transform:translateX(-50%) scale(.92);
+  margin-bottom:2px;max-width:200px;padding:8px 11px;border-radius:11px;
+  background:var(--bg-elevated);border:1px solid rgba(80,220,215,.32);
+  color:var(--text-primary);font-size:11.5px;line-height:1.4;text-align:center;
+  opacity:0;transition:opacity .18s,transform .18s;pointer-events:none;z-index:3
+}
+.brain{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-muted)}
+.brain .dot{width:6px;height:6px}
 .rail h2{font-size:19px;font-weight:700;letter-spacing:-.01em}
 .agent-status{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-secondary)}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);flex:none}
@@ -213,8 +225,50 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
 <div class="app">
   <!-- ── agent rail ───────────────────────────── -->
   <aside class="rail">
-    <div class="holo"><canvas id="holo" width="372" height="444" aria-label="Molly — holographic status"></canvas></div>
+    <!-- TEAL-01 rig, ported from "Holographic AI companion model" (Gremlin Puppet.dc.html).
+         The framework's ref="{{ x }}" bindings became plain ids; the tick loop is reimplemented below. -->
+    <div class="holo">
+      <div class="holo-shadow"></div>
+      <div class="bubble" id="bubble"></div>
+      <svg viewBox="0 0 400 400" aria-label="Molly — holographic companion">
+        <defs>
+          <radialGradient id="skin" cx="38%" cy="30%" r="78%">
+            <stop offset="0%" stop-color="#9fe7d8"/><stop offset="60%" stop-color="#4fb5ad"/><stop offset="100%" stop-color="#1f7b80"/>
+          </radialGradient>
+        </defs>
+        <g id="gRoot" opacity=".93">
+          <g id="gLegL" style="transform-origin:176px 322px"><rect x="160" y="318" width="34" height="52" rx="16" fill="#2f8f8f"/></g>
+          <g id="gLegR" style="transform-origin:224px 322px"><rect x="206" y="318" width="34" height="52" rx="16" fill="#2f8f8f"/></g>
+          <g id="gArmL" style="transform-origin:146px 248px"><rect x="106" y="240" width="44" height="30" rx="15" fill="#3aa3a0"/><circle cx="112" cy="255" r="17" fill="#48b3ad"/></g>
+          <g id="gArmR" style="transform-origin:254px 248px"><rect x="250" y="240" width="44" height="30" rx="15" fill="#3aa3a0"/><circle cx="288" cy="255" r="17" fill="#48b3ad"/></g>
+          <g id="gBody" style="transform-origin:200px 262px">
+            <rect x="146" y="228" width="108" height="106" rx="34" fill="url(#skin)"/>
+            <rect x="158" y="300" width="84" height="40" rx="18" fill="#2b8a8c" opacity=".55"/>
+          </g>
+          <g id="gHead" style="transform-origin:200px 230px">
+            <ellipse cx="200" cy="140" rx="118" ry="112" fill="url(#skin)"/>
+            <ellipse cx="158" cy="86" rx="46" ry="30" fill="#a8ecdf" opacity=".22" transform="rotate(-22 158 86)"/>
+            <g id="gEyes">
+              <g id="gPupils">
+                <ellipse cx="163" cy="150" rx="15" ry="13" fill="#7a2b22"/><ellipse cx="237" cy="150" rx="15" ry="13" fill="#7a2b22"/>
+                <circle cx="158" cy="145" r="4" fill="#c9705f" opacity=".8"/><circle cx="232" cy="145" r="4" fill="#c9705f" opacity=".8"/>
+              </g>
+              <g id="gLids" style="transform-origin:200px 150px">
+                <ellipse cx="163" cy="150" rx="17" ry="15" fill="#54bdb2" style="transform-origin:163px 150px;transform:scaleY(0)"/>
+                <ellipse cx="237" cy="150" rx="17" ry="15" fill="#54bdb2" style="transform-origin:237px 150px;transform:scaleY(0)"/>
+              </g>
+            </g>
+            <g id="gBrows">
+              <rect x="136" y="126" width="46" height="12" rx="6" fill="#3f9d94" style="transform-origin:159px 132px"/>
+              <rect x="218" y="126" width="46" height="12" rx="6" fill="#3f9d94" style="transform-origin:241px 132px"/>
+            </g>
+            <g id="gMouth"></g>
+          </g>
+        </g>
+      </svg>
+    </div>
     <h2 id="agentName">Molly</h2>
+    <div class="brain"><span class="dot" id="brainDot"></span><span id="brainText">brain unknown</span></div>
     <div class="agent-status">
       <span class="dot" id="agentDot"></span><span id="agentStatus">Idle</span>
     </div>
@@ -393,146 +447,204 @@ function commit(text) { if (text) logAction(text); save(); render(); }
 const colTitle = id => (state.columns.find(c => c.id === id) || {}).title || id;
 const cardsIn  = id => state.cards.filter(c => c.column === id);
 
-/* ── holographic companion ──────────────────── */
-/* A volumetric bust drawn as horizontal scan slices. No libraries, no assets:
-   the figure is parametric, so status changes are physics changes, not sprite swaps. */
+/* ── TEAL-01 companion ──────────────────────────
+   Ported from ~/Downloads/Holographic AI companion model/Gremlin Puppet.dc.html.
+   Same MOODS table, same tick math, same pose API — the host framework's refs
+   became ids and the 33ms driver became a rAF loop. Molly's agent status drives
+   mood + action, so the puppet is a readout, not decoration. */
 const holo = (() => {
-  const cv = $('holo');
-  if (!cv) return { set() {} };
-  const ctx = cv.getContext('2d');
-  const W = cv.width, H = cv.height;
-  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const R = {
+    root:$('gRoot'), body:$('gBody'), head:$('gHead'), armL:$('gArmL'), armR:$('gArmR'),
+    legL:$('gLegL'), legR:$('gLegR'), pupils:$('gPupils'), lids:$('gLids'),
+    brows:$('gBrows'), mouth:$('gMouth'), bubble:$('bubble')
+  };
+  if (!R.root) return { set(){}, say(){}, play(){} };
 
   const MOODS = {
-    idle:     { rgb: [ 96,165,250], breathe: .55, jitter: .30, rings: 1, shards: 0, sweep: .45 },
-    thinking: { rgb: [129,140,248], breathe: 1.5, jitter: .75, rings: 3, shards: 0, sweep: 1.5 },
-    working:  { rgb: [251,146, 60], breathe: 2.4, jitter: 1.1, rings: 2, shards: 0, sweep: 2.4 },
-    spawning: { rgb: [124, 92,255], breathe: 2.0, jitter: 1.8, rings: 2, shards: 6, sweep: 2.0 }
+    neutral: { brow:-8,  lid:0,    mouth:'M172 206q28 6 56 0',      pupil:[0,0] },
+    smug:    { brow:-16, lid:0.3,  mouth:'M172 206q30 14 56 -10',   pupil:[5,-2] },
+    furious: { brow:-30, lid:0,    mouth:'M166 212q34 -22 68 0',    pupil:[0,2] },
+    bored:   { brow:4,   lid:0.45, mouth:'M174 206h52',             pupil:[-4,3] },
+    delight: { brow:-6,  lid:0,    mouth:'M166 200q34 32 68 0',     pupil:[0,-3] },
+    suspect: { brow:-22, lid:0.4,  mouth:'M176 208q24 -6 48 4',     pupil:[7,0] }
   };
-  let mood = MOODS.idle, target = MOODS.idle, glitch = 0, t = 0, raf = 0, last = 0;
-  // This dashboard is meant to sit open all day. 30fps is indistinguishable on a
-  // slow-breathing figure and halves the GPU/battery cost of leaving it up.
-  const FRAME_MS = 1000 / 30;
+  // Molly's agent status → how TEAL-01 wears it
+  const BY_STATUS = {
+    idle:     { mood:'bored',   enter:'shrug' },
+    thinking: { mood:'suspect', enter:null    },
+    working:  { mood:'smug',    enter:'wave'  },
+    spawning: { mood:'delight', enter:'dance' },
+    offline:  { mood:'neutral', enter:null    }
+  };
 
-  /** Half-width of the bust at normalised height y (0 = crown, 1 = base).
-      The neck has to pinch hard — without a visible waist between head and
-      shoulders the whole thing reads as a lampshade rather than a person. */
-  function silhouette(y) {
-    if (y < 0.04) return 0;
-    if (y < 0.34) {                                   // head — narrower than the torso, or it reads as a pawn
-      const u = (y - 0.04) / 0.30;
-      return Math.sin(u * Math.PI) * 0.27 + 0.02;
-    }
-    if (y < 0.42) return 0.075;                       // neck — deliberately thin
-    if (y < 0.52) return 0.075 + (y - 0.42) * 5.4;    // shoulders — a fast flare, not a slope
-    const u = (y - 0.52) / 0.48;                      // torso, tapering gently
-    return 0.615 + u * 0.10;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let lidBase = 0, pupilTarget = [0,0], action = null, talkUntil = 0;
+  let nextBlink = 1200, blinkAt, t0 = performance.now(), raf = 0, last = 0, sayT;
+  const FRAME_MS = 1000 / 30;   // this sits open all day — 30fps is plenty
+
+  function applyMood(name) {
+    const m = MOODS[name] || MOODS.neutral;
+    R.mouth.innerHTML = '<path d="' + m.mouth + '" fill="none" stroke="#1d6b6e" stroke-width="10" stroke-linecap="round"></path>';
+    R.brows.children[0].style.transform = 'rotate(' + m.brow + 'deg)';
+    R.brows.children[1].style.transform = 'rotate(' + (-m.brow) + 'deg)';
+    lidBase = m.lid; pupilTarget = m.pupil;
   }
+
+  function play(name) {
+    action = { name, t:0, dur: name === 'dangle' ? 1e9 : (name === 'stomp' ? 1100 : 1500) };
+  }
+
+  function say(text, ms) {
+    if (!text) return;
+    R.bubble.textContent = text;
+    R.bubble.style.opacity = '1';
+    R.bubble.style.transform = 'translateX(-50%) scale(1)';
+    clearTimeout(sayT);
+    talkUntil = performance.now() + (ms || 3200);
+    sayT = setTimeout(() => {
+      R.bubble.style.opacity = '0';
+      R.bubble.style.transform = 'translateX(-50%) scale(.92)';
+    }, ms || 3200);
+  }
+
+  const set = (el, tr) => { if (el) el.style.transform = tr; };
 
   function frame(now) {
     if (!still && now !== undefined) {
       if (now - last < FRAME_MS) { raf = requestAnimationFrame(frame); return; }
       last = now;
     }
-    t += FRAME_MS / 1000;
-    // ease the palette so status changes melt rather than snap
-    mood = {
-      rgb: mood.rgb.map((c, i) => c + (target.rgb[i] - c) * 0.06),
-      breathe: mood.breathe + (target.breathe - mood.breathe) * 0.05,
-      jitter:  mood.jitter  + (target.jitter  - mood.jitter)  * 0.05,
-      rings: target.rings, shards: target.shards,
-      sweep: mood.sweep + (target.sweep - mood.sweep) * 0.05
-    };
-    const [r, g, b] = mood.rgb.map(Math.round);
-    const rgba = a => `rgba(${r},${g},${b},${a})`;
+    const t = (now === undefined ? 0 : now) - t0, s = t / 1000;
+    const breathe = Math.sin(s * 1.8) * 3;
+    let armL = Math.sin(s * 1.3) * 5, armR = -Math.sin(s * 1.3 + 0.6) * 5;
+    let legL = 0, legR = 0, headR = Math.sin(s * 0.9) * 3, bodyR = Math.sin(s * 0.9) * 1.5, hop = 0;
 
-    ctx.clearRect(0, 0, W, H);
-    if (glitch > 0) glitch -= 0.045;
-
-    const cx = W / 2, top = H * 0.10, figH = H * 0.70, baseY = top + figH;
-    const pulse = 1 + Math.sin(t * mood.breathe) * 0.022;
-
-    // projector footprint + light cone
-    const foot = ctx.createRadialGradient(cx, baseY, 2, cx, baseY, W * 0.42);
-    foot.addColorStop(0, rgba(.40)); foot.addColorStop(1, rgba(0));
-    ctx.fillStyle = foot;
-    ctx.beginPath(); ctx.ellipse(cx, baseY, W * 0.40, H * 0.035, 0, 0, 7); ctx.fill();
-    const cone = ctx.createLinearGradient(0, top, 0, baseY);
-    cone.addColorStop(0, rgba(0)); cone.addColorStop(1, rgba(.07));
-    ctx.fillStyle = cone;
-    ctx.beginPath(); ctx.moveTo(cx - W * .10, top); ctx.lineTo(cx + W * .10, top);
-    ctx.lineTo(cx + W * .38, baseY); ctx.lineTo(cx - W * .38, baseY); ctx.closePath(); ctx.fill();
-
-    // the figure, sliced
-    const STEP = 3, sweepY = (t * mood.sweep * 0.30) % 1.4 - 0.2;
-    ctx.lineWidth = 1.6;
-    for (let py = 0; py < figH; py += STEP) {
-      const y = py / figH;
-      const half = silhouette(y) * W * 0.42 * pulse;
-      if (half <= 0) continue;
-      const wob = Math.sin(y * 15 + t * 1.7) * mood.jitter + (glitch > 0 ? (Math.random() - .5) * 14 * glitch : 0);
-      const yy = top + py;
-      // brightness: denser near the sweep line, fading toward the base
-      const near = 1 - Math.min(1, Math.abs(y - sweepY) * 7);
-      const a = (0.26 + near * 0.52) * (1 - y * 0.22);
-      ctx.strokeStyle = rgba(a);
-      ctx.beginPath(); ctx.moveTo(cx - half + wob, yy); ctx.lineTo(cx + half + wob, yy); ctx.stroke();
-      // bright rim on the silhouette edge — this is what makes it read as a body
-      ctx.fillStyle = rgba(Math.min(1, a * 2.1));
-      ctx.fillRect(cx - half + wob - 1, yy - 0.8, 2.2, 2.2);
-      ctx.fillRect(cx + half + wob - 1.2, yy - 0.8, 2.2, 2.2);
-      // chromatic fringe — the tell that says "hologram"
-      ctx.strokeStyle = `rgba(255,90,160,${a * .30})`;
-      ctx.beginPath(); ctx.moveTo(cx - half + wob - 1.6, yy); ctx.lineTo(cx - half + wob + 2, yy); ctx.stroke();
-      ctx.strokeStyle = `rgba(90,255,235,${a * .30})`;
-      ctx.beginPath(); ctx.moveTo(cx + half + wob - 2, yy); ctx.lineTo(cx + half + wob + 1.6, yy); ctx.stroke();
+    if (action) {
+      action.t += FRAME_MS;
+      const a = action.name;
+      if (a === 'wave') armR = -70 + Math.sin(s * 18) * 22;
+      else if (a === 'rage')  { armL = 55 + Math.sin(s*26)*18; armR = -55 - Math.sin(s*26)*18; headR = Math.sin(s*30)*7; hop = Math.abs(Math.sin(s*14)) * -6; }
+      else if (a === 'stomp') { legR = Math.sin(s*16)*26; hop = Math.abs(Math.sin(s*8)) * -10; }
+      else if (a === 'shrug') { armL = -28; armR = 28; headR = 6; }
+      else if (a === 'dance') { armL = Math.sin(s*8)*60; armR = Math.sin(s*8+3)*60; legL = Math.sin(s*8)*16; legR = -Math.sin(s*8)*16; hop = Math.abs(Math.sin(s*8)) * -16; bodyR = Math.sin(s*8)*6; }
+      else if (a === 'dangle'){ armL = -140 + Math.sin(s*3)*6; armR = 140 - Math.sin(s*3)*6; legL = Math.sin(s*4)*14; legR = Math.sin(s*4+1)*14; bodyR = Math.sin(s*2.4)*5; }
+      if (action.t >= action.dur) action = null;
     }
 
-    // orbit rings — one per "thread of thought"
-    for (let i = 0; i < mood.rings; i++) {
-      const p = (t * (0.30 + i * 0.16)) % 1;
-      const ry = baseY - p * figH * 0.92;
-      const rr = W * (0.30 + Math.sin(p * Math.PI) * 0.10);
-      ctx.strokeStyle = rgba((1 - p) * 0.30);
-      ctx.lineWidth = 1.2;
-      ctx.beginPath(); ctx.ellipse(cx, ry, rr, rr * 0.16, 0, 0, 7); ctx.stroke();
-    }
+    set(R.root, 'translateY(' + (hop + breathe * 0.4) + 'px)');
+    set(R.body, 'rotate(' + bodyR + 'deg) scaleY(' + (1 + Math.sin(s * 1.8) * 0.012) + ')');
+    set(R.head, 'rotate(' + headR + 'deg) translateY(' + breathe * 0.3 + 'px)');
+    set(R.armL, 'rotate(' + armL + 'deg)'); set(R.armR, 'rotate(' + armR + 'deg)');
+    set(R.legL, 'rotate(' + legL + 'deg)'); set(R.legR, 'rotate(' + legR + 'deg)');
 
-    // sub-agents orbiting as shards
-    for (let i = 0; i < mood.shards; i++) {
-      const a = t * 1.15 + (i / mood.shards) * Math.PI * 2;
-      const sx = cx + Math.cos(a) * W * 0.36;
-      const sy = top + figH * 0.42 + Math.sin(a * 1.6) * figH * 0.24;
-      ctx.fillStyle = rgba(0.55 + Math.sin(a * 2) * 0.2);
-      ctx.beginPath(); ctx.arc(sx, sy, 2.6, 0, 7); ctx.fill();
-    }
+    if (t > nextBlink) { blinkAt = t; nextBlink = t + 1800 + Math.random() * 3200; }
+    let lid = lidBase;
+    if (blinkAt !== undefined) { const d = t - blinkAt; if (d < 150) lid = Math.max(lid, 1 - Math.abs(d - 75) / 75); }
+    R.lids.children[0].style.transform = 'scaleY(' + lid.toFixed(3) + ')';
+    R.lids.children[1].style.transform = 'scaleY(' + lid.toFixed(3) + ')';
+
+    set(R.pupils, 'translate(' + (pupilTarget[0] + Math.sin(s*0.7)*3) + 'px,' + (pupilTarget[1] + Math.cos(s*0.5)*2) + 'px)');
+    R.mouth.style.transformOrigin = '200px 206px';
+    R.mouth.style.transform = performance.now() < talkUntil
+      ? 'scaleY(' + (1 + Math.abs(Math.sin(s * 22)) * 0.7) + ')' : '';
 
     if (!still) raf = requestAnimationFrame(frame);
   }
 
-  // an always-on dashboard must not spin the GPU behind a hidden tab
   document.addEventListener('visibilitychange', () => {
     cancelAnimationFrame(raf);
     if (!document.hidden && !still) raf = requestAnimationFrame(frame);
   });
 
-  frame();
+  applyMood('neutral');
+  raf = requestAnimationFrame(frame);
+
+  let lastStatus = null;
   return {
+    say, play,
     set(status) {
-      const next = MOODS[status] || MOODS.idle;
-      if (next !== target) { target = next; glitch = 1; if (still) frame(); }
+      const map = BY_STATUS[status] || BY_STATUS.idle;
+      if (status === lastStatus) return;
+      lastStatus = status;
+      applyMood(map.mood);
+      if (map.enter) play(map.enter);
     }
   };
 })();
 
+/* ── local brain (Ollama) ───────────────────────
+   Not a cost play — the 24/7 agent runs on the Max subscription. This is the
+   cheap, private, always-available voice for the puppet's one-liners. */
+const brain = (() => {
+  const URL_BASE = 'http://localhost:11434';
+  // Don't hardcode a model — read what's actually pulled. Preference order, then
+  // whatever is first. (Pinning llama3.2 silently 404s on a box that has qwen.)
+  const PREFERRED = ['llama3.2', 'qwen2.5', 'qwen3', 'mistral-nemo'];
+  let MODEL = null;
+  const PERSONA = 'You are Molly, a small teal holographic desk companion for Colin, a solo engineer running a trading lab and an AI agency. Voice: tiny, blunt, dry, loyal. 1 SHORT sentence, max 20 words. No emoji, no markdown, no disclaimers. Reply with ONLY what you say out loud.';
+  let state = 'unknown';
+
+  function paint(s) {
+    state = s;
+    const map = {
+      online:  ['var(--green)',       'local brain online'],
+      offline: ['var(--text-muted)',  'local brain offline'],
+      unknown: ['var(--text-muted)',  'brain unknown']
+    };
+    const [colour, label] = map[s] || map.unknown;
+    $('brainDot').style.background = colour;
+    $('brainText').textContent = s === 'online' && MODEL ? MODEL.split(':')[0] + ' online' : label;
+  }
+
+  async function probe() {
+    try {
+      const res = await fetch(URL_BASE + '/api/tags', { cache: 'no-store' });
+      if (!res.ok) throw new Error(res.status);
+      const names = ((await res.json()).models || []).map(m => m.name);
+      if (!names.length) { MODEL = null; paint('offline'); return; }
+      MODEL = PREFERRED.map(p => names.find(n => n.startsWith(p))).find(Boolean) || names[0];
+      paint('online');
+    } catch (e) { MODEL = null; paint('offline'); }   // not running, or OLLAMA_ORIGINS not set
+  }
+
+  async function ask(prompt) {
+    if (state !== 'online' || !MODEL) return null;
+    try {
+      const res = await fetch(URL_BASE + '/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: MODEL, stream: false,
+          messages: [{ role:'system', content: PERSONA }, { role:'user', content: prompt }]
+        })
+      });
+      if (!res.ok) throw new Error(res.status);
+      const data = await res.json();
+      return (data.message && data.message.content || '').trim().slice(0, 140);
+    } catch (e) { return null; }
+  }
+
+  paint('unknown'); probe(); setInterval(probe, 30000);
+  return { ask, get status() { return state; } };
+})();
+
+
 /* ── render ─────────────────────────────────── */
 function render() { renderBoard(); renderRail(); renderShelf(); renderLog(); renderHandoff(); }
 
+let spokenHandoff = null;
 function renderHandoff() {
   const panel = $('handoff');
   const h = live && live.handoff;
-  if (!h || !h.task) { panel.hidden = true; return; }
+  if (!h || !h.task) { panel.hidden = true; spokenHandoff = null; return; }
   panel.hidden = false;
+  // a new handoff makes her react out loud — local model if it's up, canned line if not
+  if (h.task !== spokenHandoff) {
+    spokenHandoff = h.task;
+    holo.play('wave');
+    brain.ask(`Colin just handed you this task: "${h.task}". React in one short line.`)
+      .then(line => holo.say(line || 'on it.', 7000));
+  }
   $('handoffTask').textContent = h.task;
   const bits = [];
   if (h.from) bits.push('from ' + h.from);
