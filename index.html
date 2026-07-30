@@ -1,1081 +1,663 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Molly — Your Command Center</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-card: #16161f;
-            --bg-card-hover: #1a1a25;
-            --bg-elevated: #1e1e2a;
-            --border: #2a2a3a;
-            --border-subtle: #1f1f2f;
-            --text-primary: #f0f0f5;
-            --text-secondary: #8888a0;
-            --text-muted: #55556a;
-            --accent: #7c5cff;
-            --accent-glow: rgba(124, 92, 255, 0.15);
-            --accent-soft: rgba(124, 92, 255, 0.08);
-            --green: #34d399;
-            --green-soft: rgba(52, 211, 153, 0.1);
-            --yellow: #fbbf24;
-            --yellow-soft: rgba(251, 191, 36, 0.1);
-            --red: #f87171;
-            --red-soft: rgba(248, 113, 113, 0.1);
-            --blue: #60a5fa;
-            --blue-soft: rgba(96, 165, 250, 0.1);
-            --orange: #fb923c;
-            --orange-soft: rgba(251, 146, 60, 0.1);
-            --pink: #f472b6;
-            --pink-soft: rgba(244, 114, 182, 0.1);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Molly Dashboard</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<style>
+:root{
+  --bg-primary:#0a0a0f; --bg-secondary:#12121a; --bg-card:#16161f; --bg-card-hover:#1a1a25;
+  --bg-elevated:#1e1e2a; --border:#2a2a3a; --border-subtle:#1f1f2f;
+  --text-primary:#f0f0f5; --text-secondary:#8888a0; --text-muted:#55556a;
+  --accent:#7c5cff; --accent-glow:rgba(124,92,255,.15); --accent-soft:rgba(124,92,255,.08);
+  --green:#34d399; --green-soft:rgba(52,211,153,.10);
+  --yellow:#fbbf24; --yellow-soft:rgba(251,191,36,.10);
+  --red:#f87171;   --red-soft:rgba(248,113,113,.10);
+  --blue:#60a5fa;  --blue-soft:rgba(96,165,250,.10);
+  --orange:#fb923c;--orange-soft:rgba(251,146,60,.10);
+  --pink:#f472b6;  --pink-soft:rgba(244,114,182,.10);
+  --indigo:#818cf8;--indigo-soft:rgba(129,140,248,.10);
+  --radius:14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{overflow-x:hidden}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg-primary); color:var(--text-primary);
+  min-height:100vh; font-size:14px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(700px circle at 12% 8%, var(--accent-glow), transparent 60%),
+    radial-gradient(600px circle at 88% 92%, rgba(96,165,250,.08), transparent 60%);
+}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:9px}
+::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+/* ── shell ───────────────────────────────────────── */
+.app{position:relative;z-index:1;display:grid;grid-template-columns:230px minmax(0,1fr);gap:26px;padding:26px;max-width:1900px;margin:0 auto;align-items:start}
 
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+/* ── left rail ───────────────────────────────────── */
+.rail{position:sticky;top:26px;display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:34px}
+.avatar-wrap{position:relative;width:126px;height:126px;display:grid;place-items:center}
+.avatar-ring{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,var(--accent),var(--blue),var(--pink),var(--accent));
+  filter:blur(11px);opacity:.55;animation:spin 9s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.avatar{
+  position:relative;width:108px;height:108px;border-radius:50%;
+  background:linear-gradient(150deg,#20202e,#14141d);
+  border:1px solid var(--border);
+  display:grid;place-items:center;font-size:52px;line-height:1;
+  box-shadow:0 10px 34px rgba(0,0,0,.55)
+}
+.rail h2{font-size:19px;font-weight:700;letter-spacing:-.01em}
+.agent-status{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-secondary)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);flex:none}
+.dot.live{animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.82)}}
+.status-box{
+  width:100%;padding:13px;border:1px solid var(--border-subtle);border-radius:12px;
+  background:var(--bg-secondary);color:var(--text-secondary);
+  font-size:12.5px;text-align:center;min-height:52px;display:grid;place-items:center;
+  word-break:break-word
+}
+.rail-counts{width:100%;display:flex;flex-direction:column;gap:5px;margin-top:2px}
+.rail-count{display:flex;justify-content:space-between;align-items:center;padding:7px 11px;border-radius:9px;background:var(--bg-secondary);border:1px solid var(--border-subtle);font-size:12px;color:var(--text-secondary)}
+.rail-count b{color:var(--text-primary);font-variant-numeric:tabular-nums}
+.subagents{width:100%;display:flex;flex-direction:column;gap:5px}
+.subagent{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--text-secondary);padding:6px 10px;border-radius:8px;background:var(--accent-soft);border:1px solid rgba(124,92,255,.18)}
+.rail-links{width:100%;display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.rail-links a{display:block;text-align:center;padding:8px;border-radius:9px;font-size:12px;text-decoration:none;color:var(--text-secondary);border:1px solid var(--border-subtle);background:var(--bg-secondary);transition:.15s}
+.rail-links a:hover{color:var(--text-primary);border-color:var(--accent);background:var(--accent-soft)}
 
-        /* Ambient background glow */
-        body::before {
-            content: '';
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at 30% 20%, rgba(124, 92, 255, 0.04) 0%, transparent 50%),
-                        radial-gradient(ellipse at 70% 80%, rgba(96, 165, 250, 0.03) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
+/* ── main panel ──────────────────────────────────── */
+.main{background:var(--bg-secondary);border:1px solid var(--border-subtle);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:20px;min-width:0}
+.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--border-subtle)}
+.brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:700;letter-spacing:-.02em}
+.brand .glyph{font-size:22px}
+.online{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--green);margin-left:2px}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sync{font-size:12px;color:var(--text-muted);font-variant-numeric:tabular-nums}
+.btn{padding:7px 15px;border:1px solid var(--border);border-radius:9px;font-size:12.5px;color:var(--text-secondary);background:var(--bg-card);transition:.15s}
+.btn:hover{color:var(--text-primary);border-color:var(--accent);background:var(--accent-soft)}
+.btn.primary{color:var(--accent);border-color:rgba(124,92,255,.35);background:var(--accent-soft)}
 
-        /* ─── Layout ─── */
-        .app { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 24px; }
+/* ── quick links ─────────────────────────────────── */
+.quicklinks{display:flex;gap:8px;flex-wrap:wrap;margin-top:-6px}
+.quicklinks a{
+  display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:10px;
+  background:var(--bg-card);border:1px solid var(--border-subtle);
+  color:var(--text-secondary);text-decoration:none;font-size:12.5px;white-space:nowrap;
+  transition:transform .15s,color .15s,border-color .15s,background .15s
+}
+.quicklinks a:hover{color:var(--text-primary);border-color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
+.quicklinks .ql-icon{font-size:14px;line-height:1}
 
-        /* ─── Top Bar ─── */
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-        .greeting h1 {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        .greeting h1 span { color: var(--accent); }
-        .greeting .date {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-        .topbar-actions {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        .btn-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            transition: all 0.2s;
-        }
-        .btn-icon:hover { background: var(--bg-card-hover); color: var(--text-primary); border-color: var(--accent); }
+/* ── board ───────────────────────────────────────── */
+.board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:start}
+.lane{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;min-width:0;transition:.15s}
+.lane.dragover{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.lane-head{display:flex;align-items:center;gap:9px;padding-bottom:11px;margin-bottom:12px;border-bottom:1px solid var(--border-subtle)}
+.lane-head h3{font-size:14px;font-weight:650;letter-spacing:-.01em}
+.count{margin-left:auto;font-size:11px;color:var(--text-muted);background:var(--bg-elevated);padding:2px 8px;border-radius:20px;font-variant-numeric:tabular-nums}
+.lane-body{display:flex;flex-direction:column;gap:10px;min-height:120px}
+.placeholder{border:1.5px dashed var(--border);border-radius:10px;padding:22px 10px;text-align:center;font-size:11.5px;color:var(--text-muted)}
+.add{margin-top:11px;padding:9px;border:1px dashed var(--border);border-radius:10px;font-size:12px;color:var(--text-muted);text-align:center;transition:.15s;width:100%}
+.add:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
 
-        /* ─── Grid ─── */
-        .grid { display: grid; gap: 20px; }
-        .grid-main {
-            grid-template-columns: 1fr 380px;
-            grid-template-rows: auto auto auto;
-        }
+/* ── cards ───────────────────────────────────────── */
+.card{
+  position:relative;border-radius:10px;padding:12px 13px;cursor:grab;
+  border:1px solid var(--border-subtle);border-left:3px solid var(--text-muted);
+  background:var(--bg-elevated);transition:transform .12s,box-shadow .12s,background .12s
+}
+.card:hover{background:var(--bg-card-hover);box-shadow:0 6px 20px rgba(0,0,0,.35)}
+.card.dragging{opacity:.4;cursor:grabbing}
+.lane[data-col="todo"] .card    {border-left-color:var(--indigo); background:linear-gradient(180deg,var(--indigo-soft),transparent 140%),var(--bg-elevated)}
+.lane[data-col="progress"] .card{border-left-color:var(--orange); background:linear-gradient(180deg,var(--orange-soft),transparent 140%),var(--bg-elevated)}
+.lane[data-col="done"] .card    {border-left-color:var(--green);  background:linear-gradient(180deg,var(--green-soft),transparent 140%),var(--bg-elevated)}
+.card-title{font-size:13.5px;font-weight:600;line-height:1.4;overflow-wrap:anywhere;min-width:0}
+.card-meta{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:11px;color:var(--text-muted)}
+.chip{padding:1px 7px;border-radius:20px;background:var(--bg-card);border:1px solid var(--border-subtle);color:var(--text-secondary);font-size:10px}
+.card-actions{display:flex;gap:3px;margin-top:9px;opacity:0;transition:opacity .15s}
+.card:hover .card-actions,.card:focus-within .card-actions{opacity:1}
+@media (hover:none){.card-actions{opacity:1}}
+.card-actions button{width:24px;height:24px;border-radius:6px;font-size:12px;color:var(--text-muted);border:1px solid transparent;line-height:1}
+.card-actions button:hover{color:var(--text-primary);background:var(--bg-card);border-color:var(--border)}
+.card-actions button[data-act="del"]:hover{color:var(--red);border-color:var(--red)}
+.card-actions .spacer{flex:1}
+.card input.edit{width:100%;font:inherit;font-size:13.5px;font-weight:600;color:var(--text-primary);background:var(--bg-card);border:1px solid var(--accent);border-radius:7px;padding:5px 7px}
+/* archived = flat rows */
+.lane[data-col="archived"] .lane-body{gap:1px}
+.lane[data-col="archived"] .card{
+  position:relative;background:transparent;border:none;border-bottom:1px solid var(--border-subtle);border-radius:0;
+  padding:11px 3px;display:flex;align-items:center;gap:10px
+}
+/* actions float over the row so they never squeeze the title */
+.lane[data-col="archived"] .card-actions{
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
+  background:var(--bg-card-hover);border:1px solid var(--border);border-radius:8px;padding:2px
+}
+.lane[data-col="archived"] .card-actions .spacer{display:none}
+.lane[data-col="archived"] .card:hover{background:var(--bg-card-hover);box-shadow:none}
+.lane[data-col="archived"] .card-title{font-size:12.5px;font-weight:500;color:var(--text-secondary);flex:1}
+.lane[data-col="archived"] .card-meta{margin:0;flex:none}
+.lane[data-col="archived"] .chip{display:none}
+.lane[data-col="archived"] .card-actions{margin:0;flex:none}
 
-        /* ─── Cards ─── */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
-            transition: all 0.2s;
-        }
-        .card:hover { border-color: rgba(124, 92, 255, 0.3); }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .card-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .card-title .icon { font-size: 18px; }
-        .card-badge {
-            font-size: 11px;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
+/* ── panels ──────────────────────────────────────── */
+.panel{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius);padding:16px}
+.panel-head{display:flex;align-items:center;gap:9px;margin-bottom:13px}
+.panel-head h3{font-size:14px;font-weight:650}
+.shelf{display:flex;gap:12px;overflow-x:auto;padding-bottom:5px}
+.tile{flex:0 0 232px;display:flex;align-items:center;gap:11px;padding:13px;border-radius:11px;background:var(--bg-elevated);border:1px solid var(--border-subtle);transition:.15s}
+.tile:hover{border-color:var(--accent);background:var(--bg-card-hover)}
+.tile .ico{width:36px;height:36px;border-radius:9px;background:var(--accent-soft);display:grid;place-items:center;font-size:18px;flex:none}
+.tile b{display:block;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile small{display:block;color:var(--text-muted);font-size:11px;margin:2px 0 4px}
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+textarea{
+  width:100%;min-height:132px;resize:vertical;padding:12px;border-radius:11px;
+  background:var(--bg-elevated);border:1px solid var(--border-subtle);
+  color:var(--text-primary);font:inherit;font-size:13px;line-height:1.6
+}
+textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.hint{font-size:11px;color:var(--text-muted);margin-top:7px}
+.log{display:flex;flex-direction:column;max-height:196px;overflow-y:auto}
+.log-row{display:flex;gap:11px;padding:8px 0;border-bottom:1px solid var(--border-subtle);font-size:12.5px}
+.log-row:last-child{border-bottom:none}
+.log-row time{color:var(--blue);flex:none;font-variant-numeric:tabular-nums;font-size:11.5px;padding-top:1px}
+.log-row span{color:var(--text-secondary);word-break:break-word}
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translate(-50%,80px);
+  background:var(--bg-elevated);border:1px solid var(--accent);color:var(--text-primary);
+  padding:11px 20px;border-radius:11px;font-size:13px;z-index:99;
+  box-shadow:0 12px 40px rgba(0,0,0,.6);opacity:0;transition:.25s;pointer-events:none;max-width:88vw;text-align:center
+}
+.toast.show{transform:translate(-50%,0);opacity:1}
 
-        /* ─── Daily Goals Section ─── */
-        .goals-section { grid-column: 1; grid-row: 1; }
-        .goals-list { display: flex; flex-direction: column; gap: 8px; }
-        .goal-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            border: 1px solid transparent;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
-        }
-        .goal-item:hover { background: var(--bg-elevated); border-color: var(--border); }
-        .goal-item.completed { opacity: 0.5; }
-        .goal-item.completed .goal-text { text-decoration: line-through; }
-        .goal-check {
-            width: 22px;
-            height: 22px;
-            border-radius: 6px;
-            border: 2px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: all 0.2s;
-            font-size: 13px;
-            color: transparent;
-        }
-        .goal-item.completed .goal-check {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: white;
-        }
-        .goal-text { font-size: 14px; line-height: 1.5; flex: 1; }
-        .goal-tag {
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-weight: 500;
-        }
-        .tag-trading { background: var(--green-soft); color: var(--green); }
-        .tag-agency { background: var(--blue-soft); color: var(--blue); }
-        .tag-dev { background: var(--accent-soft); color: var(--accent); }
-        .tag-school { background: var(--yellow-soft); color: var(--yellow); }
-        .tag-personal { background: var(--pink-soft); color: var(--pink); }
-
-        .add-goal {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-        }
-        .add-goal input {
-            flex: 1;
-            padding: 10px 14px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .add-goal input:focus { border-color: var(--accent); }
-        .add-goal input::placeholder { color: var(--text-muted); }
-        .add-goal button {
-            padding: 10px 18px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-        }
-        .add-goal button:hover { filter: brightness(1.15); }
-
-        /* ─── Brain Dump ─── */
-        .braindump-section { grid-column: 2; grid-row: 1 / 3; }
-        .braindump-area {
-            width: 100%;
-            min-height: 280px;
-            padding: 16px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text-primary);
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            line-height: 1.7;
-            resize: vertical;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .braindump-area:focus { border-color: var(--accent); }
-        .braindump-area::placeholder { color: var(--text-muted); }
-        .braindump-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 8px;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        .braindump-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .btn-viktor {
-            flex: 1;
-            padding: 10px 16px;
-            border: none;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .btn-viktor.send {
-            background: linear-gradient(135deg, var(--accent), #6366f1);
-            color: #fff;
-        }
-        .btn-viktor.send:hover { filter: brightness(1.15); transform: translateY(-1px); }
-        .btn-viktor.clear {
-            background: var(--bg-secondary);
-            color: var(--text-muted);
-            border: 1px solid var(--border);
-        }
-        .btn-viktor.clear:hover { border-color: var(--accent); color: var(--text-primary); }
-        .viktor-toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(80px);
-            background: var(--accent);
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 9999;
-            opacity: 0;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
-        }
-        .viktor-toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* ─── AI Tools Hub ─── */
-        .ai-tools-section { grid-column: 1; grid-row: 2; }
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-            gap: 10px;
-        }
-        .tool-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            padding: 18px 12px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-subtle);
-            border-radius: 14px;
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: all 0.25s;
-            position: relative;
-            overflow: hidden;
-        }
-        .tool-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent);
-            background: var(--bg-elevated);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        }
-        .tool-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            font-weight: 700;
-        }
-        .tool-name { font-size: 13px; font-weight: 600; text-align: center; }
-        .tool-desc { font-size: 11px; color: var(--text-muted); text-align: center; line-height: 1.3; }
-        .tool-badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            font-size: 9px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        .badge-free { background: var(--green-soft); color: var(--green); }
-        .badge-new { background: var(--accent-soft); color: var(--accent); }
-        .badge-fav { background: var(--yellow-soft); color: var(--yellow); }
-
-        /* ─── Projects Quick Access ─── */
-        .projects-section { grid-column: 1 / -1; grid-row: 3; }
-        .projects-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 12px;
-        }
-        .project-card {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 18px 20px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-subtle);
-            border-radius: 14px;
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: all 0.2s;
-        }
-        .project-card:hover {
-            border-color: var(--accent);
-            background: var(--bg-elevated);
-        }
-        .project-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            flex-shrink: 0;
-        }
-        .project-info { flex: 1; }
-        .project-name { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
-        .project-url { font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
-        .project-status {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        .status-live { background: var(--green); box-shadow: 0 0 8px rgba(52, 211, 153, 0.5); }
-        .status-dev { background: var(--yellow); box-shadow: 0 0 8px rgba(251, 191, 36, 0.5); }
-
-        /* ─── Activity Feed ─── */
-        .activity-section { grid-column: 2; grid-row: 3; display: none; }
-        .activity-list { display: flex; flex-direction: column; gap: 6px; }
-        .activity-item {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            padding: 10px 12px;
-            background: var(--bg-secondary);
-            border-radius: 10px;
-            font-size: 13px;
-        }
-        .activity-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-top: 5px;
-            flex-shrink: 0;
-        }
-        .activity-text { color: var(--text-secondary); line-height: 1.4; }
-        .activity-text strong { color: var(--text-primary); }
-        .activity-time { color: var(--text-muted); font-size: 11px; margin-top: 2px; }
-
-        /* ─── Quick Links Bar ─── */
-        .quicklinks {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-        }
-        .quicklink {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: 10px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        .quicklink:hover { background: var(--bg-card-hover); color: var(--text-primary); border-color: var(--accent); }
-        .quicklink .ql-icon { font-size: 15px; }
-
-        /* ─── GitHub Activity Row ─── */
-        .github-row {
-            margin-top: 20px;
-            grid-column: 1 / -1;
-        }
-        .commits-list { display: flex; flex-direction: column; gap: 6px; }
-        .commit-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
-            background: var(--bg-secondary);
-            border-radius: 10px;
-            font-size: 13px;
-        }
-        .commit-repo {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 6px;
-            background: var(--accent-soft);
-            color: var(--accent);
-            font-weight: 500;
-            white-space: nowrap;
-        }
-        .commit-msg { color: var(--text-secondary); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .commit-time { color: var(--text-muted); font-size: 11px; white-space: nowrap; }
-        .commit-sha {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: var(--text-muted);
-            white-space: nowrap;
-        }
-
-        /* ─── Footer ─── */
-        .footer {
-            margin-top: 32px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-subtle);
-            text-align: center;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        .footer a { color: var(--accent); text-decoration: none; }
-
-        /* ─── Responsive ─── */
-        @media (max-width: 900px) {
-            .grid-main { grid-template-columns: 1fr; }
-            .braindump-section { grid-column: 1; grid-row: auto; }
-            .goals-section { grid-column: 1; }
-            .ai-tools-section { grid-column: 1; }
-            .projects-section { grid-column: 1; }
-            .github-row { grid-column: 1; }
-        }
-        @media (max-width: 600px) {
-            .app { padding: 16px; }
-            .greeting h1 { font-size: 22px; }
-            .tools-grid { grid-template-columns: repeat(2, 1fr); }
-            .projects-row { grid-template-columns: 1fr; }
-        }
-
-        /* ─── Animations ─── */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .card { animation: fadeIn 0.4s ease both; }
-        .card:nth-child(1) { animation-delay: 0.05s; }
-        .card:nth-child(2) { animation-delay: 0.1s; }
-        .card:nth-child(3) { animation-delay: 0.15s; }
-        .card:nth-child(4) { animation-delay: 0.2s; }
-
-        /* ─── Scrollbar ─── */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-
-        /* ─── Motivational Quote ─── */
-        .quote-bar {
-            text-align: center;
-            padding: 14px;
-            margin-bottom: 24px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            font-style: italic;
-            opacity: 0.8;
-        }
-        .quote-bar span { color: var(--accent); font-style: normal; }
-    </style>
+@media (max-width:1200px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr;padding:16px;gap:18px}
+  .rail{position:static;flex-direction:row;flex-wrap:wrap;justify-content:center;padding-top:0}
+  .rail-counts,.rail-links,.subagents{flex-direction:row;flex-wrap:wrap;justify-content:center}
+  .rail-count,.rail-links a{flex:1 1 128px}
+  .status-box{flex:1 1 200px}
+  .board{grid-template-columns:1fr}
+  .bottom{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
-    <div class="app">
-        <!-- Top Bar -->
-        <div class="topbar">
-            <div class="greeting">
-                <h1>Good <span id="timeOfDay">morning</span>, Colin ⚡</h1>
-                <div class="date" id="currentDate"></div>
-            </div>
-            <div class="topbar-actions">
-                <a class="btn-icon" href="kanban.html" title="Molly Dashboard — Kanban board" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center">🗂️</a>
-                <button class="btn-icon" onclick="shuffleQuote()" title="New quote">💭</button>
-                <button class="btn-icon" onclick="resetDay()" title="Reset day">🔄</button>
-                <button class="btn-icon" onclick="toggleTheme()" title="Theme">🌙</button>
-            </div>
-        </div>
 
-        <!-- Motivational Quote -->
-        <div class="quote-bar" id="quoteBar"></div>
-
-        <!-- Quick Links -->
-        <div class="quicklinks">
-            <a href="https://mail.google.com" target="_blank" class="quicklink"><span class="ql-icon">📧</span> Gmail</a>
-            <a href="https://github.com/ceyre-boop" target="_blank" class="quicklink"><span class="ql-icon">🐙</span> GitHub</a>
-            <a href="https://live.taboost.me" target="_blank" class="quicklink"><span class="ql-icon">🚀</span> TABOOST</a>
-            <a href="https://ceyre-boop.github.io/quant/" target="_blank" class="quicklink"><span class="ql-icon">📊</span> Quant</a>
-            <a href="https://web.telegram.org" target="_blank" class="quicklink"><span class="ql-icon">💬</span> Telegram</a>
-            <a href="https://docs.google.com/spreadsheets" target="_blank" class="quicklink"><span class="ql-icon">📋</span> Sheets</a>
-            <a href="https://firebase.google.com/console" target="_blank" class="quicklink"><span class="ql-icon">🔥</span> Firebase</a>
-            <a href="https://canvas.instructure.com" target="_blank" class="quicklink"><span class="ql-icon">🎓</span> Canvas</a>
-        </div>
-
-        <!-- Main Grid -->
-        <div class="grid grid-main">
-            <!-- Daily Goals -->
-            <div class="card goals-section">
-                <div class="card-header">
-                    <div class="card-title"><span class="icon">🎯</span> Today's Goals</div>
-                    <span class="card-badge" style="background: var(--green-soft); color: var(--green);" id="goalProgress">0/0</span>
-                </div>
-                <div class="goals-list" id="goalsList"></div>
-                <div class="add-goal">
-                    <input type="text" id="newGoalInput" placeholder="Add a goal..." onkeydown="if(event.key==='Enter')addGoal()">
-                    <button onclick="addGoal()">Add</button>
-                </div>
-            </div>
-
-            <!-- Brain Dump -->
-            <div class="card braindump-section">
-                <div class="card-header">
-                    <div class="card-title"><span class="icon">🧠</span> Brain Dump</div>
-                    <span class="card-badge" style="background: var(--accent-soft); color: var(--accent);" id="dumpStatus">Auto-saved</span>
-                </div>
-                <textarea class="braindump-area" id="brainDump" placeholder="Dump your thoughts here... ideas, tasks, notes, whatever's on your mind. Hit 'Send to Viktor' and I'll organize it into goals, tasks, or whatever you need."></textarea>
-                <div class="braindump-footer">
-                    <span id="charCount">0 chars</span>
-                    <span id="lastSaved">Not yet saved</span>
-                </div>
-                <div class="braindump-actions">
-                    <button class="btn-viktor send" onclick="sendToViktor()" id="sendViktorBtn">
-                        <span>⚡</span> Send to Viktor
-                    </button>
-                    <button class="btn-viktor clear" onclick="clearDump()">
-                        <span>🗑️</span> Clear
-                    </button>
-                </div>
-            </div>
-
-            <!-- AI Tools Hub -->
-            <div class="card ai-tools-section">
-                <div class="card-header">
-                    <div class="card-title"><span class="icon">🤖</span> AI Tools</div>
-                    <span class="card-badge" style="background: var(--accent-soft); color: var(--accent);">Your toolkit</span>
-                </div>
-                <div class="tools-grid" id="toolsGrid"></div>
-            </div>
-
-            <!-- Jarvis Automation -->
-            <div class="card jarvis-section" style="grid-column: span 2;">
-                <div class="card-header">
-                    <div class="card-title"><span class="icon">⚡</span> Jarvis Automation</div>
-                    <span class="card-badge" style="background: var(--green-soft); color: var(--green);">Terminal Commands</span>
-                </div>
-                <div class="jarvis-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px;">
-                    <div class="jarvis-cmd" onclick="copyJarvisCmd(this, 'jarvis briefing')" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
-                        <div class="cmd-text" style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace;">jarvis briefing</div>
-                        <div style="font-size: 13px; color: var(--text-secondary);">Daily morning status</div>
-                        <span class="copy-hint" style="position: absolute; top: 8px; right: 8px; font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.2s;">Click to copy</span>
-                    </div>
-                    <div class="jarvis-cmd" onclick="copyJarvisCmd(this, 'jarvis context quant')" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
-                        <div class="cmd-text" style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace;">jarvis context quant</div>
-                        <div style="font-size: 13px; color: var(--text-secondary);">Switch to quant project</div>
-                        <span class="copy-hint" style="position: absolute; top: 8px; right: 8px; font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.2s;">Click to copy</span>
-                    </div>
-                    <div class="jarvis-cmd" onclick="copyJarvisCmd(this, 'jarvis todos scan')" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
-                        <div class="cmd-text" style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace;">jarvis todos scan</div>
-                        <div style="font-size: 13px; color: var(--text-secondary);">Find todos in all code</div>
-                        <span class="copy-hint" style="position: absolute; top: 8px; right: 8px; font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.2s;">Click to copy</span>
-                    </div>
-                    <div class="jarvis-cmd" onclick="copyJarvisCmd(this, 'jarvis organize downloads')" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
-                        <div class="cmd-text" style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace;">jarvis organize downloads</div>
-                        <div style="font-size: 13px; color: var(--text-secondary);">Auto-organize files</div>
-                        <span class="copy-hint" style="position: absolute; top: 8px; right: 8px; font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.2s;">Click to copy</span>
-                    </div>
-                    <div class="jarvis-cmd" onclick="copyJarvisCmd(this, 'jarvis code open quant')" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
-                        <div class="cmd-text" style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace;">jarvis code open quant</div>
-                        <div style="font-size: 13px; color: var(--text-secondary);">Open in VS Code</div>
-                        <span class="copy-hint" style="position: absolute; top: 8px; right: 8px; font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.2s;">Click to copy</span>
-                    </div>
-                    <div class="jarvis-cmd" onclick="copyJarvisCmd(this, 'jarvis status')" style="background: var(--bg-elevated); padding: 16px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;">
-                        <div class="cmd-text" style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace;">jarvis status</div>
-                        <div style="font-size: 13px; color: var(--text-secondary);">Full system status</div>
-                        <span class="copy-hint" style="position: absolute; top: 8px; right: 8px; font-size: 11px; color: var(--accent); opacity: 0; transition: opacity 0.2s;">Click to copy</span>
-                    </div>
-                </div>
-                <div style="margin-top: 16px; padding: 12px; background: var(--bg-elevated); border-radius: 8px; font-size: 13px; color: var(--text-secondary);">
-                    <strong>Setup:</strong> Add <code style="background: var(--bg-card); padding: 2px 6px; border-radius: 4px; cursor: pointer;" onclick="copyToClipboard('alias jarvis=\\'python /workspaces/molly/scripts/jarvis\\'')">alias jarvis="python /workspaces/molly/scripts/jarvis"</code> to your shell profile <span style="color: var(--accent);">(click to copy)</span>
-                </div>
-            </div>
-
-            <!-- Projects -->
-            <div class="card projects-section">
-                <div class="card-header">
-                    <div class="card-title"><span class="icon">📂</span> Projects</div>
-                </div>
-                <div class="projects-row" id="projectsRow"></div>
-            </div>
-
-            <!-- GitHub Activity -->
-            <div class="card github-row">
-                <div class="card-header">
-                    <div class="card-title"><span class="icon">🐙</span> Recent Activity</div>
-                    <span class="card-badge" style="background: var(--blue-soft); color: var(--blue);" id="activityBadge">Loading...</span>
-                </div>
-                <div class="commits-list" id="commitsList">
-                    <div style="text-align: center; padding: 20px; color: var(--text-muted);">Loading GitHub activity...</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer">
-            <strong>Molly</strong> — built by <a href="https://github.com/ceyre-boop" target="_blank">Colin Eyre</a> · powered by autonomy
-        </div>
+<div class="app">
+  <!-- ── agent rail ───────────────────────────── -->
+  <aside class="rail">
+    <div class="avatar-wrap">
+      <div class="avatar-ring"></div>
+      <div class="avatar" id="avatar">⚡</div>
     </div>
+    <h2 id="agentName">Molly</h2>
+    <div class="agent-status">
+      <span class="dot" id="agentDot"></span><span id="agentStatus">Idle</span>
+    </div>
+    <div class="status-box" id="agentMessage">Ready for tasks</div>
+    <div class="subagents" id="subagents"></div>
+    <div class="rail-counts" id="railCounts"></div>
+    <nav class="rail-links">
+      <a href="legacy.html">Old Dashboard ↗</a>
+      <a href="https://github.com/ceyre-boop/molly" target="_blank" rel="noopener">Repo ↗</a>
+    </nav>
+  </aside>
+
+  <!-- ── main ─────────────────────────────────── -->
+  <main class="main">
+    <header class="topbar">
+      <div class="brand"><span class="glyph">⚡</span> Molly Dashboard</div>
+      <div class="online"><span class="dot live" id="connDot" style="background:var(--green)"></span><span id="connText">Online</span></div>
+      <div class="topbar-right">
+        <span class="sync">Last sync: <span id="lastSync">—</span></span>
+        <button class="btn" id="btnExport" title="Download the whole board as JSON">Export</button>
+        <button class="btn" id="btnImport" title="Load a board JSON file">Import</button>
+        <button class="btn" id="btnReset" title="No auth here — this clears local board state and re-seeds from config/tasks.json">Reset</button>
+      </div>
+    </header>
+
+    <nav class="quicklinks">
+      <a href="https://mail.google.com" target="_blank" rel="noopener"><span class="ql-icon">📧</span> Gmail</a>
+      <a href="https://github.com/ceyre-boop" target="_blank" rel="noopener"><span class="ql-icon">🐙</span> GitHub</a>
+      <a href="https://live.taboost.me" target="_blank" rel="noopener"><span class="ql-icon">🚀</span> TABOOST</a>
+      <a href="https://ceyre-boop.github.io/quant/" target="_blank" rel="noopener"><span class="ql-icon">📊</span> Quant</a>
+      <a href="https://web.telegram.org" target="_blank" rel="noopener"><span class="ql-icon">💬</span> Telegram</a>
+      <a href="https://docs.google.com/spreadsheets" target="_blank" rel="noopener"><span class="ql-icon">📋</span> Sheets</a>
+      <a href="https://firebase.google.com/console" target="_blank" rel="noopener"><span class="ql-icon">🔥</span> Firebase</a>
+      <a href="https://canvas.instructure.com" target="_blank" rel="noopener"><span class="ql-icon">🎓</span> Canvas</a>
+    </nav>
+
+    <section class="board" id="board"></section>
+
+    <section class="panel">
+      <div class="panel-head"><span>📁</span><h3>Deliverables</h3></div>
+      <div class="shelf" id="shelf"></div>
+    </section>
+
+    <div class="bottom">
+      <section class="panel">
+        <div class="panel-head"><span>📝</span><h3>Notes for Molly</h3></div>
+        <textarea id="notes" placeholder="Drop tasks, context, or corrections here — Molly reads this on every heartbeat."></textarea>
+        <div class="hint" id="notesHint">Saved automatically</div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><span>📋</span><h3>Action Log</h3></div>
+        <div class="log" id="log"></div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="filePicker" accept="application/json" hidden>
+
+<script type="application/json" id="seedFallback">
+{"version":1,"columns":[{"id":"todo","title":"To Do","icon":"📋"},{"id":"progress","title":"In Progress","icon":"⚡"},{"id":"done","title":"Done","icon":"✅"},{"id":"archived","title":"Archived","icon":"📦"}],"cards":[{"id":"s1","column":"todo","title":"Open config/tasks.json to seed your real board","date":"2026-07-30","tag":"Molly"},{"id":"s2","column":"progress","title":"Molly command center — Kanban dashboard","date":"2026-07-30","tag":"Molly"},{"id":"s3","column":"done","title":"Dashboard scaffolded","date":"2026-07-30","tag":"Molly"}],"deliverables":[],"notes":"","log":[]}
+</script>
 
 <script>
-// ─── Config ───
-const GITHUB_USER = 'ceyre-boop';
-const REPOS = ['molly', 'TABOOST-Shop', 'quant', 'TABOOST_Platfrom'];
-const TODAY_KEY = () => `molly_${new Date().toISOString().slice(0, 10)}`;
+(() => {
+'use strict';
 
-// ─── Time of Day ───
-function updateGreeting() {
-    const h = new Date().getHours();
-    const el = document.getElementById('timeOfDay');
-    if (h < 12) el.textContent = 'morning';
-    else if (h < 17) el.textContent = 'afternoon';
-    else el.textContent = 'evening';
-    
-    const d = new Date();
-    const opts = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-    document.getElementById('currentDate').textContent = d.toLocaleDateString('en-US', opts);
-}
-updateGreeting();
+const KEY = 'molly.board.v1';
+const LOG_CAP = 60;
+const STATE_URL = 'state/agent-state.json';
+const SEED_URL  = 'config/tasks.json';
 
-// ─── Quotes ───
-const quotes = [
-    { text: "The best way to predict the future is to create it.", author: "Peter Drucker" },
-    { text: "Done is better than perfect.", author: "Sheryl Sandberg" },
-    { text: "Discipline is choosing between what you want now and what you want most.", author: "Abraham Lincoln" },
-    { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
-    { text: "Systems beat goals. Build the system.", author: "James Clear" },
-    { text: "Ship it, then iterate.", author: "Reid Hoffman" },
-    { text: "Small daily improvements are the key to staggering long-term results.", author: "Robin Sharma" },
-    { text: "Automate the boring stuff. Focus on what matters.", author: "Al Sweigart" },
-    { text: "The market rewards conviction and punishes hesitation.", author: "Trading wisdom" },
-    { text: "Your network is your net worth.", author: "Porter Gale" },
-    { text: "First, solve the problem. Then, write the code.", author: "John Johnson" },
-    { text: "Every expert was once a beginner.", author: "Helen Hayes" },
-];
-function shuffleQuote() {
-    const q = quotes[Math.floor(Math.random() * quotes.length)];
-    document.getElementById('quoteBar').innerHTML = `"${q.text}" — <span>${q.author}</span>`;
-}
-shuffleQuote();
+const $ = id => document.getElementById(id);
+const el = (tag, cls, text) => {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text !== undefined) n.textContent = text;   // never innerHTML — ISC-42
+  return n;
+};
 
-// ─── AI Tools ───
-const aiTools = [
-    { name: 'Claude', desc: 'Deep reasoning', icon: '🟣', color: '#7c5cff', url: 'https://claude.ai', badge: 'fav' },
-    { name: 'ChatGPT', desc: 'General AI', icon: '🟢', color: '#10a37f', url: 'https://chat.openai.com', badge: 'fav' },
-    { name: 'MolyBot', desc: 'Telegram assistant', icon: '🤖', color: '#0088cc', url: 'https://web.telegram.org', badge: 'fav' },
-    { name: 'Viktor', desc: 'Autonomous agent', icon: '⚡', color: '#7c5cff', url: 'https://www.viktor.ai', badge: 'new' },
-    { name: 'Cursor', desc: 'AI code editor', icon: '▶️', color: '#60a5fa', url: 'https://cursor.sh', badge: 'free' },
-    { name: 'Windsurf', desc: 'AI-powered IDE', icon: '🏄', color: '#34d399', url: 'https://codeium.com/windsurf', badge: 'free' },
-    { name: 'v0.dev', desc: 'UI generation', icon: '🎨', color: '#f0f0f5', url: 'https://v0.dev', badge: 'free' },
-    { name: 'bolt.new', desc: 'Full-stack builder', icon: '⚡', color: '#fb923c', url: 'https://bolt.new', badge: 'free' },
-    { name: 'Replit Agent', desc: 'Build anything', icon: '💻', color: '#fb923c', url: 'https://replit.com', badge: 'free' },
-    { name: 'Gemini', desc: 'Google AI', icon: '💎', color: '#60a5fa', url: 'https://gemini.google.com', badge: null },
-    { name: 'Perplexity', desc: 'AI search', icon: '🔍', color: '#60a5fa', url: 'https://perplexity.ai', badge: 'free' },
-    { name: 'GitHub Copilot', desc: 'Code completion', icon: '🐙', color: '#f0f0f5', url: 'https://github.com/features/copilot', badge: 'free' },
-    { name: 'Lovable', desc: 'AI app builder', icon: '💜', color: '#c084fc', url: 'https://lovable.dev', badge: 'new' },
-    { name: 'Devin', desc: 'AI engineer', icon: '🧑‍💻', color: '#34d399', url: 'https://devin.ai', badge: 'new' },
-    { name: 'Grok', desc: 'xAI assistant', icon: '🅧', color: '#f0f0f5', url: 'https://grok.x.ai', badge: 'free' },
+/* ── storage (never throws) ─────────────────── */
+let memoryOnly = false;
+const store = {
+  read() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { console.warn('[molly] state unreadable, falling back to seed', e); return null; }
+  },
+  write(v) {
+    if (memoryOnly) return;
+    try { localStorage.setItem(KEY, JSON.stringify(v)); }
+    catch (e) { memoryOnly = true; toast('Storage unavailable — changes last for this session only'); }
+  },
+  clear() { try { localStorage.removeItem(KEY); } catch (e) {} }
+};
+
+/* ── state ──────────────────────────────────── */
+const DEFAULT_COLS = [
+  { id:'todo', title:'To Do', icon:'📋' },
+  { id:'progress', title:'In Progress', icon:'⚡' },
+  { id:'done', title:'Done', icon:'✅' },
+  { id:'archived', title:'Archived', icon:'📦' }
 ];
 
-function renderTools() {
-    const grid = document.getElementById('toolsGrid');
-    grid.innerHTML = aiTools.map(t => `
-        <a href="${t.url}" target="_blank" class="tool-card">
-            ${t.badge ? `<span class="tool-badge badge-${t.badge}">${t.badge}</span>` : ''}
-            <div class="tool-icon" style="background: ${t.color}20; color: ${t.color}">${t.icon}</div>
-            <div class="tool-name">${t.name}</div>
-            <div class="tool-desc">${t.desc}</div>
-        </a>
-    `).join('');
-}
-renderTools();
-
-// ─── Projects ───
-const projects = [
-    { name: 'TABOOST Platform', url: 'https://live.taboost.me', repo: 'https://github.com/ceyre-boop/TABOOST_Platfrom', icon: '🚀', color: 'var(--accent)', status: 'live' },
-    { name: 'TABOOST Shop', url: 'https://ceyre-boop.github.io/TABOOST-Shop/', repo: 'https://github.com/ceyre-boop/TABOOST-Shop', icon: '🛍️', color: 'var(--blue)', status: 'live' },
-    { name: 'Quant Dashboard', url: 'https://ceyre-boop.github.io/quant/', repo: 'https://github.com/ceyre-boop/quant', icon: '📊', color: 'var(--green)', status: 'live' },
-    { name: 'Molly', url: 'https://ceyre-boop.github.io/molly/', repo: 'https://github.com/ceyre-boop/molly', icon: '⚡', color: 'var(--accent)', status: 'dev' },
-];
-
-function renderProjects() {
-    document.getElementById('projectsRow').innerHTML = projects.map(p => `
-        <a href="${p.url}" target="_blank" class="project-card">
-            <div class="project-icon" style="background: ${p.color}15; color: ${p.color}">${p.icon}</div>
-            <div class="project-info">
-                <div class="project-name">${p.name}</div>
-                <div class="project-url">${p.url.replace('https://', '')}</div>
-            </div>
-            <div class="project-status status-${p.status}" title="${p.status}"></div>
-        </a>
-    `).join('');
-}
-renderProjects();
-
-// ─── Goals System (localStorage persisted) ───
-function getGoals() {
-    const stored = localStorage.getItem('molly_goals_' + TODAY_KEY());
-    if (stored) return JSON.parse(stored);
-    // Default daily goals based on Colin's domains
-    return generateDailyGoals();
+function normalize(raw) {
+  const d = raw && typeof raw === 'object' ? raw : {};
+  return {
+    version: 1,
+    columns: Array.isArray(d.columns) && d.columns.length ? d.columns : DEFAULT_COLS,
+    cards: Array.isArray(d.cards) ? d.cards.filter(c => c && c.id && c.column) : [],
+    deliverables: Array.isArray(d.deliverables) ? d.deliverables : [],
+    notes: typeof d.notes === 'string' ? d.notes : '',
+    log: Array.isArray(d.log) ? d.log.slice(0, LOG_CAP) : []
+  };
 }
 
-function generateDailyGoals() {
-    const day = new Date().getDay(); // 0=Sun, 1=Mon...
-    const isWeekday = day >= 1 && day <= 5;
-    
-    const goals = [];
-    
-    // Always - morning routine
-    goals.push({ text: 'Morning review — check TABOOST systems & data sync', tag: 'agency', done: false });
-    
-    // Trading (weekdays only for market hours)
-    if (isWeekday) {
-        goals.push({ text: 'Review pre-market levels (NAS100, SPY, BTC)', tag: 'trading', done: false });
-        goals.push({ text: 'Log any trades taken today in trading journal', tag: 'trading', done: false });
-    }
-    
-    // Agency - always relevant
-    goals.push({ text: 'Check creator data pipeline — CSV freshness & Apps Script', tag: 'agency', done: false });
-    
-    // Dev rotation
-    const devGoals = [
-        'Push at least 1 commit to any active repo',
-        'Review and close stale branches in TABOOST-Shop',
-        'Check GitHub Pages deployments are healthy',
-        'Spend 30 min on Molly improvements',
-    ];
-    goals.push({ text: devGoals[day % devGoals.length], tag: 'dev', done: false });
-    
-    // School (weekdays)
-    if (isWeekday) {
-        goals.push({ text: 'Complete today\'s coursework / assignments', tag: 'school', done: false });
-    }
-    
-    // Personal growth
-    const personalGoals = [
-        'Read or listen to 20 min of something educational',
-        'Brain dump — write down everything on your mind',
-        'Review weekly goals and adjust priorities',
-        'Try one new AI tool or feature today',
-        'Take a real break — walk, stretch, no screens',
-        'Plan tomorrow before bed',
-        'Clean up digital workspace (close old tabs, organize)',
-    ];
-    goals.push({ text: personalGoals[day % personalGoals.length], tag: 'personal', done: false });
-    
-    return goals;
+function inlineSeed() {
+  try { return normalize(JSON.parse($('seedFallback').textContent)); }
+  catch (e) { return normalize(null); }
 }
 
-function saveGoals(goals) {
-    localStorage.setItem('molly_goals_' + TODAY_KEY(), JSON.stringify(goals));
+let state = normalize(store.read()) ;
+let seededFromStorage = !!store.read();
+if (!seededFromStorage) state = inlineSeed();
+
+let live = null;          // agent-state.json payload when reachable
+let seq = 0;              // collision-free id suffix — ISC-47
+
+/* ── helpers ────────────────────────────────── */
+const uid = () => 'c-' + Date.now().toString(36) + '-' + (seq++).toString(36) + Math.random().toString(36).slice(2, 6);
+const todayISO = () => new Date().toISOString().slice(0, 10);
+const DATE_FMT = { month:'short', day:'numeric', year:'numeric' };
+const fmtDate = iso => {
+  // date-only strings must parse as LOCAL, not UTC — otherwise every date renders a day early
+  if (typeof iso === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(iso)) {
+    const [y, m, d] = iso.split('-').map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString('en-US', DATE_FMT);
+  }
+  const d = new Date(iso);
+  return isNaN(d) ? String(iso || '') : d.toLocaleDateString('en-US', DATE_FMT);
+};
+const fmtTime = iso => {
+  const d = new Date(iso);
+  return isNaN(d) ? '' : d.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' });
+};
+
+let toastTimer;
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
 }
 
-function renderGoals() {
-    const goals = getGoals();
-    const list = document.getElementById('goalsList');
-    const done = goals.filter(g => g.done).length;
-    document.getElementById('goalProgress').textContent = `${done}/${goals.length}`;
-    
-    list.innerHTML = goals.map((g, i) => `
-        <div class="goal-item ${g.done ? 'completed' : ''}" onclick="toggleGoal(${i})">
-            <div class="goal-check">${g.done ? '✓' : ''}</div>
-            <div class="goal-text">${g.text}</div>
-            <span class="goal-tag tag-${g.tag}">${g.tag}</span>
-        </div>
-    `).join('');
+function logAction(text) {
+  state.log.unshift({ ts: new Date().toISOString(), text });
+  if (state.log.length > LOG_CAP) state.log.length = LOG_CAP;   // ISC-34
 }
 
-function toggleGoal(index) {
-    const goals = getGoals();
-    goals[index].done = !goals[index].done;
-    saveGoals(goals);
-    renderGoals();
+function save() {
+  store.write(state);
+  $('lastSync').textContent = new Date().toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', second:'2-digit' });
 }
 
-function addGoal() {
-    const input = document.getElementById('newGoalInput');
-    const text = input.value.trim();
-    if (!text) return;
-    
-    const goals = getGoals();
-    goals.push({ text, tag: 'personal', done: false });
-    saveGoals(goals);
-    renderGoals();
-    input.value = '';
-}
+function commit(text) { if (text) logAction(text); save(); render(); }
 
-function resetDay() {
-    if (confirm('Reset all goals for today?')) {
-        localStorage.removeItem('molly_goals_' + TODAY_KEY());
-        renderGoals();
-    }
-}
+const colTitle = id => (state.columns.find(c => c.id === id) || {}).title || id;
+const cardsIn  = id => state.cards.filter(c => c.column === id);
 
-renderGoals();
+/* ── render ─────────────────────────────────── */
+function render() { renderBoard(); renderRail(); renderShelf(); renderLog(); }
 
-// ─── Brain Dump (auto-save) ───
-const dumpArea = document.getElementById('brainDump');
-const dumpKey = 'molly_braindump';
-const charCount = document.getElementById('charCount');
-const lastSaved = document.getElementById('lastSaved');
+function renderBoard() {
+  const board = $('board');
+  board.textContent = '';
+  state.columns.forEach(col => {
+    const lane = el('section', 'lane');
+    lane.dataset.col = col.id;
 
-// Load saved dump
-dumpArea.value = localStorage.getItem(dumpKey) || '';
-charCount.textContent = `${dumpArea.value.length} chars`;
+    const head = el('div', 'lane-head');
+    head.append(el('span', null, col.icon || '•'), el('h3', null, col.title));
+    head.append(el('span', 'count', String(cardsIn(col.id).length)));
+    lane.append(head);
 
-let saveTimeout;
-dumpArea.addEventListener('input', () => {
-    charCount.textContent = `${dumpArea.value.length} chars`;
-    document.getElementById('dumpStatus').textContent = 'Typing...';
-    document.getElementById('dumpStatus').style.color = 'var(--yellow)';
-    
-    clearTimeout(saveTimeout);
-    saveTimeout = setTimeout(() => {
-        localStorage.setItem(dumpKey, dumpArea.value);
-        document.getElementById('dumpStatus').textContent = 'Auto-saved';
-        document.getElementById('dumpStatus').style.color = 'var(--accent)';
-        lastSaved.textContent = `Saved ${new Date().toLocaleTimeString()}`;
-    }, 500);
-});
+    const body = el('div', 'lane-body');
+    body.dataset.col = col.id;
+    const items = cardsIn(col.id);
+    if (!items.length) body.append(el('div', 'placeholder', 'Drop cards here'));   // ISC-51
+    items.forEach(c => body.append(cardNode(c)));
 
-// ─── Send to Viktor ───
-function showToast(msg, duration = 3000) {
-    const toast = document.getElementById('viktorToast');
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), duration);
-}
-
-async function sendToViktor() {
-    const text = dumpArea.value.trim();
-    if (!text) {
-        showToast('✍️ Write something first!');
-        return;
-    }
-
-    const btn = document.getElementById('sendViktorBtn');
-    btn.innerHTML = '<span>⏳</span> Copying...';
-    
-    // Format the brain dump for Slack
-    const formatted = `🧠 Brain Dump from Molly:\n\n${text}`;
-    
-    try {
-        await navigator.clipboard.writeText(formatted);
-        
-        // Save to a history log in localStorage
-        const history = JSON.parse(localStorage.getItem('molly_viktor_history') || '[]');
-        history.unshift({ text, timestamp: new Date().toISOString() });
-        if (history.length > 50) history.pop();
-        localStorage.setItem('molly_viktor_history', JSON.stringify(history));
-        
-        showToast('📋 Copied! Opening Viktor DM — just paste & send');
-        
-        // Open Slack DM with Viktor
-        setTimeout(() => {
-            window.open('https://slack.com/app_redirect?channel=D0APQU5CA72', '_blank');
-        }, 600);
-        
-    } catch (e) {
-        // Fallback: select the text for manual copy
-        dumpArea.select();
-        document.execCommand('copy');
-        showToast('📋 Copied! Open Slack → DM Viktor → Paste');
-    }
-    
-    btn.innerHTML = '<span>⚡</span> Send to Viktor';
-}
-
-function clearDump() {
-    if (dumpArea.value.trim() && !confirm('Clear your brain dump?')) return;
-    dumpArea.value = '';
-    localStorage.setItem(dumpKey, '');
-    charCount.textContent = '0 chars';
-    document.getElementById('dumpStatus').textContent = 'Cleared';
-    showToast('🗑️ Brain dump cleared');
-}
-
-// ─── Jarvis Command Copy ───
-async function copyJarvisCmd(element, cmd) {
-    try {
-        await navigator.clipboard.writeText(cmd);
-        
-        // Visual feedback
-        const originalBg = element.style.background;
-        const originalText = element.querySelector('.cmd-text').textContent;
-        
-        element.style.background = 'var(--accent-soft)';
-        element.style.borderColor = 'var(--accent)';
-        element.querySelector('.cmd-text').textContent = '✓ Copied!';
-        
-        showToast(`📋 Copied: ${cmd}`);
-        
-        setTimeout(() => {
-            element.style.background = originalBg;
-            element.style.borderColor = 'var(--border)';
-            element.querySelector('.cmd-text').textContent = originalText;
-        }, 1500);
-        
-    } catch (e) {
-        showToast('❌ Failed to copy');
-    }
-}
-
-async function copyToClipboard(text) {
-    try {
-        await navigator.clipboard.writeText(text);
-        showToast('📋 Alias copied! Add to your ~/.bashrc or ~/.zshrc');
-    } catch (e) {
-        showToast('❌ Failed to copy');
-    }
-}
-
-// Show copy hints on hover
-document.addEventListener('DOMContentLoaded', function() {
-    const jarvisCmds = document.querySelectorAll('.jarvis-cmd');
-    jarvisCmds.forEach(cmd => {
-        cmd.addEventListener('mouseenter', function() {
-            const hint = this.querySelector('.copy-hint');
-            if (hint) hint.style.opacity = '1';
-        });
-        cmd.addEventListener('mouseleave', function() {
-            const hint = this.querySelector('.copy-hint');
-            if (hint) hint.style.opacity = '0';
-        });
+    // drop target lives on the lane body — works even when empty (ISC-45)
+    body.addEventListener('dragover', e => { e.preventDefault(); lane.classList.add('dragover'); });
+    body.addEventListener('dragleave', e => { if (!body.contains(e.relatedTarget)) lane.classList.remove('dragover'); });
+    body.addEventListener('drop', e => {
+      e.preventDefault();
+      lane.classList.remove('dragover');
+      moveCard(e.dataTransfer.getData('text/plain'), col.id);
     });
+
+    lane.append(body);
+
+    const add = el('button', 'add', '+ Add task');
+    add.addEventListener('click', () => addCard(col.id));
+    lane.append(add);
+
+    board.append(lane);
+  });
+}
+
+function cardNode(c) {
+  const node = el('article', 'card');
+  node.draggable = true;
+  node.dataset.id = c.id;
+
+  const title = el('div', 'card-title', c.title || 'Untitled');
+  title.addEventListener('click', () => editCard(node, c));
+  node.append(title);
+
+  const meta = el('div', 'card-meta');
+  meta.append(el('span', null, fmtDate(c.date)));
+  if (c.tag) meta.append(el('span', 'chip', c.tag));
+  node.append(meta);
+
+  const acts = el('div', 'card-actions');
+  const idx = state.columns.findIndex(x => x.id === c.column);
+  const mk = (label, act, title, disabled) => {
+    const b = el('button', null, label);
+    b.dataset.act = act; b.title = title; b.disabled = !!disabled;
+    if (disabled) b.style.opacity = '.25';
+    return b;
+  };
+  const prev = mk('‹', 'prev', 'Move left', idx <= 0);
+  const next = mk('›', 'next', 'Move right', idx >= state.columns.length - 1);
+  prev.addEventListener('click', e => { e.stopPropagation(); moveCard(c.id, state.columns[idx - 1].id); });
+  next.addEventListener('click', e => { e.stopPropagation(); moveCard(c.id, state.columns[idx + 1].id); });
+  const edit = mk('✎', 'edit', 'Rename');
+  edit.addEventListener('click', e => { e.stopPropagation(); editCard(node, c); });
+  const del = mk('✕', 'del', 'Delete');
+  del.addEventListener('click', e => { e.stopPropagation(); deleteCard(c); });
+  acts.append(prev, next, el('span', 'spacer'), edit, del);
+  node.append(acts);
+
+  node.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text/plain', c.id);
+    e.dataTransfer.effectAllowed = 'move';
+    node.classList.add('dragging');
+  });
+  node.addEventListener('dragend', () => {
+    node.classList.remove('dragging');
+    document.querySelectorAll('.lane.dragover').forEach(l => l.classList.remove('dragover'));
+  });
+  return node;
+}
+
+function renderRail() {
+  const inProgress = cardsIn('progress');
+  const heartbeatFresh = live && live.heartbeat && (Date.now() - new Date(live.heartbeat).getTime() < 120000);
+
+  let status, message, colour;
+  if (heartbeatFresh) {                                  // daemon is running
+    status  = live.status || 'idle';
+    message = live.message || live.currentTask || 'Ready for tasks';
+    colour  = { idle:'var(--text-muted)', thinking:'var(--blue)', working:'var(--orange)', spawning:'var(--accent)' }[status] || 'var(--green)';
+    $('connText').textContent = 'Online'; $('connDot').style.background = 'var(--green)';
+  } else {                                               // derived from the board — ISC-49
+    if (inProgress.length) { status = 'Working'; message = inProgress[0].title; colour = 'var(--orange)'; }
+    else                   { status = 'Idle';    message = 'Ready for tasks';   colour = 'var(--text-muted)'; }
+    $('connText').textContent = 'Local'; $('connDot').style.background = 'var(--text-muted)';
+  }
+
+  if (live && live.name)   $('agentName').textContent = live.name;
+  if (live && live.avatar) $('avatar').textContent = live.avatar;
+  $('agentStatus').textContent = status.charAt(0).toUpperCase() + status.slice(1);
+  $('agentMessage').textContent = message;
+  const dot = $('agentDot');
+  dot.style.background = colour;
+  dot.classList.toggle('live', status.toLowerCase() !== 'idle');
+
+  const subs = $('subagents');
+  subs.textContent = '';
+  ((live && live.subagents) || []).forEach(s => {
+    const row = el('div', 'subagent');
+    row.append(el('span', 'dot live', ''), el('span', null, typeof s === 'string' ? s : (s.name || 'agent')));
+    row.firstChild.style.background = 'var(--accent)';
+    subs.append(row);
+  });
+
+  const counts = $('railCounts');
+  counts.textContent = '';
+  state.columns.forEach(col => {
+    const row = el('div', 'rail-count');
+    row.append(el('span', null, col.title), el('b', null, String(cardsIn(col.id).length)));
+    counts.append(row);
+  });
+}
+
+function renderShelf() {
+  const shelf = $('shelf');
+  shelf.textContent = '';
+  if (!state.deliverables.length) { shelf.append(el('div', 'placeholder', 'No deliverables yet')); return; }
+  state.deliverables.forEach(d => {
+    const tile = el('div', 'tile');
+    tile.append(el('div', 'ico', d.icon || '📄'));
+    const body = el('div');
+    body.append(el('b', null, d.title || 'Untitled'), el('small', null, fmtDate(d.date)), el('span', 'chip', d.tag || 'Folder'));
+    tile.append(body);
+    shelf.append(tile);
+  });
+}
+
+function renderLog() {
+  const log = $('log');
+  log.textContent = '';
+  if (!state.log.length) { log.append(el('div', 'placeholder', 'Nothing logged yet')); return; }
+  state.log.forEach(e => {
+    const row = el('div', 'log-row');
+    const t = el('time', null, fmtTime(e.ts));
+    t.dateTime = e.ts || '';
+    row.append(t, el('span', null, e.text || ''));
+    log.append(row);
+  });
+}
+
+/* ── mutations ──────────────────────────────── */
+function moveCard(id, colId) {
+  const card = state.cards.find(c => c.id === id);
+  if (!card || card.column === colId) return;             // drop-outside / same-lane = no-op — ISC-46
+  const from = colTitle(card.column);
+  card.column = colId;
+  commit(`Moved “${card.title}” from ${from} → ${colTitle(colId)}`);
+}
+
+function addCard(colId) {
+  const card = { id: uid(), column: colId, title: 'New task', date: todayISO(), tag: '' };
+  state.cards.push(card);
+  logAction(`Added “${card.title}” to ${colTitle(colId)}`);
+  save(); render();
+  const node = document.querySelector(`.card[data-id="${card.id}"]`);
+  if (node) editCard(node, card);
+}
+
+function deleteCard(card) {
+  state.cards = state.cards.filter(c => c.id !== card.id);
+  commit(`Deleted “${card.title}” from ${colTitle(card.column)}`);
+}
+
+function editCard(node, card) {
+  const titleEl = node.querySelector('.card-title');
+  if (!titleEl || node.querySelector('input.edit')) return;
+  const input = el('input', 'edit');
+  input.type = 'text';
+  input.value = card.title || '';
+  node.draggable = false;
+  titleEl.replaceWith(input);
+  input.focus(); input.select();
+
+  let done = false;
+  const finish = commitEdit => {
+    if (done) return; done = true;
+    node.draggable = true;
+    const next = input.value.trim();
+    if (commitEdit && next && next !== card.title) {
+      const was = card.title; card.title = next;
+      commit(`Renamed “${was}” → “${next}”`);
+    } else { render(); }
+  };
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); finish(true); }
+    if (e.key === 'Escape') { e.preventDefault(); finish(false); }   // ISC-29
+  });
+  input.addEventListener('blur', () => finish(true));
+}
+
+/* ── notes ──────────────────────────────────── */
+let notesTimer;
+$('notes').addEventListener('input', e => {
+  state.notes = e.target.value;
+  $('notesHint').textContent = 'Saving…';
+  clearTimeout(notesTimer);
+  notesTimer = setTimeout(() => { save(); $('notesHint').textContent = 'Saved ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}); }, 500);
 });
 
-// ─── GitHub Activity ───
-async function fetchGitHubActivity() {
+/* ── export / import / reset ────────────────── */
+$('btnExport').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const a = el('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `molly-board-${todayISO()}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast('Board exported');
+});
+
+$('btnImport').addEventListener('click', () => $('filePicker').click());
+$('filePicker').addEventListener('change', e => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = () => {
     try {
-        const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/events?per_page=15`);
-        const events = await res.json();
-        
-        const commits = [];
-        for (const event of events) {
-            if (event.type === 'PushEvent' && event.payload.commits) {
-                for (const commit of event.payload.commits) {
-                    commits.push({
-                        repo: event.repo.name.replace(`${GITHUB_USER}/`, ''),
-                        message: commit.message.split('\n')[0],
-                        sha: commit.sha.slice(0, 7),
-                        time: event.created_at,
-                    });
-                }
-            }
-        }
-        
-        const list = document.getElementById('commitsList');
-        if (commits.length === 0) {
-            list.innerHTML = '<div style="text-align: center; padding: 16px; color: var(--text-muted);">No recent commits</div>';
-            document.getElementById('activityBadge').textContent = '0 commits';
-            return;
-        }
-        
-        document.getElementById('activityBadge').textContent = `${commits.length} commits`;
-        list.innerHTML = commits.slice(0, 8).map(c => {
-            const ago = timeAgo(new Date(c.time));
-            return `
-                <div class="commit-item">
-                    <span class="commit-repo">${c.repo}</span>
-                    <span class="commit-msg">${escapeHtml(c.message)}</span>
-                    <span class="commit-sha">${c.sha}</span>
-                    <span class="commit-time">${ago}</span>
-                </div>
-            `;
-        }).join('');
-    } catch (e) {
-        document.getElementById('commitsList').innerHTML = '<div style="text-align: center; padding: 16px; color: var(--text-muted);">Could not load activity</div>';
-        document.getElementById('activityBadge').textContent = 'Offline';
-    }
+      state = normalize(JSON.parse(r.result));
+      commit('Imported board from ' + file.name);
+      toast('Board imported');
+    } catch (err) { toast('That file is not valid board JSON'); }
+  };
+  r.readAsText(file);
+  e.target.value = '';
+});
+
+$('btnReset').addEventListener('click', () => {
+  toast('No login here — clearing local board and re-seeding from config/tasks.json');   // ISC-11
+  store.clear();
+  state = inlineSeed();
+  render();
+  loadSeed(true);
+});
+
+/* ── async: seed + live agent state ─────────── */
+async function loadSeed(force) {
+  if (!force && seededFromStorage) return;
+  try {
+    const res = await fetch(SEED_URL, { cache: 'no-store' });
+    if (!res.ok) throw new Error(res.status);
+    const seeded = normalize(await res.json());
+    if (seeded.cards.length) { state = seeded; save(); render(); }
+  } catch (e) {
+    console.info('[molly] seed unreachable (expected on file://) — using inline seed');   // ISC-38
+  }
 }
 
-function timeAgo(date) {
-    const seconds = Math.floor((new Date() - date) / 1000);
-    if (seconds < 60) return 'just now';
-    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-    return `${Math.floor(seconds / 86400)}d ago`;
+async function pollAgent() {
+  try {
+    const res = await fetch(STATE_URL, { cache: 'no-store' });
+    if (!res.ok) throw new Error(res.status);
+    live = await res.json();
+  } catch (e) { live = null; }
+  renderRail();
 }
 
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-fetchGitHubActivity();
-
-// ─── Theme toggle placeholder ───
-function toggleTheme() {
-    document.body.style.filter = document.body.style.filter ? '' : 'invert(0.85) hue-rotate(180deg)';
-}
+/* ── boot ───────────────────────────────────── */
+$('notes').value = state.notes || '';
+render();
+$('lastSync').textContent = new Date().toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', second:'2-digit' });
+loadSeed(false);
+pollAgent();
+setInterval(pollAgent, 5000);
+})();
 </script>
-    <div class="viktor-toast" id="viktorToast"></div>
 </body>
 </html>
