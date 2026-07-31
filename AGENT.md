@@ -75,3 +75,34 @@ looking at before you tell him anything about it.
   when the *board* meaningfully changed, not when the status did.
 - `state/agent-state.json` is yours. `config/tasks.json` is shared with Colin. The `notes` field in
   it is **his** — read it, never overwrite it.
+
+## How the face works
+
+The rig is a readout of the local model, not a lookup table. On any event — a new
+handoff, a status change, a card moved, or a ~4-minute idle beat — the dashboard asks
+qwen2.5 for structured JSON:
+
+```json
+{ "say": "Colin, time for a break?", "mood": "bored", "action": "stomp" }
+```
+
+`mood` is one of `neutral smug furious bored delight suspect`; `action` is one of
+`wave shrug dance rage stomp dangle none`. Both are validated against those
+vocabularies before they touch the rig — a model's word is not a contract.
+
+The model's choice **owns the face until the next event**. It does not expire on a
+timer. The status→mood table (`idle→bored`, `working→smug`, …) is only the fallback
+for when the brain is offline; if Ollama goes away mid-session the rig hands the face
+back to the table rather than freezing in whatever it last felt.
+
+Reactions are debounced to one per 20s so a burst of card moves doesn't spam the model.
+
+Pokeable from the console, same shape as the original rig's `window.gremlin`:
+
+```js
+molly.react('the deploy just failed')   // ask the model how it feels, and perform it
+molly.play('rage'); molly.setMood('suspect'); molly.say('hi', 3000)
+molly.last                              // what the model last chose, and why
+molly.brain                             // { status, vault }
+molly.board                             // lane counts + agent status
+```

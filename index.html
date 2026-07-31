@@ -403,6 +403,7 @@ let seededFromStorage = !!store.read();
 if (!seededFromStorage) state = inlineSeed();
 
 let live = null;          // agent-state.json payload when reachable
+let lastSeenStatus = null;
 let seq = 0;              // collision-free id suffix — ISC-47
 
 /* ── helpers ────────────────────────────────── */
@@ -559,16 +560,30 @@ const holo = (() => {
   applyMood('neutral');
   raf = requestAnimationFrame(frame);
 
-  let lastStatus = null;
+  let lastStatus = null, modelDriven = false;
   return {
     say, play,
-    set(status) {
-      const map = BY_STATUS[status] || BY_STATUS.idle;
-      if (status === lastStatus) return;
+    MOODS, ACTIONS: ['wave','shrug','dance','rage','stomp','dangle'],
+    /** Status-derived fallback — the face when no model reaction owns it.
+        Deliberately does NOT expire a model mood on a timer: if qwen decided
+        she is furious, she stays furious until something else actually happens. */
+    set(status, { force } = {}) {
+      const changed = status !== lastStatus;
       lastStatus = status;
+      if (modelDriven && !force) return;
+      if (!changed && !force) return;
+      const map = BY_STATUS[status] || BY_STATUS.idle;
       applyMood(map.mood);
       if (map.enter) play(map.enter);
-    }
+    },
+    /** The local model chose this. It owns the face until the next reaction. */
+    react({ mood, action, say: line }) {
+      if (mood && MOODS[mood]) { applyMood(mood); modelDriven = true; }
+      if (action && action !== 'none') play(action);
+      if (line) say(line, 7000);
+    },
+    /** Hand the face back to the status table (brain went offline). */
+    release() { modelDriven = false; }
   };
 })();
 
@@ -617,6 +632,43 @@ const brain = (() => {
     } catch (e) { MODEL = null; paint('offline'); }   // not running, or OLLAMA_ORIGINS not set
   }
 
+  const MOOD_SET = ['neutral','smug','furious','bored','delight','suspect'];
+  const ACTION_SET = ['wave','shrug','dance','rage','stomp','dangle','none'];
+
+  /** Ask the model how it FEELS, not just what to say. Returns {say,mood,action}
+      or null. Ollama's format:'json' makes this reliable enough to drive the rig;
+      the vocabularies are still validated here, because a model's word is not a
+      contract. */
+  async function react(situation) {
+    if (state !== 'online' || !MODEL) return null;
+    const schema = `Respond ONLY with JSON: {"say": string (max 14 words, spoken aloud), `
+      + `"mood": one of ${JSON.stringify(MOOD_SET)}, "action": one of ${JSON.stringify(ACTION_SET)}}. `
+      + `Choose the mood and action that genuinely match how you feel about this. `
+      + `Keep mood and action coherent with each other.`;
+    try {
+      const res = await fetch(URL_BASE + '/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: MODEL, stream: false, format: 'json',
+          messages: [
+            { role:'system', content: PERSONA + '\n' + schema + (vault && vault.context
+                ? '\n\nWhat Colin is working on (from his Obsidian brain):\n' + vault.context : '') },
+            { role:'user', content: situation }
+          ]
+        })
+      });
+      if (!res.ok) throw new Error(res.status);
+      const raw = (await res.json()).message?.content || '';
+      const d = JSON.parse(raw);
+      return {
+        say: typeof d.say === 'string' ? d.say.trim().slice(0, 120) : null,
+        mood: MOOD_SET.includes(d.mood) ? d.mood : null,
+        action: ACTION_SET.includes(d.action) ? d.action : null
+      };
+    } catch (e) { return null; }
+  }
+
   async function ask(prompt) {
     if (state !== 'online' || !MODEL) return null;
     try {
@@ -642,12 +694,61 @@ const brain = (() => {
   paint('unknown'); probe(); loadVault();
   setInterval(probe, 30000);
   setInterval(loadVault, 60000);   // picks up a fresh `molly.ts brain` run
-  return { ask, get status() { return state; }, get vault() { return vault; } };
+  return { ask, react, get status() { return state; }, get vault() { return vault; } };
 })();
 
 
 /* ── render ─────────────────────────────────── */
 function render() { renderBoard(); renderRail(); renderShelf(); renderLog(); renderHandoff(); }
+
+/* ── reactor ────────────────────────────────────
+   The visible half of the loop: something happens, the local model decides how
+   it FEELS about it, and the rig performs that. Mood and animation come from
+   qwen2.5, not from a lookup table — the puppet is a readout of the model's
+   state, which is the whole point. */
+const reactor = (() => {
+  let busy = false, lastAt = 0, lastBeat = performance.now(), lastReaction = null;
+  const COOLDOWN = 20000;      // never more than one reaction per 20s
+  const BEAT_MS  = 240000;     // unprompted every ~4 min when nothing else happens
+
+  async function fire(situation, { force } = {}) {
+    if (busy) return;
+    if (!force && performance.now() - lastAt < COOLDOWN) return;
+    busy = true; lastAt = performance.now(); lastBeat = performance.now();
+    try {
+      const r = await brain.react(situation);
+      lastReaction = r ? { ...r, situation, at: new Date().toISOString() } : null;
+      if (r && (r.say || r.mood || r.action)) {
+        holo.react(r);
+      } else {
+        // brain unreachable — hand the face back to the status table rather than
+        // leaving her frozen in whatever she last felt
+        holo.release();
+        holo.set((live && live.status) || 'idle', { force: true });
+      }
+    } finally { busy = false; }
+  }
+
+  /** Board + agent state, compressed into something worth reacting to. */
+  function snapshot() {
+    const n = id => state.cards.filter(c => c.column === id).length;
+    const s = (live && live.status) || 'idle';
+    return { todo:n('todo'), progress:n('progress'), done:n('done'), status:s,
+             subagents:(live && live.subagents || []).length };
+  }
+
+  // idle beat — she keeps going after Colin stops
+  setInterval(() => {
+    if (document.hidden || brain.status !== 'online') return;
+    if (performance.now() - lastBeat < BEAT_MS) return;
+    const s = snapshot();
+    fire(`Nothing has happened for a few minutes. Board: ${s.todo} to do, ${s.progress} in progress, `
+       + `${s.done} done. You are ${s.status}. Say something unprompted — an observation, a nudge, or a complaint.`,
+       { force: true });
+  }, 30000);
+
+  return { fire, snapshot, get last() { return lastReaction; } };
+})();
 
 let spokenHandoff = null;
 function renderHandoff() {
@@ -655,12 +756,9 @@ function renderHandoff() {
   const h = live && live.handoff;
   if (!h || !h.task) { panel.hidden = true; spokenHandoff = null; return; }
   panel.hidden = false;
-  // a new handoff makes her react out loud — local model if it's up, canned line if not
   if (h.task !== spokenHandoff) {
     spokenHandoff = h.task;
-    holo.play('wave');
-    brain.ask(`Colin just handed you this task: "${h.task}". React in one short line.`)
-      .then(line => holo.say(line || 'on it.', 7000));
+    reactor.fire(`Colin just handed you this task: "${h.task}". React to it.`, { force: true });
   }
   $('handoffTask').textContent = h.task;
   const bits = [];
@@ -828,6 +926,7 @@ function moveCard(id, colId) {
   const from = colTitle(card.column);
   card.column = colId;
   commit(`Moved “${card.title}” from ${from} → ${colTitle(colId)}`);
+  reactor.fire(`Colin just moved "${card.title}" from ${from} to ${colTitle(colId)}. React.`);
 }
 
 function addCard(colId) {
@@ -936,7 +1035,32 @@ async function pollAgent() {
   } catch (e) { live = null; }
   renderRail();
   renderHandoff();
+
+  // status changes are worth a reaction too — she notices going idle → working
+  const now = live && live.status;
+  if (now && now !== lastSeenStatus) {
+    if (lastSeenStatus !== null) {
+      reactor.fire(`Your status just changed from ${lastSeenStatus} to ${now}`
+        + (live.message ? ` — "${live.message}"` : '') + '. React.');
+    }
+    lastSeenStatus = now;
+  }
 }
+
+/* ── control API ────────────────────────────────
+   Same shape as the original rig's window.gremlin, so the puppet stays
+   pokeable from the console: molly.react('...'), molly.play('rage'), etc. */
+window.molly = {
+  react: (situation) => reactor.fire(situation, { force: true }),
+  say: (text, ms) => holo.say(text, ms),
+  play: (action) => holo.play(action),
+  setMood: (mood) => holo.react({ mood }),
+  moods: Object.keys(holo.MOODS),
+  actions: holo.ACTIONS,
+  get last() { return reactor.last; },
+  get brain() { return { status: brain.status, vault: !!brain.vault }; },
+  get board() { return reactor.snapshot(); }
+};
 
 /* ── boot ───────────────────────────────────── */
 $('notes').value = state.notes || '';
