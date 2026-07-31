@@ -31,6 +31,25 @@ bun molly.ts status idle                  # back to "Ready for tasks"
 `move`, `done`, and `rm` accept a card id **or** a unique title substring. If the substring matches
 more than one card the command refuses and lists the candidates — pick one, don't guess.
 
+## The Obsidian brain
+
+`~/Obsidian/Obsidian/00-BRAIN` is the source of truth for what Colin is working on.
+The dashboard is served over http and cannot read outside its own folder, so the CLI bridges it:
+
+```bash
+bun molly.ts brain                 # read the vault → write state/brain.json, set the handoff
+bun molly.ts brain --sync          # also put @auto-tagged tasks on the board
+bun molly.ts brain --sync --all    # mirror every open NEXT.md task (45+ — buries the board)
+```
+
+- `state/brain.json` holds a distilled digest of `CONTEXT.md`. The dashboard reloads it every
+  60s and prepends it to every local-model call, so your one-liners know what Alta and TABOOST
+  actually are instead of guessing.
+- The top `@auto` task in `NEXT.md` becomes the standing handoff.
+- Sync is **additive and id-stable**: each card remembers the vault line it came from, so a task
+  Colin has already moved to Done never reappears. Re-running is safe.
+- Re-run `brain` after the vault changes — nothing watches it yet.
+
 ## Heartbeat
 
 The dashboard shows **Online** only while `heartbeat` is under 120 seconds old; past that it falls

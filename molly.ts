@@ -7,6 +7,7 @@
  * that writes them, so the agent never hand-authors JSON.
  *
  * Usage:
+ *   bun molly.ts brain [--sync [--all]]      # read Obsidian vault → digest + handoff
  *   bun molly.ts status <idle|thinking|working|spawning> ["message"]
  *   bun molly.ts handoff "what to do next" [--from Colin] [--source NEXT.md]
  *   bun molly.ts handoff clear
@@ -23,10 +24,13 @@
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs"
 import { join, dirname } from "path"
+import { homedir } from "os"
 
 const ROOT = dirname(Bun.fileURLToPath(import.meta.url))
 const TASKS = join(ROOT, "config", "tasks.json")
 const STATE = join(ROOT, "state", "agent-state.json")
+const BRAIN_DIR = join(homedir(), "Obsidian", "Obsidian", "00-BRAIN")
+const BRAIN_OUT = join(ROOT, "state", "brain.json")
 const LOG_CAP = 60
 const COLUMNS = ["todo", "progress", "done", "archived"] as const
 type Column = (typeof COLUMNS)[number]
@@ -34,7 +38,7 @@ type Column = (typeof COLUMNS)[number]
 const STATUSES = ["idle", "thinking", "working", "spawning"] as const
 type Status = (typeof STATUSES)[number]
 
-interface Card { id: string; column: string; title: string; date: string; tag?: string }
+interface Card { id: string; column: string; title: string; date: string; tag?: string; brain?: string }
 interface Deliverable { icon: string; title: string; date: string; tag: string }
 interface LogEntry { ts: string; text: string }
 interface Board {
@@ -178,6 +182,88 @@ function takeFlag(args: string[], flag: string): string | undefined {
   return value
 }
 
+// ── obsidian brain ─────────────────────────────────────────────────
+// The vault at ~/Obsidian/Obsidian/00-BRAIN is the long-term memory. The
+// dashboard is served over http and cannot reach outside its own directory,
+// so this is the bridge: read the vault, write a compact digest into
+// state/brain.json, which the dashboard loads and feeds to the local model.
+
+interface BrainTask {
+  id: string        // stable — derived from the source line, so re-syncs don't duplicate
+  title: string
+  project: string
+  auto: boolean
+}
+
+/** NEXT.md lines are whole paragraphs. Reduce one to a card-sized title. */
+function toTitle(line: string): string {
+  let t = line
+    .replace(/^- \[ \]\s*/, "")
+    .replace(/@auto/g, "")
+    .replace(/\*\*/g, "")
+    .replace(/`([^`]*)`/g, "$1")
+    .replace(/\[\[([^\]|]*)(\|[^\]]*)?\]\]/g, "$1")
+    .replace(/[🔴🟢🟡🚧⚠️★→]/g, "")
+    .trim()
+  // Cut at the first sentence boundary AFTER a sensible minimum. Searching from
+  // index 0 is wrong: these lines open with things like "BUILD 1 (highest…" and
+  // the first boundary lands at char 7, which would be discarded and leave the
+  // whole paragraph uncut.
+  const MIN = 24
+  if (t.length > MIN) {
+    const m = t.slice(MIN).search(/(?<=[a-z0-9)\]])[.:](?=\s)|\s—\s|\s\(/i)
+    if (m >= 0) t = t.slice(0, MIN + m)
+  }
+  return t.replace(/\s+/g, " ").replace(/[\s.:—-]+$/, "").trim().slice(0, 96)
+}
+
+/** Deterministic short hash so the same vault line always maps to the same card. */
+function stableId(s: string): string {
+  let h = 5381
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0
+  return "b-" + h.toString(36)
+}
+
+function readBrain(): { tasks: BrainTask[]; context: string; missing: string[] } {
+  const missing: string[] = []
+  const read = (name: string) => {
+    const p = join(BRAIN_DIR, name)
+    if (!existsSync(p)) { missing.push(name); return "" }
+    return readFileSync(p, "utf8")
+  }
+
+  const next = read("NEXT.md")
+  const tasks: BrainTask[] = []
+  let project = "Brain"
+  for (const ln of next.split("\n")) {
+    const head = ln.match(/^##\s+(.+)/)
+    if (head) {
+      project = head[1]!.replace(/[*_`]/g, "").replace(/[🟢🟡🔴]/g, "")
+        .replace(/\(.*?\)/g, "").trim().split(/\s+—|\s+-\s/)[0]!.trim()
+      continue
+    }
+    if (!/^- \[ \]/.test(ln)) continue
+    const title = toTitle(ln)
+    if (title.length < 8) continue
+    tasks.push({ id: stableId(ln.trim()), title, project, auto: /@auto/.test(ln) })
+  }
+
+  // Context digest: section headers plus their first substantive line. CONTEXT.md
+  // is thousands of words; the local model gets a paragraph, not the whole vault.
+  const ctx = read("CONTEXT.md")
+  const bits: string[] = []
+  let head: string | null = null
+  for (const ln of ctx.split("\n")) {
+    const h = ln.match(/^##\s+(.+)/)
+    if (h) { head = h[1]!.replace(/[*_`]/g, "").trim(); continue }
+    if (head && /^[A-Za-z*>-]/.test(ln) && ln.trim().length > 40) {
+      bits.push(`${head}: ${ln.replace(/^[>*\-\s]+/, "").replace(/[*_`]/g, "").slice(0, 150)}`)
+      head = null
+    }
+  }
+  return { tasks, context: bits.slice(0, 8).join("\n").slice(0, 1400), missing }
+}
+
 // ── commands ───────────────────────────────────────────────────────
 
 const [cmd, ...rest] = process.argv.slice(2)
@@ -196,6 +282,61 @@ switch (cmd) {
       currentTask: status === "idle" ? null : message,
     })
     console.log(`${s.name} → ${s.status}: ${s.message}`)
+    break
+  }
+
+  case "brain": {
+    const sync = rest.includes("--sync")
+    const { tasks, context, missing } = readBrain()
+    if (missing.length) console.error(`molly: warning — not found in the vault: ${missing.join(", ")}`)
+
+    // digest for the dashboard's local-model calls
+    writeJson(BRAIN_OUT, {
+      updated: nowISO(),
+      vault: BRAIN_DIR,
+      context,
+      open: tasks.length,
+      auto: tasks.filter((t) => t.auto).map((t) => t.title),
+    })
+
+    const autos = tasks.filter((t) => t.auto)
+    console.log(`brain: ${tasks.length} open tasks, ${autos.length} tagged @auto`)
+    console.log(`       context digest → ${BRAIN_OUT} (${context.length} chars)`)
+
+    // the top @auto task becomes the standing handoff
+    if (autos[0]) {
+      saveState({ handoff: { task: autos[0].title, from: "NEXT.md", source: "@auto", ts: nowISO() } })
+      console.log(`       handoff → ${autos[0].title}`)
+    } else {
+      console.log(`       no @auto task — handoff untouched. Tag one in NEXT.md to give her work.`)
+    }
+
+    if (!sync) { console.log(`       (dry — pass --sync to merge tasks onto the board)`); break }
+
+    // Default to @auto only. The vault holds 45+ open items across every project;
+    // dumping all of them buries the board and defeats the point of a handoff.
+    // --all is there when you genuinely want the whole list mirrored.
+    const all = rest.includes("--all")
+    const wanted = all ? tasks : autos
+    if (!wanted.length) {
+      console.log(`       nothing to sync — no @auto tasks. Tag some in NEXT.md, or re-run with --all.`)
+      break
+    }
+
+    // Merge is additive only. A card Colin already moved to Done or deleted must
+    // never come back, so we key on the stable id and never touch existing cards.
+    const board = loadBoard()
+    const known = new Set(board.cards.map((c) => (c as Card & { brain?: string }).brain).filter(Boolean))
+    const added: string[] = []
+    for (const t of wanted) {
+      if (known.has(t.id)) continue
+      board.cards.push({ id: newId(), column: "todo", title: t.title, date: today(), tag: t.project, brain: t.id } as Card)
+      added.push(t.title)
+    }
+    if (!added.length) { console.log(`       board already in sync — nothing added`); break }
+    saveBoard(board, `Synced ${added.length} task${added.length > 1 ? "s" : ""} from the Obsidian brain`)
+    added.slice(0, 8).forEach((t) => console.log(`       + ${t}`))
+    if (added.length > 8) console.log(`       … and ${added.length - 8} more`)
     break
   }
 

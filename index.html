@@ -583,6 +583,16 @@ const brain = (() => {
   let MODEL = null;
   const PERSONA = 'You are Molly, a small teal holographic desk companion for Colin, a solo engineer running a trading lab and an AI agency. Voice: tiny, blunt, dry, loyal. 1 SHORT sentence, max 20 words. No emoji, no markdown, no disclaimers. Reply with ONLY what you say out loud.';
   let state = 'unknown';
+  let vault = null;   // digest of the Obsidian brain, written by `molly.ts brain`
+
+  // The page is served over http and cannot read ~/Obsidian directly. The CLI
+  // distils CONTEXT.md into state/brain.json; we just pick it up.
+  async function loadVault() {
+    try {
+      const res = await fetch('state/brain.json', { cache: 'no-store' });
+      if (res.ok) vault = await res.json();
+    } catch (e) { vault = null; }
+  }
 
   function paint(s) {
     state = s;
@@ -615,7 +625,12 @@ const brain = (() => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: MODEL, stream: false,
-          messages: [{ role:'system', content: PERSONA }, { role:'user', content: prompt }]
+          messages: [
+            { role:'system', content: PERSONA + (vault && vault.context
+                ? '\n\nWhat Colin is working on right now (from his Obsidian brain):\n' + vault.context
+                : '') },
+            { role:'user', content: prompt }
+          ]
         })
       });
       if (!res.ok) throw new Error(res.status);
@@ -624,8 +639,10 @@ const brain = (() => {
     } catch (e) { return null; }
   }
 
-  paint('unknown'); probe(); setInterval(probe, 30000);
-  return { ask, get status() { return state; } };
+  paint('unknown'); probe(); loadVault();
+  setInterval(probe, 30000);
+  setInterval(loadVault, 60000);   // picks up a fresh `molly.ts brain` run
+  return { ask, get status() { return state; }, get vault() { return vault; } };
 })();
 
 

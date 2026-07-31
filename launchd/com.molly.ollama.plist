@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.molly.ollama</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/homebrew/bin/ollama</string>
+        <string>serve</string>
+    </array>
+
+    <!-- OLLAMA_ORIGINS is the whole reason this plist exists instead of
+         `brew services start ollama`: without it Chrome's CORS preflight
+         kills every fetch from the Molly dashboard and the brain reads
+         "offline" while the server is plainly running. -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>OLLAMA_ORIGINS</key>
+        <string>*</string>
+        <key>OLLAMA_HOST</key>
+        <string>127.0.0.1:11434</string>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/molly-ollama.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/molly-ollama.err</string>
+</dict>
+</plist>
