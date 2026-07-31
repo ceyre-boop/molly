@@ -41,29 +41,33 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 ::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
 
 /* ── shell ───────────────────────────────────────── */
-.app{position:relative;z-index:1;display:grid;grid-template-columns:230px minmax(0,1fr);gap:26px;padding:26px;max-width:1900px;margin:0 auto;align-items:start}
+.app{position:relative;z-index:1;display:grid;grid-template-columns:300px minmax(0,1fr);gap:26px;padding:26px;max-width:1900px;margin:0 auto;align-items:start}
 
 /* ── left rail ───────────────────────────────────── */
 .rail{position:sticky;top:26px;display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:72px}
 /* ── TEAL-01 holographic companion ───────────────── */
+/* The rig is drawn for a ~520px square stage on a teal chamber. Cramming it into
+   a 206px box on the near-black app background is what made it read as mush:
+   the brow bars and eye highlights are 12px features at full size. */
 .holo{
-  position:relative;width:206px;height:214px;display:grid;place-items:center;
-  border-radius:16px;overflow:visible;
-  background:radial-gradient(120% 85% at 50% 88%, rgba(80,220,215,.10), transparent 64%)
+  position:relative;width:268px;aspect-ratio:1;display:flex;
+  align-items:center;justify-content:center;
+  border-radius:18px;overflow:hidden;
+  background:radial-gradient(120% 90% at 50% 12%, #12454a 0%, #07171a 72%)
 }
 .holo svg{width:100%;height:100%;overflow:visible}
 .holo-shadow{
-  position:absolute;bottom:6%;width:42%;height:5%;border-radius:50%;
+  position:absolute;bottom:8%;width:42%;height:4.5%;border-radius:50%;
   background:radial-gradient(closest-side,rgba(80,220,215,.34),rgba(0,0,0,0))
 }
-/* scanline veil — sits behind the puppet so it never dims the character */
+/* scanlines across the chamber, as in the original stage */
 .holo::before{
-  content:'';position:absolute;inset:-6px;pointer-events:none;border-radius:18px;
-  background:repeating-linear-gradient(to bottom,rgba(80,220,215,.055) 0 1px,transparent 1px 3px)
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:repeating-linear-gradient(to bottom,rgba(7,23,26,.34) 0 1px,transparent 1px 3px)
 }
 .bubble{
   position:absolute;left:50%;bottom:100%;transform:translateX(-50%) scale(.92);
-  margin-bottom:2px;max-width:200px;padding:8px 11px;border-radius:11px;
+  margin-bottom:2px;max-width:250px;padding:8px 11px;border-radius:11px;
   background:var(--bg-elevated);border:1px solid rgba(80,220,215,.32);
   color:var(--text-primary);font-size:11.5px;line-height:1.4;text-align:center;
   opacity:0;transition:opacity .18s,transform .18s;pointer-events:none;z-index:3
@@ -217,7 +221,9 @@ textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(
   .board{grid-template-columns:1fr}
   .bottom{grid-template-columns:1fr}
 }
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* Reduce-motion is handled in the rig (amplitude damping) rather than by
+   freezing everything, so only the decorative pulse is disabled here. */
+@media (prefers-reduced-motion:reduce){.dot.live{animation:none}}
 </style>
 </head>
 <body>
@@ -478,9 +484,21 @@ const holo = (() => {
     offline:  { mood:'neutral', enter:null    }
   };
 
-  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Reduced-motion must NOT mean "freeze the character": she is a status readout,
+  // not decoration, and a frozen puppet is a broken one. Instead the loop keeps
+  // running and every oscillating term is scaled by `amp` — 0 kills the idle
+  // wobble, breathing, and blink while moods and action end-poses still land.
+  // This Mac has "Reduce motion" ON. Normally that would win, but the character
+  // was explicitly asked for as a live readout of what the agent is thinking and
+  // doing — motion IS the information here, not decoration, so it defaults on.
+  // `molly.motion(false)` (persisted) restores the system preference.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const stored = localStorage.getItem('molly.motion');
+  let fullMotion = stored === null ? true : stored === 'on';
+
   let lidBase = 0, pupilTarget = [0,0], action = null, talkUntil = 0;
   let nextBlink = 1200, blinkAt, t0 = performance.now(), raf = 0, last = 0, sayT;
+  let frames = 0, lastErr = null;
   const FRAME_MS = 1000 / 30;   // this sits open all day — 30fps is plenty
 
   function applyMood(name) {
@@ -492,7 +510,14 @@ const holo = (() => {
   }
 
   function play(name) {
-    action = { name, t:0, dur: name === 'dangle' ? 1e9 : (name === 'stomp' ? 1100 : 1500) };
+    // The original gave 'dangle' an effectively infinite duration because a human
+    // clicked the next button. Nothing re-poses her here, so an autonomous
+    // dangle would strand both arms overhead forever. Cap it.
+    const dur = name === 'dangle' ? 6000 : name === 'stomp' ? 1100 : 1500;
+    // Wall-clock, not frame count: rAF stops while the window is backgrounded,
+    // and a frame-counted action would come back still mid-pose (an arm stuck
+    // over her head) instead of resolving the moment you look at it again.
+    action = { name, dur, start: performance.now() };
   }
 
   function say(text, ms) {
@@ -511,17 +536,21 @@ const holo = (() => {
   const set = (el, tr) => { if (el) el.style.transform = tr; };
 
   function frame(now) {
-    if (!still && now !== undefined) {
+    frames++;
+    try {
+    if (now !== undefined) {
       if (now - last < FRAME_MS) { raf = requestAnimationFrame(frame); return; }
       last = now;
     }
+    const amp = fullMotion ? 1 : 0;       // 0 = stillness, but the loop keeps running
     const t = (now === undefined ? 0 : now) - t0, s = t / 1000;
-    const breathe = Math.sin(s * 1.8) * 3;
-    let armL = Math.sin(s * 1.3) * 5, armR = -Math.sin(s * 1.3 + 0.6) * 5;
-    let legL = 0, legR = 0, headR = Math.sin(s * 0.9) * 3, bodyR = Math.sin(s * 0.9) * 1.5, hop = 0;
+    const breathe = Math.sin(s * 1.8) * 3 * amp;
+    let armL = Math.sin(s * 1.3) * 5 * amp, armR = -Math.sin(s * 1.3 + 0.6) * 5 * amp;
+    let legL = 0, legR = 0, headR = Math.sin(s * 0.9) * 3 * amp, bodyR = Math.sin(s * 0.9) * 1.5 * amp, hop = 0;
 
-    if (action) {
-      action.t += FRAME_MS;
+    if (action && !fullMotion) {
+      action = null;               // reduced motion: the mood lands, the flailing doesn't
+    } else if (action) {
       const a = action.name;
       if (a === 'wave') armR = -70 + Math.sin(s * 18) * 22;
       else if (a === 'rage')  { armL = 55 + Math.sin(s*26)*18; armR = -55 - Math.sin(s*26)*18; headR = Math.sin(s*30)*7; hop = Math.abs(Math.sin(s*14)) * -6; }
@@ -529,32 +558,33 @@ const holo = (() => {
       else if (a === 'shrug') { armL = -28; armR = 28; headR = 6; }
       else if (a === 'dance') { armL = Math.sin(s*8)*60; armR = Math.sin(s*8+3)*60; legL = Math.sin(s*8)*16; legR = -Math.sin(s*8)*16; hop = Math.abs(Math.sin(s*8)) * -16; bodyR = Math.sin(s*8)*6; }
       else if (a === 'dangle'){ armL = -140 + Math.sin(s*3)*6; armR = 140 - Math.sin(s*3)*6; legL = Math.sin(s*4)*14; legR = Math.sin(s*4+1)*14; bodyR = Math.sin(s*2.4)*5; }
-      if (action.t >= action.dur) action = null;
+      if (performance.now() - action.start >= action.dur) action = null;
     }
 
     set(R.root, 'translateY(' + (hop + breathe * 0.4) + 'px)');
-    set(R.body, 'rotate(' + bodyR + 'deg) scaleY(' + (1 + Math.sin(s * 1.8) * 0.012) + ')');
+    set(R.body, 'rotate(' + bodyR + 'deg) scaleY(' + (1 + Math.sin(s * 1.8) * 0.012 * amp) + ')');
     set(R.head, 'rotate(' + headR + 'deg) translateY(' + breathe * 0.3 + 'px)');
     set(R.armL, 'rotate(' + armL + 'deg)'); set(R.armR, 'rotate(' + armR + 'deg)');
     set(R.legL, 'rotate(' + legL + 'deg)'); set(R.legR, 'rotate(' + legR + 'deg)');
 
-    if (t > nextBlink) { blinkAt = t; nextBlink = t + 1800 + Math.random() * 3200; }
+    if (fullMotion && t > nextBlink) { blinkAt = t; nextBlink = t + 1800 + Math.random() * 3200; }
     let lid = lidBase;
-    if (blinkAt !== undefined) { const d = t - blinkAt; if (d < 150) lid = Math.max(lid, 1 - Math.abs(d - 75) / 75); }
+    if (fullMotion && blinkAt !== undefined) { const d = t - blinkAt; if (d < 150) lid = Math.max(lid, 1 - Math.abs(d - 75) / 75); }
     R.lids.children[0].style.transform = 'scaleY(' + lid.toFixed(3) + ')';
     R.lids.children[1].style.transform = 'scaleY(' + lid.toFixed(3) + ')';
 
-    set(R.pupils, 'translate(' + (pupilTarget[0] + Math.sin(s*0.7)*3) + 'px,' + (pupilTarget[1] + Math.cos(s*0.5)*2) + 'px)');
+    set(R.pupils, 'translate(' + (pupilTarget[0] + Math.sin(s*0.7)*3*amp) + 'px,' + (pupilTarget[1] + Math.cos(s*0.5)*2*amp) + 'px)');
     R.mouth.style.transformOrigin = '200px 206px';
-    R.mouth.style.transform = performance.now() < talkUntil
+    R.mouth.style.transform = (fullMotion && performance.now() < talkUntil)
       ? 'scaleY(' + (1 + Math.abs(Math.sin(s * 22)) * 0.7) + ')' : '';
 
-    if (!still) raf = requestAnimationFrame(frame);
+    } catch (e) { lastErr = e.message; }
+    raf = requestAnimationFrame(frame);   // always: the loop is how state reaches the rig
   }
 
   document.addEventListener('visibilitychange', () => {
     cancelAnimationFrame(raf);
-    if (!document.hidden && !still) raf = requestAnimationFrame(frame);
+    if (!document.hidden) raf = requestAnimationFrame(frame);
   });
 
   applyMood('neutral');
@@ -583,7 +613,17 @@ const holo = (() => {
       if (line) say(line, 7000);
     },
     /** Hand the face back to the status table (brain went offline). */
-    release() { modelDriven = false; }
+    release() { modelDriven = false; },
+    /** macOS "Reduce motion" is respected by default but overridable — a frozen
+        status readout is worse than a moving one if you actually want it. */
+    get frames() { return frames; },
+    get lastErr() { return lastErr; },
+    motion(on) {
+      if (on === undefined) return { fullMotion, systemPrefersReduced: reduce };
+      fullMotion = !!on;
+      localStorage.setItem('molly.motion', fullMotion ? 'on' : 'off');
+      return { fullMotion, systemPrefersReduced: reduce };
+    }
   };
 })();
 
@@ -1056,6 +1096,9 @@ window.molly = {
   play: (action) => holo.play(action),
   setMood: (mood) => holo.react({ mood }),
   moods: Object.keys(holo.MOODS),
+  get frames() { return holo.frames; },
+  get lastErr() { return holo.lastErr; },
+  motion: (on) => holo.motion(on),          // molly.motion(true) to override macOS Reduce Motion
   actions: holo.ACTIONS,
   get last() { return reactor.last; },
   get brain() { return { status: brain.status, vault: !!brain.vault }; },
