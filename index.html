@@ -1,1118 +1,672 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Molly Dashboard</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<meta charset="utf-8">
+<title>Molly's Desk</title>
 <style>
-:root{
-  --bg-primary:#0a0a0f; --bg-secondary:#12121a; --bg-card:#16161f; --bg-card-hover:#1a1a25;
-  --bg-elevated:#1e1e2a; --border:#2a2a3a; --border-subtle:#1f1f2f;
-  --text-primary:#f0f0f5; --text-secondary:#8888a0; --text-muted:#55556a;
-  --accent:#7c5cff; --accent-glow:rgba(124,92,255,.15); --accent-soft:rgba(124,92,255,.08);
-  --green:#34d399; --green-soft:rgba(52,211,153,.10);
-  --yellow:#fbbf24; --yellow-soft:rgba(251,191,36,.10);
-  --red:#f87171;   --red-soft:rgba(248,113,113,.10);
-  --blue:#60a5fa;  --blue-soft:rgba(96,165,250,.10);
-  --orange:#fb923c;--orange-soft:rgba(251,146,60,.10);
-  --pink:#f472b6;  --pink-soft:rgba(244,114,182,.10);
-  --indigo:#818cf8;--indigo-soft:rgba(129,140,248,.10);
-  --radius:14px;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{overflow-x:hidden}
-body{
-  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  background:var(--bg-primary); color:var(--text-primary);
-  min-height:100vh; font-size:14px; line-height:1.5;
-  -webkit-font-smoothing:antialiased;
-}
-body::before{
-  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-  background:
-    radial-gradient(700px circle at 12% 8%, var(--accent-glow), transparent 60%),
-    radial-gradient(600px circle at 88% 92%, rgba(96,165,250,.08), transparent 60%);
-}
-button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
-::-webkit-scrollbar{width:9px;height:9px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:9px}
-::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
+  /* ============================================================
+     MOLLY'S DESK — palette
+     ink navy ground, cool paper, clinical teal accent.
+     Semantic colours (urgent/soon/ok) are separate from the accent.
+     ============================================================ */
+  :root {
+    --paper:      #EEF1F5;
+    --card:       #FFFFFF;
+    --ink:        #161B24;
+    --ink-soft:   #4A5464;
+    --ink-faint:  #7C8798;
+    --rule:       #D3DAE3;
+    --rule-soft:  #E4E9EF;
+    --accent:     #0C6F79;
+    --accent-dim: #DCECEE;
+    --urgent:     #A81E12;
+    --urgent-bg:  #FBE7E4;
+    --soon:       #8A5200;
+    --soon-bg:    #FBF0DD;
+    --ok:         #2A6349;
+    --ok-bg:      #E2EFE8;
+    --shadow:     0 1px 2px rgba(22,27,36,.06), 0 8px 24px -12px rgba(22,27,36,.18);
 
-/* ── shell ───────────────────────────────────────── */
-.app{position:relative;z-index:1;display:grid;grid-template-columns:300px minmax(0,1fr);gap:26px;padding:26px;max-width:1900px;margin:0 auto;align-items:start}
+    --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans:  ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono:  ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:      #0E1218;
+      --card:       #161C25;
+      --ink:        #E7ECF3;
+      --ink-soft:   #A3AEBE;
+      --ink-faint:  #6F7B8C;
+      --rule:       #2A333F;
+      --rule-soft:  #202832;
+      --accent:     #4FC3CE;
+      --accent-dim: #16333A;
+      --urgent:     #FF9184;
+      --urgent-bg:  #3A1B18;
+      --soon:       #E5B15E;
+      --soon-bg:    #332714;
+      --ok:         #7FCBA5;
+      --ok-bg:      #142C22;
+      --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:      #0E1218;
+    --card:       #161C25;
+    --ink:        #E7ECF3;
+    --ink-soft:   #A3AEBE;
+    --ink-faint:  #6F7B8C;
+    --rule:       #2A333F;
+    --rule-soft:  #202832;
+    --accent:     #4FC3CE;
+    --accent-dim: #16333A;
+    --urgent:     #FF9184;
+    --urgent-bg:  #3A1B18;
+    --soon:       #E5B15E;
+    --soon-bg:    #332714;
+    --ok:         #7FCBA5;
+    --ok-bg:      #142C22;
+    --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
 
-/* ── left rail ───────────────────────────────────── */
-.rail{position:sticky;top:26px;display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:72px}
-/* ── TEAL-01 holographic companion ───────────────── */
-/* The rig is drawn for a ~520px square stage on a teal chamber. Cramming it into
-   a 206px box on the near-black app background is what made it read as mush:
-   the brow bars and eye highlights are 12px features at full size. */
-.holo{
-  position:relative;width:268px;aspect-ratio:1;display:flex;
-  align-items:center;justify-content:center;
-  border-radius:18px;overflow:hidden;
-  background:radial-gradient(120% 90% at 50% 12%, #12454a 0%, #07171a 72%)
-}
-.holo svg{width:100%;height:100%;overflow:visible}
-.holo-shadow{
-  position:absolute;bottom:8%;width:42%;height:4.5%;border-radius:50%;
-  background:radial-gradient(closest-side,rgba(80,220,215,.34),rgba(0,0,0,0))
-}
-/* scanlines across the chamber, as in the original stage */
-.holo::before{
-  content:'';position:absolute;inset:0;pointer-events:none;z-index:2;
-  background:repeating-linear-gradient(to bottom,rgba(7,23,26,.34) 0 1px,transparent 1px 3px)
-}
-.bubble{
-  position:absolute;left:50%;bottom:100%;transform:translateX(-50%) scale(.92);
-  margin-bottom:2px;max-width:250px;padding:8px 11px;border-radius:11px;
-  background:var(--bg-elevated);border:1px solid rgba(80,220,215,.32);
-  color:var(--text-primary);font-size:11.5px;line-height:1.4;text-align:center;
-  opacity:0;transition:opacity .18s,transform .18s;pointer-events:none;z-index:3
-}
-.brain{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-muted)}
-.brain .dot{width:6px;height:6px}
-.rail h2{font-size:19px;font-weight:700;letter-spacing:-.01em}
-.agent-status{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-secondary)}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);flex:none}
-.dot.live{animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.82)}}
-.status-box{
-  width:100%;padding:13px;border:1px solid var(--border-subtle);border-radius:12px;
-  background:var(--bg-secondary);color:var(--text-secondary);
-  font-size:12.5px;text-align:center;min-height:52px;display:grid;place-items:center;
-  word-break:break-word
-}
-.rail-counts{width:100%;display:flex;flex-direction:column;gap:5px;margin-top:2px}
-.rail-count{display:flex;justify-content:space-between;align-items:center;padding:7px 11px;border-radius:9px;background:var(--bg-secondary);border:1px solid var(--border-subtle);font-size:12px;color:var(--text-secondary)}
-.rail-count b{color:var(--text-primary);font-variant-numeric:tabular-nums}
-.subagents{width:100%;display:flex;flex-direction:column;gap:5px}
-.subagent{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--text-secondary);padding:6px 10px;border-radius:8px;background:var(--accent-soft);border:1px solid rgba(124,92,255,.18)}
-.rail-links{width:100%;display:flex;flex-direction:column;gap:6px;margin-top:4px}
-.rail-links a{display:block;text-align:center;padding:8px;border-radius:9px;font-size:12px;text-decoration:none;color:var(--text-secondary);border:1px solid var(--border-subtle);background:var(--bg-secondary);transition:.15s}
-.rail-links a:hover{color:var(--text-primary);border-color:var(--accent);background:var(--accent-soft)}
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    margin: 0;
+    padding: clamp(20px, 4vw, 56px) clamp(16px, 4vw, 32px) 96px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
 
-/* ── main panel ──────────────────────────────────── */
-.main{background:var(--bg-secondary);border:1px solid var(--border-subtle);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:20px;min-width:0}
-.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--border-subtle)}
-.brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:700;letter-spacing:-.02em}
-.brand .glyph{font-size:22px}
-.online{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--green);margin-left:2px}
-.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.sync{font-size:12px;color:var(--text-muted);font-variant-numeric:tabular-nums}
-.btn{padding:7px 15px;border:1px solid var(--border);border-radius:9px;font-size:12.5px;color:var(--text-secondary);background:var(--bg-card);transition:.15s}
-.btn:hover{color:var(--text-primary);border-color:var(--accent);background:var(--accent-soft)}
-.btn.primary{color:var(--accent);border-color:rgba(124,92,255,.35);background:var(--accent-soft)}
+  /* ---------- masthead ---------- */
+  .mast { display: flex; flex-direction: column; gap: 14px; }
+  .mast-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .mast h1 {
+    font-family: var(--serif);
+    font-size: clamp(30px, 5vw, 42px);
+    font-weight: 600;
+    letter-spacing: -.015em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .datestamp {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .read {
+    font-family: var(--serif);
+    font-size: clamp(17px, 2.3vw, 20px);
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin: 0;
+    padding-left: 16px;
+    border-left: 2px solid var(--accent);
+    text-wrap: pretty;
+    max-width: 62ch;
+  }
 
-/* ── quick links ─────────────────────────────────── */
-.quicklinks{display:flex;gap:8px;flex-wrap:wrap;margin-top:-6px}
-.quicklinks a{
-  display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:10px;
-  background:var(--bg-card);border:1px solid var(--border-subtle);
-  color:var(--text-secondary);text-decoration:none;font-size:12.5px;white-space:nowrap;
-  transition:transform .15s,color .15s,border-color .15s,background .15s
-}
-.quicklinks a:hover{color:var(--text-primary);border-color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
-.quicklinks .ql-icon{font-size:14px;line-height:1}
+  /* ---------- quick links ---------- */
+  .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .links a {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 7px 13px 7px 11px;
+    background: var(--card);
+    border: 1px solid var(--rule-soft);
+    border-radius: 100px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 13.5px; font-weight: 550;
+    line-height: 1;
+    box-shadow: var(--shadow);
+    transition: border-color .13s ease, color .13s ease, transform .13s ease;
+  }
+  .links a .ico { font-size: 14px; line-height: 1; }
+  .links a:hover { border-color: var(--accent); color: var(--ink); transform: translateY(-1px); }
+  .links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* ── handoff ─────────────────────────────────────── */
-.handoff{
-  position:relative;padding:15px 18px 15px 20px;border-radius:var(--radius);
-  background:linear-gradient(100deg,rgba(96,165,250,.10),rgba(124,92,255,.06) 60%,transparent),var(--bg-card);
-  border:1px solid rgba(96,165,250,.24);overflow:hidden
-}
-.handoff::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--blue),var(--accent))}
-.handoff-label{font-size:10.5px;letter-spacing:.10em;text-transform:uppercase;color:var(--blue);font-weight:650}
-.handoff-task{font-size:14.5px;font-weight:600;margin-top:5px;line-height:1.45;overflow-wrap:anywhere}
-.handoff-meta{font-size:11.5px;color:var(--text-muted);margin-top:6px}
+  /* ---------- section frame ---------- */
+  section { display: flex; flex-direction: column; gap: 14px; }
+  .label {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 11.5px; font-weight: 650;
+    letter-spacing: .13em; text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .label::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+  .label .count {
+    font-family: var(--mono); font-weight: 500; letter-spacing: 0;
+    color: var(--ink-faint); font-variant-numeric: tabular-nums;
+  }
 
-/* ── board ───────────────────────────────────────── */
-.board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:start}
-.lane{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;min-width:0;transition:.15s}
-.lane.dragover{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.lane-head{display:flex;align-items:center;gap:9px;padding-bottom:11px;margin-bottom:12px;border-bottom:1px solid var(--border-subtle)}
-.lane-head h3{font-size:14px;font-weight:650;letter-spacing:-.01em}
-.count{margin-left:auto;font-size:11px;color:var(--text-muted);background:var(--bg-elevated);padding:2px 8px;border-radius:20px;font-variant-numeric:tabular-nums}
-.lane-body{display:flex;flex-direction:column;gap:10px;min-height:120px}
-.placeholder{border:1.5px dashed var(--border);border-radius:10px;padding:22px 10px;text-align:center;font-size:11.5px;color:var(--text-muted)}
-.add{margin-top:11px;padding:9px;border:1px dashed var(--border);border-radius:10px;font-size:12px;color:var(--text-muted);text-align:center;transition:.15s;width:100%}
-.add:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+  .card {
+    background: var(--card);
+    border: 1px solid var(--rule-soft);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+  }
 
-/* ── cards ───────────────────────────────────────── */
-.card{
-  position:relative;border-radius:10px;padding:12px 13px;cursor:grab;
-  border:1px solid var(--border-subtle);border-left:3px solid var(--text-muted);
-  background:var(--bg-elevated);transition:transform .12s,box-shadow .12s,background .12s
-}
-.card:hover{background:var(--bg-card-hover);box-shadow:0 6px 20px rgba(0,0,0,.35)}
-.card.dragging{opacity:.4;cursor:grabbing}
-.lane[data-col="todo"] .card    {border-left-color:var(--indigo); background:linear-gradient(180deg,var(--indigo-soft),transparent 140%),var(--bg-elevated)}
-.lane[data-col="progress"] .card{border-left-color:var(--orange); background:linear-gradient(180deg,var(--orange-soft),transparent 140%),var(--bg-elevated)}
-.lane[data-col="done"] .card    {border-left-color:var(--green);  background:linear-gradient(180deg,var(--green-soft),transparent 140%),var(--bg-elevated)}
-.card-title{font-size:13.5px;font-weight:600;line-height:1.4;overflow-wrap:anywhere;min-width:0}
-.card-meta{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:11px;color:var(--text-muted)}
-.chip{padding:1px 7px;border-radius:20px;background:var(--bg-card);border:1px solid var(--border-subtle);color:var(--text-secondary);font-size:10px}
-.card-actions{display:flex;gap:3px;margin-top:9px;opacity:0;transition:opacity .15s}
-.card:hover .card-actions,.card:focus-within .card-actions{opacity:1}
-@media (hover:none){.card-actions{opacity:1}}
-.card-actions button{width:24px;height:24px;border-radius:6px;font-size:12px;color:var(--text-muted);border:1px solid transparent;line-height:1}
-.card-actions button:hover{color:var(--text-primary);background:var(--bg-card);border-color:var(--border)}
-.card-actions button[data-act="del"]:hover{color:var(--red);border-color:var(--red)}
-.card-actions .spacer{flex:1}
-.card input.edit{width:100%;font:inherit;font-size:13.5px;font-weight:600;color:var(--text-primary);background:var(--bg-card);border:1px solid var(--accent);border-radius:7px;padding:5px 7px}
-/* archived = flat rows */
-.lane[data-col="archived"] .lane-body{gap:1px}
-.lane[data-col="archived"] .card{
-  position:relative;background:transparent;border:none;border-bottom:1px solid var(--border-subtle);border-radius:0;
-  padding:11px 3px;display:flex;align-items:center;gap:10px
-}
-/* actions float over the row so they never squeeze the title */
-.lane[data-col="archived"] .card-actions{
-  position:absolute;right:0;top:50%;transform:translateY(-50%);
-  background:var(--bg-card-hover);border:1px solid var(--border);border-radius:8px;padding:2px
-}
-.lane[data-col="archived"] .card-actions .spacer{display:none}
-.lane[data-col="archived"] .card:hover{background:var(--bg-card-hover);box-shadow:none}
-.lane[data-col="archived"] .card-title{font-size:12.5px;font-weight:500;color:var(--text-secondary);flex:1}
-.lane[data-col="archived"] .card-meta{margin:0;flex:none}
-.lane[data-col="archived"] .chip{display:none}
-.lane[data-col="archived"] .card-actions{margin:0;flex:none}
+  /* ---------- needs you ---------- */
+  .needs { display: flex; flex-direction: column; gap: 10px; }
+  .item {
+    display: grid;
+    grid-template-columns: 4px 1fr auto;
+    gap: 0 16px;
+    align-items: start;
+    padding: 0;
+    overflow: hidden;
+  }
+  .item .stripe { background: var(--ink-faint); align-self: stretch; }
+  .item[data-sev="urgent"] .stripe { background: var(--urgent); }
+  .item[data-sev="soon"]   .stripe { background: var(--soon); }
+  .item[data-sev="ok"]     .stripe { background: var(--ok); }
+  .item-body { padding: 16px 0 16px 2px; display: flex; flex-direction: column; gap: 6px; }
+  .item-title { font-weight: 600; font-size: 16.5px; letter-spacing: -.005em; }
+  .item-rec {
+    font-family: var(--serif); font-size: 15.5px; color: var(--ink-soft);
+    text-wrap: pretty;
+  }
+  .item-rec b { color: var(--ink); font-weight: 600; }
+  .item-meta { padding: 18px 18px 18px 0; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; white-space: nowrap; }
 
-/* ── panels ──────────────────────────────────────── */
-.panel{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius);padding:16px}
-.panel-head{display:flex;align-items:center;gap:9px;margin-bottom:13px}
-.panel-head h3{font-size:14px;font-weight:650}
-.shelf{display:flex;gap:12px;overflow-x:auto;padding-bottom:5px}
-.tile{flex:0 0 232px;display:flex;align-items:center;gap:11px;padding:13px;border-radius:11px;background:var(--bg-elevated);border:1px solid var(--border-subtle);transition:.15s}
-.tile:hover{border-color:var(--accent);background:var(--bg-card-hover)}
-.tile .ico{width:36px;height:36px;border-radius:9px;background:var(--accent-soft);display:grid;place-items:center;font-size:18px;flex:none}
-.tile b{display:block;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tile small{display:block;color:var(--text-muted);font-size:11px;margin:2px 0 4px}
-.bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
-textarea{
-  width:100%;min-height:132px;resize:vertical;padding:12px;border-radius:11px;
-  background:var(--bg-elevated);border:1px solid var(--border-subtle);
-  color:var(--text-primary);font:inherit;font-size:13px;line-height:1.6
-}
-textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.hint{font-size:11px;color:var(--text-muted);margin-top:7px}
-.log{display:flex;flex-direction:column;max-height:196px;overflow-y:auto}
-.log-row{display:flex;gap:11px;padding:8px 0;border-bottom:1px solid var(--border-subtle);font-size:12.5px}
-.log-row:last-child{border-bottom:none}
-.log-row time{color:var(--blue);flex:none;font-variant-numeric:tabular-nums;font-size:11.5px;padding-top:1px}
-.log-row span{color:var(--text-secondary);word-break:break-word}
-.toast{
-  position:fixed;bottom:24px;left:50%;transform:translate(-50%,80px);
-  background:var(--bg-elevated);border:1px solid var(--accent);color:var(--text-primary);
-  padding:11px 20px;border-radius:11px;font-size:13px;z-index:99;
-  box-shadow:0 12px 40px rgba(0,0,0,.6);opacity:0;transition:.25s;pointer-events:none;max-width:88vw;text-align:center
-}
-.toast.show{transform:translate(-50%,0);opacity:1}
+  .pill {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: .05em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 4px;
+    background: var(--rule-soft); color: var(--ink-soft);
+  }
+  .pill[data-sev="urgent"] { background: var(--urgent-bg); color: var(--urgent); }
+  .pill[data-sev="soon"]   { background: var(--soon-bg);   color: var(--soon); }
+  .pill[data-sev="ok"]     { background: var(--ok-bg);     color: var(--ok); }
 
-@media (max-width:1200px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:900px){
-  .app{grid-template-columns:1fr;padding:16px;gap:18px}
-  .rail{position:static;flex-direction:row;flex-wrap:wrap;justify-content:center;padding-top:0}
-  .rail-counts,.rail-links,.subagents{flex-direction:row;flex-wrap:wrap;justify-content:center}
-  .rail-count,.rail-links a{flex:1 1 128px}
-  .status-box{flex:1 1 200px}
-  .board{grid-template-columns:1fr}
-  .bottom{grid-template-columns:1fr}
-}
-/* Reduce-motion is handled in the rig (amplitude damping) rather than by
-   freezing everything, so only the decorative pulse is disabled here. */
-@media (prefers-reduced-motion:reduce){.dot.live{animation:none}}
+  /* ---------- today rail ---------- */
+  .rail { padding: 6px 20px 20px; position: relative; }
+  .slot {
+    display: grid; grid-template-columns: 68px 1fr; gap: 18px;
+    padding: 13px 0; border-bottom: 1px solid var(--rule-soft);
+    align-items: baseline;
+  }
+  .slot:last-child { border-bottom: 0; padding-bottom: 2px; }
+  .slot time {
+    font-family: var(--mono); font-size: 13px; color: var(--ink-faint);
+    font-variant-numeric: tabular-nums; letter-spacing: -.02em;
+  }
+  .slot-name { font-weight: 550; }
+  .slot-note { color: var(--ink-faint); font-size: 14px; }
+  .slot[data-now="true"] { position: relative; }
+  .slot[data-now="true"] time { color: var(--accent); font-weight: 700; }
+  .slot[data-now="true"] .slot-name { color: var(--accent); }
+  .slot[data-now="true"]::before {
+    content: ""; position: absolute; left: -20px; top: 0; bottom: 0; width: 3px;
+    background: var(--accent);
+  }
+
+  /* ---------- countdowns ---------- */
+  .deadlines { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+  .dl { padding: 15px 16px; display: flex; flex-direction: column; gap: 3px; }
+  .dl .days {
+    font-family: var(--mono); font-size: 27px; font-weight: 600;
+    font-variant-numeric: tabular-nums; letter-spacing: -.03em; line-height: 1.1;
+  }
+  .dl[data-sev="urgent"] .days { color: var(--urgent); }
+  .dl[data-sev="soon"]   .days { color: var(--soon); }
+  .dl[data-sev="ok"]     .days { color: var(--ok); }
+  .dl .days span { font-size: 13px; font-weight: 500; color: var(--ink-faint); letter-spacing: 0; }
+  .dl .what { font-weight: 550; font-size: 15px; text-wrap: pretty; }
+  .dl .when { font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); letter-spacing: .02em; }
+
+  /* ---------- loops ---------- */
+  .loops { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  .loop-col { padding: 16px 18px; display: flex; flex-direction: column; gap: 11px; }
+  .loop-col h3 {
+    margin: 0; font-size: 11.5px; font-weight: 650; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+  .loop-col ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .loop-col li { display: flex; gap: 10px; font-size: 15px; line-height: 1.45; align-items: baseline; }
+  .loop-col li::before {
+    content: ""; flex: none; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent); transform: translateY(-2px);
+  }
+  .loop-col .who { color: var(--ink-faint); font-size: 13.5px; }
+
+  /* ---------- courses ---------- */
+  .tablewrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th {
+    text-align: left; font-size: 11px; font-weight: 650; letter-spacing: .11em;
+    text-transform: uppercase; color: var(--ink-faint);
+    padding: 14px 18px; border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+  }
+  td { padding: 13px 18px; border-bottom: 1px solid var(--rule-soft); }
+  tr:last-child td { border-bottom: 0; }
+  td.grade { font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 600; }
+  td.course { font-weight: 550; }
+
+  /* ---------- long game ---------- */
+  .track { padding: 4px 20px 18px; }
+  .yr {
+    display: grid; grid-template-columns: 62px 1fr; gap: 18px;
+    padding: 13px 0; border-bottom: 1px solid var(--rule-soft); align-items: baseline;
+  }
+  .yr:last-child { border-bottom: 0; }
+  .yr .y {
+    font-family: var(--mono); font-size: 14px; font-weight: 600;
+    color: var(--accent); font-variant-numeric: tabular-nums;
+  }
+  .yr .what { font-size: 15px; }
+  .yr .what em { font-style: normal; color: var(--ink-faint); }
+
+  /* ---------- mcat slow burn ---------- */
+  .note {
+    font-family: var(--serif);
+    font-size: 16.5px; line-height: 1.55; color: var(--ink-soft);
+    margin: 0 0 4px; max-width: 64ch; text-wrap: pretty;
+  }
+  .phases { display: flex; flex-direction: column; gap: 10px; }
+  .phase {
+    display: grid; grid-template-columns: 4px 1fr; gap: 0 18px;
+    overflow: hidden; align-items: stretch;
+  }
+  .phase .stripe { background: var(--rule); }
+  .phase[data-now="true"] .stripe { background: var(--accent); }
+  .phase-body { padding: 16px 20px 16px 2px; display: flex; flex-direction: column; gap: 7px; }
+  .phase-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .phase-name { font-weight: 650; font-size: 16.5px; letter-spacing: -.005em; }
+  .phase[data-now="true"] .phase-name { color: var(--accent); }
+  .phase-when {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .05em;
+    text-transform: uppercase; color: var(--ink-faint); font-variant-numeric: tabular-nums;
+  }
+  .phase-what { font-family: var(--serif); font-size: 15.5px; color: var(--ink-soft); text-wrap: pretty; }
+  .phase-what em { font-style: italic; color: var(--ink); }
+  .phase-habit {
+    font-size: 13.5px; color: var(--ink-faint);
+    display: flex; gap: 8px; align-items: baseline; margin-top: 2px;
+  }
+  .phase-habit b {
+    font-family: var(--mono); font-size: 10.5px; font-weight: 650;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint);
+  }
+  .starts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 4px; }
+  .start { padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; }
+  .start .k {
+    font-family: var(--mono); font-size: 11px; font-weight: 650;
+    letter-spacing: .09em; text-transform: uppercase; color: var(--accent);
+  }
+  .start p { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--ink-soft); text-wrap: pretty; }
+
+  /* ---------- closing note ---------- */
+  .closer {
+    background: var(--accent-dim);
+    border: 1px solid var(--rule-soft);
+    border-radius: 10px;
+    padding: 22px 24px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .closer .k {
+    font-size: 11.5px; font-weight: 650; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--accent);
+  }
+  .closer p {
+    margin: 0; font-family: var(--serif);
+    font-size: clamp(17px, 2.2vw, 19.5px); line-height: 1.5;
+    text-wrap: pretty; max-width: 60ch;
+  }
+
+  /* ---------- gaps Molly needs filled ---------- */
+  .gap {
+    border: 1px dashed var(--rule);
+    border-radius: 9px;
+    padding: 15px 18px;
+    display: flex; flex-direction: column; gap: 5px;
+    background: transparent;
+  }
+  .gap .k {
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint);
+  }
+  .gap p { margin: 0; color: var(--ink-soft); font-size: 15px; text-wrap: pretty; }
+
+  footer {
+    color: var(--ink-faint); font-size: 13px;
+    border-top: 1px solid var(--rule); padding-top: 18px;
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  footer code { font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); }
+
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
-</head>
-<body>
 
-<div class="app">
-  <!-- ── agent rail ───────────────────────────── -->
-  <aside class="rail">
-    <!-- TEAL-01 rig, ported from "Holographic AI companion model" (Gremlin Puppet.dc.html).
-         The framework's ref="{{ x }}" bindings became plain ids; the tick loop is reimplemented below. -->
-    <div class="holo">
-      <div class="holo-shadow"></div>
-      <div class="bubble" id="bubble"></div>
-      <svg viewBox="0 0 400 400" aria-label="Molly — holographic companion">
-        <defs>
-          <radialGradient id="skin" cx="38%" cy="30%" r="78%">
-            <stop offset="0%" stop-color="#9fe7d8"/><stop offset="60%" stop-color="#4fb5ad"/><stop offset="100%" stop-color="#1f7b80"/>
-          </radialGradient>
-        </defs>
-        <g id="gRoot" opacity=".93">
-          <g id="gLegL" style="transform-origin:176px 322px"><rect x="160" y="318" width="34" height="52" rx="16" fill="#2f8f8f"/></g>
-          <g id="gLegR" style="transform-origin:224px 322px"><rect x="206" y="318" width="34" height="52" rx="16" fill="#2f8f8f"/></g>
-          <g id="gArmL" style="transform-origin:146px 248px"><rect x="106" y="240" width="44" height="30" rx="15" fill="#3aa3a0"/><circle cx="112" cy="255" r="17" fill="#48b3ad"/></g>
-          <g id="gArmR" style="transform-origin:254px 248px"><rect x="250" y="240" width="44" height="30" rx="15" fill="#3aa3a0"/><circle cx="288" cy="255" r="17" fill="#48b3ad"/></g>
-          <g id="gBody" style="transform-origin:200px 262px">
-            <rect x="146" y="228" width="108" height="106" rx="34" fill="url(#skin)"/>
-            <rect x="158" y="300" width="84" height="40" rx="18" fill="#2b8a8c" opacity=".55"/>
-          </g>
-          <g id="gHead" style="transform-origin:200px 230px">
-            <ellipse cx="200" cy="140" rx="118" ry="112" fill="url(#skin)"/>
-            <ellipse cx="158" cy="86" rx="46" ry="30" fill="#a8ecdf" opacity=".22" transform="rotate(-22 158 86)"/>
-            <g id="gEyes">
-              <g id="gPupils">
-                <ellipse cx="163" cy="150" rx="15" ry="13" fill="#7a2b22"/><ellipse cx="237" cy="150" rx="15" ry="13" fill="#7a2b22"/>
-                <circle cx="158" cy="145" r="4" fill="#c9705f" opacity=".8"/><circle cx="232" cy="145" r="4" fill="#c9705f" opacity=".8"/>
-              </g>
-              <g id="gLids" style="transform-origin:200px 150px">
-                <ellipse cx="163" cy="150" rx="17" ry="15" fill="#54bdb2" style="transform-origin:163px 150px;transform:scaleY(0)"/>
-                <ellipse cx="237" cy="150" rx="17" ry="15" fill="#54bdb2" style="transform-origin:237px 150px;transform:scaleY(0)"/>
-              </g>
-            </g>
-            <g id="gBrows">
-              <rect x="136" y="126" width="46" height="12" rx="6" fill="#3f9d94" style="transform-origin:159px 132px"/>
-              <rect x="218" y="126" width="46" height="12" rx="6" fill="#3f9d94" style="transform-origin:241px 132px"/>
-            </g>
-            <g id="gMouth"></g>
-          </g>
-        </g>
-      </svg>
-    </div>
-    <h2 id="agentName">Molly</h2>
-    <div class="brain"><span class="dot" id="brainDot"></span><span id="brainText">brain unknown</span></div>
-    <div class="agent-status">
-      <span class="dot" id="agentDot"></span><span id="agentStatus">Idle</span>
-    </div>
-    <div class="status-box" id="agentMessage">Ready for tasks</div>
-    <div class="subagents" id="subagents"></div>
-    <div class="rail-counts" id="railCounts"></div>
-    <nav class="rail-links">
-      <a href="legacy.html">Old Dashboard ↗</a>
-      <a href="https://github.com/ceyre-boop/molly" target="_blank" rel="noopener">Repo ↗</a>
-    </nav>
-  </aside>
+<div class="wrap">
 
-  <!-- ── main ─────────────────────────────────── -->
-  <main class="main">
-    <header class="topbar">
-      <div class="brand"><span class="glyph">⚡</span> Molly Dashboard</div>
-      <div class="online"><span class="dot live" id="connDot" style="background:var(--green)"></span><span id="connText">Online</span></div>
-      <div class="topbar-right">
-        <span class="sync">Last sync: <span id="lastSync">—</span></span>
-        <button class="btn" id="btnExport" title="Download the whole board as JSON">Export</button>
-        <button class="btn" id="btnImport" title="Load a board JSON file">Import</button>
-        <button class="btn" id="btnReset" title="No auth here — this clears local board state and re-seeds from config/tasks.json">Reset</button>
+  <header class="mast">
+    <div class="mast-row">
+      <h1>Molly&rsquo;s Desk</h1>
+      <div class="datestamp" id="stamp">&mdash;</div>
+    </div>
+    <p class="read" id="read">Loading your read&hellip;</p>
+    <nav class="links" id="links" aria-label="Quick links"></nav>
+  </header>
+
+  <section>
+    <h2 class="label">Needs you <span class="count" id="needs-count"></span></h2>
+    <div class="needs" id="needs"></div>
+  </section>
+
+  <section>
+    <h2 class="label">Today</h2>
+    <div class="card rail" id="rail"></div>
+  </section>
+
+  <section>
+    <h2 class="label">Coming up</h2>
+    <div class="deadlines" id="deadlines"></div>
+  </section>
+
+  <section>
+    <h2 class="label">Open loops</h2>
+    <div class="loops">
+      <div class="card loop-col">
+        <h3>Waiting on you</h3>
+        <ul id="loops-you"></ul>
       </div>
-    </header>
-
-    <nav class="quicklinks">
-      <a href="https://mail.google.com" target="_blank" rel="noopener"><span class="ql-icon">📧</span> Gmail</a>
-      <a href="https://github.com/ceyre-boop" target="_blank" rel="noopener"><span class="ql-icon">🐙</span> GitHub</a>
-      <a href="https://live.taboost.me" target="_blank" rel="noopener"><span class="ql-icon">🚀</span> TABOOST</a>
-      <a href="https://ceyre-boop.github.io/quant/" target="_blank" rel="noopener"><span class="ql-icon">📊</span> Quant</a>
-      <a href="https://web.telegram.org" target="_blank" rel="noopener"><span class="ql-icon">💬</span> Telegram</a>
-      <a href="https://docs.google.com/spreadsheets" target="_blank" rel="noopener"><span class="ql-icon">📋</span> Sheets</a>
-      <a href="https://firebase.google.com/console" target="_blank" rel="noopener"><span class="ql-icon">🔥</span> Firebase</a>
-      <a href="https://canvas.instructure.com" target="_blank" rel="noopener"><span class="ql-icon">🎓</span> Canvas</a>
-    </nav>
-
-    <section class="handoff" id="handoff" hidden>
-      <div class="handoff-label">Handoff → Molly</div>
-      <div class="handoff-task" id="handoffTask"></div>
-      <div class="handoff-meta" id="handoffMeta"></div>
-    </section>
-
-    <section class="board" id="board"></section>
-
-    <section class="panel">
-      <div class="panel-head"><span>📁</span><h3>Deliverables</h3></div>
-      <div class="shelf" id="shelf"></div>
-    </section>
-
-    <div class="bottom">
-      <section class="panel">
-        <div class="panel-head"><span>📝</span><h3>Notes for Molly</h3></div>
-        <textarea id="notes" placeholder="Drop tasks, context, or corrections here — Molly reads this on every heartbeat."></textarea>
-        <div class="hint" id="notesHint">Saved automatically</div>
-      </section>
-      <section class="panel">
-        <div class="panel-head"><span>📋</span><h3>Action Log</h3></div>
-        <div class="log" id="log"></div>
-      </section>
+      <div class="card loop-col">
+        <h3>Waiting on someone else</h3>
+        <ul id="loops-them"></ul>
+      </div>
     </div>
-  </main>
+  </section>
+
+  <section>
+    <h2 class="label">Courses</h2>
+    <div class="card tablewrap">
+      <table>
+        <thead>
+          <tr><th>Course</th><th>Grade</th><th>Next due</th><th>Standing</th></tr>
+        </thead>
+        <tbody id="courses"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="label">MCAT &mdash; the slow burn</h2>
+    <p class="note" id="mcat-note"></p>
+    <div class="phases" id="phases"></div>
+    <div class="starts" id="starts"></div>
+  </section>
+
+  <section>
+    <h2 class="label">The long game</h2>
+    <div class="card track" id="track"></div>
+  </section>
+
+  <section>
+    <h2 class="label">What I still need from you</h2>
+    <div class="needs" id="gaps"></div>
+  </section>
+
+  <div class="closer">
+    <div class="k">Before you close the laptop</div>
+    <p id="closer">&mdash;</p>
+  </div>
+
+  <footer>
+    <span>Prepared by Molly. Nothing here writes code or touches your repos.</span>
+    <span>Edit the <code>DESK</code> block at the bottom of this file.</span>
+  </footer>
+
 </div>
 
-<div class="toast" id="toast"></div>
-<input type="file" id="filePicker" accept="application/json" hidden>
-
-<script type="application/json" id="seedFallback">
-{"version":1,"columns":[{"id":"todo","title":"To Do","icon":"📋"},{"id":"progress","title":"In Progress","icon":"⚡"},{"id":"done","title":"Done","icon":"✅"},{"id":"archived","title":"Archived","icon":"📦"}],"cards":[{"id":"s1","column":"todo","title":"Open config/tasks.json to seed your real board","date":"2026-07-30","tag":"Molly"},{"id":"s2","column":"progress","title":"Molly command center — Kanban dashboard","date":"2026-07-30","tag":"Molly"},{"id":"s3","column":"done","title":"Dashboard scaffolded","date":"2026-07-30","tag":"Molly"}],"deliverables":[],"notes":"","log":[]}
-</script>
-
 <script>
-(() => {
-'use strict';
+/* ================================================================
+   YOUR DATA — everything the desk shows lives in this one object.
+   Edit it in any text editor. No build step, no install, no terminal.
+   Dates are YYYY-MM-DD. Times are 24-hour "HH:MM".
+   ================================================================ */
+const DESK = {
 
-const KEY = 'molly.board.v1';
-const LOG_CAP = 60;
-const STATE_URL = 'state/agent-state.json';
-const SEED_URL  = 'config/tasks.json';
+  // Quick links. Add, remove, or reorder freely — they render in this order.
+  links: [
+    { icon: "📧", name: "Gmail",    url: "https://mail.google.com" },
+    { icon: "🐙", name: "GitHub",   url: "https://github.com/ceyre-boop" },
+    { icon: "🚀", name: "TABOOST",  url: "https://live.taboost.me" },
+    { icon: "📊", name: "Quant",    url: "https://ceyre-boop.github.io/quant/" },
+    { icon: "💬", name: "Telegram", url: "https://web.telegram.org" },
+    { icon: "📋", name: "Sheets",   url: "https://docs.google.com/spreadsheets" },
+    { icon: "🔥", name: "Firebase", url: "https://firebase.google.com/console" },
+    { icon: "🎓", name: "Canvas",   url: "https://canvas.instructure.com" }
+  ],
 
-const $ = id => document.getElementById(id);
-const el = (tag, cls, text) => {
-  const n = document.createElement(tag);
-  if (cls) n.className = cls;
-  if (text !== undefined) n.textContent = text;   // never innerHTML — ISC-42
-  return n;
-};
+  // The one-line read at the top. Molly's take on the day.
+  read: "The MCAT is three or four years out, which is the best possible news: it means you never have to cram for it. People who score in the 99th percentile mostly aren't the ones who studied hardest in the last six months — they're the ones who arrived already knowing the material. Starting now, gently, is the whole advantage.",
 
-/* ── storage (never throws) ─────────────────── */
-let memoryOnly = false;
-const store = {
-  read() {
-    try {
-      const raw = localStorage.getItem(KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch (e) { console.warn('[molly] state unreadable, falling back to seed', e); return null; }
-  },
-  write(v) {
-    if (memoryOnly) return;
-    try { localStorage.setItem(KEY, JSON.stringify(v)); }
-    catch (e) { memoryOnly = true; toast('Storage unavailable — changes last for this session only'); }
-  },
-  clear() { try { localStorage.removeItem(KEY); } catch (e) {} }
-};
+  // The single most expensive thing to forget today.
+  closer: "Read something hard for twenty minutes. Not a textbook — a dense essay, a journal abstract, a long piece of criticism. CARS is the one MCAT section nobody can cram, and it's the only one you can start beating tonight.",
 
-/* ── state ──────────────────────────────────── */
-const DEFAULT_COLS = [
-  { id:'todo', title:'To Do', icon:'📋' },
-  { id:'progress', title:'In Progress', icon:'⚡' },
-  { id:'done', title:'Done', icon:'✅' },
-  { id:'archived', title:'Archived', icon:'📦' }
-];
-
-function normalize(raw) {
-  const d = raw && typeof raw === 'object' ? raw : {};
-  return {
-    version: 1,
-    columns: Array.isArray(d.columns) && d.columns.length ? d.columns : DEFAULT_COLS,
-    cards: Array.isArray(d.cards) ? d.cards.filter(c => c && c.id && c.column) : [],
-    deliverables: Array.isArray(d.deliverables) ? d.deliverables : [],
-    notes: typeof d.notes === 'string' ? d.notes : '',
-    log: Array.isArray(d.log) ? d.log.slice(0, LOG_CAP) : []
-  };
-}
-
-function inlineSeed() {
-  try { return normalize(JSON.parse($('seedFallback').textContent)); }
-  catch (e) { return normalize(null); }
-}
-
-let state = normalize(store.read()) ;
-let seededFromStorage = !!store.read();
-if (!seededFromStorage) state = inlineSeed();
-
-let live = null;          // agent-state.json payload when reachable
-let lastSeenStatus = null;
-let seq = 0;              // collision-free id suffix — ISC-47
-
-/* ── helpers ────────────────────────────────── */
-const uid = () => 'c-' + Date.now().toString(36) + '-' + (seq++).toString(36) + Math.random().toString(36).slice(2, 6);
-const todayISO = () => new Date().toISOString().slice(0, 10);
-const DATE_FMT = { month:'short', day:'numeric', year:'numeric' };
-const fmtDate = iso => {
-  // date-only strings must parse as LOCAL, not UTC — otherwise every date renders a day early
-  if (typeof iso === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(iso)) {
-    const [y, m, d] = iso.split('-').map(Number);
-    return new Date(y, m - 1, d).toLocaleDateString('en-US', DATE_FMT);
-  }
-  const d = new Date(iso);
-  return isNaN(d) ? String(iso || '') : d.toLocaleDateString('en-US', DATE_FMT);
-};
-const fmtTime = iso => {
-  const d = new Date(iso);
-  return isNaN(d) ? '' : d.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' });
-};
-
-let toastTimer;
-function toast(msg) {
-  const t = $('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
-}
-
-function logAction(text) {
-  state.log.unshift({ ts: new Date().toISOString(), text });
-  if (state.log.length > LOG_CAP) state.log.length = LOG_CAP;   // ISC-34
-}
-
-function save() {
-  store.write(state);
-  $('lastSync').textContent = new Date().toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', second:'2-digit' });
-}
-
-function commit(text) { if (text) logAction(text); save(); render(); }
-
-const colTitle = id => (state.columns.find(c => c.id === id) || {}).title || id;
-const cardsIn  = id => state.cards.filter(c => c.column === id);
-
-/* ── TEAL-01 companion ──────────────────────────
-   Ported from ~/Downloads/Holographic AI companion model/Gremlin Puppet.dc.html.
-   Same MOODS table, same tick math, same pose API — the host framework's refs
-   became ids and the 33ms driver became a rAF loop. Molly's agent status drives
-   mood + action, so the puppet is a readout, not decoration. */
-const holo = (() => {
-  const R = {
-    root:$('gRoot'), body:$('gBody'), head:$('gHead'), armL:$('gArmL'), armR:$('gArmR'),
-    legL:$('gLegL'), legR:$('gLegR'), pupils:$('gPupils'), lids:$('gLids'),
-    brows:$('gBrows'), mouth:$('gMouth'), bubble:$('bubble')
-  };
-  if (!R.root) return { set(){}, say(){}, play(){} };
-
-  const MOODS = {
-    neutral: { brow:-8,  lid:0,    mouth:'M172 206q28 6 56 0',      pupil:[0,0] },
-    smug:    { brow:-16, lid:0.3,  mouth:'M172 206q30 14 56 -10',   pupil:[5,-2] },
-    furious: { brow:-30, lid:0,    mouth:'M166 212q34 -22 68 0',    pupil:[0,2] },
-    bored:   { brow:4,   lid:0.45, mouth:'M174 206h52',             pupil:[-4,3] },
-    delight: { brow:-6,  lid:0,    mouth:'M166 200q34 32 68 0',     pupil:[0,-3] },
-    suspect: { brow:-22, lid:0.4,  mouth:'M176 208q24 -6 48 4',     pupil:[7,0] }
-  };
-  // Molly's agent status → how TEAL-01 wears it
-  const BY_STATUS = {
-    idle:     { mood:'bored',   enter:'shrug' },
-    thinking: { mood:'suspect', enter:null    },
-    working:  { mood:'smug',    enter:'wave'  },
-    spawning: { mood:'delight', enter:'dance' },
-    offline:  { mood:'neutral', enter:null    }
-  };
-
-  // Reduced-motion must NOT mean "freeze the character": she is a status readout,
-  // not decoration, and a frozen puppet is a broken one. Instead the loop keeps
-  // running and every oscillating term is scaled by `amp` — 0 kills the idle
-  // wobble, breathing, and blink while moods and action end-poses still land.
-  // This Mac has "Reduce motion" ON. Normally that would win, but the character
-  // was explicitly asked for as a live readout of what the agent is thinking and
-  // doing — motion IS the information here, not decoration, so it defaults on.
-  // `molly.motion(false)` (persisted) restores the system preference.
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const stored = localStorage.getItem('molly.motion');
-  let fullMotion = stored === null ? true : stored === 'on';
-
-  let lidBase = 0, pupilTarget = [0,0], action = null, talkUntil = 0;
-  let nextBlink = 1200, blinkAt, t0 = performance.now(), raf = 0, last = 0, sayT;
-  let frames = 0, lastErr = null;
-  const FRAME_MS = 1000 / 30;   // this sits open all day — 30fps is plenty
-
-  function applyMood(name) {
-    const m = MOODS[name] || MOODS.neutral;
-    R.mouth.innerHTML = '<path d="' + m.mouth + '" fill="none" stroke="#1d6b6e" stroke-width="10" stroke-linecap="round"></path>';
-    R.brows.children[0].style.transform = 'rotate(' + m.brow + 'deg)';
-    R.brows.children[1].style.transform = 'rotate(' + (-m.brow) + 'deg)';
-    lidBase = m.lid; pupilTarget = m.pupil;
-  }
-
-  function play(name) {
-    // The original gave 'dangle' an effectively infinite duration because a human
-    // clicked the next button. Nothing re-poses her here, so an autonomous
-    // dangle would strand both arms overhead forever. Cap it.
-    const dur = name === 'dangle' ? 6000 : name === 'stomp' ? 1100 : 1500;
-    // Wall-clock, not frame count: rAF stops while the window is backgrounded,
-    // and a frame-counted action would come back still mid-pose (an arm stuck
-    // over her head) instead of resolving the moment you look at it again.
-    action = { name, dur, start: performance.now() };
-  }
-
-  function say(text, ms) {
-    if (!text) return;
-    R.bubble.textContent = text;
-    R.bubble.style.opacity = '1';
-    R.bubble.style.transform = 'translateX(-50%) scale(1)';
-    clearTimeout(sayT);
-    talkUntil = performance.now() + (ms || 3200);
-    sayT = setTimeout(() => {
-      R.bubble.style.opacity = '0';
-      R.bubble.style.transform = 'translateX(-50%) scale(.92)';
-    }, ms || 3200);
-  }
-
-  const set = (el, tr) => { if (el) el.style.transform = tr; };
-
-  function frame(now) {
-    frames++;
-    try {
-    if (now !== undefined) {
-      if (now - last < FRAME_MS) { raf = requestAnimationFrame(frame); return; }
-      last = now;
-    }
-    const amp = fullMotion ? 1 : 0;       // 0 = stillness, but the loop keeps running
-    const t = (now === undefined ? 0 : now) - t0, s = t / 1000;
-    const breathe = Math.sin(s * 1.8) * 3 * amp;
-    let armL = Math.sin(s * 1.3) * 5 * amp, armR = -Math.sin(s * 1.3 + 0.6) * 5 * amp;
-    let legL = 0, legR = 0, headR = Math.sin(s * 0.9) * 3 * amp, bodyR = Math.sin(s * 0.9) * 1.5 * amp, hop = 0;
-
-    if (action && !fullMotion) {
-      action = null;               // reduced motion: the mood lands, the flailing doesn't
-    } else if (action) {
-      const a = action.name;
-      if (a === 'wave') armR = -70 + Math.sin(s * 18) * 22;
-      else if (a === 'rage')  { armL = 55 + Math.sin(s*26)*18; armR = -55 - Math.sin(s*26)*18; headR = Math.sin(s*30)*7; hop = Math.abs(Math.sin(s*14)) * -6; }
-      else if (a === 'stomp') { legR = Math.sin(s*16)*26; hop = Math.abs(Math.sin(s*8)) * -10; }
-      else if (a === 'shrug') { armL = -28; armR = 28; headR = 6; }
-      else if (a === 'dance') { armL = Math.sin(s*8)*60; armR = Math.sin(s*8+3)*60; legL = Math.sin(s*8)*16; legR = -Math.sin(s*8)*16; hop = Math.abs(Math.sin(s*8)) * -16; bodyR = Math.sin(s*8)*6; }
-      else if (a === 'dangle'){ armL = -140 + Math.sin(s*3)*6; armR = 140 - Math.sin(s*3)*6; legL = Math.sin(s*4)*14; legR = Math.sin(s*4+1)*14; bodyR = Math.sin(s*2.4)*5; }
-      if (performance.now() - action.start >= action.dur) action = null;
-    }
-
-    set(R.root, 'translateY(' + (hop + breathe * 0.4) + 'px)');
-    set(R.body, 'rotate(' + bodyR + 'deg) scaleY(' + (1 + Math.sin(s * 1.8) * 0.012 * amp) + ')');
-    set(R.head, 'rotate(' + headR + 'deg) translateY(' + breathe * 0.3 + 'px)');
-    set(R.armL, 'rotate(' + armL + 'deg)'); set(R.armR, 'rotate(' + armR + 'deg)');
-    set(R.legL, 'rotate(' + legL + 'deg)'); set(R.legR, 'rotate(' + legR + 'deg)');
-
-    if (fullMotion && t > nextBlink) { blinkAt = t; nextBlink = t + 1800 + Math.random() * 3200; }
-    let lid = lidBase;
-    if (fullMotion && blinkAt !== undefined) { const d = t - blinkAt; if (d < 150) lid = Math.max(lid, 1 - Math.abs(d - 75) / 75); }
-    R.lids.children[0].style.transform = 'scaleY(' + lid.toFixed(3) + ')';
-    R.lids.children[1].style.transform = 'scaleY(' + lid.toFixed(3) + ')';
-
-    set(R.pupils, 'translate(' + (pupilTarget[0] + Math.sin(s*0.7)*3*amp) + 'px,' + (pupilTarget[1] + Math.cos(s*0.5)*2*amp) + 'px)');
-    R.mouth.style.transformOrigin = '200px 206px';
-    R.mouth.style.transform = (fullMotion && performance.now() < talkUntil)
-      ? 'scaleY(' + (1 + Math.abs(Math.sin(s * 22)) * 0.7) + ')' : '';
-
-    } catch (e) { lastErr = e.message; }
-    raf = requestAnimationFrame(frame);   // always: the loop is how state reaches the rig
-  }
-
-  document.addEventListener('visibilitychange', () => {
-    cancelAnimationFrame(raf);
-    if (!document.hidden) raf = requestAnimationFrame(frame);
-  });
-
-  applyMood('neutral');
-  raf = requestAnimationFrame(frame);
-
-  let lastStatus = null, modelDriven = false;
-  return {
-    say, play,
-    MOODS, ACTIONS: ['wave','shrug','dance','rage','stomp','dangle'],
-    /** Status-derived fallback — the face when no model reaction owns it.
-        Deliberately does NOT expire a model mood on a timer: if qwen decided
-        she is furious, she stays furious until something else actually happens. */
-    set(status, { force } = {}) {
-      const changed = status !== lastStatus;
-      lastStatus = status;
-      if (modelDriven && !force) return;
-      if (!changed && !force) return;
-      const map = BY_STATUS[status] || BY_STATUS.idle;
-      applyMood(map.mood);
-      if (map.enter) play(map.enter);
+  // Things that actually need your decision. Each one carries my recommendation.
+  // sev: "urgent" | "soon" | "ok"
+  needsYou: [
+    {
+      title: "Fall course registration",
+      sev: "soon",
+      tag: "Confirm",
+      rec: "I can't see your registration portal. Send me what you enrolled in and I'll build the week around it &mdash; study blocks placed so they don't collide with market hours."
     },
-    /** The local model chose this. It owns the face until the next reaction. */
-    react({ mood, action, say: line }) {
-      if (mood && MOODS[mood]) { applyMood(mood); modelDriven = true; }
-      if (action && action !== 'none') play(action);
-      if (line) say(line, 7000);
+    {
+      title: "Trading hours vs. lab times",
+      sev: "soon",
+      tag: "Plan",
+      rec: "You've held 09:30&ndash;11:00 and 14:00&ndash;16:00 for markets. Science labs land in exactly that window. <b>Decide which one yields before registration closes</b>, not after."
     },
-    /** Hand the face back to the status table (brain went offline). */
-    release() { modelDriven = false; },
-    /** macOS "Reduce motion" is respected by default but overridable — a frozen
-        status readout is worse than a moving one if you actually want it. */
-    get frames() { return frames; },
-    get lastErr() { return lastErr; },
-    motion(on) {
-      if (on === undefined) return { fullMotion, systemPrefersReduced: reduce };
-      fullMotion = !!on;
-      localStorage.setItem('molly.motion', fullMotion ? 'on' : 'off');
-      return { fullMotion, systemPrefersReduced: reduce };
+    {
+      title: "Pick your daily twenty minutes",
+      sev: "ok",
+      tag: "Start",
+      rec: "The slow burn below only works if it's the same time every day. My read: <b>attach it to something you already do without deciding</b> &mdash; right after coffee, or the twenty minutes before market open. Tell me which and I'll put it on the rail."
     }
-  };
-})();
+  ],
 
-/* ── local brain (Ollama) ───────────────────────
-   Not a cost play — the 24/7 agent runs on the Max subscription. This is the
-   cheap, private, always-available voice for the puppet's one-liners. */
-const brain = (() => {
-  const URL_BASE = 'http://localhost:11434';
-  // Don't hardcode a model — read what's actually pulled. Preference order, then
-  // whatever is first. (Pinning llama3.2 silently 404s on a box that has qwen.)
-  const PREFERRED = ['llama3.2', 'qwen2.5', 'qwen3', 'mistral-nemo'];
-  let MODEL = null;
-  const PERSONA = 'You are Molly, a small teal holographic desk companion for Colin, a solo engineer running a trading lab and an AI agency. Voice: tiny, blunt, dry, loyal. 1 SHORT sentence, max 20 words. No emoji, no markdown, no disclaimers. Reply with ONLY what you say out loud.';
-  let state = 'unknown';
-  let vault = null;   // digest of the Obsidian brain, written by `molly.ts brain`
-
-  // The page is served over http and cannot read ~/Obsidian directly. The CLI
-  // distils CONTEXT.md into state/brain.json; we just pick it up.
-  async function loadVault() {
-    try {
-      const res = await fetch('state/brain.json', { cache: 'no-store' });
-      if (res.ok) vault = await res.json();
-    } catch (e) { vault = null; }
-  }
-
-  function paint(s) {
-    state = s;
-    const map = {
-      online:  ['var(--green)',       'local brain online'],
-      offline: ['var(--text-muted)',  'local brain offline'],
-      unknown: ['var(--text-muted)',  'brain unknown']
-    };
-    const [colour, label] = map[s] || map.unknown;
-    $('brainDot').style.background = colour;
-    $('brainText').textContent = s === 'online' && MODEL ? MODEL.split(':')[0] + ' online' : label;
-  }
-
-  async function probe() {
-    try {
-      const res = await fetch(URL_BASE + '/api/tags', { cache: 'no-store' });
-      if (!res.ok) throw new Error(res.status);
-      const names = ((await res.json()).models || []).map(m => m.name);
-      if (!names.length) { MODEL = null; paint('offline'); return; }
-      MODEL = PREFERRED.map(p => names.find(n => n.startsWith(p))).find(Boolean) || names[0];
-      paint('online');
-    } catch (e) { MODEL = null; paint('offline'); }   // not running, or OLLAMA_ORIGINS not set
-  }
-
-  const MOOD_SET = ['neutral','smug','furious','bored','delight','suspect'];
-  const ACTION_SET = ['wave','shrug','dance','rage','stomp','dangle','none'];
-
-  /** Ask the model how it FEELS, not just what to say. Returns {say,mood,action}
-      or null. Ollama's format:'json' makes this reliable enough to drive the rig;
-      the vocabularies are still validated here, because a model's word is not a
-      contract. */
-  async function react(situation) {
-    if (state !== 'online' || !MODEL) return null;
-    const schema = `Respond ONLY with JSON: {"say": string (max 14 words, spoken aloud), `
-      + `"mood": one of ${JSON.stringify(MOOD_SET)}, "action": one of ${JSON.stringify(ACTION_SET)}}. `
-      + `Choose the mood and action that genuinely match how you feel about this. `
-      + `Keep mood and action coherent with each other.`;
-    try {
-      const res = await fetch(URL_BASE + '/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: MODEL, stream: false, format: 'json',
-          messages: [
-            { role:'system', content: PERSONA + '\n' + schema + (vault && vault.context
-                ? '\n\nWhat Colin is working on (from his Obsidian brain):\n' + vault.context : '') },
-            { role:'user', content: situation }
-          ]
-        })
-      });
-      if (!res.ok) throw new Error(res.status);
-      const raw = (await res.json()).message?.content || '';
-      const d = JSON.parse(raw);
-      return {
-        say: typeof d.say === 'string' ? d.say.trim().slice(0, 120) : null,
-        mood: MOOD_SET.includes(d.mood) ? d.mood : null,
-        action: ACTION_SET.includes(d.action) ? d.action : null
-      };
-    } catch (e) { return null; }
-  }
-
-  async function ask(prompt) {
-    if (state !== 'online' || !MODEL) return null;
-    try {
-      const res = await fetch(URL_BASE + '/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: MODEL, stream: false,
-          messages: [
-            { role:'system', content: PERSONA + (vault && vault.context
-                ? '\n\nWhat Colin is working on right now (from his Obsidian brain):\n' + vault.context
-                : '') },
-            { role:'user', content: prompt }
-          ]
-        })
-      });
-      if (!res.ok) throw new Error(res.status);
-      const data = await res.json();
-      return (data.message && data.message.content || '').trim().slice(0, 140);
-    } catch (e) { return null; }
-  }
-
-  paint('unknown'); probe(); loadVault();
-  setInterval(probe, 30000);
-  setInterval(loadVault, 60000);   // picks up a fresh `molly.ts brain` run
-  return { ask, react, get status() { return state; }, get vault() { return vault; } };
-})();
-
-
-/* ── render ─────────────────────────────────── */
-function render() { renderBoard(); renderRail(); renderShelf(); renderLog(); renderHandoff(); }
-
-/* ── reactor ────────────────────────────────────
-   The visible half of the loop: something happens, the local model decides how
-   it FEELS about it, and the rig performs that. Mood and animation come from
-   qwen2.5, not from a lookup table — the puppet is a readout of the model's
-   state, which is the whole point. */
-const reactor = (() => {
-  let busy = false, lastAt = 0, lastBeat = performance.now(), lastReaction = null;
-  const COOLDOWN = 20000;      // never more than one reaction per 20s
-  const BEAT_MS  = 240000;     // unprompted every ~4 min when nothing else happens
-
-  async function fire(situation, { force } = {}) {
-    if (busy) return;
-    if (!force && performance.now() - lastAt < COOLDOWN) return;
-    busy = true; lastAt = performance.now(); lastBeat = performance.now();
-    try {
-      const r = await brain.react(situation);
-      lastReaction = r ? { ...r, situation, at: new Date().toISOString() } : null;
-      if (r && (r.say || r.mood || r.action)) {
-        holo.react(r);
-      } else {
-        // brain unreachable — hand the face back to the status table rather than
-        // leaving her frozen in whatever she last felt
-        holo.release();
-        holo.set((live && live.status) || 'idle', { force: true });
+  // The long game, played slowly. Phases, not a countdown.
+  mcat: {
+    note: "Three to four years is not a study plan &mdash; it's an accumulation plan. The goal for the next two years is that MCAT content stops being something you study and becomes something you already know, because your coursework taught it to you properly the first time. Prep books come later, and they come easy.",
+    phases: [
+      {
+        when: "Now &rarr; mid-2028",
+        name: "Foundation",
+        now: true,
+        what: "Treat every prerequisite as the real prep. Learn Bio, Gen Chem, Orgo, Physics, Biochem, Psych and Soc <em>to keep</em>, not to pass. A 4.0 earned by cramming is worth less here than a B+ earned by understanding.",
+        habit: "20 min/day of dense reading (CARS). Nothing else required."
+      },
+      {
+        when: "2028",
+        name: "Consolidation",
+        what: "First real content review, at a relaxed pace. Anki deck built as you go, not bought. Start noticing which subjects you actually forgot &mdash; those are the ones that matter.",
+        habit: "CARS daily + one content block/week."
+      },
+      {
+        when: "~12 months out",
+        name: "Sharpening",
+        what: "First full-length diagnostic. This is the earliest it's useful &mdash; taken sooner it just scares you with material you haven't met yet.",
+        habit: "Full-lengths monthly, then biweekly."
+      },
+      {
+        when: "Final 3 months",
+        name: "Test craft",
+        what: "Stamina, timing, and review discipline. By now the content is old news; what you're training is sitting still for seven hours and not panicking.",
+        habit: "Full-lengths weekly, with full review."
       }
-    } finally { busy = false; }
-  }
+    ],
+    // The only things worth doing this week.
+    startNow: [
+      { k: "CARS, daily",        p: "Twenty minutes of hard reading. Philosophy, history, literary criticism &mdash; the denser and less interesting to you, the better the training. This is the section that takes years to move and minutes a day to build." },
+      { k: "Anki, tiny",         p: "Start a deck now and add five cards a week from whatever class you're in. In three years that's a complete, personal, already-reviewed content deck. Buying one later is not the same thing." },
+      { k: "One curiosity/week", p: "Pick one thing from a lecture you didn't fully get and chase it down properly. This is the habit that separates people who know the material from people who covered it." }
+    ]
+  },
 
-  /** Board + agent state, compressed into something worth reacting to. */
-  function snapshot() {
-    const n = id => state.cards.filter(c => c.column === id).length;
-    const s = (live && live.status) || 'idle';
-    return { todo:n('todo'), progress:n('progress'), done:n('done'), status:s,
-             subagents:(live && live.subagents || []).length };
-  }
+  // Today's shape. Add or remove rows freely.
+  today: [
+    { from: "07:30", to: "09:00", name: "Morning block",    note: "Reading, prep, nothing scheduled on you" },
+    { from: "09:30", to: "11:00", name: "Market hours",     note: "Held open" },
+    { from: "11:00", to: "13:00", name: "Study block",      note: "Unassigned — tell me what goes here" },
+    { from: "14:00", to: "16:00", name: "Market hours",     note: "Held open" },
+    { from: "16:00", to: "18:00", name: "Research",         note: "Trading repos / reading queue" },
+    { from: "19:00", to: "21:00", name: "Open",             note: "Yours" }
+  ],
 
-  // idle beat — she keeps going after Colin stops
-  setInterval(() => {
-    if (document.hidden || brain.status !== 'online') return;
-    if (performance.now() - lastBeat < BEAT_MS) return;
-    const s = snapshot();
-    fire(`Nothing has happened for a few minutes. Board: ${s.todo} to do, ${s.progress} in progress, `
-       + `${s.done} done. You are ${s.status}. Say something unprompted — an observation, a nudge, or a complaint.`,
-       { force: true });
-  }, 30000);
+  // Dated things. I count the days for you.
+  deadlines: [
+    { what: "Fall registration closes", date: "2026-08-21", note: "Estimated — confirm with your registrar" },
+    { what: "Semester begins",          date: "2026-09-02", note: "Estimated" },
+    { what: "MCAT, target window",      date: "2030-05-01", note: "Placeholder — no pressure, just the horizon" }
+  ],
 
-  return { fire, snapshot, get last() { return lastReaction; } };
-})();
+  // Loops I'm holding. Nothing here dies silently.
+  loopsOnYou: [
+    { what: "Send me your fall course list",            who: "5 minutes" },
+    { what: "Confirm which trading window you'll keep", who: "Before registration" },
+    { what: "Pick the daily 20-minute slot",            who: "Tonight" }
+  ],
+  loopsOnOthers: [
+    { what: "Registrar — final fall schedule posting",  who: "Registrar" },
+    { what: "Advisor sign-off on premed sequence",      who: "Academic advisor" }
+  ],
 
-let spokenHandoff = null;
-function renderHandoff() {
-  const panel = $('handoff');
-  const h = live && live.handoff;
-  if (!h || !h.task) { panel.hidden = true; spokenHandoff = null; return; }
-  panel.hidden = false;
-  if (h.task !== spokenHandoff) {
-    spokenHandoff = h.task;
-    reactor.fire(`Colin just handed you this task: "${h.task}". React to it.`, { force: true });
-  }
-  $('handoffTask').textContent = h.task;
-  const bits = [];
-  if (h.from) bits.push('from ' + h.from);
-  if (h.source) bits.push(h.source);
-  if (h.ts) bits.push(fmtTime(h.ts));
-  $('handoffMeta').textContent = bits.join(' · ');
-}
+  // Your courses. Replace these with the real ones and I'll track them.
+  courses: [
+    { name: "Course 1 — name it", grade: "A−", due: "—", standing: "Active" },
+    { name: "Course 2 — name it", grade: "B+", due: "—", standing: "Active" },
+    { name: "Course 3 — name it", grade: "A",  due: "—", standing: "Active" }
+  ],
 
-function renderBoard() {
-  const board = $('board');
-  board.textContent = '';
-  state.columns.forEach(col => {
-    const lane = el('section', 'lane');
-    lane.dataset.col = col.id;
+  // The multi-year track. Target: Radiation Oncology.
+  longGame: [
+    { year: "2026", what: "Prerequisites, taught properly. <em>The slow burn starts.</em>" },
+    { year: "2027", what: "Prerequisites continue. Biochem, Psych, Soc. <em>Still no prep books.</em>" },
+    { year: "2028", what: "Content consolidation. First serious review. <em>Comfortable, not urgent.</em>" },
+    { year: "2029", what: "Sharpening. Full-lengths begin. <em>Possible test year.</em>" },
+    { year: "2030", what: "Sit the MCAT. Applications out. <em>The pinch year.</em>" },
+    { year: "2031", what: "Medical school begins." },
+    { year: "2035", what: "Residency — Radiation Oncology." }
+  ],
 
-    const head = el('div', 'lane-head');
-    head.append(el('span', null, col.icon || '•'), el('h3', null, col.title));
-    head.append(el('span', 'count', String(cardsIn(col.id).length)));
-    lane.append(head);
-
-    const body = el('div', 'lane-body');
-    body.dataset.col = col.id;
-    const items = cardsIn(col.id);
-    if (!items.length) body.append(el('div', 'placeholder', 'Drop cards here'));   // ISC-51
-    items.forEach(c => body.append(cardNode(c)));
-
-    // drop target lives on the lane body — works even when empty (ISC-45)
-    body.addEventListener('dragover', e => { e.preventDefault(); lane.classList.add('dragover'); });
-    body.addEventListener('dragleave', e => { if (!body.contains(e.relatedTarget)) lane.classList.remove('dragover'); });
-    body.addEventListener('drop', e => {
-      e.preventDefault();
-      lane.classList.remove('dragover');
-      moveCard(e.dataTransfer.getData('text/plain'), col.id);
-    });
-
-    lane.append(body);
-
-    const add = el('button', 'add', '+ Add task');
-    add.addEventListener('click', () => addCard(col.id));
-    lane.append(add);
-
-    board.append(lane);
-  });
-}
-
-function cardNode(c) {
-  const node = el('article', 'card');
-  node.draggable = true;
-  node.dataset.id = c.id;
-
-  const title = el('div', 'card-title', c.title || 'Untitled');
-  title.addEventListener('click', () => editCard(node, c));
-  node.append(title);
-
-  const meta = el('div', 'card-meta');
-  meta.append(el('span', null, fmtDate(c.date)));
-  if (c.tag) meta.append(el('span', 'chip', c.tag));
-  node.append(meta);
-
-  const acts = el('div', 'card-actions');
-  const idx = state.columns.findIndex(x => x.id === c.column);
-  const mk = (label, act, title, disabled) => {
-    const b = el('button', null, label);
-    b.dataset.act = act; b.title = title; b.disabled = !!disabled;
-    if (disabled) b.style.opacity = '.25';
-    return b;
-  };
-  const prev = mk('‹', 'prev', 'Move left', idx <= 0);
-  const next = mk('›', 'next', 'Move right', idx >= state.columns.length - 1);
-  prev.addEventListener('click', e => { e.stopPropagation(); moveCard(c.id, state.columns[idx - 1].id); });
-  next.addEventListener('click', e => { e.stopPropagation(); moveCard(c.id, state.columns[idx + 1].id); });
-  const edit = mk('✎', 'edit', 'Rename');
-  edit.addEventListener('click', e => { e.stopPropagation(); editCard(node, c); });
-  const del = mk('✕', 'del', 'Delete');
-  del.addEventListener('click', e => { e.stopPropagation(); deleteCard(c); });
-  acts.append(prev, next, el('span', 'spacer'), edit, del);
-  node.append(acts);
-
-  node.addEventListener('dragstart', e => {
-    e.dataTransfer.setData('text/plain', c.id);
-    e.dataTransfer.effectAllowed = 'move';
-    node.classList.add('dragging');
-  });
-  node.addEventListener('dragend', () => {
-    node.classList.remove('dragging');
-    document.querySelectorAll('.lane.dragover').forEach(l => l.classList.remove('dragover'));
-  });
-  return node;
-}
-
-function renderRail() {
-  const inProgress = cardsIn('progress');
-  const heartbeatFresh = live && live.heartbeat && (Date.now() - new Date(live.heartbeat).getTime() < 120000);
-
-  let status, message, colour;
-  if (heartbeatFresh) {                                  // daemon is running
-    status  = live.status || 'idle';
-    message = live.message || live.currentTask || 'Ready for tasks';
-    colour  = { idle:'var(--text-muted)', thinking:'var(--blue)', working:'var(--orange)', spawning:'var(--accent)' }[status] || 'var(--green)';
-    $('connText').textContent = 'Online'; $('connDot').style.background = 'var(--green)';
-  } else {                                               // derived from the board — ISC-49
-    if (inProgress.length) { status = 'Working'; message = inProgress[0].title; colour = 'var(--orange)'; }
-    else                   { status = 'Idle';    message = 'Ready for tasks';   colour = 'var(--text-muted)'; }
-    $('connText').textContent = 'Local'; $('connDot').style.background = 'var(--text-muted)';
-  }
-
-  if (live && live.name) $('agentName').textContent = live.name;
-  holo.set(status.toLowerCase());
-  $('agentStatus').textContent = status.charAt(0).toUpperCase() + status.slice(1);
-  $('agentMessage').textContent = message;
-  const dot = $('agentDot');
-  dot.style.background = colour;
-  dot.classList.toggle('live', status.toLowerCase() !== 'idle');
-
-  const subs = $('subagents');
-  subs.textContent = '';
-  ((live && live.subagents) || []).forEach(s => {
-    const row = el('div', 'subagent');
-    row.append(el('span', 'dot live', ''), el('span', null, typeof s === 'string' ? s : (s.name || 'agent')));
-    row.firstChild.style.background = 'var(--accent)';
-    subs.append(row);
-  });
-
-  const counts = $('railCounts');
-  counts.textContent = '';
-  state.columns.forEach(col => {
-    const row = el('div', 'rail-count');
-    row.append(el('span', null, col.title), el('b', null, String(cardsIn(col.id).length)));
-    counts.append(row);
-  });
-}
-
-function renderShelf() {
-  const shelf = $('shelf');
-  shelf.textContent = '';
-  if (!state.deliverables.length) { shelf.append(el('div', 'placeholder', 'No deliverables yet')); return; }
-  state.deliverables.forEach(d => {
-    const tile = el('div', 'tile');
-    tile.append(el('div', 'ico', d.icon || '📄'));
-    const body = el('div');
-    body.append(el('b', null, d.title || 'Untitled'), el('small', null, fmtDate(d.date)), el('span', 'chip', d.tag || 'Folder'));
-    tile.append(body);
-    shelf.append(tile);
-  });
-}
-
-function renderLog() {
-  const log = $('log');
-  log.textContent = '';
-  if (!state.log.length) { log.append(el('div', 'placeholder', 'Nothing logged yet')); return; }
-  state.log.forEach(e => {
-    const row = el('div', 'log-row');
-    const t = el('time', null, fmtTime(e.ts));
-    t.dateTime = e.ts || '';
-    row.append(t, el('span', null, e.text || ''));
-    log.append(row);
-  });
-}
-
-/* ── mutations ──────────────────────────────── */
-function moveCard(id, colId) {
-  const card = state.cards.find(c => c.id === id);
-  if (!card || card.column === colId) return;             // drop-outside / same-lane = no-op — ISC-46
-  const from = colTitle(card.column);
-  card.column = colId;
-  commit(`Moved “${card.title}” from ${from} → ${colTitle(colId)}`);
-  reactor.fire(`Colin just moved "${card.title}" from ${from} to ${colTitle(colId)}. React.`);
-}
-
-function addCard(colId) {
-  const card = { id: uid(), column: colId, title: 'New task', date: todayISO(), tag: '' };
-  state.cards.push(card);
-  logAction(`Added “${card.title}” to ${colTitle(colId)}`);
-  save(); render();
-  const node = document.querySelector(`.card[data-id="${card.id}"]`);
-  if (node) editCard(node, card);
-}
-
-function deleteCard(card) {
-  state.cards = state.cards.filter(c => c.id !== card.id);
-  commit(`Deleted “${card.title}” from ${colTitle(card.column)}`);
-}
-
-function editCard(node, card) {
-  const titleEl = node.querySelector('.card-title');
-  if (!titleEl || node.querySelector('input.edit')) return;
-  const input = el('input', 'edit');
-  input.type = 'text';
-  input.value = card.title || '';
-  node.draggable = false;
-  titleEl.replaceWith(input);
-  input.focus(); input.select();
-
-  let done = false;
-  const finish = commitEdit => {
-    if (done) return; done = true;
-    node.draggable = true;
-    const next = input.value.trim();
-    if (commitEdit && next && next !== card.title) {
-      const was = card.title; card.title = next;
-      commit(`Renamed “${was}” → “${next}”`);
-    } else { render(); }
-  };
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); finish(true); }
-    if (e.key === 'Escape') { e.preventDefault(); finish(false); }   // ISC-29
-  });
-  input.addEventListener('blur', () => finish(true));
-}
-
-/* ── notes ──────────────────────────────────── */
-let notesTimer;
-$('notes').addEventListener('input', e => {
-  state.notes = e.target.value;
-  $('notesHint').textContent = 'Saving…';
-  clearTimeout(notesTimer);
-  notesTimer = setTimeout(() => { save(); $('notesHint').textContent = 'Saved ' + new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}); }, 500);
-});
-
-/* ── export / import / reset ────────────────── */
-$('btnExport').addEventListener('click', () => {
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-  const a = el('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `molly-board-${todayISO()}.json`;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  toast('Board exported');
-});
-
-$('btnImport').addEventListener('click', () => $('filePicker').click());
-$('filePicker').addEventListener('change', e => {
-  const file = e.target.files && e.target.files[0];
-  if (!file) return;
-  const r = new FileReader();
-  r.onload = () => {
-    try {
-      state = normalize(JSON.parse(r.result));
-      commit('Imported board from ' + file.name);
-      toast('Board imported');
-    } catch (err) { toast('That file is not valid board JSON'); }
-  };
-  r.readAsText(file);
-  e.target.value = '';
-});
-
-$('btnReset').addEventListener('click', () => {
-  toast('No login here — clearing local board and re-seeding from config/tasks.json');   // ISC-11
-  store.clear();
-  state = inlineSeed();
-  render();
-  loadSeed(true);
-});
-
-/* ── async: seed + live agent state ─────────── */
-async function loadSeed(force) {
-  if (!force && seededFromStorage) return;
-  try {
-    const res = await fetch(SEED_URL, { cache: 'no-store' });
-    if (!res.ok) throw new Error(res.status);
-    const seeded = normalize(await res.json());
-    if (seeded.cards.length) { state = seeded; save(); render(); }
-  } catch (e) {
-    console.info('[molly] seed unreachable (expected on file://) — using inline seed');   // ISC-38
-  }
-}
-
-async function pollAgent() {
-  try {
-    const res = await fetch(STATE_URL, { cache: 'no-store' });
-    if (!res.ok) throw new Error(res.status);
-    live = await res.json();
-  } catch (e) { live = null; }
-  renderRail();
-  renderHandoff();
-
-  // status changes are worth a reaction too — she notices going idle → working
-  const now = live && live.status;
-  if (now && now !== lastSeenStatus) {
-    if (lastSeenStatus !== null) {
-      reactor.fire(`Your status just changed from ${lastSeenStatus} to ${now}`
-        + (live.message ? ` — "${live.message}"` : '') + '. React.');
-    }
-    lastSeenStatus = now;
-  }
-}
-
-/* ── control API ────────────────────────────────
-   Same shape as the original rig's window.gremlin, so the puppet stays
-   pokeable from the console: molly.react('...'), molly.play('rage'), etc. */
-window.molly = {
-  react: (situation) => reactor.fire(situation, { force: true }),
-  say: (text, ms) => holo.say(text, ms),
-  play: (action) => holo.play(action),
-  setMood: (mood) => holo.react({ mood }),
-  moods: Object.keys(holo.MOODS),
-  get frames() { return holo.frames; },
-  get lastErr() { return holo.lastErr; },
-  motion: (on) => holo.motion(on),          // molly.motion(true) to override macOS Reduce Motion
-  actions: holo.ACTIONS,
-  get last() { return reactor.last; },
-  get brain() { return { status: brain.status, vault: !!brain.vault }; },
-  get board() { return reactor.snapshot(); }
+  // Things I genuinely cannot look up. The only questions I'm allowed to ask.
+  gaps: [
+    { k: "Your real courses",  p: "The school file still says “Course 1, Course 2, Course 3.” Give me names, times, and professors and this page starts being useful instead of decorative." },
+    { k: "Your class times",   p: "I can't build a study schedule around a timetable I don't have. Send it however it comes — a screenshot, a paste, a link." },
+    { k: "Calendar access",    p: "Your Google Calendar is connected but this page reads from the file below, not live. Say the word and I'll wire it to the real calendar." }
+  ]
 };
 
-/* ── boot ───────────────────────────────────── */
-$('notes').value = state.notes || '';
-render();
-$('lastSync').textContent = new Date().toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', second:'2-digit' });
-loadSeed(false);
-pollAgent();
-setInterval(pollAgent, 5000);
+/* ================================================================
+   Below here is the machinery. You don't need to touch it.
+   ================================================================ */
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c]));
+  const now = new Date();
+
+  // masthead
+  $("stamp").textContent = now.toLocaleDateString(undefined, {
+    weekday: "long", month: "long", day: "numeric", year: "numeric"
+  });
+  $("read").textContent = DESK.read;
+  $("closer").textContent = DESK.closer;
+
+  // quick links
+  $("links").innerHTML = DESK.links.map((l) =>
+    `<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer"
+        ><span class="ico" aria-hidden="true">${l.icon}</span>${esc(l.name)}</a>`).join("");
+
+  // needs you
+  $("needs").innerHTML = DESK.needsYou.map((n) => `
+    <article class="card item" data-sev="${esc(n.sev)}">
+      <div class="stripe"></div>
+      <div class="item-body">
+        <div class="item-title">${esc(n.title)}</div>
+        <div class="item-rec">${n.rec}</div>
+      </div>
+      <div class="item-meta"><span class="pill" data-sev="${esc(n.sev)}">${esc(n.tag)}</span></div>
+    </article>`).join("");
+  $("needs-count").textContent = DESK.needsYou.length;
+
+  // today — mark the slot containing the current time
+  const mins = now.getHours() * 60 + now.getMinutes();
+  const toMin = (t) => { const [h, m] = t.split(":").map(Number); return h * 60 + m; };
+  $("rail").innerHTML = DESK.today.map((s) => {
+    const live = mins >= toMin(s.from) && mins < toMin(s.to);
+    return `<div class="slot" data-now="${live}">
+      <time>${esc(s.from)}</time>
+      <div>
+        <div class="slot-name">${esc(s.name)}</div>
+        <div class="slot-note">${esc(s.note)}</div>
+      </div>
+    </div>`;
+  }).join("");
+
+  // deadlines
+  const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  $("deadlines").innerHTML = DESK.deadlines.map((d) => {
+    const [y, m, day] = d.date.split("-").map(Number);
+    const days = Math.round((new Date(y, m - 1, day) - midnight) / 86400000);
+    const sev = days <= 7 ? "urgent" : days <= 21 ? "soon" : "ok";
+    const label = days < 0 ? "days ago" : days === 1 ? "day" : "days";
+    return `<article class="card dl" data-sev="${sev}">
+      <div class="days">${Math.abs(days)} <span>${label}</span></div>
+      <div class="what">${esc(d.what)}</div>
+      <div class="when">${esc(d.date)} &middot; ${esc(d.note)}</div>
+    </article>`;
+  }).join("");
+
+  // loops
+  const loop = (arr) => arr.map((l) =>
+    `<li><span>${esc(l.what)} <span class="who">&mdash; ${esc(l.who)}</span></span></li>`).join("");
+  $("loops-you").innerHTML = loop(DESK.loopsOnYou);
+  $("loops-them").innerHTML = loop(DESK.loopsOnOthers);
+
+  // courses
+  $("courses").innerHTML = DESK.courses.map((c) => `
+    <tr>
+      <td class="course">${esc(c.name)}</td>
+      <td class="grade">${esc(c.grade)}</td>
+      <td>${esc(c.due)}</td>
+      <td><span class="pill" data-sev="ok">${esc(c.standing)}</span></td>
+    </tr>`).join("");
+
+  // mcat slow burn
+  $("mcat-note").innerHTML = DESK.mcat.note;
+  $("phases").innerHTML = DESK.mcat.phases.map((p) => `
+    <article class="card phase" data-now="${p.now === true}">
+      <div class="stripe"></div>
+      <div class="phase-body">
+        <div class="phase-head">
+          <span class="phase-name">${esc(p.name)}</span>
+          <span class="phase-when">${p.when}${p.now ? " &middot; you are here" : ""}</span>
+        </div>
+        <div class="phase-what">${p.what}</div>
+        <div class="phase-habit"><b>Habit</b><span>${esc(p.habit)}</span></div>
+      </div>
+    </article>`).join("");
+  $("starts").innerHTML = DESK.mcat.startNow.map((s) => `
+    <article class="card start"><div class="k">${esc(s.k)}</div><p>${s.p}</p></article>`).join("");
+
+  // long game
+  $("track").innerHTML = DESK.longGame.map((t) =>
+    `<div class="yr"><div class="y">${esc(t.year)}</div><div class="what">${t.what}</div></div>`).join("");
+
+  // gaps
+  $("gaps").innerHTML = DESK.gaps.map((g) => `
+    <div class="gap"><div class="k">${esc(g.k)}</div><p>${g.p}</p></div>`).join("");
 })();
 </script>
-</body>
-</html>
