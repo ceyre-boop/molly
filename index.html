@@ -75,8 +75,46 @@
     font-size: 16px;
     line-height: 1.55;
     margin: 0;
-    padding: clamp(20px, 4vw, 56px) clamp(16px, 4vw, 32px) 96px;
+    padding: 0 clamp(16px, 4vw, 32px) 96px;
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- the now bar (sticky calendar notification) ---------- */
+  .nowbar {
+    position: sticky; top: 0; z-index: 50;
+    margin: 0 calc(-1 * clamp(16px, 4vw, 32px)) clamp(20px, 4vw, 44px);
+    padding: 0 clamp(16px, 4vw, 32px);
+    background: var(--card);
+    border-bottom: 1px solid var(--rule);
+    backdrop-filter: saturate(1.6) blur(8px);
+  }
+  .nowbar-in {
+    max-width: 860px; margin: 0 auto;
+    min-height: 46px;
+    display: flex; align-items: center; gap: 11px; flex-wrap: wrap;
+    padding: 11px 0;
+  }
+  .nowbar .dot {
+    flex: none; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--ink-faint);
+  }
+  .nowbar[data-state="live"] .dot { box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 18%, transparent); }
+  .nowbar .now-k {
+    font-family: var(--mono); font-size: 10.5px; font-weight: 650;
+    letter-spacing: .13em; text-transform: uppercase; color: var(--ink-faint);
+    flex: none;
+  }
+  .nowbar[data-state="live"] .now-k { color: var(--accent); }
+  .nowbar .now-title {
+    font-weight: 600; font-size: 15px; letter-spacing: -.005em;
+    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .nowbar .now-when {
+    font-family: var(--mono); font-size: 12px; color: var(--ink-faint);
+    font-variant-numeric: tabular-nums; margin-left: auto; flex: none;
+  }
+  @media (max-width: 560px) {
+    .nowbar .now-when { margin-left: 0; width: 100%; }
   }
   .wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
 
@@ -346,6 +384,15 @@
 
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
+
+<div class="nowbar" id="nowbar" data-state="loading">
+  <div class="nowbar-in">
+    <span class="dot" id="now-dot"></span>
+    <span class="now-k" id="now-k">Checking your calendar</span>
+    <span class="now-title" id="now-title"></span>
+    <span class="now-when" id="now-when"></span>
+  </div>
+</div>
 
 <div class="wrap">
 
@@ -669,5 +716,84 @@ const DESK = {
   // gaps
   $("gaps").innerHTML = DESK.gaps.map((g) => `
     <div class="gap"><div class="k">${esc(g.k)}</div><p>${g.p}</p></div>`).join("");
+
+  /* ---------------- the now bar ----------------
+     Reads events.json sitting next to this file. That file is deliberately
+     NOT in git — see the note in .gitignore. Without it the bar shows a
+     clean "not connected" state instead of leaking anything.
+     Event shape: { title, start, end, color }  (ISO timestamps)
+  --------------------------------------------- */
+  const GCAL_COLORS = {
+    "1": "#7986CB", "2": "#33B679", "3": "#8E24AA", "4": "#E67C73",
+    "5": "#F6BF26", "6": "#F4511E", "7": "#039BE5", "8": "#616161",
+    "9": "#3F51B5", "10": "#0B8043", "11": "#D50000"
+  };
+
+  const bar = $("nowbar");
+  const setBar = (state, color, k, title, when) => {
+    bar.dataset.state = state;
+    bar.style.color = color || "";
+    $("now-dot").style.background = color || "var(--ink-faint)";
+    $("now-k").textContent = k;
+    $("now-title").textContent = title || "";
+    $("now-when").textContent = when || "";
+  };
+
+  const fmtGap = (ms) => {
+    const m = Math.max(0, Math.round(ms / 60000));
+    if (m < 60) return m + "m";
+    const h = Math.floor(m / 60);
+    return h + "h" + (m % 60 ? " " + (m % 60) + "m" : "");
+  };
+  const fmtClock = (d) =>
+    d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+
+  let EVENTS = [];
+
+  function paintBar() {
+    if (!EVENTS.length) {
+      setBar("empty", "", "Calendar not connected",
+        "Molly can wire this to your live Google Calendar", "");
+      return;
+    }
+    const t = Date.now();
+    const live = EVENTS.find((e) => t >= e.s && t < e.e);
+    if (live) {
+      setBar("live", live.color, "Now", live.title,
+        fmtClock(new Date(live.s)) + "–" + fmtClock(new Date(live.e)) +
+        " · ends in " + fmtGap(live.e - t));
+      return;
+    }
+    const next = EVENTS.find((e) => e.s > t);
+    if (next) {
+      const soon = next.s - t < 36e5; // within the hour
+      setBar(soon ? "live" : "idle", next.color, "Next", next.title,
+        fmtClock(new Date(next.s)) + " · in " + fmtGap(next.s - t));
+      return;
+    }
+    setBar("idle", "", "Clear", "Nothing left on the calendar", "");
+  }
+
+  fetch("./events.json", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : Promise.reject()))
+    .then((raw) => {
+      EVENTS = raw
+        .map((e) => ({
+          title: e.title,
+          s: new Date(e.start).getTime(),
+          e: new Date(e.end).getTime(),
+          color: e.color || GCAL_COLORS[e.colorId] || "#039BE5"
+        }))
+        .filter((e) => !isNaN(e.s) && !isNaN(e.e))
+        .sort((a, b) => a.s - b.s);
+      paintBar();
+    })
+    .catch(paintBar);
+
+  paintBar();
+  setInterval(paintBar, 30000);          // keeps up as the day moves
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) paintBar();     // and the moment you come back to the tab
+  });
 })();
 </script>
