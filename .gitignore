@@ -1,5 +1,8 @@
 
-# Real calendar data — stays on this machine.
-# github.com/ceyre-boop/molly is a PUBLIC repo and GitHub Pages serves it to
-# anyone with the URL. Committing this file publishes Colin's schedule.
-events.json
+# events.json IS tracked as of 2026-08-09.
+# The repo went private and GitHub Pages access control was verified:
+# the site returns 200 for Colin, 404 for anyone unauthenticated.
+#
+# IF THIS REPO IS EVER MADE PUBLIC AGAIN, re-add `events.json` to this file
+# and purge it from history — it holds his real schedule, including homelab
+# and key-rotation notes.
