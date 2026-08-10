@@ -1,28 +1,23 @@
 <meta charset="utf-8">
-<title>Molly's Desk</title>
+<title>Molly&rsquo;s Desk</title>
 <style>
-  /* ============================================================
-     MOLLY'S DESK — palette
-     ink navy ground, cool paper, clinical teal accent.
-     Semantic colours (urgent/soon/ok) are separate from the accent.
-     ============================================================ */
   :root {
-    --paper:      #EEF1F5;
+    --paper:      #EDF0F4;
     --card:       #FFFFFF;
     --ink:        #161B24;
-    --ink-soft:   #4A5464;
-    --ink-faint:  #7C8798;
-    --rule:       #D3DAE3;
-    --rule-soft:  #E4E9EF;
+    --ink-soft:   #586373;
+    --ink-faint:  #8B95A5;
+    --rule:       #D6DCE4;
+    --rule-soft:  #E6EAF0;
     --accent:     #0C6F79;
-    --accent-dim: #DCECEE;
+    --accent-dim: #DDEDEF;
     --urgent:     #A81E12;
     --urgent-bg:  #FBE7E4;
     --soon:       #8A5200;
     --soon-bg:    #FBF0DD;
     --ok:         #2A6349;
     --ok-bg:      #E2EFE8;
-    --shadow:     0 1px 2px rgba(22,27,36,.06), 0 8px 24px -12px rgba(22,27,36,.18);
+    --shadow:     0 1px 2px rgba(22,27,36,.05);
 
     --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
     --sans:  ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -30,357 +25,197 @@
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --paper:      #0E1218;
-      --card:       #161C25;
-      --ink:        #E7ECF3;
-      --ink-soft:   #A3AEBE;
-      --ink-faint:  #6F7B8C;
-      --rule:       #2A333F;
-      --rule-soft:  #202832;
-      --accent:     #4FC3CE;
-      --accent-dim: #16333A;
-      --urgent:     #FF9184;
-      --urgent-bg:  #3A1B18;
-      --soon:       #E5B15E;
-      --soon-bg:    #332714;
-      --ok:         #7FCBA5;
-      --ok-bg:      #142C22;
-      --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+      --paper: #0D1116; --card: #161C25; --ink: #E7ECF3; --ink-soft: #9BA7B7;
+      --ink-faint: #6B7686; --rule: #2B3441; --rule-soft: #1F2731;
+      --accent: #4FC3CE; --accent-dim: #16333A;
+      --urgent: #FF9184; --urgent-bg: #3A1B18;
+      --soon: #E5B15E; --soon-bg: #332714;
+      --ok: #7FCBA5; --ok-bg: #142C22;
+      --shadow: 0 1px 2px rgba(0,0,0,.35);
     }
   }
   :root[data-theme="dark"] {
-    --paper:      #0E1218;
-    --card:       #161C25;
-    --ink:        #E7ECF3;
-    --ink-soft:   #A3AEBE;
-    --ink-faint:  #6F7B8C;
-    --rule:       #2A333F;
-    --rule-soft:  #202832;
-    --accent:     #4FC3CE;
-    --accent-dim: #16333A;
-    --urgent:     #FF9184;
-    --urgent-bg:  #3A1B18;
-    --soon:       #E5B15E;
-    --soon-bg:    #332714;
-    --ok:         #7FCBA5;
-    --ok-bg:      #142C22;
-    --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+    --paper: #0D1116; --card: #161C25; --ink: #E7ECF3; --ink-soft: #9BA7B7;
+    --ink-faint: #6B7686; --rule: #2B3441; --rule-soft: #1F2731;
+    --accent: #4FC3CE; --accent-dim: #16333A;
+    --urgent: #FF9184; --urgent-bg: #3A1B18;
+    --soon: #E5B15E; --soon-bg: #332714;
+    --ok: #7FCBA5; --ok-bg: #142C22;
+    --shadow: 0 1px 2px rgba(0,0,0,.35);
   }
 
   * { box-sizing: border-box; }
   body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 16px;
-    line-height: 1.55;
-    margin: 0;
-    padding: 0 clamp(16px, 4vw, 32px) 96px;
+    background: var(--paper); color: var(--ink);
+    font-family: var(--sans); font-size: 15px; line-height: 1.45;
+    margin: 0; padding: 0 clamp(14px, 3.5vw, 28px) 80px;
     -webkit-font-smoothing: antialiased;
   }
+  .wrap { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 34px; }
 
-  /* ---------- the now bar (sticky calendar notification) ---------- */
+  /* now bar */
   .nowbar {
     position: sticky; top: 0; z-index: 50;
-    margin: 0 calc(-1 * clamp(16px, 4vw, 32px)) clamp(20px, 4vw, 44px);
-    padding: 0 clamp(16px, 4vw, 32px);
-    background: var(--card);
-    border-bottom: 1px solid var(--rule);
-    backdrop-filter: saturate(1.6) blur(8px);
+    margin: 0 calc(-1 * clamp(14px, 3.5vw, 28px)) 26px;
+    padding: 0 clamp(14px, 3.5vw, 28px);
+    background: var(--card); border-bottom: 1px solid var(--rule);
   }
   .nowbar-in {
-    max-width: 860px; margin: 0 auto;
-    min-height: 46px;
-    display: flex; align-items: center; gap: 11px; flex-wrap: wrap;
-    padding: 11px 0;
+    max-width: 900px; margin: 0 auto; min-height: 44px;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 0;
   }
-  .nowbar .dot {
-    flex: none; width: 9px; height: 9px; border-radius: 50%;
-    background: var(--ink-faint);
-  }
-  .nowbar[data-state="live"] .dot { box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 18%, transparent); }
+  .nowbar .dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--ink-faint); }
+  .nowbar[data-state="live"] .dot { box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 20%, transparent); }
   .nowbar .now-k {
-    font-family: var(--mono); font-size: 10.5px; font-weight: 650;
-    letter-spacing: .13em; text-transform: uppercase; color: var(--ink-faint);
-    flex: none;
+    font-family: var(--mono); font-size: 10px; font-weight: 650;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); flex: none;
   }
   .nowbar[data-state="live"] .now-k { color: var(--accent); }
-  .nowbar .now-title {
-    font-weight: 600; font-size: 15px; letter-spacing: -.005em;
-    min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
+  .nowbar .now-title { font-weight: 600; font-size: 14.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .nowbar .now-when {
-    font-family: var(--mono); font-size: 12px; color: var(--ink-faint);
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint);
     font-variant-numeric: tabular-nums; margin-left: auto; flex: none;
   }
-  @media (max-width: 560px) {
-    .nowbar .now-when { margin-left: 0; width: 100%; }
-  }
-  .wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+  @media (max-width: 540px) { .nowbar .now-when { margin-left: 0; width: 100%; } }
 
-  /* ---------- masthead ---------- */
-  .mast { display: flex; flex-direction: column; gap: 14px; }
-  .mast-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-  .mast h1 {
-    font-family: var(--serif);
-    font-size: clamp(30px, 5vw, 42px);
-    font-weight: 600;
-    letter-spacing: -.015em;
-    margin: 0;
-    text-wrap: balance;
-  }
-  .datestamp {
-    font-family: var(--mono);
-    font-size: 12.5px;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    font-variant-numeric: tabular-nums;
-  }
-  .read {
-    font-family: var(--serif);
-    font-size: clamp(17px, 2.3vw, 20px);
-    line-height: 1.5;
-    color: var(--ink-soft);
-    margin: 0;
-    padding-left: 16px;
-    border-left: 2px solid var(--accent);
-    text-wrap: pretty;
-    max-width: 62ch;
-  }
-
-  /* ---------- quick links ---------- */
-  .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-  .links a {
-    display: inline-flex; align-items: center; gap: 7px;
-    padding: 7px 13px 7px 11px;
-    background: var(--card);
-    border: 1px solid var(--rule-soft);
-    border-radius: 100px;
-    color: var(--ink-soft);
-    text-decoration: none;
-    font-size: 13.5px; font-weight: 550;
-    line-height: 1;
-    box-shadow: var(--shadow);
-    transition: border-color .13s ease, color .13s ease, transform .13s ease;
-  }
-  .links a .ico { font-size: 14px; line-height: 1; }
-  .links a:hover { border-color: var(--accent); color: var(--ink); transform: translateY(-1px); }
-  .links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  /* ---------- section frame ---------- */
-  section { display: flex; flex-direction: column; gap: 14px; }
-  .label {
-    display: flex; align-items: center; gap: 12px;
-    font-size: 11.5px; font-weight: 650;
-    letter-spacing: .13em; text-transform: uppercase;
-    color: var(--ink-faint);
-    margin: 0;
-  }
-  .label::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
-  .label .count {
-    font-family: var(--mono); font-weight: 500; letter-spacing: 0;
-    color: var(--ink-faint); font-variant-numeric: tabular-nums;
-  }
-
-  .card {
-    background: var(--card);
-    border: 1px solid var(--rule-soft);
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-  }
-
-  /* ---------- needs you ---------- */
-  .needs { display: flex; flex-direction: column; gap: 10px; }
-  .item {
-    display: grid;
-    grid-template-columns: 4px 1fr auto;
-    gap: 0 16px;
-    align-items: start;
-    padding: 0;
-    overflow: hidden;
-  }
-  .item .stripe { background: var(--ink-faint); align-self: stretch; }
-  .item[data-sev="urgent"] .stripe { background: var(--urgent); }
-  .item[data-sev="soon"]   .stripe { background: var(--soon); }
-  .item[data-sev="ok"]     .stripe { background: var(--ok); }
-  .item-body { padding: 16px 0 16px 2px; display: flex; flex-direction: column; gap: 6px; }
-  .item-title { font-weight: 600; font-size: 16.5px; letter-spacing: -.005em; }
-  .item-rec {
-    font-family: var(--serif); font-size: 15.5px; color: var(--ink-soft);
-    text-wrap: pretty;
-  }
-  .item-rec b { color: var(--ink); font-weight: 600; }
-  .item-meta { padding: 18px 18px 18px 0; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; white-space: nowrap; }
-
-  .pill {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 11px; font-weight: 600;
-    letter-spacing: .05em; text-transform: uppercase;
-    padding: 3px 8px; border-radius: 4px;
-    background: var(--rule-soft); color: var(--ink-soft);
-  }
-  .pill[data-sev="urgent"] { background: var(--urgent-bg); color: var(--urgent); }
-  .pill[data-sev="soon"]   { background: var(--soon-bg);   color: var(--soon); }
-  .pill[data-sev="ok"]     { background: var(--ok-bg);     color: var(--ok); }
-
-  /* ---------- today rail ---------- */
-  .rail { padding: 6px 20px 20px; position: relative; }
-  .slot {
-    display: grid; grid-template-columns: 68px 1fr; gap: 18px;
-    padding: 13px 0; border-bottom: 1px solid var(--rule-soft);
-    align-items: baseline;
-  }
-  .slot:last-child { border-bottom: 0; padding-bottom: 2px; }
-  .slot time {
-    font-family: var(--mono); font-size: 13px; color: var(--ink-faint);
-    font-variant-numeric: tabular-nums; letter-spacing: -.02em;
-  }
-  .slot-name { font-weight: 550; }
-  .slot-note { color: var(--ink-faint); font-size: 14px; }
-  .slot[data-now="true"] { position: relative; }
-  .slot[data-now="true"] time { color: var(--accent); font-weight: 700; }
-  .slot[data-now="true"] .slot-name { color: var(--accent); }
-  .slot[data-now="true"]::before {
-    content: ""; position: absolute; left: -20px; top: 0; bottom: 0; width: 3px;
-    background: var(--accent);
-  }
-
-  /* ---------- countdowns ---------- */
-  .deadlines { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
-  .dl { padding: 15px 16px; display: flex; flex-direction: column; gap: 3px; }
-  .dl .days {
-    font-family: var(--mono); font-size: 27px; font-weight: 600;
-    font-variant-numeric: tabular-nums; letter-spacing: -.03em; line-height: 1.1;
-  }
-  .dl[data-sev="urgent"] .days { color: var(--urgent); }
-  .dl[data-sev="soon"]   .days { color: var(--soon); }
-  .dl[data-sev="ok"]     .days { color: var(--ok); }
-  .dl .days span { font-size: 13px; font-weight: 500; color: var(--ink-faint); letter-spacing: 0; }
-  .dl .what { font-weight: 550; font-size: 15px; text-wrap: pretty; }
-  .dl .when { font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); letter-spacing: .02em; }
-
-  /* ---------- loops ---------- */
-  .loops { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
-  .loop-col { padding: 16px 18px; display: flex; flex-direction: column; gap: 11px; }
-  .loop-col h3 {
-    margin: 0; font-size: 11.5px; font-weight: 650; letter-spacing: .12em;
-    text-transform: uppercase; color: var(--ink-faint);
-  }
-  .loop-col ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
-  .loop-col li { display: flex; gap: 10px; font-size: 15px; line-height: 1.45; align-items: baseline; }
-  .loop-col li::before {
-    content: ""; flex: none; width: 5px; height: 5px; border-radius: 50%;
-    background: var(--accent); transform: translateY(-2px);
-  }
-  .loop-col .who { color: var(--ink-faint); font-size: 13.5px; }
-
-  /* ---------- courses ---------- */
-  .tablewrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 15px; }
-  th {
-    text-align: left; font-size: 11px; font-weight: 650; letter-spacing: .11em;
-    text-transform: uppercase; color: var(--ink-faint);
-    padding: 14px 18px; border-bottom: 1px solid var(--rule);
-    white-space: nowrap;
-  }
-  td { padding: 13px 18px; border-bottom: 1px solid var(--rule-soft); }
-  tr:last-child td { border-bottom: 0; }
-  td.grade { font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 600; }
-  td.course { font-weight: 550; }
-
-  /* ---------- long game ---------- */
-  .track { padding: 4px 20px 18px; }
-  .yr {
-    display: grid; grid-template-columns: 62px 1fr; gap: 18px;
-    padding: 13px 0; border-bottom: 1px solid var(--rule-soft); align-items: baseline;
-  }
-  .yr:last-child { border-bottom: 0; }
-  .yr .y {
-    font-family: var(--mono); font-size: 14px; font-weight: 600;
-    color: var(--accent); font-variant-numeric: tabular-nums;
-  }
-  .yr .what { font-size: 15px; }
-  .yr .what em { font-style: normal; color: var(--ink-faint); }
-
-  /* ---------- mcat slow burn ---------- */
-  .note {
-    font-family: var(--serif);
-    font-size: 16.5px; line-height: 1.55; color: var(--ink-soft);
-    margin: 0 0 4px; max-width: 64ch; text-wrap: pretty;
-  }
-  .phases { display: flex; flex-direction: column; gap: 10px; }
-  .phase {
-    display: grid; grid-template-columns: 4px 1fr; gap: 0 18px;
-    overflow: hidden; align-items: stretch;
-  }
-  .phase .stripe { background: var(--rule); }
-  .phase[data-now="true"] .stripe { background: var(--accent); }
-  .phase-body { padding: 16px 20px 16px 2px; display: flex; flex-direction: column; gap: 7px; }
-  .phase-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-  .phase-name { font-weight: 650; font-size: 16.5px; letter-spacing: -.005em; }
-  .phase[data-now="true"] .phase-name { color: var(--accent); }
-  .phase-when {
-    font-family: var(--mono); font-size: 11.5px; letter-spacing: .05em;
+  /* masthead */
+  .mast { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+  .mast h1 { font-family: var(--serif); font-size: clamp(26px, 4vw, 34px); font-weight: 600; letter-spacing: -.015em; margin: 0; }
+  .stamp {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .07em;
     text-transform: uppercase; color: var(--ink-faint); font-variant-numeric: tabular-nums;
   }
-  .phase-what { font-family: var(--serif); font-size: 15.5px; color: var(--ink-soft); text-wrap: pretty; }
-  .phase-what em { font-style: italic; color: var(--ink); }
-  .phase-habit {
-    font-size: 13.5px; color: var(--ink-faint);
-    display: flex; gap: 8px; align-items: baseline; margin-top: 2px;
-  }
-  .phase-habit b {
-    font-family: var(--mono); font-size: 10.5px; font-weight: 650;
-    letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint);
-  }
-  .starts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 4px; }
-  .start { padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; }
-  .start .k {
-    font-family: var(--mono); font-size: 11px; font-weight: 650;
-    letter-spacing: .09em; text-transform: uppercase; color: var(--accent);
-  }
-  .start p { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--ink-soft); text-wrap: pretty; }
 
-  /* ---------- closing note ---------- */
+  /* stat tiles */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); gap: 10px; }
+  .stat {
+    background: var(--card); border: 1px solid var(--rule-soft); border-radius: 9px;
+    padding: 14px 15px; display: flex; flex-direction: column; gap: 2px;
+    border-left: 3px solid var(--rule);
+  }
+  .stat[data-sev="urgent"] { border-left-color: var(--urgent); }
+  .stat[data-sev="soon"]   { border-left-color: var(--soon); }
+  .stat[data-sev="ok"]     { border-left-color: var(--ok); }
+  .stat[data-sev="accent"] { border-left-color: var(--accent); }
+  .stat .n {
+    font-family: var(--mono); font-size: 26px; font-weight: 600;
+    font-variant-numeric: tabular-nums; letter-spacing: -.04em; line-height: 1.15;
+  }
+  .stat[data-sev="urgent"] .n { color: var(--urgent); }
+  .stat[data-sev="soon"]   .n { color: var(--soon); }
+  .stat[data-sev="ok"]     .n { color: var(--ok); }
+  .stat .n small { font-size: 12px; font-weight: 500; color: var(--ink-faint); letter-spacing: 0; }
+  .stat .l {
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    letter-spacing: .11em; text-transform: uppercase; color: var(--ink-faint);
+  }
+
+  /* links */
+  .links { display: flex; flex-wrap: wrap; gap: 7px; }
+  .links a {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px 6px 10px; background: var(--card);
+    border: 1px solid var(--rule-soft); border-radius: 100px;
+    color: var(--ink-soft); text-decoration: none;
+    font-size: 13px; font-weight: 550; line-height: 1;
+    transition: border-color .12s ease, color .12s ease;
+  }
+  .links a:hover { border-color: var(--accent); color: var(--ink); }
+  .links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* sections */
+  section { display: flex; flex-direction: column; gap: 11px; }
+  .label {
+    display: flex; align-items: center; gap: 11px; margin: 0;
+    font-family: var(--mono); font-size: 10px; font-weight: 650;
+    letter-spacing: .15em; text-transform: uppercase; color: var(--ink-faint);
+  }
+  .label::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+  .label .c { font-weight: 500; color: var(--ink-faint); font-variant-numeric: tabular-nums; letter-spacing: 0; }
+
+  .card { background: var(--card); border: 1px solid var(--rule-soft); border-radius: 9px; box-shadow: var(--shadow); }
+
+  /* needs you — one line each */
+  .rows { display: flex; flex-direction: column; gap: 7px; }
+  .row {
+    display: grid; grid-template-columns: 3px 1fr auto; align-items: center;
+    gap: 0 14px; overflow: hidden; min-height: 52px;
+  }
+  .row .stripe { background: var(--ink-faint); align-self: stretch; }
+  .row[data-sev="urgent"] .stripe { background: var(--urgent); }
+  .row[data-sev="soon"]   .stripe { background: var(--soon); }
+  .row[data-sev="ok"]     .stripe { background: var(--ok); }
+  .row .rt { padding: 12px 0; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .row .rt b { font-weight: 600; font-size: 14.5px; }
+  .row .rt span { font-size: 13px; color: var(--ink-faint); }
+  .row .rm { padding-right: 15px; }
+
+  .chip {
+    display: inline-block; font-family: var(--mono);
+    font-size: 10px; font-weight: 650; letter-spacing: .09em; text-transform: uppercase;
+    padding: 4px 8px; border-radius: 4px; background: var(--rule-soft); color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .chip[data-sev="urgent"] { background: var(--urgent-bg); color: var(--urgent); }
+  .chip[data-sev="soon"]   { background: var(--soon-bg);   color: var(--soon); }
+  .chip[data-sev="ok"]     { background: var(--ok-bg);     color: var(--ok); }
+
+  /* two-up */
+  .duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; align-items: start; }
+
+  /* today rail */
+  .rail { padding: 4px 16px 14px; }
+  .slot { display: grid; grid-template-columns: 56px 1fr; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--rule-soft); align-items: center; }
+  .slot:last-child { border-bottom: 0; }
+  .slot time { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+  .slot b { font-weight: 550; font-size: 14px; }
+  .slot[data-now="true"] time, .slot[data-now="true"] b { color: var(--accent); }
+  .slot[data-now="true"] time { font-weight: 700; }
+
+  /* lists */
+  .list { padding: 13px 16px; display: flex; flex-direction: column; gap: 9px; }
+  .list h3 { margin: 0 0 2px; font-family: var(--mono); font-size: 10px; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); }
+  .list ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .list li { display: flex; gap: 9px; align-items: center; font-size: 14px; }
+  .list li::before { content: ""; flex: none; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+
+  /* table */
+  .tw { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; font-family: var(--mono); font-size: 10px; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); padding: 12px 16px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--rule-soft); }
+  tr:last-child td { border-bottom: 0; }
+  td.g { font-family: var(--mono); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* mcat track — 4 steps */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; }
+  .step {
+    background: var(--card); border: 1px solid var(--rule-soft); border-radius: 9px;
+    padding: 13px 14px; display: flex; flex-direction: column; gap: 4px;
+    border-top: 3px solid var(--rule);
+  }
+  .step[data-now="true"] { border-top-color: var(--accent); }
+  .step .sn { font-weight: 650; font-size: 14.5px; }
+  .step[data-now="true"] .sn { color: var(--accent); }
+  .step .sw { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
+  .step .sh { font-size: 12.5px; color: var(--ink-faint); }
+
+  /* years */
+  .years { padding: 2px 16px 12px; }
+  .yr { display: grid; grid-template-columns: 52px 1fr; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--rule-soft); align-items: center; }
+  .yr:last-child { border-bottom: 0; }
+  .yr .y { font-family: var(--mono); font-size: 13px; font-weight: 650; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .yr .w { font-size: 14px; }
+
+  /* closer */
   .closer {
-    background: var(--accent-dim);
-    border: 1px solid var(--rule-soft);
-    border-radius: 10px;
-    padding: 22px 24px;
-    display: flex; flex-direction: column; gap: 8px;
+    background: var(--accent-dim); border: 1px solid var(--rule-soft); border-radius: 9px;
+    padding: 16px 18px; display: flex; flex-direction: column; gap: 5px;
   }
-  .closer .k {
-    font-size: 11.5px; font-weight: 650; letter-spacing: .12em;
-    text-transform: uppercase; color: var(--accent);
-  }
-  .closer p {
-    margin: 0; font-family: var(--serif);
-    font-size: clamp(17px, 2.2vw, 19.5px); line-height: 1.5;
-    text-wrap: pretty; max-width: 60ch;
-  }
+  .closer .k { font-family: var(--mono); font-size: 10px; font-weight: 650; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); }
+  .closer p { margin: 0; font-size: 15.5px; font-weight: 550; }
 
-  /* ---------- gaps Molly needs filled ---------- */
-  .gap {
-    border: 1px dashed var(--rule);
-    border-radius: 9px;
-    padding: 15px 18px;
-    display: flex; flex-direction: column; gap: 5px;
-    background: transparent;
-  }
-  .gap .k {
-    font-family: var(--mono); font-size: 11px; font-weight: 600;
-    letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint);
-  }
-  .gap p { margin: 0; color: var(--ink-soft); font-size: 15px; text-wrap: pretty; }
-
-  footer {
-    color: var(--ink-faint); font-size: 13px;
-    border-top: 1px solid var(--rule); padding-top: 18px;
-    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-  }
-  footer code { font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); }
+  footer { color: var(--ink-faint); font-size: 12px; border-top: 1px solid var(--rule); padding-top: 14px; }
 
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
@@ -388,7 +223,7 @@
 <div class="nowbar" id="nowbar" data-state="loading">
   <div class="nowbar-in">
     <span class="dot" id="now-dot"></span>
-    <span class="now-k" id="now-k">Checking your calendar</span>
+    <span class="now-k" id="now-k">Checking</span>
     <span class="now-title" id="now-title"></span>
     <span class="now-when" id="now-when"></span>
   </div>
@@ -397,93 +232,78 @@
 <div class="wrap">
 
   <header class="mast">
-    <div class="mast-row">
-      <h1>Molly&rsquo;s Desk</h1>
-      <div class="datestamp" id="stamp">&mdash;</div>
-    </div>
-    <p class="read" id="read">Loading your read&hellip;</p>
-    <nav class="links" id="links" aria-label="Quick links"></nav>
+    <h1>Molly&rsquo;s Desk</h1>
+    <div class="stamp" id="stamp"></div>
   </header>
 
-  <section>
-    <h2 class="label">Needs you <span class="count" id="needs-count"></span></h2>
-    <div class="needs" id="needs"></div>
-  </section>
+  <div class="stats" id="stats"></div>
+
+  <nav class="links" id="links" aria-label="Quick links"></nav>
 
   <section>
-    <h2 class="label">Today</h2>
-    <div class="card rail" id="rail"></div>
+    <h2 class="label">Needs you <span class="c" id="needs-c"></span></h2>
+    <div class="rows" id="needs"></div>
   </section>
 
-  <section>
-    <h2 class="label">Coming up</h2>
-    <div class="deadlines" id="deadlines"></div>
-  </section>
+  <div class="duo">
+    <section>
+      <h2 class="label">Today</h2>
+      <div class="card rail" id="rail"></div>
+    </section>
+    <section>
+      <h2 class="label">Coming up</h2>
+      <div class="rows" id="deadlines"></div>
+    </section>
+  </div>
 
   <section>
     <h2 class="label">Open loops</h2>
-    <div class="loops">
-      <div class="card loop-col">
-        <h3>Waiting on you</h3>
-        <ul id="loops-you"></ul>
-      </div>
-      <div class="card loop-col">
-        <h3>Waiting on someone else</h3>
-        <ul id="loops-them"></ul>
-      </div>
+    <div class="duo">
+      <div class="card list"><h3>On you</h3><ul id="loops-you"></ul></div>
+      <div class="card list"><h3>On someone else</h3><ul id="loops-them"></ul></div>
     </div>
   </section>
 
   <section>
     <h2 class="label">Courses</h2>
-    <div class="card tablewrap">
-      <table>
-        <thead>
-          <tr><th>Course</th><th>Grade</th><th>Next due</th><th>Standing</th></tr>
-        </thead>
-        <tbody id="courses"></tbody>
-      </table>
+    <div class="card tw">
+      <table><thead><tr><th>Course</th><th>Grade</th><th>Due</th></tr></thead>
+      <tbody id="courses"></tbody></table>
     </div>
   </section>
 
   <section>
-    <h2 class="label">MCAT &mdash; the slow burn</h2>
-    <p class="note" id="mcat-note"></p>
-    <div class="phases" id="phases"></div>
-    <div class="starts" id="starts"></div>
+    <h2 class="label">MCAT <span class="c">slow burn &middot; 20 min/day</span></h2>
+    <div class="steps" id="steps"></div>
   </section>
 
   <section>
-    <h2 class="label">The long game</h2>
-    <div class="card track" id="track"></div>
+    <h2 class="label">Track</h2>
+    <div class="card years" id="years"></div>
   </section>
 
   <section>
-    <h2 class="label">What I still need from you</h2>
-    <div class="needs" id="gaps"></div>
+    <h2 class="label">Missing</h2>
+    <div class="rows" id="gaps"></div>
   </section>
 
   <div class="closer">
     <div class="k">Before you close the laptop</div>
-    <p id="closer">&mdash;</p>
+    <p id="closer"></p>
   </div>
 
-  <footer>
-    <span>Prepared by Molly. Nothing here writes code or touches your repos.</span>
-    <span>Edit the <code>DESK</code> block at the bottom of this file.</span>
-  </footer>
+  <footer>Prepared by Molly. Edit the <b>DESK</b> block at the bottom of this file.</footer>
 
 </div>
 
 <script>
 /* ================================================================
-   YOUR DATA — everything the desk shows lives in this one object.
-   Edit it in any text editor. No build step, no install, no terminal.
-   Dates are YYYY-MM-DD. Times are 24-hour "HH:MM".
+   YOUR DATA — edit this block. Dates YYYY-MM-DD. Times "HH:MM".
    ================================================================ */
 const DESK = {
 
-  // Quick links. Add, remove, or reorder freely — they render in this order.
+  closer: "Read something hard for 20 minutes.",
+
   links: [
     { icon: "📅", name: "Calendar", url: "https://calendar.google.com/calendar/u/0/r" },
     { icon: "📧", name: "Gmail",    url: "https://mail.google.com" },
@@ -496,304 +316,173 @@ const DESK = {
     { icon: "🎓", name: "Canvas",   url: "https://canvas.instructure.com" }
   ],
 
-  // The one-line read at the top. Molly's take on the day.
-  read: "The MCAT is three or four years out, which is the best possible news: it means you never have to cram for it. People who score in the 99th percentile mostly aren't the ones who studied hardest in the last six months — they're the ones who arrived already knowing the material. Starting now, gently, is the whole advantage.",
-
-  // The single most expensive thing to forget today.
-  closer: "Read something hard for twenty minutes. Not a textbook — a dense essay, a journal abstract, a long piece of criticism. CARS is the one MCAT section nobody can cram, and it's the only one you can start beating tonight.",
-
-  // Things that actually need your decision. Each one carries my recommendation.
-  // sev: "urgent" | "soon" | "ok"
+  // title | one short line | chip | sev
   needsYou: [
-    {
-      title: "Fall course registration",
-      sev: "soon",
-      tag: "Confirm",
-      rec: "I can't see your registration portal. Send me what you enrolled in and I'll build the week around it &mdash; study blocks placed so they don't collide with market hours."
-    },
-    {
-      title: "Trading hours vs. lab times",
-      sev: "soon",
-      tag: "Plan",
-      rec: "You've held 09:30&ndash;11:00 and 14:00&ndash;16:00 for markets. Science labs land in exactly that window. <b>Decide which one yields before registration closes</b>, not after."
-    },
-    {
-      title: "Pick your daily twenty minutes",
-      sev: "ok",
-      tag: "Start",
-      rec: "The slow burn below only works if it's the same time every day. My read: <b>attach it to something you already do without deciding</b> &mdash; right after coffee, or the twenty minutes before market open. Tell me which and I'll put it on the rail."
-    }
+    { title: "Fall registration",  note: "Send me your course list",        tag: "Confirm", sev: "soon" },
+    { title: "Trading vs. labs",   note: "09:30 and 14:00 blocks collide",  tag: "Decide",  sev: "soon" },
+    { title: "Daily 20 minutes",   note: "Pick the slot, same time daily",  tag: "Start",   sev: "ok"   }
   ],
 
-  // The long game, played slowly. Phases, not a countdown.
-  mcat: {
-    note: "Three to four years is not a study plan &mdash; it's an accumulation plan. The goal for the next two years is that MCAT content stops being something you study and becomes something you already know, because your coursework taught it to you properly the first time. Prep books come later, and they come easy.",
-    phases: [
-      {
-        when: "Now &rarr; mid-2028",
-        name: "Foundation",
-        now: true,
-        what: "Treat every prerequisite as the real prep. Learn Bio, Gen Chem, Orgo, Physics, Biochem, Psych and Soc <em>to keep</em>, not to pass. A 4.0 earned by cramming is worth less here than a B+ earned by understanding.",
-        habit: "20 min/day of dense reading (CARS). Nothing else required."
-      },
-      {
-        when: "2028",
-        name: "Consolidation",
-        what: "First real content review, at a relaxed pace. Anki deck built as you go, not bought. Start noticing which subjects you actually forgot &mdash; those are the ones that matter.",
-        habit: "CARS daily + one content block/week."
-      },
-      {
-        when: "~12 months out",
-        name: "Sharpening",
-        what: "First full-length diagnostic. This is the earliest it's useful &mdash; taken sooner it just scares you with material you haven't met yet.",
-        habit: "Full-lengths monthly, then biweekly."
-      },
-      {
-        when: "Final 3 months",
-        name: "Test craft",
-        what: "Stamina, timing, and review discipline. By now the content is old news; what you're training is sitting still for seven hours and not panicking.",
-        habit: "Full-lengths weekly, with full review."
-      }
-    ],
-    // The only things worth doing this week.
-    startNow: [
-      { k: "CARS, daily",        p: "Twenty minutes of hard reading. Philosophy, history, literary criticism &mdash; the denser and less interesting to you, the better the training. This is the section that takes years to move and minutes a day to build." },
-      { k: "Anki, tiny",         p: "Start a deck now and add five cards a week from whatever class you're in. In three years that's a complete, personal, already-reviewed content deck. Buying one later is not the same thing." },
-      { k: "One curiosity/week", p: "Pick one thing from a lecture you didn't fully get and chase it down properly. This is the habit that separates people who know the material from people who covered it." }
-    ]
-  },
-
-  // Today's shape. Add or remove rows freely.
   today: [
-    { from: "07:30", to: "09:00", name: "Morning block",    note: "Reading, prep, nothing scheduled on you" },
-    { from: "09:30", to: "11:00", name: "Market hours",     note: "Held open" },
-    { from: "11:00", to: "13:00", name: "Study block",      note: "Unassigned — tell me what goes here" },
-    { from: "14:00", to: "16:00", name: "Market hours",     note: "Held open" },
-    { from: "16:00", to: "18:00", name: "Research",         note: "Trading repos / reading queue" },
-    { from: "19:00", to: "21:00", name: "Open",             note: "Yours" }
+    { from: "07:30", to: "09:00", name: "Morning" },
+    { from: "09:30", to: "11:00", name: "Market hours" },
+    { from: "11:00", to: "13:00", name: "Study" },
+    { from: "14:00", to: "16:00", name: "Market hours" },
+    { from: "16:00", to: "18:00", name: "Research" },
+    { from: "19:00", to: "21:00", name: "Open" }
   ],
 
-  // Dated things. I count the days for you.
   deadlines: [
-    { what: "Fall registration closes", date: "2026-08-21", note: "Estimated — confirm with your registrar" },
-    { what: "Semester begins",          date: "2026-09-02", note: "Estimated" },
-    { what: "MCAT, target window",      date: "2030-05-01", note: "Placeholder — no pressure, just the horizon" }
+    { what: "Registration closes", date: "2026-08-21" },
+    { what: "Semester begins",     date: "2026-09-02" },
+    { what: "MCAT window",         date: "2030-05-01" }
   ],
 
-  // Loops I'm holding. Nothing here dies silently.
-  loopsOnYou: [
-    { what: "Send me your fall course list",            who: "5 minutes" },
-    { what: "Confirm which trading window you'll keep", who: "Before registration" },
-    { what: "Pick the daily 20-minute slot",            who: "Tonight" }
-  ],
-  loopsOnOthers: [
-    { what: "Registrar — final fall schedule posting",  who: "Registrar" },
-    { what: "Advisor sign-off on premed sequence",      who: "Academic advisor" }
-  ],
+  loopsOnYou:    ["Fall course list", "Pick trading window", "Pick daily 20 min"],
+  loopsOnOthers: ["Registrar — schedule posting", "Advisor — premed sign-off"],
 
-  // Your courses. Replace these with the real ones and I'll track them.
   courses: [
-    { name: "Course 1 — name it", grade: "A−", due: "—", standing: "Active" },
-    { name: "Course 2 — name it", grade: "B+", due: "—", standing: "Active" },
-    { name: "Course 3 — name it", grade: "A",  due: "—", standing: "Active" }
+    { name: "Course 1", grade: "A−", due: "—" },
+    { name: "Course 2", grade: "B+", due: "—" },
+    { name: "Course 3", grade: "A",  due: "—" }
   ],
 
-  // The multi-year track. Target: Radiation Oncology.
-  longGame: [
-    { year: "2026", what: "Prerequisites, taught properly. <em>The slow burn starts.</em>" },
-    { year: "2027", what: "Prerequisites continue. Biochem, Psych, Soc. <em>Still no prep books.</em>" },
-    { year: "2028", what: "Content consolidation. First serious review. <em>Comfortable, not urgent.</em>" },
-    { year: "2029", what: "Sharpening. Full-lengths begin. <em>Possible test year.</em>" },
-    { year: "2030", what: "Sit the MCAT. Applications out. <em>The pinch year.</em>" },
-    { year: "2031", what: "Medical school begins." },
-    { year: "2035", what: "Residency — Radiation Oncology." }
+  steps: [
+    { name: "Foundation",    when: "Now → 2028", habit: "CARS 20 min/day", now: true },
+    { name: "Consolidation", when: "2028",       habit: "+ 1 content block/wk" },
+    { name: "Sharpening",    when: "2029",       habit: "Full-lengths monthly" },
+    { name: "Test craft",    when: "2030",       habit: "Full-lengths weekly" }
   ],
 
-  // Things I genuinely cannot look up. The only questions I'm allowed to ask.
+  years: [
+    { year: "2026", what: "Prerequisites" },
+    { year: "2027", what: "Biochem, Psych, Soc" },
+    { year: "2028", what: "Content review" },
+    { year: "2029", what: "Full-lengths" },
+    { year: "2030", what: "MCAT + applications" },
+    { year: "2031", what: "Med school" },
+    { year: "2035", what: "Residency — Rad Onc" }
+  ],
+
   gaps: [
-    { k: "Your real courses",  p: "The school file still says “Course 1, Course 2, Course 3.” Give me names, times, and professors and this page starts being useful instead of decorative." },
-    { k: "Your class times",   p: "I can't build a study schedule around a timetable I don't have. Send it however it comes — a screenshot, a paste, a link." },
-    { k: "Calendar access",    p: "Your Google Calendar is connected but this page reads from the file below, not live. Say the word and I'll wire it to the real calendar." }
+    { title: "Course names",   note: "Still says Course 1, 2, 3" },
+    { title: "Class times",    note: "Needed to build study blocks" },
+    { title: "History purge",  note: "Old commit still holds real titles" }
   ]
 };
 
-/* ================================================================
-   Below here is the machinery. You don't need to touch it.
-   ================================================================ */
+/* ---------------- machinery ---------------- */
 (function () {
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s).replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c]));
   const now = new Date();
 
-  // masthead
-  $("stamp").textContent = now.toLocaleDateString(undefined, {
-    weekday: "long", month: "long", day: "numeric", year: "numeric"
-  });
-  $("read").textContent = DESK.read;
+  $("stamp").textContent = now.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
   $("closer").textContent = DESK.closer;
 
-  // quick links
   $("links").innerHTML = DESK.links.map((l) =>
-    `<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer"
-        ><span class="ico" aria-hidden="true">${l.icon}</span>${esc(l.name)}</a>`).join("");
+    `<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">${l.icon}</span>${esc(l.name)}</a>`).join("");
+
+  // deadlines + day math (shared with the stat tiles)
+  const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const daysTo = (iso) => {
+    const [y, m, d] = iso.split("-").map(Number);
+    return Math.round((new Date(y, m - 1, d) - midnight) / 86400000);
+  };
+  const sevFor = (n) => (n <= 7 ? "urgent" : n <= 21 ? "soon" : "ok");
+
+  const dl = DESK.deadlines.map((d) => ({ ...d, n: daysTo(d.date) }));
+
+  // stat tiles
+  const tiles = [
+    { n: dl[0].n, unit: "days", l: dl[0].what, sev: sevFor(dl[0].n) },
+    { n: dl[1].n, unit: "days", l: dl[1].what, sev: sevFor(dl[1].n) },
+    { n: DESK.needsYou.length, unit: "", l: "Needs you", sev: "accent" },
+    { n: DESK.loopsOnYou.length + DESK.loopsOnOthers.length, unit: "", l: "Open loops", sev: "accent" }
+  ];
+  $("stats").innerHTML = tiles.map((t) =>
+    `<div class="stat" data-sev="${t.sev}"><div class="n">${t.n}${t.unit ? ` <small>${t.unit}</small>` : ""}</div><div class="l">${esc(t.l)}</div></div>`).join("");
 
   // needs you
   $("needs").innerHTML = DESK.needsYou.map((n) => `
-    <article class="card item" data-sev="${esc(n.sev)}">
+    <div class="card row" data-sev="${esc(n.sev)}">
       <div class="stripe"></div>
-      <div class="item-body">
-        <div class="item-title">${esc(n.title)}</div>
-        <div class="item-rec">${n.rec}</div>
-      </div>
-      <div class="item-meta"><span class="pill" data-sev="${esc(n.sev)}">${esc(n.tag)}</span></div>
-    </article>`).join("");
-  $("needs-count").textContent = DESK.needsYou.length;
+      <div class="rt"><b>${esc(n.title)}</b><span>${esc(n.note)}</span></div>
+      <div class="rm"><span class="chip" data-sev="${esc(n.sev)}">${esc(n.tag)}</span></div>
+    </div>`).join("");
+  $("needs-c").textContent = DESK.needsYou.length;
 
-  // today — mark the slot containing the current time
+  // today
   const mins = now.getHours() * 60 + now.getMinutes();
   const toMin = (t) => { const [h, m] = t.split(":").map(Number); return h * 60 + m; };
-  $("rail").innerHTML = DESK.today.map((s) => {
-    const live = mins >= toMin(s.from) && mins < toMin(s.to);
-    return `<div class="slot" data-now="${live}">
-      <time>${esc(s.from)}</time>
-      <div>
-        <div class="slot-name">${esc(s.name)}</div>
-        <div class="slot-note">${esc(s.note)}</div>
-      </div>
+  $("rail").innerHTML = DESK.today.map((s) =>
+    `<div class="slot" data-now="${mins >= toMin(s.from) && mins < toMin(s.to)}"><time>${esc(s.from)}</time><b>${esc(s.name)}</b></div>`).join("");
+
+  // coming up
+  $("deadlines").innerHTML = dl.map((d) => {
+    const sev = sevFor(d.n);
+    return `<div class="card row" data-sev="${sev}">
+      <div class="stripe"></div>
+      <div class="rt"><b>${esc(d.what)}</b><span>${esc(d.date)}</span></div>
+      <div class="rm"><span class="chip" data-sev="${sev}">${d.n} d</span></div>
     </div>`;
   }).join("");
 
-  // deadlines
-  const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  $("deadlines").innerHTML = DESK.deadlines.map((d) => {
-    const [y, m, day] = d.date.split("-").map(Number);
-    const days = Math.round((new Date(y, m - 1, day) - midnight) / 86400000);
-    const sev = days <= 7 ? "urgent" : days <= 21 ? "soon" : "ok";
-    const label = days < 0 ? "days ago" : days === 1 ? "day" : "days";
-    return `<article class="card dl" data-sev="${sev}">
-      <div class="days">${Math.abs(days)} <span>${label}</span></div>
-      <div class="what">${esc(d.what)}</div>
-      <div class="when">${esc(d.date)} &middot; ${esc(d.note)}</div>
-    </article>`;
-  }).join("");
+  const li = (a) => a.map((x) => `<li>${esc(x)}</li>`).join("");
+  $("loops-you").innerHTML = li(DESK.loopsOnYou);
+  $("loops-them").innerHTML = li(DESK.loopsOnOthers);
 
-  // loops
-  const loop = (arr) => arr.map((l) =>
-    `<li><span>${esc(l.what)} <span class="who">&mdash; ${esc(l.who)}</span></span></li>`).join("");
-  $("loops-you").innerHTML = loop(DESK.loopsOnYou);
-  $("loops-them").innerHTML = loop(DESK.loopsOnOthers);
+  $("courses").innerHTML = DESK.courses.map((c) =>
+    `<tr><td>${esc(c.name)}</td><td class="g">${esc(c.grade)}</td><td>${esc(c.due)}</td></tr>`).join("");
 
-  // courses
-  $("courses").innerHTML = DESK.courses.map((c) => `
-    <tr>
-      <td class="course">${esc(c.name)}</td>
-      <td class="grade">${esc(c.grade)}</td>
-      <td>${esc(c.due)}</td>
-      <td><span class="pill" data-sev="ok">${esc(c.standing)}</span></td>
-    </tr>`).join("");
+  $("steps").innerHTML = DESK.steps.map((s) =>
+    `<div class="step" data-now="${s.now === true}"><div class="sn">${esc(s.name)}</div><div class="sw">${esc(s.when)}</div><div class="sh">${esc(s.habit)}</div></div>`).join("");
 
-  // mcat slow burn
-  $("mcat-note").innerHTML = DESK.mcat.note;
-  $("phases").innerHTML = DESK.mcat.phases.map((p) => `
-    <article class="card phase" data-now="${p.now === true}">
-      <div class="stripe"></div>
-      <div class="phase-body">
-        <div class="phase-head">
-          <span class="phase-name">${esc(p.name)}</span>
-          <span class="phase-when">${p.when}${p.now ? " &middot; you are here" : ""}</span>
-        </div>
-        <div class="phase-what">${p.what}</div>
-        <div class="phase-habit"><b>Habit</b><span>${esc(p.habit)}</span></div>
-      </div>
-    </article>`).join("");
-  $("starts").innerHTML = DESK.mcat.startNow.map((s) => `
-    <article class="card start"><div class="k">${esc(s.k)}</div><p>${s.p}</p></article>`).join("");
+  $("years").innerHTML = DESK.years.map((y) =>
+    `<div class="yr"><div class="y">${esc(y.year)}</div><div class="w">${esc(y.what)}</div></div>`).join("");
 
-  // long game
-  $("track").innerHTML = DESK.longGame.map((t) =>
-    `<div class="yr"><div class="y">${esc(t.year)}</div><div class="what">${t.what}</div></div>`).join("");
-
-  // gaps
   $("gaps").innerHTML = DESK.gaps.map((g) => `
-    <div class="gap"><div class="k">${esc(g.k)}</div><p>${g.p}</p></div>`).join("");
+    <div class="card row" data-sev="">
+      <div class="stripe"></div>
+      <div class="rt"><b>${esc(g.title)}</b><span>${esc(g.note)}</span></div>
+      <div class="rm"><span class="chip">Need</span></div>
+    </div>`).join("");
 
-  /* ---------------- the now bar ----------------
-     Reads events.json sitting next to this file. That file is deliberately
-     NOT in git — see the note in .gitignore. Without it the bar shows a
-     clean "not connected" state instead of leaking anything.
-     Event shape: { title, start, end, color }  (ISO timestamps)
-  --------------------------------------------- */
-  const GCAL_COLORS = {
-    "1": "#7986CB", "2": "#33B679", "3": "#8E24AA", "4": "#E67C73",
-    "5": "#F6BF26", "6": "#F4511E", "7": "#039BE5", "8": "#616161",
-    "9": "#3F51B5", "10": "#0B8043", "11": "#D50000"
-  };
-
+  /* ---- now bar (reads events.json next to this file) ---- */
+  const GCAL = { "1":"#7986CB","2":"#33B679","3":"#8E24AA","4":"#E67C73","5":"#F6BF26",
+                 "6":"#F4511E","7":"#039BE5","8":"#616161","9":"#3F51B5","10":"#0B8043","11":"#D50000" };
   const bar = $("nowbar");
   const setBar = (state, color, k, title, when) => {
-    bar.dataset.state = state;
-    bar.style.color = color || "";
+    bar.dataset.state = state; bar.style.color = color || "";
     $("now-dot").style.background = color || "var(--ink-faint)";
-    $("now-k").textContent = k;
-    $("now-title").textContent = title || "";
-    $("now-when").textContent = when || "";
+    $("now-k").textContent = k; $("now-title").textContent = title || ""; $("now-when").textContent = when || "";
   };
-
-  const fmtGap = (ms) => {
-    const m = Math.max(0, Math.round(ms / 60000));
-    if (m < 60) return m + "m";
-    const h = Math.floor(m / 60);
-    return h + "h" + (m % 60 ? " " + (m % 60) + "m" : "");
-  };
-  const fmtClock = (d) =>
-    d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  const gap = (ms) => { const m = Math.max(0, Math.round(ms / 6e4));
+    return m < 60 ? m + "m" : Math.floor(m / 60) + "h" + (m % 60 ? " " + (m % 60) + "m" : ""); };
+  const clock = (d) => d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 
   let EVENTS = [];
-
   function paintBar() {
-    if (!EVENTS.length) {
-      setBar("empty", "", "Calendar not connected",
-        "Molly can wire this to your live Google Calendar", "");
-      return;
-    }
+    if (!EVENTS.length) return setBar("empty", "", "No calendar", "", "");
     const t = Date.now();
     const live = EVENTS.find((e) => t >= e.s && t < e.e);
-    if (live) {
-      setBar("live", live.color, "Now", live.title,
-        fmtClock(new Date(live.s)) + "–" + fmtClock(new Date(live.e)) +
-        " · ends in " + fmtGap(live.e - t));
-      return;
-    }
+    if (live) return setBar("live", live.color, "Now", live.title,
+      clock(new Date(live.s)) + "–" + clock(new Date(live.e)) + " · " + gap(live.e - t) + " left");
     const next = EVENTS.find((e) => e.s > t);
-    if (next) {
-      const soon = next.s - t < 36e5; // within the hour
-      setBar(soon ? "live" : "idle", next.color, "Next", next.title,
-        fmtClock(new Date(next.s)) + " · in " + fmtGap(next.s - t));
-      return;
-    }
-    setBar("idle", "", "Clear", "Nothing left on the calendar", "");
+    if (next) return setBar(next.s - t < 36e5 ? "live" : "idle", next.color, "Next", next.title,
+      clock(new Date(next.s)) + " · in " + gap(next.s - t));
+    setBar("idle", "", "Clear", "", "");
   }
-
   fetch("./events.json", { cache: "no-store" })
     .then((r) => (r.ok ? r.json() : Promise.reject()))
     .then((raw) => {
-      EVENTS = raw
-        .map((e) => ({
-          title: e.title,
-          s: new Date(e.start).getTime(),
-          e: new Date(e.end).getTime(),
-          color: e.color || GCAL_COLORS[e.colorId] || "#039BE5"
-        }))
-        .filter((e) => !isNaN(e.s) && !isNaN(e.e))
-        .sort((a, b) => a.s - b.s);
+      EVENTS = raw.map((e) => ({ title: e.title, s: +new Date(e.start), e: +new Date(e.end),
+                                 color: e.color || GCAL[e.colorId] || "#039BE5" }))
+                  .filter((e) => e.s && e.e).sort((a, b) => a.s - b.s);
       paintBar();
-    })
-    .catch(paintBar);
-
+    }).catch(paintBar);
   paintBar();
-  setInterval(paintBar, 30000);          // keeps up as the day moves
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) paintBar();     // and the moment you come back to the tab
-  });
+  setInterval(paintBar, 30000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) paintBar(); });
 })();
 </script>
