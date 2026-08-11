@@ -2,7 +2,7 @@ services:
   - type: web
     name: molly-dashboard
     runtime: bun
-    buildCommand: "bun install"
+    buildCommand: "bun install --production"
     startCommand: "bun bin/server.ts"
     port: 3000
     env:
