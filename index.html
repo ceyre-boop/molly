@@ -245,6 +245,11 @@
     <div class="rows" id="needs"></div>
   </section>
 
+  <section>
+    <h2 class="label">Overnight <span class="c" id="activity-c">0</span></h2>
+    <div class="rows" id="activity"></div>
+  </section>
+
   <div class="duo">
     <section>
       <h2 class="label">Today</h2>
@@ -504,5 +509,19 @@ const DESK = {
   paintBar();
   setInterval(paintBar, 30000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) paintBar(); });
+
+  /* ---- activity feed (overnight dispatch results) ---- */
+  fetch("./activity.json", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : Promise.reject()))
+    .then((items) => {
+      $("activity-c").textContent = items.length;
+      $("activity").innerHTML = items.map((a) => `
+        <div class="card row" data-sev="${a.kind === "pr" ? "ok" : "accent"}">
+          <div class="stripe"></div>
+          <div class="rt"><b>${esc(a.title)}</b><span>${esc(a.repo)} · ${new Date(a.ts).toLocaleString(undefined,{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"})}</span></div>
+          <div class="rm"><a href="${esc(a.url)}" target="_blank" rel="noopener noreferrer"><span class="chip" data-sev="${a.kind === "pr" ? "ok" : "accent"}">${a.kind === "pr" ? "Ready" : "Filed"}</span></a></div>
+        </div>`).join("");
+    })
+    .catch(() => { $("activity").innerHTML = ""; $("activity-c").textContent = "0"; });
 })();
 </script>
