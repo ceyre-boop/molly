@@ -273,6 +273,11 @@
   </section>
 
   <section>
+    <h2 class="label">Projects <span class="c" id="projects-c"></span></h2>
+    <div class="rows" id="projects"></div>
+  </section>
+
+  <section>
     <h2 class="label">MCAT <span class="c">slow burn &middot; 20 min/day</span></h2>
     <div class="steps" id="steps"></div>
   </section>
@@ -313,7 +318,9 @@ const DESK = {
     { icon: "💬", name: "Telegram", url: "https://web.telegram.org" },
     { icon: "📋", name: "Sheets",   url: "https://docs.google.com/spreadsheets" },
     { icon: "🔥", name: "Firebase", url: "https://firebase.google.com/console" },
-    { icon: "🎓", name: "Canvas",   url: "https://canvas.instructure.com" }
+    { icon: "🎓", name: "Canvas",   url: "https://canvas.instructure.com" },
+    { icon: "🌐", name: "Molly",    url: "https://ceyre-boop.github.io/molly/" },
+    { icon: "🤖", name: "Halo",     url: "https://ceyre-boop.github.io/molly/#halo" }
   ],
 
   // title | one short line | chip | sev
@@ -345,6 +352,10 @@ const DESK = {
     { name: "Course 1", grade: "A−", due: "—" },
     { name: "Course 2", grade: "B+", due: "—" },
     { name: "Course 3", grade: "A",  due: "—" }
+  ],
+
+  projects: [
+    { title: "Halo Integration", note: "Phase 1 scaffold complete — Vercel edge router + local daemon", tag: "Phase 2", sev: "accent" }
   ],
 
   steps: [
@@ -434,6 +445,15 @@ const DESK = {
 
   $("courses").innerHTML = DESK.courses.map((c) =>
     `<tr><td>${esc(c.name)}</td><td class="g">${esc(c.grade)}</td><td>${esc(c.due)}</td></tr>`).join("");
+
+  // projects
+  $("projects").innerHTML = DESK.projects.map((p) => `
+    <div class="card row" data-sev="${esc(p.sev)}">
+      <div class="stripe"></div>
+      <div class="rt"><b>${esc(p.title)}</b><span>${esc(p.note)}</span></div>
+      <div class="rm"><span class="chip" data-sev="${esc(p.sev)}">${esc(p.tag)}</span></div>
+    </div>`).join("");
+  $("projects-c").textContent = DESK.projects.length;
 
   $("steps").innerHTML = DESK.steps.map((s) =>
     `<div class="step" data-now="${s.now === true}"><div class="sn">${esc(s.name)}</div><div class="sw">${esc(s.when)}</div><div class="sh">${esc(s.habit)}</div></div>`).join("");
