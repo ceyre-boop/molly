@@ -11,10 +11,11 @@
     <canvas id="capture" style="display: none"></canvas>
 
     <!-- HUD Overlay: not spatially tracked, fixed position (hardware constraint) -->
-    <div id="hud">
+    <div id="hud" data-mode="idle">
       <div id="hud-stat"></div>
-      <div id="hud-desc"></div>
-      <div id="hud-thinking" style="display: none">thinking...</div>
+      <div id="hud-desc" data-ready="false"></div>
+      <div id="hud-thinking" style="display: none">◇ analyzing ◇</div>
+      <div id="hud-confidence" style="display: none"></div>
     </div>
 
     <!-- Toast for future protocols -->

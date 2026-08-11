@@ -92,8 +92,41 @@ function captureFrameBase64(): string {
   return dataUrl.split(",")[1]
 }
 
+function spawnParticles(count: number) {
+  const hud = $("hud")
+  const rect = hud.getBoundingClientRect()
+
+  for (let i = 0; i < count; i++) {
+    const particle = document.createElement("div")
+    particle.className = "particle"
+    particle.textContent = ["◆", "◇", "▸", "▪"].at(i % 4) || "◆"
+    particle.style.left = (rect.left + Math.random() * rect.width) + "px"
+    particle.style.top = (rect.top + Math.random() * rect.height) + "px"
+    document.body.appendChild(particle)
+
+    setTimeout(() => particle.remove(), 2000)
+  }
+}
+
+function animateTextReveal(element: HTMLElement, text: string, speed: number = 30) {
+  let index = 0
+  element.textContent = ""
+
+  const interval = setInterval(() => {
+    if (index >= text.length) {
+      clearInterval(interval)
+      return
+    }
+    element.textContent += text[index]
+    index++
+  }, speed)
+}
+
 async function triggerCapture(mode: "ambient" | "read") {
   showThinking(true)
+  spawnParticles(4)
+
+  $("hud").setAttribute("data-mode", mode)
   const image = captureFrameBase64()
 
   try {
@@ -105,16 +138,19 @@ async function triggerCapture(mode: "ambient" | "read") {
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}))
-      $("hud-desc").textContent = `Error: ${err.error ?? "request failed"}`
+      $("hud-desc").textContent = `[error] ${err.error ?? "request failed"}`
       showThinking(false)
       return
     }
 
     const data = (await res.json()) as { text?: string }
-    $("hud-desc").textContent = data.text ?? "(no response)"
+    const responseText = data.text ?? "(no response)"
+
+    // Animate the text reveal
+    animateTextReveal($("hud-desc"), responseText, 20)
   } catch (err) {
     console.error("Describe fetch failed:", err)
-    $("hud-desc").textContent = "(connection error)"
+    $("hud-desc").textContent = "[connection error]"
   } finally {
     showThinking(false)
   }
