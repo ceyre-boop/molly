@@ -1,0 +1,16 @@
+{
+  "name": "molly-dashboard",
+  "version": "1.0.0",
+  "description": "Molly's personal dashboard + Halo AR integration",
+  "type": "module",
+  "bin": {
+    "server": "bin/server.ts"
+  },
+  "scripts": {
+    "dev": "bun bin/server.ts",
+    "start": "bun bin/server.ts"
+  },
+  "keywords": ["dashboard", "molly", "halo"],
+  "author": "TABOOST",
+  "license": "MIT"
+}
