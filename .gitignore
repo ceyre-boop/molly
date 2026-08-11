@@ -4,3 +4,5 @@ node_modules/
 .env.*
 *.log
 .DS_Store
+events.private.json
+desk-private.html

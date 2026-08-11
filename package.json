@@ -1,16 +1,6 @@
 {
-  "name": "molly-dashboard",
-  "version": "1.0.0",
-  "description": "Molly's personal dashboard + Halo AR integration",
+  "name": "molly",
+  "private": true,
   "type": "module",
-  "engines": {
-    "bun": ">=1.0.0"
-  },
-  "scripts": {
-    "dev": "bun bin/server.ts",
-    "start": "bun bin/server.ts"
-  },
-  "keywords": ["dashboard", "molly", "halo"],
-  "author": "TABOOST",
-  "license": "MIT"
+  "engines": { "bun": ">=1.0.0" }
 }
