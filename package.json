@@ -1,0 +1,9 @@
+{
+  "name": "molly",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "console": "bun run apps/console/server.ts",
+    "test": "bun test"
+  }
+}
