@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Molly's personal dashboard + Halo AR integration",
   "type": "module",
-  "bin": {
-    "server": "bin/server.ts"
+  "engines": {
+    "bun": ">=1.0.0"
   },
   "scripts": {
     "dev": "bun bin/server.ts",
