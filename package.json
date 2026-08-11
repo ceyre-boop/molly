@@ -2,5 +2,9 @@
   "name": "molly",
   "private": true,
   "type": "module",
-  "engines": { "bun": ">=1.0.0" }
+  "engines": { "bun": ">=1.0.0" },
+  "scripts": {
+    "console": "bun run apps/console/server.ts",
+    "test": "bun test"
+  }
 }

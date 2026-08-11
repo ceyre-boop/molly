@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Molly Console</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="stage">
+      <button id="orb" class="orb" type="button" data-state="idle" aria-label="Hold to talk to Molly">
+        <span class="orb__core"></span>
+        <span class="orb__ring orb__ring--1"></span>
+        <span class="orb__ring orb__ring--2"></span>
+        <span class="orb__wave"></span>
+      </button>
+      <p id="transcript" class="transcript" aria-live="polite"></p>
+      <p id="result" class="result" aria-live="polite"></p>
+      <p class="hint">Hold <kbd>Space</kbd> or press the orb to talk to Molly</p>
+    </main>
+
+    <aside class="activity-log">
+      <div class="activity-log__header">
+        <h2>Activity</h2>
+      </div>
+      <div id="activity-log" class="activity-log__content" aria-live="polite" aria-label="Molly activity log"></div>
+    </aside>
+
+    <script type="module" src="/client.js"></script>
+  </body>
+</html>

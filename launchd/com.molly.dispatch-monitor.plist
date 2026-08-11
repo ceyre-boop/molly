@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.molly.dispatch-monitor</string>
+  <key>Program</key>
+  <string>/Users/taboost/molly/bin/molly</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/taboost/molly/bin/molly</string>
+    <string>--start</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>StartInterval</key>
+  <integer>60</integer>
+  <key>StandardOutPath</key>
+  <string>/Users/taboost/molly/logs/launchd-monitor.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/taboost/molly/logs/launchd-monitor.log</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>HOME</key>
+    <string>/Users/taboost</string>
+  </dict>
+  <key>KeepAlive</key>
+  <dict>
+    <key>SuccessfulExit</key>
+    <false/>
+  </dict>
+</dict>
+</plist>

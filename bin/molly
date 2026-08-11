@@ -1,18 +1,104 @@
 #!/bin/zsh
-# molly — dispatch a task to the autonomous build pipeline from any terminal.
+# molly — Molly's command line interface.
 #
+# DISPATCH TASKS (immediate pipeline):
 #   molly                          → interactive: asks for title, then notes (Ctrl-D to send)
 #   molly "title"                  → one-shot dispatch
 #   molly "title" "body"           → one-shot with details
 #   pbpaste | molly "title" -      → body from clipboard/stdin
-#   molly -n "title" ["body"|-]    → overnight lane: queue in NEXT.md for the 7 AM
-#                                    standup instead of firing immediately
 #   molly -r molly "title"         → target a different pipeline repo
 #                                    (allowed: outreach-builder, molly)
 #
+# OVERNIGHT QUEUE (7 AM standup):
+#   molly -n "title" ["body"|-]    → queue in NEXT.md instead of immediate dispatch
+#
+# DAEMON CONTROL:
+#   molly --start                  → start the dispatch monitor daemon
+#   molly --stop                   → stop the dispatch monitor daemon
+#   molly --status                 → show daemon status and queue
+#   molly --help                   → show this message
+#
+set -e
+
 REPO="ceyre-boop/outreach-builder"
 NEXT_MD="$HOME/Obsidian/Obsidian/00-BRAIN/NEXT.md"
+MOLLY_DIR="$HOME/molly"
+MONITOR_LOG="$MOLLY_DIR/logs/monitor-dispatch.log"
+QUEUE_DIR="$HOME/.molly-dispatch-queue"
 
+# Ensure logs dir exists
+mkdir -p "$MOLLY_DIR/logs"
+
+# Daemon control functions
+start_monitor() {
+  if pgrep -f "bin/monitor-dispatch.ts" > /dev/null 2>&1; then
+    echo "✓ Dispatch monitor already running"
+    return 0
+  fi
+  cd "$MOLLY_DIR"
+  nohup bun bin/monitor-dispatch.ts > "$MONITOR_LOG" 2>&1 &
+  sleep 0.5
+  if pgrep -f "bin/monitor-dispatch.ts" > /dev/null 2>&1; then
+    echo "✓ Dispatch monitor started"
+    return 0
+  else
+    echo "✗ Failed to start dispatch monitor"
+    tail -3 "$MONITOR_LOG"
+    return 1
+  fi
+}
+
+stop_monitor() {
+  if pkill -f "bin/monitor-dispatch.ts"; then
+    echo "✓ Dispatch monitor stopped"
+  else
+    echo "✓ Dispatch monitor not running"
+  fi
+}
+
+show_status() {
+  echo ""
+  if pgrep -f "bin/monitor-dispatch.ts" > /dev/null 2>&1; then
+    echo "📡 Dispatch monitor: RUNNING"
+  else
+    echo "📡 Dispatch monitor: STOPPED"
+  fi
+
+  echo ""
+  cd "$MOLLY_DIR"
+  bun bin/check-dispatch.ts || true
+  echo ""
+}
+
+# Handle daemon commands
+case "$1" in
+  --start)
+    start_monitor
+    exit 0
+    ;;
+  --stop)
+    stop_monitor
+    exit 0
+    ;;
+  --status)
+    show_status
+    exit 0
+    ;;
+  --help|-h)
+    head -28 "$0" | tail -27
+    exit 0
+    ;;
+esac
+
+# Ensure monitor is running for dispatch tasks
+if [[ -n "$1" ]] || [[ -t 0 ]]; then
+  # Only auto-start if we're actually dispatching
+  if [[ "$1" != "-n" ]] || [[ -n "$1" ]]; then
+    start_monitor > /dev/null 2>&1 || true
+  fi
+fi
+
+# Parse dispatch flags
 OVERNIGHT=0
 while [[ "$1" == -* ]]; do
   case "$1" in
