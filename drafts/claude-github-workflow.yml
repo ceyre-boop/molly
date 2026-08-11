@@ -1,0 +1,84 @@
+# DRAFT — Claude Code GitHub Action for ceyre-boop/TABOOST_Platfrom
+# Prepared by Molly, 2026-08-10. NOT installed — commit requires "Molly, engineering mode"
+# or Colin committing it himself to .github/workflows/claude.yml.
+#
+# NOTE: /install-github-app generates a baseline claude.yml automatically.
+# This draft is the tailored version to REPLACE that baseline — it adds the
+# repo-specific guardrails below. Diff against the generated one before committing.
+#
+# Repo-specific guardrails baked in:
+#   1. PRs only — NEVER push to main. Push-to-main IS the production deploy
+#      (GitHub Pages, no CI gate). All work lands on claude/* branches.
+#   2. Never edit compiled outputs js/data.js or js/app.js (compiler artifacts;
+#      source of truth is data/*.csv + update-data.js).
+#   3. Firebase rules changes must be flagged, never auto-merged — a bad rules
+#      change exposes creator PII across clients.
+#   4. Verification = node update-data.js && node validate-and-deploy.js
+#      (there is no test suite; these are the repo's real validation scripts).
+
+name: Claude Code
+
+on:
+  issues:
+    types: [opened, assigned, labeled]
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  claude:
+    # Fire only on @claude mention or the "claude" label, and only for the repo owner —
+    # this repo is public-facing; never let a stranger's comment trigger an agent run.
+    if: >
+      (github.actor == 'ceyre-boop') && (
+        (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.label.name, 'claude'))) ||
+        (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+        (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+        (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude'))
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write        # branch pushes (claude/* only — main is protected, see below)
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          # /install-github-app stores this secret for subscription auth.
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --max-turns 60
+          prompt: |
+            REPO RULES (non-negotiable, from CLAUDE.md):
+            - Work ONLY on a new branch named claude/<issue-number>-<slug>. NEVER
+              commit to or merge into main — pushing main deploys production.
+            - NEVER edit js/data.js or js/app.js. Edit data/*.csv sources, then
+              run `node update-data.js` to regenerate.
+            - Before opening the PR, verify: `node update-data.js` exits 0 and
+              `node validate-and-deploy.js` exits 0. Paste both outputs into the
+              PR description as test proof.
+            - If the change touches Firebase Auth or Realtime DB rules, STOP —
+              open the PR as a draft, title it "[RULES REVIEW REQUIRED]", and do
+              not proceed further. Creator data is PII.
+            - No hardcoded credentials, ever. No server components — this is a
+              static site by design.
+            - PR description must include: what changed, why, verification
+              output, and anything you were unsure about.
+
+# ── Required manual follow-ups (one-time, Colin or engineering mode) ─────────
+# A. Branch protection on main (Settings → Branches): require PR before merge.
+#    Without this, rule #1 is a polite request, not a guarantee.
+# B. Confirm CLAUDE_CODE_OAUTH_TOKEN secret exists after /install-github-app.
+# C. Create a "claude" label so issues can be triggered by label as well as mention.

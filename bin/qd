@@ -1,0 +1,17 @@
+#!/bin/zsh
+# qd — quick dispatch to the Claude agent pipeline.
+#   qd "Add CSV export to the filter results"            → title only
+#   qd "Add CSV export" "details / acceptance notes..."  → title + body
+#   pbpaste | qd "Build the thing in my clipboard" -     → body from stdin/clipboard
+# Named qd, not dispatch — `dispatch` is taken by the Obsidian fleet command.
+REPO="ceyre-boop/outreach-builder"
+TITLE="$1"
+[[ -z "$TITLE" ]] && { echo "usage: qd \"title\" [\"body\" | -]"; exit 1; }
+if [[ "$2" == "-" ]]; then BODY="$(cat)"; else BODY="$2"; fi
+gh issue create --repo "$REPO" --label claude \
+  --title "$TITLE" \
+  --body "${BODY}
+
+@claude
+
+_Dispatched via qd._"

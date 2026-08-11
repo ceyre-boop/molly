@@ -1,14 +1,6 @@
-
-# events.json IS tracked as of 2026-08-09.
-# The repo went private and GitHub Pages access control was verified:
-# the site returns 200 for Colin, 404 for anyone unauthenticated.
-#
-# IF THIS REPO IS EVER MADE PUBLIC AGAIN, re-add `events.json` to this file
-# and purge it from history — it holds his real schedule, including homelab
-# and key-rotation notes.
-
-# Private single-file build with the calendar baked in. Never commit.
-desk-private.html
-
-# Real titles. Never commit — repo is public again as of 2026-08-09.
-events.private.json
+logs/
+node_modules/
+.env
+.env.*
+*.log
+.DS_Store

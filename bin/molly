@@ -1,0 +1,59 @@
+#!/bin/zsh
+# molly — dispatch a task to the autonomous build pipeline from any terminal.
+#
+#   molly                          → interactive: asks for title, then notes (Ctrl-D to send)
+#   molly "title"                  → one-shot dispatch
+#   molly "title" "body"           → one-shot with details
+#   pbpaste | molly "title" -      → body from clipboard/stdin
+#   molly -n "title" ["body"|-]    → overnight lane: queue in NEXT.md for the 7 AM
+#                                    standup instead of firing immediately
+#   molly -r molly "title"         → target a different pipeline repo
+#                                    (allowed: outreach-builder, molly)
+#
+REPO="ceyre-boop/outreach-builder"
+NEXT_MD="$HOME/Obsidian/Obsidian/00-BRAIN/NEXT.md"
+
+OVERNIGHT=0
+while [[ "$1" == -* ]]; do
+  case "$1" in
+    -n) OVERNIGHT=1; shift ;;
+    -r) case "$2" in
+          outreach-builder|molly) REPO="ceyre-boop/$2"; shift 2 ;;
+          *) echo "Unknown pipeline repo '$2' (allowed: outreach-builder, molly)"; exit 1 ;;
+        esac ;;
+    *) echo "Unknown flag $1"; exit 1 ;;
+  esac
+done
+
+TITLE="$1"
+if [[ -z "$TITLE" ]]; then
+  printf "Task title: "
+  read -r TITLE
+  [[ -z "$TITLE" ]] && { echo "No title — nothing dispatched."; exit 1; }
+  echo "Notes / acceptance criteria (Ctrl-D when done, or Ctrl-D immediately for none):"
+  BODY="$(cat)"
+elif [[ "$2" == "-" ]]; then
+  BODY="$(cat)"
+else
+  BODY="$2"
+fi
+
+if [[ $OVERNIGHT -eq 1 ]]; then
+  {
+    echo ""
+    echo "## $TITLE"
+    [[ -n "$BODY" ]] && echo "$BODY"
+    echo ""
+    echo "#dispatch"
+  } >> "$NEXT_MD"
+  echo "Queued for the 7:00 AM standup → $NEXT_MD"
+  exit 0
+fi
+
+gh issue create --repo "$REPO" --label claude \
+  --title "$TITLE" \
+  --body "${BODY}
+
+@claude
+
+_Dispatched via molly CLI._"
