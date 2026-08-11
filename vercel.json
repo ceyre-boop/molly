@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "name": "molly-dashboard",
+  "public": false,
+  "functions": {
+    "apps/halo-edge/api/*.ts": {
+      "runtime": "nodejs@20.x"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/apps/halo-edge/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "GITHUB_PAT": "@github_pat",
+    "ANTHROPIC_API_KEY": "@anthropic_api_key",
+    "HALO_SHARED_SECRET": "@halo_shared_secret",
+    "HALO_MONTHLY_BUDGET_CENTS": "200",
+    "HALO_STALE_THRESHOLD_MS": "150000"
+  }
+}
