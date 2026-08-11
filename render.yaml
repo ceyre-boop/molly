@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: molly-dashboard
+    runtime: bun
+    buildCommand: "bun install"
+    startCommand: "bun bin/server.ts"
+    port: 3000
+    env:
+      - key: GITHUB_PAT
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: HALO_SHARED_SECRET
+        sync: false
+      - key: HALO_MONTHLY_BUDGET_CENTS
+        value: "200"
+      - key: HALO_STALE_THRESHOLD_MS
+        value: "150000"
