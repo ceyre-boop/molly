@@ -11,15 +11,21 @@ const ACTIVITY_FILE = `${MOLLY_DIR}/activity.json`;
 
 const proc = Bun.spawnSync([
   "gh", "pr", "list", "--repo", REPO, "--state", "open",
-  "--json", "number,title,headRefName,url",
+  "--json", "number,title,headRefName,url,body",
 ]);
 if (proc.exitCode !== 0) {
   console.error(proc.stderr.toString());
   process.exit(1);
 }
 const prs = (JSON.parse(proc.stdout.toString()) as
-  { number: number; title: string; headRefName: string; url: string }[])
-  .filter((p) => p.headRefName.startsWith("claude/"));
+  { number: number; title: string; headRefName: string; url: string; body: string }[])
+  .filter((p) => p.headRefName.startsWith("claude/"))
+  .map((p) => ({
+    ...p,
+    summary: p.body
+      ? p.body.split("\n").find((line) => line.trim() && line.trim().length > 10)?.trim().substring(0, 150) || ""
+      : "",
+  }));
 
 const msg =
   prs.length === 0
@@ -36,6 +42,7 @@ interface ActivityEntry {
   title: string;
   repo: string;
   url: string;
+  summary?: string;
 }
 
 try {
@@ -57,6 +64,7 @@ try {
       title: p.title,
       repo: REPO.split("/")[1],
       url: p.url,
+      summary: p.summary || undefined,
     }));
 
   // Prepend new entries and cap at 20

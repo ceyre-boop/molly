@@ -323,9 +323,7 @@ const DESK = {
     { icon: "💬", name: "Telegram", url: "https://web.telegram.org" },
     { icon: "📋", name: "Sheets",   url: "https://docs.google.com/spreadsheets" },
     { icon: "🔥", name: "Firebase", url: "https://firebase.google.com/console" },
-    { icon: "🎓", name: "Canvas",   url: "https://canvas.instructure.com" },
-    { icon: "🌐", name: "Molly",    url: "https://ceyre-boop.github.io/molly/" },
-    { icon: "🤖", name: "Halo",     url: "https://ceyre-boop.github.io/molly/#halo" }
+    { icon: "🎓", name: "Canvas",   url: "https://canvas.instructure.com" }
   ],
 
   // title | one short line | chip | sev
@@ -359,9 +357,7 @@ const DESK = {
     { name: "Course 3", grade: "A",  due: "—" }
   ],
 
-  projects: [
-    { title: "Halo Integration", note: "Phase 1 scaffold complete — Vercel edge router + local daemon", tag: "Phase 2", sev: "accent" }
-  ],
+  projects: [],
 
   steps: [
     { name: "Foundation",    when: "Now → 2028", habit: "CARS 20 min/day", now: true },
@@ -515,12 +511,21 @@ const DESK = {
     .then((r) => (r.ok ? r.json() : Promise.reject()))
     .then((items) => {
       $("activity-c").textContent = items.length;
-      $("activity").innerHTML = items.map((a) => `
+      $("activity").innerHTML = items.map((a) => {
+        const prMatch = a.url.match(/\/pull\/(\d+)/);
+        const prNum = prMatch ? prMatch[1] : null;
+        const mergeUrl = prNum ? a.url.replace(/\/pull\/\d+\/?$/, `/pull/${prNum}/files`) : a.url;
+        return `
         <div class="card row" data-sev="${a.kind === "pr" ? "ok" : "accent"}">
           <div class="stripe"></div>
-          <div class="rt"><b>${esc(a.title)}</b><span>${esc(a.repo)} · ${new Date(a.ts).toLocaleString(undefined,{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"})}</span></div>
-          <div class="rm"><a href="${esc(a.url)}" target="_blank" rel="noopener noreferrer"><span class="chip" data-sev="${a.kind === "pr" ? "ok" : "accent"}">${a.kind === "pr" ? "Ready" : "Filed"}</span></a></div>
-        </div>`).join("");
+          <div class="rt">
+            <b>${esc(a.title)}</b>
+            <span>${esc(a.repo)} · ${new Date(a.ts).toLocaleString(undefined,{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"})}</span>
+            ${a.summary ? `<span style="margin-top: 4px; font-size: 13px; color: var(--ink-soft);">${esc(a.summary)}</span>` : ""}
+          </div>
+          <div class="rm"><a href="${esc(mergeUrl)}" target="_blank" rel="noopener noreferrer"><span class="chip" data-sev="${a.kind === "pr" ? "ok" : "accent"}">${a.kind === "pr" ? "Merge" : "Filed"}</span></a></div>
+        </div>`;
+      }).join("");
     })
     .catch(() => { $("activity").innerHTML = ""; $("activity-c").textContent = "0"; });
 })();
