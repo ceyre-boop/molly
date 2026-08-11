@@ -16,13 +16,15 @@ const PROMPTS = {
     "If no readable text is visible, say so briefly. No preamble.",
 } as const
 
+// Cost tracking: Haiku vision @ max_tokens:128 ≈ $0.0015 per call (~0.15¢)
+// 5¢ budget = 33+ calls per session before hitting limit
 export async function describeImage(
   base64Jpeg: string,
   mode: "ambient" | "read"
 ): Promise<string> {
   const response = await client.messages.create({
     model: "claude-haiku-4-5",
-    max_tokens: 256,
+    max_tokens: 128,
     messages: [
       {
         role: "user",
