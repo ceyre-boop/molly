@@ -16,7 +16,9 @@ describe("buildPulsePayload", () => {
 
 describe("sendPulse", () => {
   test("resolves false instead of throwing when Pulse is unreachable", async () => {
-    const ok = await sendPulse("test message")
+    // Point at a guaranteed-dead port — hitting real Pulse (31337) makes this
+    // test environment-dependent and speaks out loud on the host machine.
+    const ok = await sendPulse("test message", "http://127.0.0.1:1/notify")
     expect(ok).toBe(false)
   })
 })

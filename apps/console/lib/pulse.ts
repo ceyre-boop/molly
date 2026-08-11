@@ -18,9 +18,9 @@ export function buildPulsePayload(message: string): PulsePayload {
   return { message, voice_enabled: true }
 }
 
-export async function sendPulse(message: string): Promise<boolean> {
+export async function sendPulse(message: string, url: string = PULSE_URL): Promise<boolean> {
   try {
-    const res = await fetch(PULSE_URL, {
+    const res = await fetch(url, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(buildPulsePayload(message)),

@@ -16,7 +16,7 @@ import { sendPulse } from "./lib/pulse"
 import { classify, extractIssueTitle, resolveRepo } from "./lib/routing"
 
 const PUBLIC_DIR = join(import.meta.dir, "public")
-const PORT = Number(process.env.CONSOLE_PORT ?? 4173)
+const PORT = Number(process.env.CONSOLE_PORT ?? 31340)
 
 const build = await Bun.build({
   entrypoints: [join(PUBLIC_DIR, "client.ts")],
