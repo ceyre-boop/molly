@@ -1,6 +1,30 @@
-# Halo Edge Function Deployment
+# Halo Deployment
 
-When you're ready to wire up your Brilliant Halo glasses to the web, follow these steps to deploy the edge function to Vercel.
+## Status (2026-08-11)
+
+Two Halo-related efforts exist in this repo, at different maturity levels:
+
+### 1. Browser Prototype (LIVE & WORKING NOW)
+
+**Location:** `apps/halo-prototype/` (branch `halo-web-prototype`)
+
+A real, working prototype deployed on Render that simulates the glasses HUD in a browser using `getUserMedia` camera + real Claude Haiku vision calls. **No physical hardware required to test.** Use this to validate the visual style, trigger logic (spacebar counts), and backend prompts before the glasses arrive.
+
+- **Live:** https://molly-gz19.onrender.com
+- **Setup:** Read `apps/halo-prototype/README.md`
+- **Local test:** `cd apps/halo-prototype && bun install && ANTHROPIC_API_KEY=sk-... bun run server.ts`
+
+### 2. Vercel Edge Scaffold (FUTURE PHASE)
+
+**Location:** Branch `claude/issue-2-20260811-0008` (unmerged)
+
+A scaffold for an "off-laptop reachability" phase (when the physical glasses need to reach Molly while the laptop is closed). Includes heartbeat, cost-capped Anthropic fallback, GitHub-persisted queue. **Non-functional today** (zero real Claude wiring, no Lua, no BLE bridge). See `Plans/build-it-all-right-peaceful-kahan.md` for the full spec. Out of scope for this pass — do not merge without revisiting the voice-first assumptions baked into its shared types.
+
+---
+
+## Edge Function Deployment (Vercel scaffold — future phase)
+
+When you're ready to wire up your Brilliant Halo glasses to the web via the Vercel scaffold, follow these steps to deploy the edge function.
 
 ## Quick Start
 

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Molly Halo AR Prototype</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <video id="camera" autoplay playsinline></video>
+    <canvas id="capture" style="display: none"></canvas>
+
+    <!-- HUD Overlay: not spatially tracked, fixed position (hardware constraint) -->
+    <div id="hud">
+      <div id="hud-stat"></div>
+      <div id="hud-desc"></div>
+      <div id="hud-thinking" style="display: none">thinking...</div>
+    </div>
+
+    <!-- Toast for future protocols -->
+    <div id="toast" style="display: none"></div>
+
+    <script type="module" src="/client.js"></script>
+  </body>
+</html>

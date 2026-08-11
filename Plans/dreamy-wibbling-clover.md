@@ -1,151 +1,182 @@
-# Restore Molly's Dashboard + Overnight Dispatch Pipeline
+# Halo AR Glasses — Browser Prototype (Visual, Silent, Deployed Now)
 
 ## Context
 
-Three things were running: a static GitHub Pages dashboard (schedule + quicklinks), a local "Molly Console" (the "circle") for dispatching overnight/immediate AI tasks, and early AR-glasses (Halo/"Edith") work. All three are currently down. Root-cause audit (read-only, confirmed via git history/reflog and live `gh api` calls):
+The Brilliant Labs Halo glasses ship with **Noha**, their own on-device voice assistant, which already handles general conversational tasks well. An earlier attempt at wiring Molly into Halo (on unmerged branch `claude/issue-2-20260811-0008`) made the mistake of treating voice as mandatory — every response type carries a `voiceText` field baked into shared TypeScript interfaces across `halo/protocols.ts`, `apps/halo-edge/api/halo.ts`, etc. That code is also almost entirely non-functional: zero real Claude vision calls (the Anthropic call is a literal stub that logs "not yet wired" and returns `null`), zero Lua code, zero BLE bridge, zero real face-recognition DB.
 
-1. **Dashboard down**: `index.html` + `events.json` + the GitHub Pages Actions workflow (`pages.yml`) are all intact and correct on `main`. But the repo is currently **private**, and GitHub Pages isn't even enabled yet (`gh api repos/ceyre-boop/molly/pages` → 404). Pages doesn't serve private repos on GitHub Free. On top of that, today (2026-08-11) four same-day, broken deploy-config attempts (Render, Vercel, Glitch) were layered onto `main` chasing "get something live," none of which can work since they reference `apps/halo-edge`, which doesn't exist on `main`.
-2. **Dispatch pipeline half-wired**: the real working code — the Molly Console app (`apps/console/`), a daemon-aware `bin/molly` (`--start`/`--stop`/`--status`), `bin/monitor-dispatch.ts`, and related handler scripts — was built on branch `claude/issue-2-20260811-0008` and **pushed but never merged into `main`**. `main` only has a stripped-down `bin/molly` with no daemon support. This is exactly why `~/Library/LaunchAgents/com.molly.dispatch-monitor.plist` is failing (exit code 1, "Unknown flag --start") and why `logs/console-server.log` shows ENOENT errors for `apps/console`. The 7 AM standup dispatcher (`standup-dispatch.ts`/`standup-report.ts`, driven by the separate, already-working `com.molly.morning-standup` LaunchAgent) does work today, but its only "notification" is a Pulse voice call — nothing writes to the dashboard, which is the gap for "show up as a section on my dashboard."
-3. **AR glasses (Halo)**: real design docs exist (`Plans/build-it-all-right-peaceful-kahan.md`, `apps/halo-edge/*`, `halo/HALO_ARCHITECTURE.md`) but only on the unmerged branch. Explicitly deferred — recommendations only this round, no implementation.
+The corrected direction: **Molly on Halo is action-triggered and visual — silent by default.** She doesn't compete with Noha for voice. She answers by putting something on the display: a short HUD-style description or answer, styled like the reference mockup (green monospace text, time+temp stat line, a 1-2 sentence description card, not spatially locked to anything — the hardware genuinely can't do that, 256×256 display, no positional tracking). Later, on real hardware, her text answer *could* be piped through Noha's TTS — but that's a future wire, not part of this build.
 
-User decisions already made (do not re-ask):
-- Make the `ceyre-boop/molly` repo **public** again to restore free GitHub Pages (schedule data in the public `events.json` is already scrubbed of specifics — confirmed by reading it).
-- For `events.private.json` / `desk-private.html` (tracked in git, contain real personal detail — health/study schedule, trading notes): **stop tracking going forward** (`git rm --cached` + `.gitignore`), no git-history rewrite, no force-push.
+The immediate, concrete ask: **get a real, working prototype live on Render right now**, on its own branch, so it can be tested from a phone browser before the glasses arrive, and so the same backend can be pointed at the real hardware the moment it's in hand. This also fixes a live problem: the existing Render service (`molly`, `srv-d9td6t2jobas73cmbf3g`) is currently failing every deploy with exit 127, because it's misconfigured — `runtime: python` trying to run `bun bin/server.ts`, a file that was deleted from `main` during the dashboard cleanup. Confirmed live via the Render CLI (already authenticated in this environment as `ceyre@mcc.edu`).
 
----
+## What this is NOT (explicitly out of scope this round)
 
-## Priority 1 — Restore the static GitHub Pages dashboard
-
-**1.1 — Remove today's broken deploy debris from `main`:**
-```bash
-git rm render.yaml vercel.json .glitchignore bin/server.ts
-```
-Rewrite `package.json` to a minimal static-site manifest (no `start`/`dev` pointing at the now-deleted `bin/server.ts`):
-```json
-{ "name": "molly", "private": true, "type": "module", "engines": { "bun": ">=1.0.0" } }
-```
-Commit: `chore: remove Render/Vercel/Glitch deploy debris, restore static-only package.json`
-
-**1.2 — Stop tracking private files:**
-```bash
-git rm --cached events.private.json desk-private.html
-```
-Append to `.gitignore`:
-```
-events.private.json
-desk-private.html
-```
-Commit: `chore: stop tracking private desk files, add to .gitignore`
-
-**1.3 — Push `main`.**
-
-**1.4 — POINT OF NO EASY RETURN (confirm with user immediately before running):**
-```bash
-gh repo edit ceyre-boop/molly --visibility public
-```
-Repo history (including old commits with private data) becomes publicly visible/cloneable/cacheable at this point — irreversible in practice even though GitHub technically allows flipping back.
-
-**1.5 — Enable GitHub Pages (Actions source), one-time bootstrap:**
-```bash
-gh api -X POST repos/ceyre-boop/molly/pages -f build_type=workflow
-```
-If that errors, fall back to the manual path: repo Settings → Pages → Build and deployment → Source → "GitHub Actions" (pages.yml is auto-detected). Verify with `gh api repos/ceyre-boop/molly/pages` → expect `build_type: workflow` and an `html_url` (`https://ceyre-boop.github.io/molly/`).
-
-**1.6 — Trigger and verify deploy:**
-```bash
-gh workflow run "Deploy to GitHub Pages" --repo ceyre-boop/molly
-gh run list --repo ceyre-boop/molly --workflow="Deploy to GitHub Pages" --limit 3
-curl -sI https://ceyre-boop.github.io/molly/
-```
-Confirm HTTP 200 and page body contains "Molly's Desk".
-
-**Verification checklist:**
-- [ ] `git ls-files` shows no `render.yaml`/`vercel.json`/`.glitchignore`/`bin/server.ts`/`events.private.json`/`desk-private.html`
-- [ ] `gh repo view ceyre-boop/molly --json visibility` → `PUBLIC`
-- [ ] `gh api repos/ceyre-boop/molly/pages` → 200, `build_type: workflow`
-- [ ] `gh run list` shows a successful Pages deploy run
-- [ ] `curl -sI https://ceyre-boop.github.io/molly/` → 200, page renders
+- Not touching `main` — dashboard/GitHub Pages stays exactly as-is.
+- Not reusing/merging the `apps/halo-edge` Vercel scaffold or its voice-first types — that stays untouched on its branch as a legitimate *future* phase (laptop-closed reachability, cost-capped fallback, heartbeat/queue). This prototype is simpler: browser camera → Render → Claude vision → HUD text.
+- Not implementing face recognition or maps overlay yet — 3rd space-press is reserved with a "coming soon" placeholder, no backend call.
+- Not adding audio/TTS in the prototype itself — confirmed zero `SpeechSynthesis`/audio code. A comment in the code notes where Noha TTS would hook in later.
 
 ---
 
-## Priority 2 — Restore the overnight dispatch pipeline, visible on the dashboard
+## 1. Branch
 
-**2.1 — Bring over only the needed pieces from `claude/issue-2-20260811-0008`** (checkout-based cherry-pick, not `git merge` — avoids the branch's conflicting deletion of `pages.yml`/`vercel.json`/etc. ever touching `main`'s history):
 ```bash
-git checkout claude/issue-2-20260811-0008 -- \
-  apps/console \
-  bin/molly \
-  bin/monitor-dispatch.ts \
-  bin/respond.ts \
-  bin/dispatch-handler.ts \
-  bin/check-dispatch.ts \
-  DISPATCH.md \
-  WORKFLOW.md \
-  launchd/com.molly.dispatch-monitor.plist
+git checkout main && git pull origin main
+git checkout -b halo-web-prototype
+git push -u origin halo-web-prototype
 ```
-Explicitly excluded: `apps/halo-edge/`, `halo/`, `bin/halo-*.ts`, `state/halo-*.json`, `PHASE_1_COMPLETE.md` (all Halo/AR, deferred).
+All work happens here. `main` is untouched — verified at the end via `git diff main origin/main` (expect empty).
 
-Hand-edit the checked-out `bin/molly`: remove the `--halo-start`/`--halo-stop`/`--budget`/`--halo-status` case blocks and their `start_halo`/`stop_halo` functions (they call scripts we're not bringing over), and trim the Halo lines from `--help` and `show_status`. Keep `--start`/`--stop`/`--status` (these only touch `monitor-dispatch.ts`/`check-dispatch.ts`, which are included) and the existing `-n`/`-r` dispatch logic (confirmed byte-identical superset on the branch).
+## 2. New app: `apps/halo-prototype/`
 
-Hand-merge `package.json` (don't blind-overwrite — reconcile with Step 1.1's version):
-```json
-{
-  "name": "molly",
-  "private": true,
-  "type": "module",
-  "engines": { "bun": ">=1.0.0" },
-  "scripts": { "console": "bun run apps/console/server.ts", "test": "bun test" }
+Follows the repo's existing `apps/console/` pattern (Bun.serve() + Bun.build()-bundled client — zero framework, matches house style), not the single-file `index.html` style, because this app has real client logic worth type-checking (camera lifecycle, canvas capture, geolocation, debounced multi-press key handling).
+
+```
+apps/halo-prototype/
+├── server.ts              # Bun.serve(): static files + POST /api/describe
+├── lib/
+│   ├── anthropic.ts        # describeImage(base64, mode) — pure, testable
+│   └── anthropic.test.ts
+├── public/
+│   ├── index.html           # <video>, hidden <canvas>, HUD overlay divs
+│   ├── client.ts             # camera, keydown triggers, capture, fetch, HUD render
+│   └── styles.css            # HUD green monospace styling
+├── package.json             # scoped: name "halo-prototype", private, engines.bun
+├── Dockerfile                # oven/bun:1 base — Render has no native bun runtime
+├── .dockerignore
+└── README.md                 # setup, API contract, path to real hardware
+```
+
+**`server.ts`** — binds to all interfaces (not localhost-only like `apps/console`, since it must be reachable from Render and, for local testing, from a phone on the LAN). Routes: `POST /api/describe`, static `/`, `/client.js` (bundled), `/styles.css`.
+
+**`lib/anthropic.ts`** — the repo's first real Anthropic vision call:
+```ts
+import Anthropic from "@anthropic-ai/sdk"
+const client = new Anthropic() // ANTHROPIC_API_KEY from env
+
+const PROMPTS = {
+  ambient: 'Describe the scene in 1-2 short sentences (under 150 chars), evocatively. ' +
+    'Style: "Fujiyoshida\'s Honco Street frames Mount Fuji perfectly, blending everyday life ' +
+    'with Japan\'s most iconic view." No preamble.',
+  read: "Read any visible text/document and summarize or answer in 1-3 short sentences. " +
+    "If nothing readable is visible, say so briefly. No preamble.",
+} as const
+
+export async function describeImage(base64Jpeg: string, mode: "ambient" | "read") {
+  const res = await client.messages.create({
+    model: "claude-haiku-4-5",
+    max_tokens: 256,
+    messages: [{ role: "user", content: [
+      { type: "image", source: { type: "base64", media_type: "image/jpeg", data: base64Jpeg } },
+      { type: "text", text: PROMPTS[mode] },
+    ]}],
+  })
+  const block = res.content.find((b) => b.type === "text")
+  return block?.type === "text" ? block.text.trim() : ""
 }
 ```
+`claude-haiku-4-5` — fast, cheap, vision-capable, correct alias per the claude-api skill. Response shape is `{ text: string }` only — no `voiceText`, no forced audio field.
 
-Verify nothing Halo-related or pages.yml-related was reintroduced (`git diff HEAD -- .github/workflows/pages.yml` empty, `ls apps/halo-edge` errors), then commit and push:
-`feat: restore dispatch pipeline (console app, daemon-aware molly CLI, monitor/handler scripts) from claude/issue-2-20260811-0008; halo-edge intentionally excluded`
+## 3. Backend contract
 
-**2.2 — New: overnight activity visible on the dashboard.**
+`POST /api/describe` — `{ image: "<base64 JPEG, no data-URI prefix>", mode: "ambient" | "read" }` → `{ text: string }`.
 
-New file `activity.json` at repo root (flat, sibling of `events.json`), newest-first, capped at last 20 entries:
-```json
-[{ "ts": "2026-08-11T07:25:00-04:00", "kind": "pr", "title": "...", "repo": "outreach-builder", "url": "https://github.com/..." }]
-```
-Extend `bin/standup-report.ts` (it already computes the list of open Claude PRs): map each into `{ts, kind:"pr", title, repo, url}`, dedup by `url` against the existing file, prepend, trim to 20, write, then commit+push (wrapped so "nothing to commit" doesn't fail the script):
+- Client strips the `data:image/jpeg;base64,` prefix before sending (matches what the Anthropic SDK's `source.data` field expects — raw base64, no prefix).
+- Optional auth: `HALO_SHARED_SECRET` bearer check, permissive when unset (fine for solo testing now; note in README to set it once confirmed working, since an open endpoint on a public URL can burn API budget).
+- Same-origin (frontend + API served by the same `Bun.serve()`), so no CORS concerns.
+
+## 4. Frontend — replicates the mockup
+
+- `<video>` full-viewport via `getUserMedia({ video: { facingMode: "environment" } })`. Requires HTTPS or localhost — Render's URL is HTTPS, local dev is `localhost`, both fine.
+- HUD card: `position: fixed; left: 24px; bottom: 32px;` — deliberately NOT spatially tracked, matching the hardware's real constraint (comment this explicitly, don't hide it). Green (`#39FF14`) monospace text (reuse the repo's existing `--mono` font stack from `index.html`), subtle scrim behind text for legibility (`rgba(0,0,0,.35)` + blur) — a browser-only affordance, noted as not carrying over to the real 256×256 display.
+- Stat line: client clock (`HH:MM`, updates every 30s) + temperature via `navigator.geolocation` → `api.open-meteo.com/v1/forecast?latitude=..&longitude=..&current=temperature_2m` (free, no API key, read `response.current.temperature_2m`).
+- **Trigger logic** (exact): `keydown` on `Space` (with `preventDefault()`), increments a counter, resets a 450ms debounce timer on each press; when the timer fires, dispatch on final count — **1 press → capture frame, POST mode `"ambient"`**; **2 presses → capture frame, POST mode `"read"`**; **3 presses → "coming soon" toast, no network call** (reserved for future face/maps protocols).
+- Frame capture: draw current video frame to an offscreen `<canvas>`, `toDataURL("image/jpeg", 0.85)`, strip the prefix, POST.
+- "Thinking..." indicator shown between trigger and response (Claude call takes 1-3s). Description persists on screen until the next trigger — matches a HUD showing last-known-state.
+- Zero audio/TTS code. One comment at the top of `client.ts`: *"SILENT BY DESIGN — on real hardware, `text` could later be piped to Noha's TTS; out of scope here."*
+
+## 5. Fix the Render deploy (confirmed live via `render` CLI, already authenticated)
+
+**Diagnosis:** service `molly` (`srv-d9td6t2jobas73cmbf3g`, live at `https://molly-gz19.onrender.com`) has `runtime: python` trying to run `bun bin/server.ts` — a file deleted from `main` in an earlier cleanup commit. Double failure (wrong runtime + missing file) → exit 127.
+
+**Fix — reconfigure the same service** (keeps the existing hostname, avoids a second free-tier service):
 ```bash
-git add activity.json && git commit -m "chore: update overnight activity feed" -q || true
-git push origin main -q || true
+render services update srv-d9td6t2jobas73cmbf3g \
+  --branch halo-web-prototype \
+  --root-directory apps/halo-prototype \
+  --runtime docker \
+  --confirm
 ```
-This push is what makes overnight activity show up on the public Pages site.
+Using `runtime: docker` (Render has no native `bun` runtime — confirmed against the render-deploy skill's runtime list) sidesteps another "does this runtime actually have bun" guess, which is exactly what caused today's failure.
 
-Add a matching "Overnight" section to `index.html`, following its existing `.rows`/`.row`/`.card`/`.chip` idiom (same pattern as the `needs`/`deadlines` sections) and the same graceful-degrade `fetch()` pattern already used for `events.json` (missing file → empty section, not a broken page). Insert the section right after "Needs you". This is the one direct edit to `index.html` in this whole plan.
+**`Dockerfile`:**
+```dockerfile
+FROM oven/bun:1 AS base
+WORKDIR /app
+COPY package.json ./
+RUN bun install
+COPY . .
+EXPOSE 3000
+CMD ["bun", "run", "server.ts"]
+```
 
-**2.3 — Reload the LaunchAgent** (plist content is already correct/unchanged, just needs the daemon-aware `bin/molly` on disk):
+**Env vars** (this CLI build has no `env-vars` subcommand — confirmed): use the `render-env-vars` skill if it can reach this service at execution time; otherwise manual Dashboard step — `molly` service → Environment → add `ANTHROPIC_API_KEY` (secret, required) and `HALO_SHARED_SECRET` (secret, optional) → Save (auto-redeploys).
+
+**`render.yaml`** (Blueprint reference, kept in the app folder for future use):
+```yaml
+services:
+  - type: web
+    name: molly
+    runtime: docker
+    branch: halo-web-prototype
+    rootDir: apps/halo-prototype
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: HALO_SHARED_SECRET
+        sync: false
+```
+
+## 6. Documentation
+
+- `HALO_DEPLOYMENT.md` (root) gets a new top status section distinguishing the two Halo efforts: this browser prototype (live, working) vs. `apps/halo-edge` (future phase, non-functional today) — existing content about `apps/halo-edge` stays below, untouched.
+- `apps/halo-prototype/README.md` — setup, API contract, env vars, deploy notes, and the path-to-real-hardware note below.
+
+## 7. Path to real hardware (unchanged later)
+
+```
+Halo Lua (frame.camera.capture()) → BLE → Python host bridge
+   → POST https://molly-gz19.onrender.com/api/describe {image, mode}
+   ← {text}
+   → frame.display.text(...) styled to mimic the same green-HUD-card look
+```
+Button press replaces spacebar count; `frame.display.*` replaces DOM rendering. The vision call, prompts, and response shape are validated now, in the browser — this prototype **is** the real prototype, not throwaway.
+
+## 8. Verification
+
+**Local:**
 ```bash
-launchctl unload ~/Library/LaunchAgents/com.molly.dispatch-monitor.plist
-launchctl load ~/Library/LaunchAgents/com.molly.dispatch-monitor.plist
-launchctl list | grep com.molly.dispatch-monitor
-./bin/molly --status
+cd apps/halo-prototype && bun install
+bun test                 # lib/anthropic.test.ts
+ANTHROPIC_API_KEY=sk-... bun run server.ts
+# open http://localhost:3000 — camera prompt, live feed, HUD stat line populates
+# space x1 → "thinking" → ambient description appears
+# space x2 → read-mode response
+# space x3 → "coming soon" toast, confirm no network call in devtools
 ```
-Confirm no more "Unknown flag --start" in `logs/launchd-monitor.log`.
 
-**2.4 — End-to-end verification:**
+**Live (after Render redeploys):**
 ```bash
-./bin/molly "test task — verify dispatch pipeline restored" -r molly
+curl -sI https://molly-gz19.onrender.com/                # expect 200
+curl -s -X POST https://molly-gz19.onrender.com/api/describe \
+  -H "content-type: application/json" -d '{"image":"<test-base64>","mode":"ambient"}'
+render deploys list srv-d9td6t2jobas73cmbf3g -o json | head -5   # expect status: "live"
 ```
-(Use `-r molly` for the test to avoid noise on `outreach-builder`; confirms the two-repo dispatch constraint from CLAUDE.md still holds.)
-- [ ] Issue appears via `gh issue list --repo ceyre-boop/molly --label claude --limit 3`
-- [ ] `./bin/molly --status` shows it queued/picked up
-- [ ] Pulse notification fires (check `logs/monitor-dispatch.log` or listen)
-- [ ] `bun bin/standup-report.ts` (manual run for testing) updates, commits, pushes `activity.json`
-- [ ] `curl -s https://ceyre-boop.github.io/molly/activity.json` reflects it post-redeploy
-- [ ] Dashboard visually shows the new "Overnight" section populated
+Open the Render URL on a **phone browser** (real camera, real HTTPS) and run the full space x1/x2/x3 flow — closest available proxy to "what I'll see through the glasses" before hardware arrives.
 
----
-
-## Priority 3 — AR glasses (Halo/"Edith") — recommendations only, not implemented this round
-
-- The design doc (`Plans/build-it-all-right-peaceful-kahan.md`) and branch code (`apps/halo-edge/`) already exist and are architecturally sound (per-app-scoped `vercel.json`, not a root-level one — this is actually the right pattern, unlike today's broken root `vercel.json`).
-- Recommend: once Priority 1/2 are stable, merge `apps/halo-edge/` the same checkout-based way, but deploy it as its **own** scoped Vercel project (`vercel --cwd apps/halo-edge`), not bundled with the static Pages dashboard — keeps the $0.50–$2/mo Claude API cost isolated and the two deploy targets (static Pages for dashboard, serverless Vercel function for Halo) from fighting each other the way today's debris did.
-- Recommend building Protocol 1 (paper/doc → answer) first — simplest, no local biometric storage, most immediately useful — before Protocol 2 (face memory, needs local-only embedding storage + BIPA-aware design already noted) or Protocol 3 (maps, needs continuous GPS + routing API cost).
-- Authority tiers (Tier 1 auto-render / Tier 2 confirm / Tier 3 external query) should reuse the same `MOLLY_AUTHORITY.md` pattern already referenced, not a new scheme.
-- No action taken this round beyond this note.
+Confirm `main` untouched: `git diff main origin/main` empty.
 
 ## Critical files
-`/Users/taboost/molly/index.html`, `package.json`, `bin/molly`, `bin/standup-report.ts`, `.gitignore`, `.github/workflows/pages.yml`, `launchd/com.molly.dispatch-monitor.plist`
+`apps/halo-prototype/{server.ts, lib/anthropic.ts, public/client.ts, public/index.html, public/styles.css, Dockerfile, package.json, README.md}`, `HALO_DEPLOYMENT.md`
