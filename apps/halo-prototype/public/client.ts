@@ -131,21 +131,29 @@ class TacticalGraphics {
       ]
     }
 
-    for (const box of this.analysisBoxes) {
+    for (let i = 0; i < this.analysisBoxes.length; i++) {
+      const box = this.analysisBoxes[i]
       box.pulse = (box.pulse + 0.02) % 1
 
       const pulse = Math.sin(box.pulse * Math.PI * 2) * 0.3 + 0.7
       const alpha = pulse * 0.5
       const boxColor = `rgba(57, 255, 20, ${alpha})`
 
+      // Draw glow aura
+      const gradient = this.ctx.createRadialGradient(box.x + box.w / 2, box.y + box.h / 2, box.w * 0.3, box.x + box.w / 2, box.y + box.h / 2, Math.max(box.w, box.h))
+      gradient.addColorStop(0, `rgba(57, 255, 20, ${pulse * 0.3})`)
+      gradient.addColorStop(1, "rgba(57, 255, 20, 0)")
+      this.ctx.fillStyle = gradient
+      this.ctx.fillRect(box.x - box.w * 0.2, box.y - box.h * 0.2, box.w * 1.4, box.h * 1.4)
+
       this.ctx.strokeStyle = boxColor
       this.ctx.lineWidth = 2
       this.ctx.strokeRect(box.x, box.y, box.w, box.h)
 
-      // Draw corner indicators
+      // Draw corner indicators with energy pulse
       const cornerSize = 8
       this.ctx.strokeStyle = `rgba(57, 255, 20, ${pulse})`
-      this.ctx.lineWidth = 2
+      this.ctx.lineWidth = 2.5
 
       // Top-left
       this.ctx.beginPath()
@@ -174,6 +182,12 @@ class TacticalGraphics {
       this.ctx.lineTo(box.x + box.w, box.y + box.h)
       this.ctx.lineTo(box.x + box.w, box.y + box.h - cornerSize)
       this.ctx.stroke()
+
+      // Center pulse point
+      this.ctx.fillStyle = `rgba(57, 255, 20, ${pulse * 0.8})`
+      this.ctx.beginPath()
+      this.ctx.arc(box.x + box.w / 2, box.y + box.h / 2, 4 + pulse * 3, 0, Math.PI * 2)
+      this.ctx.fill()
     }
   }
 
