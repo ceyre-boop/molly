@@ -237,7 +237,47 @@ class EDITHSystem {
     this.ctx.lineTo(panel.x + panel.width - 8, panel.y + 30)
     this.ctx.stroke()
 
+    // Panel content based on ID
+    this.drawPanelContent(panel)
+
     this.ctx.globalAlpha = 1
+  }
+
+  private drawPanelContent(panel: EDITHPanel) {
+    const contentX = panel.x + 12
+    const contentY = panel.y + 42
+    const lineHeight = 16
+
+    this.ctx.font = "11px 'SF Mono', monospace"
+    this.ctx.fillStyle = this.colors.text
+
+    if (panel.id === "identity" && panel.data.person) {
+      // Identity card content
+      this.ctx.fillText(`NAME: ${panel.data.person}`, contentX, contentY)
+      this.ctx.fillText(`CONFIDENCE: ${panel.data.confidence}`, contentX, contentY + lineHeight)
+
+      // Confidence bar
+      const confMap: Record<string, number> = { HIGH: 1, MEDIUM: 0.6, LOW: 0.3 }
+      const confValue = confMap[panel.data.confidence as string] || 0.5
+      const barW = panel.width - 24
+      this.ctx.fillStyle = `rgba(0, 217, 255, 0.2)`
+      this.ctx.fillRect(contentX, contentY + lineHeight * 2 + 2, barW, 4)
+      this.ctx.fillStyle = this.colors.primary
+      this.ctx.fillRect(contentX, contentY + lineHeight * 2 + 2, barW * confValue, 4)
+
+      this.ctx.fillStyle = this.colors.text
+      this.ctx.fillText(`SEEN: 1x`, contentX, contentY + lineHeight * 4)
+    } else if (panel.id === "status" && panel.data.mode) {
+      // Status panel content
+      this.ctx.fillText(`MODE: ${panel.data.mode}`, contentX, contentY)
+      this.ctx.fillText(`UPTIME: ${panel.data.mode}`, contentX, contentY + lineHeight)
+      this.ctx.fillText(`MEMORY: ${Math.round(Math.random() * 100)}%`, contentX, contentY + lineHeight * 2)
+    } else if (panel.id === "analysis" && panel.data.anomalies) {
+      // Analysis panel content
+      this.ctx.fillText(`ANOMALIES: ${panel.data.anomalies}`, contentX, contentY)
+      this.ctx.fillStyle = panel.data.anomalies === "MINIMAL" ? this.colors.primary : this.colors.accent
+      this.ctx.fillText(`STATUS: ${panel.data.anomalies === "MINIMAL" ? "CLEAR" : "DETECTED"}`, contentX, contentY + lineHeight)
+    }
   }
 
   private drawDataConnections() {
