@@ -1,182 +1,110 @@
-# Halo AR Glasses — Browser Prototype (Visual, Silent, Deployed Now)
+# EDITH Phase 3 — Voice Loop (Browser Prototype)
 
 ## Context
 
-The Brilliant Labs Halo glasses ship with **Noha**, their own on-device voice assistant, which already handles general conversational tasks well. An earlier attempt at wiring Molly into Halo (on unmerged branch `claude/issue-2-20260811-0008`) made the mistake of treating voice as mandatory — every response type carries a `voiceText` field baked into shared TypeScript interfaces across `halo/protocols.ts`, `apps/halo-edge/api/halo.ts`, etc. That code is also almost entirely non-functional: zero real Claude vision calls (the Anthropic call is a literal stub that logs "not yet wired" and returns `null`), zero Lua code, zero BLE bridge, zero real face-recognition DB.
+The EDITH prototype (`apps/halo-prototype/`, branch `halo-web-prototype`, live on Render) already does visual AR: spacebar-tap triggers capture a camera frame and send it to Claude vision via `POST /api/describe`, rendering answers into a HUD text panel and tactical EDITH overlay panels (identity, status, memory, etc. — built in Phases 1–2, which also added face detection via `POST /api/faces`). It is currently silent — no mic input, no spoken output — by original design (documented at the top of `client.ts`).
 
-The corrected direction: **Molly on Halo is action-triggered and visual — silent by default.** She doesn't compete with Noha for voice. She answers by putting something on the display: a short HUD-style description or answer, styled like the reference mockup (green monospace text, time+temp stat line, a 1-2 sentence description card, not spatially locked to anything — the hardware genuinely can't do that, 256×256 display, no positional tracking). Later, on real hardware, her text answer *could* be piped through Noha's TTS — but that's a future wire, not part of this build.
+The user now wants to talk to EDITH and have her talk back, tested today on the existing browser prototype, before any hardware or native app work happens. This is Phase 3 of a longer roadmap (full sequence below) but the *only* phase being built right now — everything past this depends on an iOS companion app that doesn't exist yet.
 
-The immediate, concrete ask: **get a real, working prototype live on Render right now**, on its own branch, so it can be tested from a phone browser before the glasses arrive, and so the same backend can be pointed at the real hardware the moment it's in hand. This also fixes a live problem: the existing Render service (`molly`, `srv-d9td6t2jobas73cmbf3g`) is currently failing every deploy with exit 127, because it's misconfigured — `runtime: python` trying to run `bun bin/server.ts`, a file that was deleted from `main` during the dashboard cleanup. Confirmed live via the Render CLI (already authenticated in this environment as `ceyre@mcc.edu`).
+This must coexist with the existing tap-counting trigger (1 tap = ambient describe, 2 taps = read mode, 3 taps = reserved toast) without breaking it, and it must be built as an isolated, swappable module so the real Halo hardware's mic/bone-conduction speaker can drop in later without touching the rest of `client.ts`.
 
-## What this is NOT (explicitly out of scope this round)
+## Roadmap (for sequencing context only — not built in this pass)
 
-- Not touching `main` — dashboard/GitHub Pages stays exactly as-is.
-- Not reusing/merging the `apps/halo-edge` Vercel scaffold or its voice-first types — that stays untouched on its branch as a legitimate *future* phase (laptop-closed reachability, cost-capped fallback, heartbeat/queue). This prototype is simpler: browser camera → Render → Claude vision → HUD text.
-- Not implementing face recognition or maps overlay yet — 3rd space-press is reserved with a "coming soon" placeholder, no backend call.
-- Not adding audio/TTS in the prototype itself — confirmed zero `SpeechSynthesis`/audio code. A comment in the code notes where Noha TTS would hook in later.
+3. **Voice Loop** (this plan) — Web Speech API STT/TTS in the browser prototype.
+4. **EDITH iOS Companion App** — SwiftUI app, Core Bluetooth Halo pairing, background relay to the Molly backend. The real unlock; everything below depends on it existing.
+5. **Account Integrations** — Google (read-only), Apple Calendar/Reminders (EventKit), HealthKit, Contacts (feeds face-memory naming), notification mirroring. Each an opt-in toggle in the iOS app.
+6. **Automations Layer** — time/context/location-triggered panel changes, declarative `automations.json` in the Molly backend.
+7. **Face Memory → backend** — migrate `FaceMemory` off `localStorage` into a Molly-side datastore (SQLite), local-only, so identity persists across the web prototype, iOS app, and hardware.
 
----
+## Phase 3 — Voice Loop: implementation
 
-## 1. Branch
+### Backend: extend `/api/describe`, no new endpoint
 
-```bash
-git checkout main && git pull origin main
-git checkout -b halo-web-prototype
-git push -u origin halo-web-prototype
+EDITH's core use case is "hey, what is this" — a spoken question *about what the camera sees*. So voice reuses the same vision call rather than forking a separate text-only path.
+
+**Request** (`lib/anthropic.ts` + `server.ts`):
+```json
+{ "image": "<base64 JPEG>", "mode": "read", "question": "what does this label say?" }
 ```
-All work happens here. `main` is untouched — verified at the end via `git diff main origin/main` (expect empty).
+- `image` stays required — client always captures a frame at the start of a voice turn, same as today's read mode.
+- `question` is new and optional; absent = today's exact behavior, unchanged.
+- **Response unchanged**: `{ "text": "<answer>" }`.
 
-## 2. New app: `apps/halo-prototype/`
+Changes:
+- `lib/anthropic.ts`: `describeImage(base64Jpeg, mode, question?)` — when `question` is present, use a new `PROMPTS.voiceQuestion` variant (wraps the existing read-mode instructions, appends the transcribed question, and asks for a short spoken-style answer — no "I see..." framing, 1-3 sentences, under 200 chars) instead of `PROMPTS.read`.
+- `server.ts` `handleDescribe`: parse optional `body.question` (string), pass through.
 
-Follows the repo's existing `apps/console/` pattern (Bun.serve() + Bun.build()-bundled client — zero framework, matches house style), not the single-file `index.html` style, because this app has real client logic worth type-checking (camera lifecycle, canvas capture, geolocation, debounced multi-press key handling).
+### New file: `public/audio.ts`
 
-```
-apps/halo-prototype/
-├── server.ts              # Bun.serve(): static files + POST /api/describe
-├── lib/
-│   ├── anthropic.ts        # describeImage(base64, mode) — pure, testable
-│   └── anthropic.test.ts
-├── public/
-│   ├── index.html           # <video>, hidden <canvas>, HUD overlay divs
-│   ├── client.ts             # camera, keydown triggers, capture, fetch, HUD render
-│   └── styles.css            # HUD green monospace styling
-├── package.json             # scoped: name "halo-prototype", private, engines.bun
-├── Dockerfile                # oven/bun:1 base — Render has no native bun runtime
-├── .dockerignore
-└── README.md                 # setup, API contract, path to real hardware
-```
+Isolated Web Speech API wrapper — the entire swap-out seam for Halo's real mic/speaker later. No fetch calls, no EDITH panel knowledge — purely STT/TTS:
+- `startPushToTalk(onResult, onError?, onListeningChange?)` — creates a `SpeechRecognition` (with `webkitSpeechRecognition` fallback), non-continuous, `en-US`, fires `onResult(transcript)` when done.
+- `stopPushToTalk()` — calls `.stop()`, which triggers a final `onresult` then `onend`.
+- `speak(text)` — `SpeechSynthesisUtterance`, cancels any in-flight speech first (barge-in safe).
+- `stopSpeaking()`, `getVoiceCapabilities()` — feature-detection for showing/hiding the mic UI gracefully when unsupported (notably iOS Safari).
 
-**`server.ts`** — binds to all interfaces (not localhost-only like `apps/console`, since it must be reachable from Render and, for local testing, from a phone on the LAN). Routes: `POST /api/describe`, static `/`, `/client.js` (bundled), `/styles.css`.
+`client.ts` imports these two function pairs and owns all orchestration (capture, fetch, panel updates) — `audio.ts` never touches the DOM beyond the Web Speech APIs themselves.
 
-**`lib/anthropic.ts`** — the repo's first real Anthropic vision call:
-```ts
-import Anthropic from "@anthropic-ai/sdk"
-const client = new Anthropic() // ANTHROPIC_API_KEY from env
+### Interaction: mic button (primary) + spacebar-hold (secondary), safe alongside the existing tap counter
 
-const PROMPTS = {
-  ambient: 'Describe the scene in 1-2 short sentences (under 150 chars), evocatively. ' +
-    'Style: "Fujiyoshida\'s Honco Street frames Mount Fuji perfectly, blending everyday life ' +
-    'with Japan\'s most iconic view." No preamble.',
-  read: "Read any visible text/document and summarize or answer in 1-3 short sentences. " +
-    "If nothing readable is visible, say so briefly. No preamble.",
-} as const
+Two entry points, one shared `beginVoiceCapture()` / `endVoiceCapture()` pair:
 
-export async function describeImage(base64Jpeg: string, mode: "ambient" | "read") {
-  const res = await client.messages.create({
-    model: "claude-haiku-4-5",
-    max_tokens: 256,
-    messages: [{ role: "user", content: [
-      { type: "image", source: { type: "base64", media_type: "image/jpeg", data: base64Jpeg } },
-      { type: "text", text: PROMPTS[mode] },
-    ]}],
-  })
-  const block = res.content.find((b) => b.type === "text")
-  return block?.type === "text" ? block.text.trim() : ""
-}
-```
-`claude-haiku-4-5` — fast, cheap, vision-capable, correct alias per the claude-api skill. Response shape is `{ text: string }` only — no `voiceText`, no forced audio field.
+- **Mic button** (`#mic-btn`, new element in `index.html`, bottom-right, separate from the existing bottom-left `#hud`): `pointerdown` → `beginVoiceCapture()`, `pointerup`/`pointercancel` → `endVoiceCapture()`. Works for mouse and touch.
+- **Spacebar hold**: the existing tap-counter uses a 450ms debounce on release. A hold is distinguished with a hold-timer armed on `keydown` (guarded by `e.repeat` so OS key-repeat doesn't re-arm it) at a **500ms threshold** — deliberately longer than the tap debounce. If the timer fires before `keyup`, the press is committed as a hold: any in-flight tap sequence is cancelled (`pressCount = 0`), and `beginVoiceCapture()` runs. If `keyup` happens first, it falls through to the existing tap-counting logic completely unchanged. The two gestures are mutually exclusive per keypress, decided at the threshold crossing — zero behavior change to today's 1-tap/2-tap/3-tap flow.
 
-## 3. Backend contract
+`beginVoiceCapture()` shows a "listening" state (`#mic-btn[data-listening="true"]`, `#voice-indicator` text), calls `startPushToTalk()`. On result, calls a new `triggerVoiceQuestion(transcript)`.
 
-`POST /api/describe` — `{ image: "<base64 JPEG, no data-URI prefix>", mode: "ambient" | "read" }` → `{ text: string }`.
+### `triggerVoiceQuestion(question)` — new function in `client.ts`, parallel to existing `triggerCapture()`
 
-- Client strips the `data:image/jpeg;base64,` prefix before sending (matches what the Anthropic SDK's `source.data` field expects — raw base64, no prefix).
-- Optional auth: `HALO_SHARED_SECRET` bearer check, permissive when unset (fine for solo testing now; note in README to set it once confirmed working, since an open endpoint on a public URL can burn API budget).
-- Same-origin (frontend + API served by the same `Bun.serve()`), so no CORS concerns.
+Captures a fresh frame, POSTs `{ image, mode: "read", question }` to `/api/describe`, and on response:
+1. Renders the answer into `#hud-desc` via the existing `animateTextReveal()` typewriter effect (same visual path as camera-triggered answers).
+2. Calls `speak(responseText)` immediately after — text and voice carry the identical answer, in parallel, so "voice supplements display, doesn't replace it."
 
-## 4. Frontend — replicates the mockup
+Reuses `showThinking()`, `edith.setMode("read")`, `edith.setAnalyzing()` exactly as `triggerCapture("read")` does today.
 
-- `<video>` full-viewport via `getUserMedia({ video: { facingMode: "environment" } })`. Requires HTTPS or localhost — Render's URL is HTTPS, local dev is `localhost`, both fine.
-- HUD card: `position: fixed; left: 24px; bottom: 32px;` — deliberately NOT spatially tracked, matching the hardware's real constraint (comment this explicitly, don't hide it). Green (`#39FF14`) monospace text (reuse the repo's existing `--mono` font stack from `index.html`), subtle scrim behind text for legibility (`rgba(0,0,0,.35)` + blur) — a browser-only affordance, noted as not carrying over to the real 256×256 display.
-- Stat line: client clock (`HH:MM`, updates every 30s) + temperature via `navigator.geolocation` → `api.open-meteo.com/v1/forecast?latitude=..&longitude=..&current=temperature_2m` (free, no API key, read `response.current.temperature_2m`).
-- **Trigger logic** (exact): `keydown` on `Space` (with `preventDefault()`), increments a counter, resets a 450ms debounce timer on each press; when the timer fires, dispatch on final count — **1 press → capture frame, POST mode `"ambient"`**; **2 presses → capture frame, POST mode `"read"`**; **3 presses → "coming soon" toast, no network call** (reserved for future face/maps protocols).
-- Frame capture: draw current video frame to an offscreen `<canvas>`, `toDataURL("image/jpeg", 0.85)`, strip the prefix, POST.
-- "Thinking..." indicator shown between trigger and response (Claude call takes 1-3s). Description persists on screen until the next trigger — matches a HUD showing last-known-state.
-- Zero audio/TTS code. One comment at the top of `client.ts`: *"SILENT BY DESIGN — on real hardware, `text` could later be piped to Noha's TTS; out of scope here."*
+### UI additions
 
-## 5. Fix the Render deploy (confirmed live via `render` CLI, already authenticated)
+- `index.html`: `#mic-btn` (circular button, 🎤, bottom-right) and `#voice-indicator` ("● LISTENING" text), both siblings of the existing `#hud`.
+- `styles.css`: reuses existing `--hud-green` variable and `scanPulse`/`glitchShift` keyframes already defined for the green monospace theme — no new palette introduced, stays consistent with the HUD-overlay layer (distinct from the blue/cyan EDITH canvas panels, which are a different visual layer).
 
-**Diagnosis:** service `molly` (`srv-d9td6t2jobas73cmbf3g`, live at `https://molly-gz19.onrender.com`) has `runtime: python` trying to run `bun bin/server.ts` — a file deleted from `main` in an earlier cleanup commit. Double failure (wrong runtime + missing file) → exit 127.
+### Compatibility notes (flag in README, not blocking)
+- `SpeechRecognition` requires HTTPS/localhost — the Render deployment is fine; plain-HTTP local dev needs a callout.
+- iOS Safari has historically weak/no `SpeechRecognition` support — `getVoiceCapabilities()` gates whether the mic button renders, with a toast fallback ("voice not supported, use spacebar taps") instead of silent failure.
+- First `speechSynthesis.speak()` on mobile needs a user gesture — satisfied naturally by the mic button tap.
 
-**Fix — reconfigure the same service** (keeps the existing hostname, avoids a second free-tier service):
-```bash
-render services update srv-d9td6t2jobas73cmbf3g \
-  --branch halo-web-prototype \
-  --root-directory apps/halo-prototype \
-  --runtime docker \
-  --confirm
-```
-Using `runtime: docker` (Render has no native `bun` runtime — confirmed against the render-deploy skill's runtime list) sidesteps another "does this runtime actually have bun" guess, which is exactly what caused today's failure.
+## Files touched
 
-**`Dockerfile`:**
-```dockerfile
-FROM oven/bun:1 AS base
-WORKDIR /app
-COPY package.json ./
-RUN bun install
-COPY . .
-EXPOSE 3000
-CMD ["bun", "run", "server.ts"]
-```
+| File | Change |
+|---|---|
+| `apps/halo-prototype/public/audio.ts` | **New.** STT/TTS wrapper — sole swap point for real Halo hardware later. |
+| `apps/halo-prototype/public/client.ts` | Import `audio.ts`; hold-vs-tap spacebar logic; mic button handlers; `beginVoiceCapture`/`endVoiceCapture`; `triggerVoiceQuestion`. Existing tap-counter and `triggerCapture` untouched. |
+| `apps/halo-prototype/public/index.html` | Add `#mic-btn`, `#voice-indicator`. |
+| `apps/halo-prototype/public/styles.css` | Add `#mic-btn`, `#mic-btn[data-listening="true"]`, `#voice-indicator` (reuses existing theme vars/animations). |
+| `apps/halo-prototype/lib/anthropic.ts` | `describeImage(base64Jpeg, mode, question?)`; new `PROMPTS.voiceQuestion`. |
+| `apps/halo-prototype/server.ts` | `handleDescribe` parses optional `question`, passes through. |
+| `apps/halo-prototype/README.md` | Update "silent by design" section, document mic + spacebar-hold, note `question` field and HTTPS/iOS caveats. |
 
-**Env vars** (this CLI build has no `env-vars` subcommand — confirmed): use the `render-env-vars` skill if it can reach this service at execution time; otherwise manual Dashboard step — `molly` service → Environment → add `ANTHROPIC_API_KEY` (secret, required) and `HALO_SHARED_SECRET` (secret, optional) → Save (auto-redeploys).
+No new dependencies — Web Speech API is native to the browser.
 
-**`render.yaml`** (Blueprint reference, kept in the app folder for future use):
-```yaml
-services:
-  - type: web
-    name: molly
-    runtime: docker
-    branch: halo-web-prototype
-    rootDir: apps/halo-prototype
-    dockerfilePath: ./Dockerfile
-    plan: free
-    healthCheckPath: /
-    envVars:
-      - key: ANTHROPIC_API_KEY
-        sync: false
-      - key: HALO_SHARED_SECRET
-        sync: false
-```
-
-## 6. Documentation
-
-- `HALO_DEPLOYMENT.md` (root) gets a new top status section distinguishing the two Halo efforts: this browser prototype (live, working) vs. `apps/halo-edge` (future phase, non-functional today) — existing content about `apps/halo-edge` stays below, untouched.
-- `apps/halo-prototype/README.md` — setup, API contract, env vars, deploy notes, and the path-to-real-hardware note below.
-
-## 7. Path to real hardware (unchanged later)
-
-```
-Halo Lua (frame.camera.capture()) → BLE → Python host bridge
-   → POST https://molly-gz19.onrender.com/api/describe {image, mode}
-   ← {text}
-   → frame.display.text(...) styled to mimic the same green-HUD-card look
-```
-Button press replaces spacebar count; `frame.display.*` replaces DOM rendering. The vision call, prompts, and response shape are validated now, in the browser — this prototype **is** the real prototype, not throwaway.
-
-## 8. Verification
+## Verification
 
 **Local:**
 ```bash
 cd apps/halo-prototype && bun install
-bun test                 # lib/anthropic.test.ts
+bunx tsc --noEmit
 ANTHROPIC_API_KEY=sk-... bun run server.ts
-# open http://localhost:3000 — camera prompt, live feed, HUD stat line populates
-# space x1 → "thinking" → ambient description appears
-# space x2 → read-mode response
-# space x3 → "coming soon" toast, confirm no network call in devtools
+# open http://localhost:3000 (or ngrok/LAN HTTPS if testing STT locally — plain http may block SpeechRecognition)
+# tap space once/twice/thrice — confirm ambient/read/toast flow is unchanged
+# hold spacebar past ~0.5s, ask a question aloud, release — confirm transcript triggers a read-mode
+#   response that both types into hud-desc AND is spoken aloud
+# tap-and-hold #mic-btn — same flow via touch/mouse
+# interrupt mid-speech with a new voice question — confirm speech barge-in cancels prior utterance
 ```
 
 **Live (after Render redeploys):**
 ```bash
-curl -sI https://molly-gz19.onrender.com/                # expect 200
-curl -s -X POST https://molly-gz19.onrender.com/api/describe \
-  -H "content-type: application/json" -d '{"image":"<test-base64>","mode":"ambient"}'
-render deploys list srv-d9td6t2jobas73cmbf3g -o json | head -5   # expect status: "live"
+curl -sI https://molly-gz19.onrender.com/     # expect 200
 ```
-Open the Render URL on a **phone browser** (real camera, real HTTPS) and run the full space x1/x2/x3 flow — closest available proxy to "what I'll see through the glasses" before hardware arrives.
-
-Confirm `main` untouched: `git diff main origin/main` empty.
+Open the Render URL on a phone browser (real HTTPS, real mic) and run the same push-to-talk flow.
 
 ## Critical files
-`apps/halo-prototype/{server.ts, lib/anthropic.ts, public/client.ts, public/index.html, public/styles.css, Dockerfile, package.json, README.md}`, `HALO_DEPLOYMENT.md`
+`apps/halo-prototype/{server.ts, lib/anthropic.ts, public/client.ts, public/audio.ts, public/index.html, public/styles.css, README.md}`

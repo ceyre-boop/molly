@@ -1,6 +1,8 @@
-// SILENT BY DESIGN. This prototype never calls SpeechSynthesis or plays audio.
-// On real Halo hardware, `text` from /api/describe can optionally be piped to
-// Noha's TTS pipeline later — that integration is out of scope here.
+// EDITH Phase 3: Voice Loop integration via Web Speech API.
+// Desktop/mobile push-to-talk: mic button or spacebar-hold.
+// On real Halo hardware, this audio.ts module is replaced by a BLE mic/bone-conduction wrapper.
+
+import { startPushToTalk, stopPushToTalk, speak, stopSpeaking, getVoiceCapabilities } from "./audio"
 
 // ═════════════════════════════════════════════════════════════════════════════
 // DOM Helpers
@@ -651,16 +653,54 @@ function showToast(message: string) {
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
-// Trigger Logic: Spacebar Count
+// Trigger Logic: Spacebar Count (tap-based) + Hold (voice)
 // ═════════════════════════════════════════════════════════════════════════════
 
 let pressCount = 0
 let pressTimer: number | undefined
+let spaceDownAt: number | null = null
+let holdTimer: number | undefined
+let holdConfirmed = false
+const HOLD_THRESHOLD_MS = 500 // must exceed the 450ms tap debounce
+
+let voiceBusy = false
 
 window.addEventListener("keydown", (e) => {
   if (e.code !== "Space" || e.repeat) return
   e.preventDefault()
+  spaceDownAt = performance.now()
+  holdConfirmed = false
 
+  // Start a hold-timer; if still down when it fires, commit to voice mode
+  holdTimer = window.setTimeout(() => {
+    holdConfirmed = true
+    pressCount = 0 // cancel any in-flight tap sequence
+    if (pressTimer) {
+      clearTimeout(pressTimer)
+      pressTimer = undefined
+    }
+    beginVoiceCapture()
+  }, HOLD_THRESHOLD_MS)
+})
+
+window.addEventListener("keyup", (e) => {
+  if (e.code !== "Space") return
+  e.preventDefault()
+
+  if (holdTimer) {
+    clearTimeout(holdTimer)
+    holdTimer = undefined
+  }
+
+  if (holdConfirmed) {
+    // Was a hold: end voice, don't feed into tap counter
+    endVoiceCapture()
+    spaceDownAt = null
+    return
+  }
+
+  // Was a tap: existing debounce-based tap-counter logic
+  spaceDownAt = null
   pressCount++
 
   if (pressTimer) clearTimeout(pressTimer)
@@ -678,6 +718,94 @@ window.addEventListener("keydown", (e) => {
     }
   }, 450) // debounce window
 })
+
+// ═════════════════════════════════════════════════════════════════════════════
+// Voice Capture (Phase 3: Web Speech API)
+// ═════════════════════════════════════════════════════════════════════════════
+
+function beginVoiceCapture() {
+  if (voiceBusy) return
+  voiceBusy = true
+  const micBtn = $("mic-btn") as HTMLButtonElement
+  micBtn.setAttribute("data-listening", "true")
+  $("voice-indicator").style.display = "block"
+
+  startPushToTalk(
+    async (transcript) => {
+      $("voice-indicator").style.display = "none"
+      micBtn.setAttribute("data-listening", "false")
+      if (!transcript) {
+        voiceBusy = false
+        return
+      }
+      await triggerVoiceQuestion(transcript)
+      voiceBusy = false
+    },
+    (err) => {
+      showToast(`Voice error: ${err}`)
+      micBtn.setAttribute("data-listening", "false")
+      $("voice-indicator").style.display = "none"
+      voiceBusy = false
+    },
+    (isListening) => micBtn.setAttribute("data-listening", String(isListening))
+  )
+}
+
+function endVoiceCapture() {
+  stopPushToTalk() // triggers final onresult callback
+}
+
+async function triggerVoiceQuestion(question: string) {
+  showThinking(true)
+  spawnParticles(4)
+  $("hud").setAttribute("data-mode", "read")
+  edith.setMode("read")
+  edith.setAnalyzing(true)
+
+  const image = captureFrameBase64()
+
+  try {
+    const res = await fetch("/api/describe", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ image, mode: "read", question }),
+    })
+    if (!res.ok) {
+      const err = (await res.json().catch(() => ({}))) as Record<string, string>
+      const msg = `[error] ${err.error ?? "request failed"}`
+      $("hud-desc").textContent = msg
+      return
+    }
+    const data = (await res.json()) as { text?: string }
+    const responseText = data.text ?? "(no response)"
+
+    animateTextReveal($("hud-desc"), responseText, 20) // text panel
+    speak(responseText) // spoken reply, in parallel
+  } catch (err) {
+    console.error("Voice question failed:", err)
+    $("hud-desc").textContent = "[connection error]"
+  } finally {
+    showThinking(false)
+    edith.setAnalyzing(false)
+  }
+}
+
+// ═════════════════════════════════════════════════════════════════════════════
+// Mic Button Setup (Phase 3: Voice)
+// ═════════════════════════════════════════════════════════════════════════════
+
+const capabilities = getVoiceCapabilities()
+if (!capabilities.sttSupported) {
+  ($("mic-btn") as HTMLElement).style.display = "none"
+}
+
+const micBtn = $("mic-btn") as HTMLButtonElement
+micBtn.addEventListener("pointerdown", (e) => {
+  e.preventDefault()
+  beginVoiceCapture()
+})
+micBtn.addEventListener("pointerup", () => endVoiceCapture())
+micBtn.addEventListener("pointercancel", () => endVoiceCapture())
 
 // ═════════════════════════════════════════════════════════════════════════════
 // Init

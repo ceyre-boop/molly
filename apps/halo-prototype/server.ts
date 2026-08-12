@@ -31,12 +31,13 @@ async function handleDescribe(req: Request): Promise<Response> {
   const body = await req.json().catch(() => null)
   const image = typeof body?.image === "string" ? body.image : null
   const mode = body?.mode === "read" ? "read" : "ambient"
+  const question = typeof body?.question === "string" ? body.question : undefined
 
   if (!image)
     return Response.json({ error: "missing image" }, { status: 400 })
 
   try {
-    const text = await describeImage(image, mode)
+    const text = await describeImage(image, mode, question)
     return Response.json({ text })
   } catch (err) {
     console.error("describe failed:", err)

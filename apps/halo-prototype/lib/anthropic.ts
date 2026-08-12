@@ -17,6 +17,11 @@ const PROMPTS = {
     "Be conversational and useful. Keep responses 1-3 sentences, under 200 characters. " +
     "No preamble ('I see'), no hedging — just direct, actionable help. " +
     "If there's no readable content, say 'No question or task visible.'",
+  voiceQuestion:
+    "You are Claude, Molly's AI assistant on AR glasses, being asked a question aloud. " +
+    "Answer directly, helpfully, and concisely using the camera's view if relevant, otherwise from general knowledge. " +
+    "1-3 sentences, under 200 characters. No preamble, no 'I see' — spoken-style, short, natural. " +
+    "If the question is unclear or needs context, ask briefly.",
   faces:
     "Analyze this image for faces. For EACH visible person, provide: " +
     "1) Distinctive features (gender-neutral: hair color/style, distinctive marks, clothing, etc.) " +
@@ -31,28 +36,33 @@ const PROMPTS = {
 // 5¢ budget = 33+ calls per session before hitting limit
 export async function describeImage(
   base64Jpeg: string,
-  mode: "ambient" | "read"
+  mode: "ambient" | "read",
+  question?: string
 ): Promise<string> {
+  const content: (Anthropic.ImageBlockParam | Anthropic.TextBlockParam)[] = [
+    {
+      type: "image",
+      source: {
+        type: "base64",
+        media_type: "image/jpeg",
+        data: base64Jpeg,
+      },
+    },
+    {
+      type: "text",
+      text: question
+        ? `${PROMPTS.voiceQuestion}\n\nThe user asked: "${question}"`
+        : PROMPTS[mode],
+    },
+  ]
+
   const response = await client.messages.create({
     model: "claude-haiku-4-5",
     max_tokens: 128,
     messages: [
       {
         role: "user",
-        content: [
-          {
-            type: "image",
-            source: {
-              type: "base64",
-              media_type: "image/jpeg",
-              data: base64Jpeg,
-            },
-          },
-          {
-            type: "text",
-            text: PROMPTS[mode],
-          },
-        ],
+        content,
       },
     ],
   })
