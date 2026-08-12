@@ -52,12 +52,16 @@ class TacticalGraphics {
 
       if (this.isAnalyzing) {
         this.drawScanLines()
+        this.drawDepthLines()
         this.drawAnalysisBoxes()
       }
 
       if (this.mode !== "idle") {
         this.drawCornerBrackets()
         this.drawConfidenceMeter()
+        if (this.mode === "read") {
+          this.drawReadModeBorder()
+        }
       }
 
       requestAnimationFrame(render)
@@ -197,6 +201,60 @@ class TacticalGraphics {
     this.ctx.fillStyle = "rgba(57, 255, 20, 0.9)"
     this.ctx.font = "11px ui-monospace, 'SF Mono', monospace"
     this.ctx.fillText("CONFIDENCE", x - 95, y + 12)
+  }
+
+  private drawDepthLines() {
+    if (this.analysisBoxes.length < 2) return
+
+    const phase = (this.animationTime * 0.03) % 1
+    this.ctx.strokeStyle = `rgba(57, 255, 20, ${0.3 + Math.sin(phase * Math.PI * 2) * 0.2})`
+    this.ctx.lineWidth = 1.5
+    this.ctx.setLineDash([8, 4])
+
+    // Draw connecting lines between boxes
+    for (let i = 0; i < this.analysisBoxes.length - 1; i++) {
+      const box1 = this.analysisBoxes[i]
+      const box2 = this.analysisBoxes[i + 1]
+
+      const x1 = box1.x + box1.w / 2
+      const y1 = box1.y + box1.h / 2
+      const x2 = box2.x + box2.w / 2
+      const y2 = box2.y + box2.h / 2
+
+      this.ctx.beginPath()
+      this.ctx.moveTo(x1, y1)
+      this.ctx.lineTo(x2, y2)
+      this.ctx.stroke()
+
+      // Draw connection points
+      this.ctx.fillStyle = `rgba(57, 255, 20, 0.6)`
+      this.ctx.beginPath()
+      this.ctx.arc(x1, y1, 3, 0, Math.PI * 2)
+      this.ctx.fill()
+    }
+
+    this.ctx.setLineDash([])
+  }
+
+  private drawReadModeBorder() {
+    // Animated border for read/help mode
+    const borderGap = 4
+    const borderLength = 20
+    const offset = (this.animationTime * 2) % (borderGap + borderLength)
+
+    this.ctx.strokeStyle = "rgba(57, 255, 20, 0.4)"
+    this.ctx.lineWidth = 2
+    this.ctx.setLineDash([borderLength, borderGap])
+    this.ctx.lineDashOffset = -offset
+
+    this.ctx.strokeRect(40, 40, this.width - 80, this.height - 80)
+
+    this.ctx.setLineDash([])
+
+    // "READ MODE" label
+    this.ctx.fillStyle = "rgba(57, 255, 20, 0.6)"
+    this.ctx.font = "bold 12px ui-monospace, 'SF Mono', monospace"
+    this.ctx.fillText("◇ READ MODE ◇", 50, 30)
   }
 
   setConfidence(value: number) {
