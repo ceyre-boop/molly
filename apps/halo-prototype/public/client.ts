@@ -25,6 +25,8 @@ class TacticalGraphics {
   private isAnalyzing: boolean = false
   private mode: "idle" | "ambient" | "read" = "idle"
   private scanLinePosition: number = 0
+  private analysisBoxes: Array<{ x: number; y: number; w: number; h: number; pulse: number }> = []
+  private confidence: number = 0
 
   constructor() {
     this.canvas = $("graphics") as HTMLCanvasElement
@@ -50,10 +52,12 @@ class TacticalGraphics {
 
       if (this.isAnalyzing) {
         this.drawScanLines()
+        this.drawAnalysisBoxes()
       }
 
       if (this.mode !== "idle") {
         this.drawCornerBrackets()
+        this.drawConfidenceMeter()
       }
 
       requestAnimationFrame(render)
@@ -113,12 +117,104 @@ class TacticalGraphics {
     this.ctx.stroke()
   }
 
+  private drawAnalysisBoxes() {
+    // Generate tactical boxes for different analysis regions (center, sides)
+    if (this.analysisBoxes.length === 0) {
+      this.analysisBoxes = [
+        { x: this.width * 0.1, y: this.height * 0.2, w: this.width * 0.3, h: this.height * 0.3, pulse: 0 },
+        { x: this.width * 0.6, y: this.height * 0.2, w: this.width * 0.3, h: this.height * 0.3, pulse: 0.3 },
+        { x: this.width * 0.35, y: this.height * 0.55, w: this.width * 0.3, h: this.height * 0.35, pulse: 0.6 },
+      ]
+    }
+
+    for (const box of this.analysisBoxes) {
+      box.pulse = (box.pulse + 0.02) % 1
+
+      const pulse = Math.sin(box.pulse * Math.PI * 2) * 0.3 + 0.7
+      const alpha = pulse * 0.5
+      const boxColor = `rgba(57, 255, 20, ${alpha})`
+
+      this.ctx.strokeStyle = boxColor
+      this.ctx.lineWidth = 2
+      this.ctx.strokeRect(box.x, box.y, box.w, box.h)
+
+      // Draw corner indicators
+      const cornerSize = 8
+      this.ctx.strokeStyle = `rgba(57, 255, 20, ${pulse})`
+      this.ctx.lineWidth = 2
+
+      // Top-left
+      this.ctx.beginPath()
+      this.ctx.moveTo(box.x, box.y + cornerSize)
+      this.ctx.lineTo(box.x, box.y)
+      this.ctx.lineTo(box.x + cornerSize, box.y)
+      this.ctx.stroke()
+
+      // Top-right
+      this.ctx.beginPath()
+      this.ctx.moveTo(box.x + box.w - cornerSize, box.y)
+      this.ctx.lineTo(box.x + box.w, box.y)
+      this.ctx.lineTo(box.x + box.w, box.y + cornerSize)
+      this.ctx.stroke()
+
+      // Bottom-left
+      this.ctx.beginPath()
+      this.ctx.moveTo(box.x, box.y + box.h - cornerSize)
+      this.ctx.lineTo(box.x, box.y + box.h)
+      this.ctx.lineTo(box.x + cornerSize, box.y + box.h)
+      this.ctx.stroke()
+
+      // Bottom-right
+      this.ctx.beginPath()
+      this.ctx.moveTo(box.x + box.w - cornerSize, box.y + box.h)
+      this.ctx.lineTo(box.x + box.w, box.y + box.h)
+      this.ctx.lineTo(box.x + box.w, box.y + box.h - cornerSize)
+      this.ctx.stroke()
+    }
+  }
+
+  private drawConfidenceMeter() {
+    const meterWidth = 200
+    const meterHeight = 8
+    const x = this.width - 240
+    const y = 40
+
+    // Background
+    this.ctx.fillStyle = "rgba(57, 255, 20, 0.1)"
+    this.ctx.fillRect(x, y, meterWidth, meterHeight)
+
+    // Confidence fill (animated)
+    const confValue = 0.75 + Math.sin(this.animationTime * 0.05) * 0.2
+    this.ctx.fillStyle = `rgba(57, 255, 20, ${0.5 + confValue * 0.5})`
+    this.ctx.fillRect(x, y, meterWidth * confValue, meterHeight)
+
+    // Border
+    this.ctx.strokeStyle = "rgba(57, 255, 20, 0.8)"
+    this.ctx.lineWidth = 1.5
+    this.ctx.strokeRect(x, y, meterWidth, meterHeight)
+
+    // Label
+    this.ctx.fillStyle = "rgba(57, 255, 20, 0.9)"
+    this.ctx.font = "11px ui-monospace, 'SF Mono', monospace"
+    this.ctx.fillText("CONFIDENCE", x - 95, y + 12)
+  }
+
+  setConfidence(value: number) {
+    this.confidence = Math.max(0, Math.min(1, value))
+  }
+
   setMode(mode: "idle" | "ambient" | "read") {
     this.mode = mode
+    if (mode === "idle") {
+      this.analysisBoxes = []
+    }
   }
 
   setAnalyzing(active: boolean) {
     this.isAnalyzing = active
+    if (!active) {
+      this.analysisBoxes = []
+    }
   }
 }
 
