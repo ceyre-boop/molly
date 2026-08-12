@@ -17,6 +17,14 @@ const PROMPTS = {
     "Be conversational and useful. Keep responses 1-3 sentences, under 200 characters. " +
     "No preamble ('I see'), no hedging — just direct, actionable help. " +
     "If there's no readable content, say 'No question or task visible.'",
+  faces:
+    "Analyze this image for faces. For EACH visible person, provide: " +
+    "1) Distinctive features (gender-neutral: hair color/style, distinctive marks, clothing, etc.) " +
+    "2) Approximate age range (teens, 20s, 30s, etc.) " +
+    "3) Confidence (HIGH/MEDIUM/LOW). " +
+    "Format: 'Person 1: [features] | [age] | [confidence]\\nPerson 2: [features]...' " +
+    "If no faces visible, reply 'NO_FACES'. " +
+    "Be concise. No preamble.",
 } as const
 
 // Cost tracking: Haiku vision @ max_tokens:128 ≈ $0.0015 per call (~0.15¢)
@@ -51,4 +59,72 @@ export async function describeImage(
 
   const textBlock = response.content.find((b) => b.type === "text")
   return textBlock?.type === "text" ? textBlock.text.trim() : ""
+}
+
+export interface FaceRecord {
+  id: string
+  name?: string
+  features: string
+  ageRange: string
+  confidence: "HIGH" | "MEDIUM" | "LOW"
+  lastSeen: number
+  seenCount: number
+}
+
+// Detect faces in image using Claude vision
+export async function detectFaces(base64Jpeg: string): Promise<FaceRecord[]> {
+  const response = await client.messages.create({
+    model: "claude-haiku-4-5",
+    max_tokens: 200,
+    messages: [
+      {
+        role: "user",
+        content: [
+          {
+            type: "image",
+            source: {
+              type: "base64",
+              media_type: "image/jpeg",
+              data: base64Jpeg,
+            },
+          },
+          {
+            type: "text",
+            text: PROMPTS.faces,
+          },
+        ],
+      },
+    ],
+  })
+
+  const textBlock = response.content.find((b) => b.type === "text")
+  const text = textBlock?.type === "text" ? textBlock.text.trim() : ""
+
+  if (text === "NO_FACES" || !text) return []
+
+  // Parse face descriptions and create records
+  const faces: FaceRecord[] = []
+  const lines = text.split("\n").filter((l) => l.trim())
+
+  for (const line of lines) {
+    if (!line.includes("|")) continue
+
+    const parts = line.split("|").map((p) => p.trim())
+    if (parts.length < 3) continue
+
+    const [featurePart, agePart, confPart] = parts
+    const personLabel = line.split(":")[0].trim() // "Person 1", "Person 2", etc.
+
+    faces.push({
+      id: `face-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+      name: undefined, // To be populated by user if desired
+      features: featurePart.replace(/^Person \d+:\s*/, "").trim(),
+      ageRange: agePart.trim(),
+      confidence: (confPart.toUpperCase() as "HIGH" | "MEDIUM" | "LOW") || "MEDIUM",
+      lastSeen: Date.now(),
+      seenCount: 1,
+    })
+  }
+
+  return faces
 }

@@ -557,6 +557,101 @@ async function initCamera() {
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
+// Face Memory System (EDITH Identity Recognition)
+// ═════════════════════════════════════════════════════════════════════════════
+
+interface FaceIdentity {
+  id: string
+  name?: string
+  features: string
+  ageRange: string
+  confidence: "HIGH" | "MEDIUM" | "LOW"
+  lastSeen: number
+  seenCount: number
+  notes?: string
+}
+
+class FaceMemory {
+  private faces: Map<string, FaceIdentity> = new Map()
+  private readonly STORAGE_KEY = "edith_face_memory"
+
+  constructor() {
+    this.load()
+  }
+
+  private load() {
+    try {
+      const stored = localStorage.getItem(this.STORAGE_KEY)
+      if (stored) {
+        const faces = JSON.parse(stored) as FaceIdentity[]
+        for (const face of faces) {
+          this.faces.set(face.id, face)
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to load face memory:", e)
+    }
+  }
+
+  private save() {
+    try {
+      localStorage.setItem(
+        this.STORAGE_KEY,
+        JSON.stringify(Array.from(this.faces.values()))
+      )
+    } catch (e) {
+      console.warn("Failed to save face memory:", e)
+    }
+  }
+
+  addFace(face: FaceIdentity) {
+    this.faces.set(face.id, face)
+    this.save()
+  }
+
+  // Find similar face from memory (simple string matching)
+  findSimilar(features: string): FaceIdentity | undefined {
+    let bestMatch: FaceIdentity | undefined
+    let bestScore = 0
+
+    for (const face of this.faces.values()) {
+      const score = this.similarityScore(features, face.features)
+      if (score > bestScore && score > 0.6) {
+        bestScore = score
+        bestMatch = face
+      }
+    }
+
+    return bestMatch
+  }
+
+  private similarityScore(a: string, b: string): number {
+    const aWords = a.toLowerCase().split(/\s+/)
+    const bWords = b.toLowerCase().split(/\s+/)
+    const matches = aWords.filter((w) => bWords.includes(w)).length
+    return matches / Math.max(aWords.length, bWords.length)
+  }
+
+  getAllFaces(): FaceIdentity[] {
+    return Array.from(this.faces.values())
+  }
+
+  getFace(id: string): FaceIdentity | undefined {
+    return this.faces.get(id)
+  }
+
+  updateFace(id: string, updates: Partial<FaceIdentity>) {
+    const face = this.faces.get(id)
+    if (face) {
+      this.faces.set(id, { ...face, ...updates })
+      this.save()
+    }
+  }
+}
+
+const faceMemory = new FaceMemory()
+
+// ═════════════════════════════════════════════════════════════════════════════
 // Clock & Weather (Stat Line)
 // ═════════════════════════════════════════════════════════════════════════════
 
@@ -656,6 +751,47 @@ async function triggerCapture(mode: "ambient" | "read") {
   edith.setMode(mode)
   edith.setAnalyzing(true)
   const image = captureFrameBase64()
+
+  // Detect faces in read mode
+  if (mode === "read") {
+    try {
+      const faceRes = await fetch("/api/faces", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ image }),
+      })
+
+      if (faceRes.ok) {
+        const faceData = (await faceRes.json()) as { faces?: Array<{ features: string; ageRange: string; confidence: string }> }
+        if (faceData.faces && faceData.faces.length > 0) {
+          // Match against known faces
+          for (const detectedFace of faceData.faces) {
+            const match = faceMemory.findSimilar(detectedFace.features)
+            if (match) {
+              match.seenCount++
+              match.lastSeen = Date.now()
+              faceMemory.updateFace(match.id, match)
+              edith.showPanel("identity", { person: match.name || "Unknown", confidence: match.confidence })
+            } else {
+              // New face, store it
+              const newFace: FaceIdentity = {
+                id: `face-${Date.now()}`,
+                features: detectedFace.features,
+                ageRange: detectedFace.ageRange,
+                confidence: detectedFace.confidence as "HIGH" | "MEDIUM" | "LOW",
+                lastSeen: Date.now(),
+                seenCount: 1,
+              }
+              faceMemory.addFace(newFace)
+              edith.showPanel("identity", { person: "New Face", confidence: newFace.confidence })
+            }
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("Face detection failed:", err)
+    }
+  }
 
   try {
     const res = await fetch("/api/describe", {

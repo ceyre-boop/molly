@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 import { join } from "path"
-import { describeImage } from "./lib/anthropic"
+import { describeImage, detectFaces } from "./lib/anthropic"
 
 const PUBLIC_DIR = join(import.meta.dir, "public")
 const PORT = Number(process.env.PORT ?? 3000)
@@ -44,6 +44,25 @@ async function handleDescribe(req: Request): Promise<Response> {
   }
 }
 
+async function handleFaces(req: Request): Promise<Response> {
+  if (!checkAuth(req))
+    return Response.json({ error: "unauthorized" }, { status: 401 })
+
+  const body = await req.json().catch(() => null)
+  const image = typeof body?.image === "string" ? body.image : null
+
+  if (!image)
+    return Response.json({ error: "missing image" }, { status: 400 })
+
+  try {
+    const faces = await detectFaces(image)
+    return Response.json({ faces })
+  } catch (err) {
+    console.error("face detection failed:", err)
+    return Response.json({ error: "face detection failed" }, { status: 502 })
+  }
+}
+
 const server = Bun.serve({
   port: PORT,
   async fetch(req) {
@@ -51,6 +70,9 @@ const server = Bun.serve({
 
     if (url.pathname === "/api/describe" && req.method === "POST")
       return handleDescribe(req)
+
+    if (url.pathname === "/api/faces" && req.method === "POST")
+      return handleFaces(req)
 
     if (url.pathname === "/client.js")
       return new Response(clientJs, {
