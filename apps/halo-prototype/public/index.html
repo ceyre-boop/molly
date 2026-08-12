@@ -10,6 +10,9 @@
     <video id="camera" autoplay playsinline></video>
     <canvas id="capture" style="display: none"></canvas>
 
+    <!-- Graphics overlay canvas (tactical AR elements) -->
+    <canvas id="graphics" style="position: fixed; inset: 0; z-index: 5;"></canvas>
+
     <!-- HUD Overlay: not spatially tracked, fixed position (hardware constraint) -->
     <div id="hud" data-mode="idle">
       <div id="hud-stat"></div>
