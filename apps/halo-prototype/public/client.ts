@@ -13,10 +13,24 @@ function $(id: string): HTMLElement {
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
-// Graphics System (Tactical AR Overlays)
+// EDITH System (Tactical AR Display OS)
+// Backend: Molly (conversational AI)
+// Frontend: EDITH (visual tactical interface)
 // ═════════════════════════════════════════════════════════════════════════════
 
-class TacticalGraphics {
+interface EDITHPanel {
+  id: string
+  title: string
+  x: number
+  y: number
+  width: number
+  height: number
+  data: Record<string, unknown>
+  visible: boolean
+  alpha: number
+}
+
+class EDITHSystem {
   private canvas: HTMLCanvasElement
   private ctx: CanvasRenderingContext2D
   private width: number = 0
@@ -24,9 +38,19 @@ class TacticalGraphics {
   private animationTime: number = 0
   private isAnalyzing: boolean = false
   private mode: "idle" | "ambient" | "read" = "idle"
-  private scanLinePosition: number = 0
-  private analysisBoxes: Array<{ x: number; y: number; w: number; h: number; pulse: number }> = []
-  private confidence: number = 0
+  private panels: Map<string, EDITHPanel> = new Map()
+  private activePanel: string | null = null
+
+  // Color palette (blue/cyan tactical theme)
+  private colors = {
+    primary: "#00D9FF",    // Cyan
+    secondary: "#0099FF",  // Blue
+    accent: "#FF006E",     // Magenta (alerts)
+    background: "rgba(10, 20, 40, 0.85)",
+    border: "rgba(0, 217, 255, 0.3)",
+    text: "#00D9FF",
+    grid: "rgba(0, 217, 255, 0.05)",
+  }
 
   constructor() {
     this.canvas = $("graphics") as HTMLCanvasElement
@@ -35,6 +59,7 @@ class TacticalGraphics {
     this.ctx = ctx
     this.resizeCanvas()
     window.addEventListener("resize", () => this.resizeCanvas())
+    this.initializePanels()
     this.startRenderLoop()
   }
 
@@ -45,28 +70,249 @@ class TacticalGraphics {
     this.canvas.height = this.height
   }
 
+  private initializePanels() {
+    const panelW = 320
+    const panelH = 240
+    const gap = 16
+
+    // Panel layout: 3 columns x 2 rows
+    const positions = [
+      { id: "identity", x: gap, y: gap, title: "IDENTITY" },
+      { id: "status", x: gap + panelW + gap, y: gap, title: "STATUS" },
+      { id: "location", x: gap + (panelW + gap) * 2, y: gap, title: "LOCATION" },
+      { id: "memory", x: gap, y: gap + panelH + gap, title: "MEMORY" },
+      { id: "translation", x: gap + panelW + gap, y: gap + panelH + gap, title: "TRANSLATION" },
+      { id: "analysis", x: gap + (panelW + gap) * 2, y: gap + panelH + gap, title: "ANALYSIS" },
+    ]
+
+    for (const pos of positions) {
+      this.panels.set(pos.id, {
+        id: pos.id,
+        title: pos.title,
+        x: pos.x,
+        y: pos.y,
+        width: panelW,
+        height: panelH,
+        data: {},
+        visible: false,
+        alpha: 0,
+      })
+    }
+  }
+
   private startRenderLoop() {
     const render = () => {
       this.animationTime += 1
       this.ctx.clearRect(0, 0, this.width, this.height)
 
-      if (this.isAnalyzing) {
-        this.drawScanLines()
-        this.drawDepthLines()
-        this.drawAnalysisBoxes()
-      }
+      // Draw background grid
+      this.drawBackgroundGrid()
 
-      if (this.mode !== "idle") {
-        this.drawCornerBrackets()
-        this.drawConfidenceMeter()
-        if (this.mode === "read") {
-          this.drawReadModeBorder()
-        }
+      // Draw EDITH header
+      this.drawEDITHHeader()
+
+      // Draw panels
+      this.drawPanels()
+
+      // Draw connecting lines when analyzing
+      if (this.isAnalyzing) {
+        this.drawDataConnections()
       }
 
       requestAnimationFrame(render)
     }
     requestAnimationFrame(render)
+  }
+
+  private drawBackgroundGrid() {
+    this.ctx.strokeStyle = this.colors.grid
+    this.ctx.lineWidth = 0.5
+    const gridSize = 40
+
+    for (let x = 0; x < this.width; x += gridSize) {
+      this.ctx.beginPath()
+      this.ctx.moveTo(x, 0)
+      this.ctx.lineTo(x, this.height)
+      this.ctx.stroke()
+    }
+
+    for (let y = 0; y < this.height; y += gridSize) {
+      this.ctx.beginPath()
+      this.ctx.moveTo(0, y)
+      this.ctx.lineTo(this.width, y)
+      this.ctx.stroke()
+    }
+  }
+
+  private drawEDITHHeader() {
+    const headerH = 50
+    this.ctx.fillStyle = "rgba(0, 20, 50, 0.6)"
+    this.ctx.fillRect(0, 0, this.width, headerH)
+
+    this.ctx.strokeStyle = this.colors.border
+    this.ctx.lineWidth = 1.5
+    this.ctx.strokeRect(0, 0, this.width, headerH)
+
+    // EDITH title
+    this.ctx.fillStyle = this.colors.primary
+    this.ctx.font = "bold 24px 'SF Mono', monospace"
+    this.ctx.fillText("— E.D.I.T.H. —", this.width / 2 - 85, 32)
+
+    // Version and status
+    this.ctx.font = "11px 'SF Mono', monospace"
+    this.ctx.fillStyle = `rgba(${0}, ${217}, ${255}, 0.5)`
+    this.ctx.fillText("v0.1 | MOLLY ACTIVE", 16, 32)
+    this.ctx.fillText(`${this.isAnalyzing ? "● ANALYZING" : "● STANDBY"}`, this.width - 160, 32)
+  }
+
+  private drawPanels() {
+    for (const panel of this.panels.values()) {
+      if (panel.visible) {
+        panel.alpha = Math.min(1, panel.alpha + 0.1)
+      } else {
+        panel.alpha = Math.max(0, panel.alpha - 0.05)
+      }
+
+      if (panel.alpha > 0.01) {
+        this.drawPanel(panel)
+      }
+    }
+  }
+
+  private drawPanel(panel: EDITHPanel) {
+    this.ctx.globalAlpha = panel.alpha
+
+    // Background
+    this.ctx.fillStyle = this.colors.background
+    this.ctx.fillRect(panel.x, panel.y, panel.width, panel.height)
+
+    // Border
+    this.ctx.strokeStyle = this.colors.border
+    this.ctx.lineWidth = 2
+    this.ctx.strokeRect(panel.x, panel.y, panel.width, panel.height)
+
+    // Corner brackets
+    const bracketSize = 12
+    this.ctx.strokeStyle = this.colors.primary
+    this.ctx.lineWidth = 2
+
+    // Top-left
+    this.ctx.beginPath()
+    this.ctx.moveTo(panel.x, panel.y + bracketSize)
+    this.ctx.lineTo(panel.x, panel.y)
+    this.ctx.lineTo(panel.x + bracketSize, panel.y)
+    this.ctx.stroke()
+
+    // Top-right
+    this.ctx.beginPath()
+    this.ctx.moveTo(panel.x + panel.width - bracketSize, panel.y)
+    this.ctx.lineTo(panel.x + panel.width, panel.y)
+    this.ctx.lineTo(panel.x + panel.width, panel.y + bracketSize)
+    this.ctx.stroke()
+
+    // Bottom-left
+    this.ctx.beginPath()
+    this.ctx.moveTo(panel.x, panel.y + panel.height - bracketSize)
+    this.ctx.lineTo(panel.x, panel.y + panel.height)
+    this.ctx.lineTo(panel.x + bracketSize, panel.y + panel.height)
+    this.ctx.stroke()
+
+    // Bottom-right
+    this.ctx.beginPath()
+    this.ctx.moveTo(panel.x + panel.width - bracketSize, panel.y + panel.height)
+    this.ctx.lineTo(panel.x + panel.width, panel.y + panel.height)
+    this.ctx.lineTo(panel.x + panel.width, panel.y + panel.height - bracketSize)
+    this.ctx.stroke()
+
+    // Title
+    this.ctx.fillStyle = this.colors.primary
+    this.ctx.font = "bold 12px 'SF Mono', monospace"
+    this.ctx.fillText(panel.title, panel.x + 12, panel.y + 24)
+
+    // Divider
+    this.ctx.strokeStyle = `rgba(0, 217, 255, 0.2)`
+    this.ctx.lineWidth = 1
+    this.ctx.beginPath()
+    this.ctx.moveTo(panel.x + 8, panel.y + 30)
+    this.ctx.lineTo(panel.x + panel.width - 8, panel.y + 30)
+    this.ctx.stroke()
+
+    this.ctx.globalAlpha = 1
+  }
+
+  private drawDataConnections() {
+    // Draw subtle connecting lines between active panels
+    const activePanels = Array.from(this.panels.values()).filter(p => p.visible && p.alpha > 0.5)
+
+    if (activePanels.length < 2) return
+
+    this.ctx.strokeStyle = `rgba(0, 217, 255, 0.2)`
+    this.ctx.lineWidth = 1.5
+    this.ctx.setLineDash([5, 3])
+
+    for (let i = 0; i < activePanels.length - 1; i++) {
+      const p1 = activePanels[i]
+      const p2 = activePanels[i + 1]
+
+      const x1 = p1.x + p1.width / 2
+      const y1 = p1.y + p1.height / 2
+      const x2 = p2.x + p2.width / 2
+      const y2 = p2.y + p2.height / 2
+
+      this.ctx.beginPath()
+      this.ctx.moveTo(x1, y1)
+      this.ctx.lineTo(x2, y2)
+      this.ctx.stroke()
+    }
+
+    this.ctx.setLineDash([])
+  }
+
+  showPanel(panelId: string, data?: Record<string, unknown>) {
+    const panel = this.panels.get(panelId)
+    if (panel) {
+      panel.visible = true
+      if (data) panel.data = data
+    }
+  }
+
+  hidePanel(panelId: string) {
+    const panel = this.panels.get(panelId)
+    if (panel) panel.visible = false
+  }
+
+  showAnalysisPanels() {
+    // Show relevant panels based on mode
+    if (this.mode === "ambient") {
+      this.showPanel("status", { mode: "SCENE ANALYSIS", confidence: 0.87 })
+      this.showPanel("analysis", { anomalies: "MINIMAL" })
+    } else if (this.mode === "read") {
+      this.showPanel("identity")
+      this.showPanel("translation")
+      this.showPanel("memory")
+    }
+  }
+
+  hideAllPanels() {
+    for (const panel of this.panels.values()) {
+      panel.visible = false
+    }
+  }
+
+  setMode(mode: "idle" | "ambient" | "read") {
+    this.mode = mode
+    if (mode === "idle") {
+      this.hideAllPanels()
+    }
+  }
+
+  setAnalyzing(active: boolean) {
+    this.isAnalyzing = active
+    if (active) {
+      this.showAnalysisPanels()
+    } else {
+      setTimeout(() => this.hideAllPanels(), 2000)
+    }
   }
 
   private drawScanLines() {
@@ -290,7 +536,7 @@ class TacticalGraphics {
   }
 }
 
-const graphics = new TacticalGraphics()
+const edith = new EDITHSystem()
 
 // ═════════════════════════════════════════════════════════════════════════════
 // Camera Setup
@@ -407,8 +653,8 @@ async function triggerCapture(mode: "ambient" | "read") {
   spawnParticles(4)
 
   $("hud").setAttribute("data-mode", mode)
-  graphics.setMode(mode)
-  graphics.setAnalyzing(true)
+  edith.setMode(mode)
+  edith.setAnalyzing(true)
   const image = captureFrameBase64()
 
   try {
@@ -435,7 +681,7 @@ async function triggerCapture(mode: "ambient" | "read") {
     $("hud-desc").textContent = "[connection error]"
   } finally {
     showThinking(false)
-    graphics.setAnalyzing(false)
+    edith.setAnalyzing(false)
   }
 }
 
