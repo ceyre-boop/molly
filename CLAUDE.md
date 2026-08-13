@@ -15,6 +15,25 @@ tools, and desk-side apps (dashboards, consoles). This is the DA's house.
 5. **Voice output goes through Pulse** (`POST http://localhost:31337/notify`),
    never a direct ElevenLabs call from app code.
 
+## BRANCHES
+
+Two long-lived branches, two worlds. Do not cross-pollinate features.
+
+- **`main`** — Colin's world: the scheduling assistant, GitHub Pages dashboard
+  (`index.html`, `events.json`, `activity.json`), dispatch pipeline, standup
+  scripts. Everything "ME". Deploys to GitHub Pages.
+- **`molly-spine`** — the secondary main: everything Halo glasses + the Molly
+  spine (agent loop, identity graph, OAuth connectors). Carries
+  `apps/halo-prototype/` (shelved learning exercise, kept for its patterns) and
+  `apps/spine/` (the real build). Deploys to Render.
+- `halo-web-prototype` — historical; superseded by `molly-spine`. No new work.
+- `claude/<issue>-<slug>` — short-lived agent work branches, PR into the branch
+  they forked from.
+
+Feature work targets one world: dashboard/scheduling → `main`; glasses/spine →
+`molly-spine`. `main` may be merged INTO `molly-spine` to keep the spine a
+superset, never the reverse.
+
 ## VERIFICATION (before every PR)
 
 ```bash
