@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MOLLY — The Spine</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="frame">
+      <!-- Left rail: the spine itself -->
+      <aside class="spine-rail">
+        <div class="wordmark">
+          <span class="wordmark-m">M</span>
+          <span class="wordmark-rest">OLLY</span>
+        </div>
+        <div class="tagline">the layer that knows<br />what Noa can't</div>
+
+        <div class="spine-track">
+          <div class="spine-line"></div>
+
+          <div class="vertebra" id="v-identity" data-state="idle">
+            <div class="node"></div>
+            <div class="v-label">
+              <span class="v-name">Identity Graph</span>
+              <span class="v-status" id="s-identity">—</span>
+            </div>
+          </div>
+
+          <div class="vertebra" id="v-memory" data-state="idle">
+            <div class="node"></div>
+            <div class="v-label">
+              <span class="v-name">Memory</span>
+              <span class="v-status" id="s-memory">—</span>
+            </div>
+          </div>
+
+          <div class="vertebra" id="v-reasoning" data-state="idle">
+            <div class="node"></div>
+            <div class="v-label">
+              <span class="v-name">Reasoning</span>
+              <span class="v-status" id="s-reasoning">—</span>
+            </div>
+          </div>
+
+          <div class="vertebra" id="v-connectors" data-state="idle">
+            <div class="node"></div>
+            <div class="v-label">
+              <span class="v-name">Connectors</span>
+              <span class="v-status" id="s-connectors">—</span>
+            </div>
+          </div>
+
+          <div class="vertebra" id="v-surfaces" data-state="idle">
+            <div class="node"></div>
+            <div class="v-label">
+              <span class="v-name">Surfaces</span>
+              <span class="v-status" id="s-surfaces">—</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rail-foot" id="rail-foot">spine offline</div>
+      </aside>
+
+      <!-- Main surface -->
+      <main class="surface">
+        <header class="surface-head">
+          <h1>The Spine</h1>
+          <p class="surface-sub">
+            One entity across every surface. Desktop today, Telegram next, Halo glasses when they land.
+          </p>
+        </header>
+
+        <div class="grid">
+          <!-- Chat: talk to Molly -->
+          <section class="card card-chat">
+            <div class="card-head">
+              <h2>Talk to Molly</h2>
+              <span class="chip" id="chat-chip">checking…</span>
+            </div>
+            <div class="chat-log" id="chat-log">
+              <div class="chat-empty" id="chat-empty">
+                Nothing yet. Ask me something — I'll ground answers in the identity
+                graph and memory, and I'll tell you honestly when they're empty.
+              </div>
+            </div>
+            <form class="chat-form" id="chat-form">
+              <input
+                id="chat-input"
+                type="text"
+                placeholder="Ask, or tell me something worth keeping…"
+                autocomplete="off"
+              />
+              <button type="submit" id="chat-send">Send</button>
+            </form>
+          </section>
+
+          <!-- Identity graph -->
+          <section class="card">
+            <div class="card-head">
+              <h2>Identity Graph</h2>
+              <span class="chip chip-count" id="people-count">0</span>
+            </div>
+            <p class="card-note">
+              Real names, real roles, real history — not anonymous embeddings.
+            </p>
+            <ul class="list" id="people-list">
+              <li class="list-empty">No one yet. Add the first person.</li>
+            </ul>
+            <form class="inline-form" id="person-form">
+              <input id="person-name" type="text" placeholder="Name" autocomplete="off" required />
+              <input id="person-role" type="text" placeholder="Role" autocomplete="off" />
+              <input id="person-org" type="text" placeholder="Org" autocomplete="off" />
+              <button type="submit">Add</button>
+            </form>
+          </section>
+
+          <!-- Memory -->
+          <section class="card">
+            <div class="card-head">
+              <h2>Memory</h2>
+              <span class="chip chip-count" id="facts-count">0</span>
+            </div>
+            <p class="card-note">Durable facts. What I'm told once, I keep.</p>
+            <ul class="list" id="facts-list">
+              <li class="list-empty">No facts stored yet.</li>
+            </ul>
+            <form class="inline-form" id="fact-form">
+              <input id="fact-subject" type="text" placeholder="Subject" autocomplete="off" required />
+              <input id="fact-text" type="text" placeholder="The fact" autocomplete="off" required />
+              <button type="submit">Keep</button>
+            </form>
+          </section>
+
+          <!-- Connectors -->
+          <section class="card">
+            <div class="card-head"><h2>Connectors</h2></div>
+            <p class="card-note">OAuth into Colin's actual accounts — the moat.</p>
+            <ul class="connector-list">
+              <li><span class="dot dot-off"></span> Google — Gmail <em>read-only · Phase C</em></li>
+              <li><span class="dot dot-off"></span> Google — Calendar <em>read-only · Phase C</em></li>
+              <li><span class="dot dot-off"></span> HealthKit <em>needs iOS app</em></li>
+              <li><span class="dot dot-off"></span> Sovereign alerts <em>planned</em></li>
+            </ul>
+          </section>
+
+          <!-- Surfaces -->
+          <section class="card">
+            <div class="card-head"><h2>Surfaces</h2></div>
+            <p class="card-note">Same Molly everywhere. Continuity is the product.</p>
+            <ul class="connector-list">
+              <li><span class="dot dot-live"></span> Web console <em>this page</em></li>
+              <li><span class="dot dot-off"></span> Telegram <em>planned</em></li>
+              <li><span class="dot dot-wait"></span> Halo glasses <em>awaiting hardware — see NOA_GAP_PROTOCOL</em></li>
+            </ul>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="/client.js"></script>
+  </body>
+</html>
