@@ -795,17 +795,22 @@ async function triggerVoiceQuestion(question: string) {
 // ═════════════════════════════════════════════════════════════════════════════
 
 const capabilities = getVoiceCapabilities()
-if (!capabilities.sttSupported) {
-  ($("mic-btn") as HTMLElement).style.display = "none"
-}
 
 const micBtn = $("mic-btn") as HTMLButtonElement
 micBtn.addEventListener("pointerdown", (e) => {
   e.preventDefault()
+  if (!capabilities.sttSupported) {
+    showToast("Voice input not supported on this browser — use spacebar taps instead")
+    return
+  }
   beginVoiceCapture()
 })
-micBtn.addEventListener("pointerup", () => endVoiceCapture())
-micBtn.addEventListener("pointercancel", () => endVoiceCapture())
+micBtn.addEventListener("pointerup", () => {
+  if (capabilities.sttSupported) endVoiceCapture()
+})
+micBtn.addEventListener("pointercancel", () => {
+  if (capabilities.sttSupported) endVoiceCapture()
+})
 
 // ═════════════════════════════════════════════════════════════════════════════
 // Init
