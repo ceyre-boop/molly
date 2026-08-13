@@ -2,7 +2,7 @@
 // The Molly Spine — persistent backbone serving every surface.
 import { join } from "path"
 import { chat, reasoningAvailable } from "./lib/agent"
-import { counts, addFact, listFacts, ensureConversation, addMessage } from "./lib/memory"
+import { counts, addFact, listFacts, ensureConversation, addMessage, kvGet, kvSet } from "./lib/memory"
 import { addPerson, listPeople, peopleCount } from "./lib/people"
 
 const PUBLIC_DIR = join(import.meta.dir, "public")
@@ -67,6 +67,8 @@ function handleHealth(): Response {
     facts: c.facts,
     conversations: c.conversations,
     messages: c.messages,
+    // Real page visits only (GET /), never health pings — feeds the keep-warm poller
+    lastVisit: Number(kvGet("lastVisit") ?? 0),
     connectors: { google: "not connected" }, // Phase C
     surfaces: { web: "live", telegram: "planned", glasses: "awaiting hardware" },
   })
@@ -86,8 +88,10 @@ const server = Bun.serve({
       return new Response(clientJs, { headers: { "content-type": "text/javascript" } })
     if (url.pathname === "/styles.css")
       return new Response(Bun.file(join(PUBLIC_DIR, "styles.css")))
-    if (url.pathname === "/" || url.pathname === "/index.html")
+    if (url.pathname === "/" || url.pathname === "/index.html") {
+      kvSet("lastVisit", String(Date.now()))
       return new Response(Bun.file(join(PUBLIC_DIR, "index.html")))
+    }
 
     return new Response("Not found", { status: 404 })
   },

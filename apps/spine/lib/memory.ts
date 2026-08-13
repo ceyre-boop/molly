@@ -83,6 +83,18 @@ export function searchFacts(term: string, limit = 10): Fact[] {
     .all(like, like, limit) as Fact[]
 }
 
+// Tiny KV store — survives free-tier sleep (in the sqlite file), used for lastVisit etc.
+db.run("CREATE TABLE IF NOT EXISTS kv (key TEXT PRIMARY KEY, value TEXT)")
+
+export function kvSet(key: string, value: string): void {
+  db.query("INSERT INTO kv (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value").run(key, value)
+}
+
+export function kvGet(key: string): string | null {
+  const row = db.query("SELECT value FROM kv WHERE key = ?").get(key) as { value: string } | null
+  return row?.value ?? null
+}
+
 export function counts(): { conversations: number; messages: number; facts: number } {
   const c = (sql: string) => (db.query(sql).get() as { n: number }).n
   return {
