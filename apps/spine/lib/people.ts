@@ -68,7 +68,7 @@ export function addEvent(personId: number, event: string): void {
 
 export function personEvents(personId: number, limit = 10): Array<{ event: string; ts: number }> {
   return db
-    .query("SELECT event, ts FROM person_events WHERE person_id = ? ORDER BY ts DESC LIMIT ?")
+    .query("SELECT event, ts FROM person_events WHERE person_id = ? ORDER BY id DESC LIMIT ?")
     .all(personId, limit) as Array<{ event: string; ts: number }>
 }
 

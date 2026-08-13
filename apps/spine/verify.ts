@@ -8,6 +8,8 @@
 // exits without spending anything. When reasoning is live, the full run costs
 // a few cents (3 Haiku calls with tools).
 
+export {} // module marker — enables top-level await under tsc
+
 const args = process.argv.slice(2)
 const urlFlag = args.indexOf("--url")
 const BASE = urlFlag >= 0 ? args[urlFlag + 1] : "http://localhost:3000"
