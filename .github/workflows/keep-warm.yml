@@ -4,17 +4,23 @@
 # branch — the app itself lives on `molly-spine`. This is infra glue, not
 # dashboard-world feature code.
 #
-# How it works (state machine, repo variables WARM_UNTIL / LAST_IDLE_CHECK):
-#   warm mode  — now < WARM_UNTIL: ping every 10 min, service stays up
-#   idle mode  — check for a fresh page visit at most every 30 min, so the
-#                service can actually sleep between checks. A fresh visit
-#                (server tracks GET / only, never these pings) opens a 6-hour
-#                warm window from the visit time.
-#   manual     — workflow_dispatch opens a 6-hour window immediately.
+# Design notes (v3):
+# - GITHUB_TOKEN cannot write repo variables (403), so cross-run state lives in
+#   actions/cache instead (restore-keys prefix picks up the latest).
+# - The gate runs BEFORE any HTTP request: asking the service anything wakes
+#   it, so idle-mode ticks outside the check window make ZERO requests —
+#   otherwise the poller itself would keep the service up 24/7.
 #
-# Free-tier budget: ~6h warm/day + half-awake idle checks ≈ 400-450 instance
-# hours/month, inside Render's 750h — assuming this is the only free service
-# burning hours in the workspace.
+#   warm mode  — cached warm_until in the future: every 10-min tick pings
+#   idle mode  — only ticks landing in minutes 0-9 (~1/hour) make a request,
+#                reading lastVisit (stamped by real GET / page loads only,
+#                persisted in the spine's SQLite so it survives sleep).
+#                Fresh visit (< 80 min) → cache warm_until = visit + 6h.
+#   manual     — workflow_dispatch POSTs /api/visit and opens the window now
+#
+# Free-tier budget: ~6h warm after a visit + ~15 min/idle-hour of check wakes
+# ≈ 320h instance time/month worst case, inside Render's 750h — assuming this
+# is the only free service burning hours in the workspace.
 
 name: Keep Spine Warm
 
@@ -23,75 +29,72 @@ on:
     - cron: "*/10 * * * *"
   workflow_dispatch: {}
 
-permissions:
-  actions: write
-
 concurrency:
   group: keep-warm
   cancel-in-progress: false
 
 env:
   SITE: https://molly-gz19.onrender.com
-  WARM_HOURS: "6"
+  WARM_SECS: "21600" # 6 hours
+  FRESH_SECS: "4800" # visit counts as fresh for 80 min (covers hourly gap + cron jitter)
 
 jobs:
   poke:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - name: Restore warm-state
+        id: restore
+        uses: actions/cache/restore@v4
+        with:
+          path: warm-state
+          key: warm-state-${{ github.run_id }}
+          restore-keys: warm-state-
+
       - name: Decide and poke
+        id: decide
         env:
-          GH_TOKEN: ${{ github.token }}
-          REPO: ${{ github.repository }}
           EVENT: ${{ github.event_name }}
         run: |
           set -u
           now=$(date +%s)
+          minute=$((10#$(date +%M)))
+          warm_until=0
+          [ -f warm-state/warm_until ] && warm_until=$(cat warm-state/warm_until)
 
-          get_var() { gh api "repos/$REPO/actions/variables/$1" --jq .value 2>/dev/null || echo 0; }
-          set_var() {
-            gh api -X PATCH "repos/$REPO/actions/variables/$1" -f name="$1" -f value="$2" 2>/dev/null \
-              || gh api -X POST "repos/$REPO/actions/variables" -f name="$1" -f value="$2"
-          }
+          save=false
 
-          warm_until=$(get_var WARM_UNTIL)
-
-          # Manual trigger: open a warm window right now
           if [ "$EVENT" = "workflow_dispatch" ]; then
-            until=$(( now + WARM_HOURS * 3600 ))
-            set_var WARM_UNTIL "$until"
-            echo "Manual warm-up — window open until $(date -u -d @$until 2>/dev/null || date -u -r $until)"
-            curl -sf -o /dev/null --max-time 90 "$SITE/api/health" || echo "poke failed (waking up?)"
-            exit 0
-          fi
-
-          # Warm mode: keep poking
-          if [ "$now" -lt "$warm_until" ]; then
+            echo "Manual warm-up — stamping a visit."
+            curl -sf --max-time 90 -X POST "$SITE/api/visit" -o /dev/null || echo "stamp failed (cold start?)"
+            warm_until=$(( now + WARM_SECS ))
+            save=true
+          elif [ "$now" -lt "$warm_until" ]; then
             echo "Warm window active — $(( (warm_until - now) / 60 )) min left. Poking."
-            curl -sf -o /dev/null --max-time 90 "$SITE/api/health" || echo "poke failed (non-fatal)"
-            exit 0
-          fi
-
-          # Idle mode: only check for a fresh visit every ~30 min so the
-          # service can sleep between checks (each check wakes it briefly).
-          last_check=$(get_var LAST_IDLE_CHECK)
-          if [ $(( now - last_check )) -lt 1700 ]; then
-            echo "Idle — skipping this tick so the service can sleep."
-            exit 0
-          fi
-          set_var LAST_IDLE_CHECK "$now"
-
-          health=$(curl -sf --max-time 90 "$SITE/api/health" || echo '{}')
-          last_visit_ms=$(echo "$health" | jq -r '.lastVisit // 0')
-          last_visit=$(( last_visit_ms / 1000 ))
-          age=$(( now - last_visit ))
-
-          # Fresh = visited within the last 40 min (covers the 30-min check
-          # gap + cron jitter). Server only stamps real GET / page loads.
-          if [ "$last_visit" -gt 0 ] && [ "$age" -lt 2400 ]; then
-            until=$(( last_visit + WARM_HOURS * 3600 ))
-            set_var WARM_UNTIL "$until"
-            echo "Fresh visit ${age}s ago — warm window open for $WARM_HOURS hours."
+            curl -sf --max-time 90 -o /dev/null "$SITE/api/health" || echo "poke failed (non-fatal)"
+          elif [ "$minute" -lt 10 ]; then
+            echo "Idle check (minute $minute) — asking for lastVisit."
+            health=$(curl -sf --max-time 90 "$SITE/api/health" || echo '{}')
+            last_visit=$(( $(echo "$health" | jq -r '.lastVisit // 0') / 1000 ))
+            age=$(( now - last_visit ))
+            if [ "$last_visit" -gt 0 ] && [ "$age" -lt "$FRESH_SECS" ]; then
+              warm_until=$(( last_visit + WARM_SECS ))
+              echo "Fresh visit $(( age / 60 )) min ago — warm window open until +6h from visit."
+              save=true
+            else
+              echo "No fresh visit — letting it sleep."
+            fi
           else
-            echo "No fresh visit (last: ${age}s ago) — letting it sleep."
+            echo "Idle (minute $minute) — no request this tick, letting it sleep."
           fi
+
+          mkdir -p warm-state
+          echo "$warm_until" > warm-state/warm_until
+          echo "save=$save" >> "$GITHUB_OUTPUT"
+
+      - name: Save warm-state
+        if: steps.decide.outputs.save == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: warm-state
+          key: warm-state-${{ github.run_id }}
