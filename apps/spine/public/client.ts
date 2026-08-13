@@ -212,3 +212,6 @@ refreshHealth()
 refreshPeople()
 refreshFacts()
 setInterval(refreshHealth, 30_000)
+
+// Stamp a real visit (opens the keep-warm window) — bots fetching HTML never run this
+fetch("/api/visit", { method: "POST" }).catch(() => {})

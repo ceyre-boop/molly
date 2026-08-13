@@ -95,10 +95,10 @@ const server = Bun.serve({
       return new Response(clientJs, { headers: { "content-type": "text/javascript" } })
     if (url.pathname === "/styles.css")
       return new Response(Bun.file(join(PUBLIC_DIR, "styles.css")))
-    if (url.pathname === "/" || url.pathname === "/index.html") {
-      kvSet("lastVisit", String(Date.now()))
+    // Visit stamping is client-side (POST /api/visit from client.ts) so bots
+    // fetching raw HTML don't open keep-warm windows — only real browsers do.
+    if (url.pathname === "/" || url.pathname === "/index.html")
       return new Response(Bun.file(join(PUBLIC_DIR, "index.html")))
-    }
 
     return new Response("Not found", { status: 404 })
   },
