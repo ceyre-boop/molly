@@ -55,9 +55,34 @@ Same service pattern as halo-prototype: Docker runtime, root directory
 `apps/spine`, branch `molly-spine`. Env: `ANTHROPIC_API_KEY` (optional —
 $0 mode without it), `SPINE_SHARED_SECRET` (optional API auth).
 
-Note: Render free tier has an **ephemeral disk** — the SQLite file resets on
-redeploy. Fine for now; a Render persistent disk ($1/mo) or move to a hosted
-DB fixes it when the graph starts mattering.
+### Persistence (the honest numbers)
+
+Render free tier has an **ephemeral disk** — the SQLite file resets on every
+redeploy. Corrected pricing (an earlier note here said "$1/mo" — wrong):
+persistent disks **require a paid instance**, so the real cost is:
+
+- Starter instance: **$7/mo** (also kills the cold-start spin-down)
+- Disk: **$0.25/GB/mo** (1 GB is plenty) → **≈ $7.25/mo total**
+
+Enable path (dashboard, one time): `molly` service → **Disks** → Add Disk →
+mount path `/data` → then add env var `SPINE_DB_DIR=/data`. The code already
+honors `SPINE_DB_DIR` — no code change needed.
+
+Until then: anything added to the graph/memory survives restarts but **dies on
+redeploy**. Don't trust it with real data yet.
+
+### Verification
+
+`verify.ts` proves the whole loop against a live deployment:
+
+```bash
+bun run verify.ts --url https://molly-gz19.onrender.com
+```
+
+If reasoning is offline it exits safely with zero spend. If live, it seeds a
+probe person, asks the agent to look them up (people_lookup), store a fact
+(remember), and recall it (recall) — then prints pass/fail and actual token
+spend (~a few cents).
 
 ## Phases
 
