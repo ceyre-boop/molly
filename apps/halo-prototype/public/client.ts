@@ -1,8 +1,9 @@
-// EDITH Phase 3: Voice Loop integration via Web Speech API.
-// Desktop/mobile push-to-talk: mic button or spacebar-hold.
-// On real Halo hardware, this audio.ts module is replaced by a BLE mic/bone-conduction wrapper.
+// EDITH Phase 3: Voice Loop + Hand Gesture Recognition
+// Voice: mic button or spacebar-hold. Gestures: hand poses (q,w,e,r,t) via MediaPipe.
+// On real Halo hardware: audio.ts → BLE mic/speaker, gestures.ts → real IMU/accelerometer.
 
 import { startPushToTalk, stopPushToTalk, speak, stopSpeaking, getVoiceCapabilities } from "./audio"
+import { initGestureDetection, getGestureDefinitions } from "./gestures"
 
 // ═════════════════════════════════════════════════════════════════════════════
 // DOM Helpers
@@ -813,7 +814,43 @@ micBtn.addEventListener("pointercancel", () => {
 })
 
 // ═════════════════════════════════════════════════════════════════════════════
+// Gesture Key Handlers (Phase 3.5: Hand Pose Detection)
+// ═════════════════════════════════════════════════════════════════════════════
+
+window.addEventListener("keydown", (e) => {
+  // Gesture keys (q,w,e,r,t) map to hand poses
+  const gestureMap: Record<string, string> = {
+    q: "thumbsup",   // trigger voice input
+    w: "peace",      // trigger voice input
+    e: "ok",         // trigger voice input
+    r: "openhand",   // trigger voice input
+    t: "fist",       // toggle mode or quick command
+  }
+
+  if (gestureMap[e.key]) {
+    e.preventDefault()
+    // Gesture detected: trigger voice capture (same as mic button hold)
+    if (!voiceBusy) {
+      beginVoiceCapture()
+    }
+  }
+})
+
+window.addEventListener("keyup", (e) => {
+  if ("qwert".includes(e.key)) {
+    e.preventDefault()
+    // Release gesture: end voice capture
+    endVoiceCapture()
+  }
+})
+
+// ═════════════════════════════════════════════════════════════════════════════
 // Init
 // ═════════════════════════════════════════════════════════════════════════════
 
 initCamera()
+
+// Initialize hand gesture detection (local, no API cost)
+initGestureDetection("camera", "graphics").catch((err) => {
+  console.warn("Hand gesture detection unavailable:", err)
+})
