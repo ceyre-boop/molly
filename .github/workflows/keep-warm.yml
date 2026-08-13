@@ -1,0 +1,97 @@
+# Keep the Molly Spine (Render free tier) warm after Colin's first real visit of the day.
+#
+# Lives on `main` because GitHub only runs scheduled workflows from the default
+# branch — the app itself lives on `molly-spine`. This is infra glue, not
+# dashboard-world feature code.
+#
+# How it works (state machine, repo variables WARM_UNTIL / LAST_IDLE_CHECK):
+#   warm mode  — now < WARM_UNTIL: ping every 10 min, service stays up
+#   idle mode  — check for a fresh page visit at most every 30 min, so the
+#                service can actually sleep between checks. A fresh visit
+#                (server tracks GET / only, never these pings) opens a 6-hour
+#                warm window from the visit time.
+#   manual     — workflow_dispatch opens a 6-hour window immediately.
+#
+# Free-tier budget: ~6h warm/day + half-awake idle checks ≈ 400-450 instance
+# hours/month, inside Render's 750h — assuming this is the only free service
+# burning hours in the workspace.
+
+name: Keep Spine Warm
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  actions: write
+
+concurrency:
+  group: keep-warm
+  cancel-in-progress: false
+
+env:
+  SITE: https://molly-gz19.onrender.com
+  WARM_HOURS: "6"
+
+jobs:
+  poke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Decide and poke
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          set -u
+          now=$(date +%s)
+
+          get_var() { gh api "repos/$REPO/actions/variables/$1" --jq .value 2>/dev/null || echo 0; }
+          set_var() {
+            gh api -X PATCH "repos/$REPO/actions/variables/$1" -f name="$1" -f value="$2" 2>/dev/null \
+              || gh api -X POST "repos/$REPO/actions/variables" -f name="$1" -f value="$2"
+          }
+
+          warm_until=$(get_var WARM_UNTIL)
+
+          # Manual trigger: open a warm window right now
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            until=$(( now + WARM_HOURS * 3600 ))
+            set_var WARM_UNTIL "$until"
+            echo "Manual warm-up — window open until $(date -u -d @$until 2>/dev/null || date -u -r $until)"
+            curl -sf -o /dev/null --max-time 90 "$SITE/api/health" || echo "poke failed (waking up?)"
+            exit 0
+          fi
+
+          # Warm mode: keep poking
+          if [ "$now" -lt "$warm_until" ]; then
+            echo "Warm window active — $(( (warm_until - now) / 60 )) min left. Poking."
+            curl -sf -o /dev/null --max-time 90 "$SITE/api/health" || echo "poke failed (non-fatal)"
+            exit 0
+          fi
+
+          # Idle mode: only check for a fresh visit every ~30 min so the
+          # service can sleep between checks (each check wakes it briefly).
+          last_check=$(get_var LAST_IDLE_CHECK)
+          if [ $(( now - last_check )) -lt 1700 ]; then
+            echo "Idle — skipping this tick so the service can sleep."
+            exit 0
+          fi
+          set_var LAST_IDLE_CHECK "$now"
+
+          health=$(curl -sf --max-time 90 "$SITE/api/health" || echo '{}')
+          last_visit_ms=$(echo "$health" | jq -r '.lastVisit // 0')
+          last_visit=$(( last_visit_ms / 1000 ))
+          age=$(( now - last_visit ))
+
+          # Fresh = visited within the last 40 min (covers the 30-min check
+          # gap + cron jitter). Server only stamps real GET / page loads.
+          if [ "$last_visit" -gt 0 ] && [ "$age" -lt 2400 ]; then
+            until=$(( last_visit + WARM_HOURS * 3600 ))
+            set_var WARM_UNTIL "$until"
+            echo "Fresh visit ${age}s ago — warm window open for $WARM_HOURS hours."
+          else
+            echo "No fresh visit (last: ${age}s ago) — letting it sleep."
+          fi
