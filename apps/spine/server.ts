@@ -80,6 +80,13 @@ const server = Bun.serve({
     const url = new URL(req.url)
 
     if (url.pathname === "/api/chat" && req.method === "POST") return handleChat(req)
+
+    // Explicit warm-up hook: stamps a visit, opening the keep-warm poller's window
+    if (url.pathname === "/api/visit" && req.method === "POST") {
+      const now = Date.now()
+      kvSet("lastVisit", String(now))
+      return Response.json({ ok: true, lastVisit: now })
+    }
     if (url.pathname === "/api/people") return handlePeople(req)
     if (url.pathname === "/api/facts") return handleFacts(req)
     if (url.pathname === "/api/health") return handleHealth()
