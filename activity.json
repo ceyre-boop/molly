@@ -1,5 +1,13 @@
 [
   {
+    "ts": "2026-08-12T15:35:24.931Z",
+    "kind": "pr",
+    "title": "Fix invalid vercel.json framework value",
+    "repo": "outreach-builder",
+    "url": "https://github.com/ceyre-boop/outreach-builder/pull/19",
+    "summary": "- @ceyre-boop flagged two failing checks on PR #16 before merge (it merged anyway before this ran): the Vercel deployment and the `Claude Code Review "
+  },
+  {
     "ts": "2026-08-11T21:48:10.493Z",
     "kind": "pr",
     "title": "Add analytics dashboard for outreach send activity",

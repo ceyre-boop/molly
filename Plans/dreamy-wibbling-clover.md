@@ -1,151 +1,87 @@
-# Restore Molly's Dashboard + Overnight Dispatch Pipeline
+# The Molly Spine — Pivot from Glasses Prototype to the Layer Noa Can't Be
 
 ## Context
 
-Three things were running: a static GitHub Pages dashboard (schedule + quicklinks), a local "Molly Console" (the "circle") for dispatching overnight/immediate AI tasks, and early AR-glasses (Halo/"Edith") work. All three are currently down. Root-cause audit (read-only, confirmed via git history/reflog and live `gh api` calls):
+The halo-prototype (Phases 1–3.5: EDITH panels, vision Q&A, voice loop, hand gestures) turned out to duplicate what **Noa** — Brilliant Labs' native assistant — already ships in the box: scene description, conversational voice Q&A, maps, basic anonymous face memory, even on-device app generation (Vibe Mode). Not wasted work (the isolated `audio.ts`/`gestures.ts` module seams and the vision-call plumbing are validated patterns), but as a *product* it's redundant.
 
-1. **Dashboard down**: `index.html` + `events.json` + the GitHub Pages Actions workflow (`pages.yml`) are all intact and correct on `main`. But the repo is currently **private**, and GitHub Pages isn't even enabled yet (`gh api repos/ceyre-boop/molly/pages` → 404). Pages doesn't serve private repos on GitHub Free. On top of that, today (2026-08-11) four same-day, broken deploy-config attempts (Render, Vercel, Glitch) were layered onto `main` chasing "get something live," none of which can work since they reference `apps/halo-edge`, which doesn't exist on `main`.
-2. **Dispatch pipeline half-wired**: the real working code — the Molly Console app (`apps/console/`), a daemon-aware `bin/molly` (`--start`/`--stop`/`--status`), `bin/monitor-dispatch.ts`, and related handler scripts — was built on branch `claude/issue-2-20260811-0008` and **pushed but never merged into `main`**. `main` only has a stripped-down `bin/molly` with no daemon support. This is exactly why `~/Library/LaunchAgents/com.molly.dispatch-monitor.plist` is failing (exit code 1, "Unknown flag --start") and why `logs/console-server.log` shows ENOENT errors for `apps/console`. The 7 AM standup dispatcher (`standup-dispatch.ts`/`standup-report.ts`, driven by the separate, already-working `com.molly.morning-standup` LaunchAgent) does work today, but its only "notification" is a Pulse voice call — nothing writes to the dashboard, which is the gap for "show up as a section on my dashboard."
-3. **AR glasses (Halo)**: real design docs exist (`Plans/build-it-all-right-peaceful-kahan.md`, `apps/halo-edge/*`, `halo/HALO_ARCHITECTURE.md`) but only on the unmerged branch. Explicitly deferred — recommendations only this round, no implementation.
+Molly's structural moat is everything Noa **cannot** access, by sandbox design, not by intelligence:
 
-User decisions already made (do not re-ask):
-- Make the `ceyre-boop/molly` repo **public** again to restore free GitHub Pages (schedule data in the public `events.json` is already scrubbed of specifics — confirmed by reading it).
-- For `events.private.json` / `desk-private.html` (tracked in git, contain real personal detail — health/study schedule, trading notes): **stop tracking going forward** (`git rm --cached` + `.gitignore`), no git-history rewrite, no force-push.
+1. **The real identity graph** — actual names, roles, history ("Marco from TABOOST"), not anonymous embedding counts
+2. **OAuth into Colin's actual life** — Gmail, Calendar, HealthKit, Sovereign alerts, dashboards — Noa is sandboxed to what the glasses see/hear
+3. **Authority-tier governance** — free-action vs confirm-first over real accounts
+4. **Continuity as one entity** across desktop, Telegram, homelab, and (later) glasses
 
----
+Decision made: **shelve the prototype, start the Molly spine now** — the glasses-independent backbone that's useful on desktop today and makes the glasses just another client later. When the Halo arrives: live with stock Noa for a few days, let empirical gaps define what the glasses client needs, and test whether Vibe Mode can generate the bridge scaffolding itself.
 
-## Priority 1 — Restore the static GitHub Pages dashboard
+## Constraints
 
-**1.1 — Remove today's broken deploy debris from `main`:**
-```bash
-git rm render.yaml vercel.json .glitchignore bin/server.ts
-```
-Rewrite `package.json` to a minimal static-site manifest (no `start`/`dev` pointing at the now-deleted `bin/server.ts`):
-```json
-{ "name": "molly", "private": true, "type": "module", "engines": { "bun": ">=1.0.0" } }
-```
-Commit: `chore: remove Render/Vercel/Glitch deploy debris, restore static-only package.json`
-
-**1.2 — Stop tracking private files:**
-```bash
-git rm --cached events.private.json desk-private.html
-```
-Append to `.gitignore`:
-```
-events.private.json
-desk-private.html
-```
-Commit: `chore: stop tracking private desk files, add to .gitignore`
-
-**1.3 — Push `main`.**
-
-**1.4 — POINT OF NO EASY RETURN (confirm with user immediately before running):**
-```bash
-gh repo edit ceyre-boop/molly --visibility public
-```
-Repo history (including old commits with private data) becomes publicly visible/cloneable/cacheable at this point — irreversible in practice even though GitHub technically allows flipping back.
-
-**1.5 — Enable GitHub Pages (Actions source), one-time bootstrap:**
-```bash
-gh api -X POST repos/ceyre-boop/molly/pages -f build_type=workflow
-```
-If that errors, fall back to the manual path: repo Settings → Pages → Build and deployment → Source → "GitHub Actions" (pages.yml is auto-detected). Verify with `gh api repos/ceyre-boop/molly/pages` → expect `build_type: workflow` and an `html_url` (`https://ceyre-boop.github.io/molly/`).
-
-**1.6 — Trigger and verify deploy:**
-```bash
-gh workflow run "Deploy to GitHub Pages" --repo ceyre-boop/molly
-gh run list --repo ceyre-boop/molly --workflow="Deploy to GitHub Pages" --limit 3
-curl -sI https://ceyre-boop.github.io/molly/
-```
-Confirm HTTP 200 and page body contains "Molly's Desk".
-
-**Verification checklist:**
-- [ ] `git ls-files` shows no `render.yaml`/`vercel.json`/`.glitchignore`/`bin/server.ts`/`events.private.json`/`desk-private.html`
-- [ ] `gh repo view ceyre-boop/molly --json visibility` → `PUBLIC`
-- [ ] `gh api repos/ceyre-boop/molly/pages` → 200, `build_type: workflow`
-- [ ] `gh run list` shows a successful Pages deploy run
-- [ ] `curl -sI https://ceyre-boop.github.io/molly/` → 200, page renders
+- **Repo rules**: bun + TypeScript, no secrets in repo (env/keychain only), this repo never touches other repos' code, voice output via Pulse (localhost:31337) when local.
+- **API spend**: currently ordered to $0. The spine is *designed* under that constraint — everything except the actual Claude reasoning call works with zero spend (memory, identity store, OAuth data pulls, CLI). A small dev cap (~$2/mo) gets raised by Colin when he's ready to test the reasoning loop; the plan does not assume spend.
+- Halo-prototype stays deployed but frozen — no further feature work on that branch.
 
 ---
 
-## Priority 2 — Restore the overnight dispatch pipeline, visible on the dashboard
+## Part 1 — Shelve the prototype (30 min)
 
-**2.1 — Bring over only the needed pieces from `claude/issue-2-20260811-0008`** (checkout-based cherry-pick, not `git merge` — avoids the branch's conflicting deletion of `pages.yml`/`vercel.json`/etc. ever touching `main`'s history):
+On `halo-web-prototype` branch:
+- `apps/halo-prototype/README.md`: add a status header — *"LEARNING EXERCISE — superseded. Noa ships these features natively. Kept for the validated patterns: audio.ts (STT/TTS seam), gestures.ts (local hand tracking), lib/anthropic.ts (vision call). See Plans/ + SPINE.md for what Molly actually is."*
+- New `apps/halo-prototype/NOA_GAP_PROTOCOL.md`: the observation checklist for when the glasses arrive (use stock Noa for several days; log where it fails on: identity, cross-account tasks, continuity, authority; test Vibe Mode generating bridge scaffolding).
+- Final commit. Branch stays; Render service stays (calls fail harmlessly at $0 limit).
+
+## Part 2 — The spine: `apps/spine/`
+
+New self-contained app following the halo-prototype/console pattern (Bun.serve, no framework).
+
+```
+apps/spine/
+├── server.ts               # Bun.serve: /api/chat, /api/people, /api/connectors, console UI
+├── lib/
+│   ├── agent.ts            # Claude tool-loop (claude-haiku-4-5 default), the ONLY paid path
+│   ├── memory.ts           # bun:sqlite — conversations, messages, facts
+│   ├── people.ts           # identity graph — people, roles, relationships, notes, (later) face links
+│   ├── tools.ts            # tool registry the agent can call (calendar_read, gmail_search, people_lookup, remember)
+│   └── google.ts           # OAuth2 (read-only Gmail + Calendar scopes), token refresh
+├── db/                     # SQLite file (gitignored)
+├── public/                 # minimal chat console (talk to Molly in browser, reuse audio.ts pattern for voice later)
+├── *.test.ts               # memory + people + tool-registry tests (no network)
+└── SPINE.md                # architecture + the moat rationale above
+```
+
+### Phase A — skeleton (build first, works at $0 spend)
+- `memory.ts`: SQLite schema — `conversations(id, started_at, surface)`, `messages(id, conv_id, role, content, ts)`, `facts(id, subject, fact, source, ts)`.
+- `people.ts`: `people(id, name, role, org, notes, first_seen, last_seen)`, `person_events(person_id, event, ts)`. CRUD + search. This is the real-names graph Noa can't have — and the future landing place for Phase-7 face links.
+- `tools.ts`: typed tool registry with JSON-schema defs; `people_lookup`, `remember` (writes facts), stubs for google tools.
+- `server.ts`: routes + bearer auth (`SPINE_SHARED_SECRET`, same pattern as halo-prototype `checkAuth`).
+- Tests for memory/people/tools — pure, no network, `bun test` green.
+
+### Phase B — agent loop (needs API budget raised)
+- `agent.ts`: messages loop with tool-use handling — send history + tool defs, execute requested tools locally, feed results back, return final text. Persist every turn via `memory.ts`. Model: `claude-haiku-4-5`, `max_tokens` small; every call logged with token counts to make spend visible.
+- Console at `/`: text chat first (voice is a later add via the proven `audio.ts` seam).
+
+### Phase C — Google OAuth (read-only)
+- `google.ts`: standard OAuth2 code flow, scopes `gmail.readonly` + `calendar.readonly`; tokens stored in `db/` (gitignored) or keychain, never in repo. Colin performs the browser consent step himself.
+- Wire `gmail_search`, `calendar_read` into the tool registry.
+- Note: Google Cloud project + OAuth client creation is a Colin-in-browser step; the plan provides exact click-path instructions in SPINE.md.
+
+## What is explicitly NOT in this build
+- No Swift/iOS until glasses land and the Noa gaps are observed (Phase 4 of the old roadmap, on hold).
+- No new glasses-facing features.
+- No always-on background agent/automations yet — request-response first, automations layer later.
+- No writes to Gmail/Calendar — read-only scopes only (authority-tier work comes after the read path is trusted).
+
+## Verification
+
 ```bash
-git checkout claude/issue-2-20260811-0008 -- \
-  apps/console \
-  bin/molly \
-  bin/monitor-dispatch.ts \
-  bin/respond.ts \
-  bin/dispatch-handler.ts \
-  bin/check-dispatch.ts \
-  DISPATCH.md \
-  WORKFLOW.md \
-  launchd/com.molly.dispatch-monitor.plist
-```
-Explicitly excluded: `apps/halo-edge/`, `halo/`, `bin/halo-*.ts`, `state/halo-*.json`, `PHASE_1_COMPLETE.md` (all Halo/AR, deferred).
-
-Hand-edit the checked-out `bin/molly`: remove the `--halo-start`/`--halo-stop`/`--budget`/`--halo-status` case blocks and their `start_halo`/`stop_halo` functions (they call scripts we're not bringing over), and trim the Halo lines from `--help` and `show_status`. Keep `--start`/`--stop`/`--status` (these only touch `monitor-dispatch.ts`/`check-dispatch.ts`, which are included) and the existing `-n`/`-r` dispatch logic (confirmed byte-identical superset on the branch).
-
-Hand-merge `package.json` (don't blind-overwrite — reconcile with Step 1.1's version):
-```json
-{
-  "name": "molly",
-  "private": true,
-  "type": "module",
-  "engines": { "bun": ">=1.0.0" },
-  "scripts": { "console": "bun run apps/console/server.ts", "test": "bun test" }
-}
+cd apps/spine && bun install
+bun test                      # memory, people, tools — all green, zero network
+bunx tsc --noEmit
+SPINE_SHARED_SECRET=dev bun run server.ts
+# curl /api/people CRUD round-trip
+# curl /api/chat with API limit at $0 → clean "reasoning disabled (budget $0)" response, NOT a crash
+# after Colin raises budget: /api/chat "who is Marco?" → agent calls people_lookup → grounded answer
 ```
 
-Verify nothing Halo-related or pages.yml-related was reintroduced (`git diff HEAD -- .github/workflows/pages.yml` empty, `ls apps/halo-edge` errors), then commit and push:
-`feat: restore dispatch pipeline (console app, daemon-aware molly CLI, monitor/handler scripts) from claude/issue-2-20260811-0008; halo-edge intentionally excluded`
-
-**2.2 — New: overnight activity visible on the dashboard.**
-
-New file `activity.json` at repo root (flat, sibling of `events.json`), newest-first, capped at last 20 entries:
-```json
-[{ "ts": "2026-08-11T07:25:00-04:00", "kind": "pr", "title": "...", "repo": "outreach-builder", "url": "https://github.com/..." }]
-```
-Extend `bin/standup-report.ts` (it already computes the list of open Claude PRs): map each into `{ts, kind:"pr", title, repo, url}`, dedup by `url` against the existing file, prepend, trim to 20, write, then commit+push (wrapped so "nothing to commit" doesn't fail the script):
-```bash
-git add activity.json && git commit -m "chore: update overnight activity feed" -q || true
-git push origin main -q || true
-```
-This push is what makes overnight activity show up on the public Pages site.
-
-Add a matching "Overnight" section to `index.html`, following its existing `.rows`/`.row`/`.card`/`.chip` idiom (same pattern as the `needs`/`deadlines` sections) and the same graceful-degrade `fetch()` pattern already used for `events.json` (missing file → empty section, not a broken page). Insert the section right after "Needs you". This is the one direct edit to `index.html` in this whole plan.
-
-**2.3 — Reload the LaunchAgent** (plist content is already correct/unchanged, just needs the daemon-aware `bin/molly` on disk):
-```bash
-launchctl unload ~/Library/LaunchAgents/com.molly.dispatch-monitor.plist
-launchctl load ~/Library/LaunchAgents/com.molly.dispatch-monitor.plist
-launchctl list | grep com.molly.dispatch-monitor
-./bin/molly --status
-```
-Confirm no more "Unknown flag --start" in `logs/launchd-monitor.log`.
-
-**2.4 — End-to-end verification:**
-```bash
-./bin/molly "test task — verify dispatch pipeline restored" -r molly
-```
-(Use `-r molly` for the test to avoid noise on `outreach-builder`; confirms the two-repo dispatch constraint from CLAUDE.md still holds.)
-- [ ] Issue appears via `gh issue list --repo ceyre-boop/molly --label claude --limit 3`
-- [ ] `./bin/molly --status` shows it queued/picked up
-- [ ] Pulse notification fires (check `logs/monitor-dispatch.log` or listen)
-- [ ] `bun bin/standup-report.ts` (manual run for testing) updates, commits, pushes `activity.json`
-- [ ] `curl -s https://ceyre-boop.github.io/molly/activity.json` reflects it post-redeploy
-- [ ] Dashboard visually shows the new "Overnight" section populated
-
----
-
-## Priority 3 — AR glasses (Halo/"Edith") — recommendations only, not implemented this round
-
-- The design doc (`Plans/build-it-all-right-peaceful-kahan.md`) and branch code (`apps/halo-edge/`) already exist and are architecturally sound (per-app-scoped `vercel.json`, not a root-level one — this is actually the right pattern, unlike today's broken root `vercel.json`).
-- Recommend: once Priority 1/2 are stable, merge `apps/halo-edge/` the same checkout-based way, but deploy it as its **own** scoped Vercel project (`vercel --cwd apps/halo-edge`), not bundled with the static Pages dashboard — keeps the $0.50–$2/mo Claude API cost isolated and the two deploy targets (static Pages for dashboard, serverless Vercel function for Halo) from fighting each other the way today's debris did.
-- Recommend building Protocol 1 (paper/doc → answer) first — simplest, no local biometric storage, most immediately useful — before Protocol 2 (face memory, needs local-only embedding storage + BIPA-aware design already noted) or Protocol 3 (maps, needs continuous GPS + routing API cost).
-- Authority tiers (Tier 1 auto-render / Tier 2 confirm / Tier 3 external query) should reuse the same `MOLLY_AUTHORITY.md` pattern already referenced, not a new scheme.
-- No action taken this round beyond this note.
+`git diff main origin/main` stays empty; spine work goes on a new branch `molly-spine` off main, PR per repo rules.
 
 ## Critical files
-`/Users/taboost/molly/index.html`, `package.json`, `bin/molly`, `bin/standup-report.ts`, `.gitignore`, `.github/workflows/pages.yml`, `launchd/com.molly.dispatch-monitor.plist`
+`apps/spine/{server.ts, lib/agent.ts, lib/memory.ts, lib/people.ts, lib/tools.ts, lib/google.ts, SPINE.md}`, `apps/halo-prototype/{README.md, NOA_GAP_PROTOCOL.md}`
