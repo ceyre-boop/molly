@@ -1,110 +1,87 @@
-# EDITH Phase 3 — Voice Loop (Browser Prototype)
+# The Molly Spine — Pivot from Glasses Prototype to the Layer Noa Can't Be
 
 ## Context
 
-The EDITH prototype (`apps/halo-prototype/`, branch `halo-web-prototype`, live on Render) already does visual AR: spacebar-tap triggers capture a camera frame and send it to Claude vision via `POST /api/describe`, rendering answers into a HUD text panel and tactical EDITH overlay panels (identity, status, memory, etc. — built in Phases 1–2, which also added face detection via `POST /api/faces`). It is currently silent — no mic input, no spoken output — by original design (documented at the top of `client.ts`).
+The halo-prototype (Phases 1–3.5: EDITH panels, vision Q&A, voice loop, hand gestures) turned out to duplicate what **Noa** — Brilliant Labs' native assistant — already ships in the box: scene description, conversational voice Q&A, maps, basic anonymous face memory, even on-device app generation (Vibe Mode). Not wasted work (the isolated `audio.ts`/`gestures.ts` module seams and the vision-call plumbing are validated patterns), but as a *product* it's redundant.
 
-The user now wants to talk to EDITH and have her talk back, tested today on the existing browser prototype, before any hardware or native app work happens. This is Phase 3 of a longer roadmap (full sequence below) but the *only* phase being built right now — everything past this depends on an iOS companion app that doesn't exist yet.
+Molly's structural moat is everything Noa **cannot** access, by sandbox design, not by intelligence:
 
-This must coexist with the existing tap-counting trigger (1 tap = ambient describe, 2 taps = read mode, 3 taps = reserved toast) without breaking it, and it must be built as an isolated, swappable module so the real Halo hardware's mic/bone-conduction speaker can drop in later without touching the rest of `client.ts`.
+1. **The real identity graph** — actual names, roles, history ("Marco from TABOOST"), not anonymous embedding counts
+2. **OAuth into Colin's actual life** — Gmail, Calendar, HealthKit, Sovereign alerts, dashboards — Noa is sandboxed to what the glasses see/hear
+3. **Authority-tier governance** — free-action vs confirm-first over real accounts
+4. **Continuity as one entity** across desktop, Telegram, homelab, and (later) glasses
 
-## Roadmap (for sequencing context only — not built in this pass)
+Decision made: **shelve the prototype, start the Molly spine now** — the glasses-independent backbone that's useful on desktop today and makes the glasses just another client later. When the Halo arrives: live with stock Noa for a few days, let empirical gaps define what the glasses client needs, and test whether Vibe Mode can generate the bridge scaffolding itself.
 
-3. **Voice Loop** (this plan) — Web Speech API STT/TTS in the browser prototype.
-4. **EDITH iOS Companion App** — SwiftUI app, Core Bluetooth Halo pairing, background relay to the Molly backend. The real unlock; everything below depends on it existing.
-5. **Account Integrations** — Google (read-only), Apple Calendar/Reminders (EventKit), HealthKit, Contacts (feeds face-memory naming), notification mirroring. Each an opt-in toggle in the iOS app.
-6. **Automations Layer** — time/context/location-triggered panel changes, declarative `automations.json` in the Molly backend.
-7. **Face Memory → backend** — migrate `FaceMemory` off `localStorage` into a Molly-side datastore (SQLite), local-only, so identity persists across the web prototype, iOS app, and hardware.
+## Constraints
 
-## Phase 3 — Voice Loop: implementation
+- **Repo rules**: bun + TypeScript, no secrets in repo (env/keychain only), this repo never touches other repos' code, voice output via Pulse (localhost:31337) when local.
+- **API spend**: currently ordered to $0. The spine is *designed* under that constraint — everything except the actual Claude reasoning call works with zero spend (memory, identity store, OAuth data pulls, CLI). A small dev cap (~$2/mo) gets raised by Colin when he's ready to test the reasoning loop; the plan does not assume spend.
+- Halo-prototype stays deployed but frozen — no further feature work on that branch.
 
-### Backend: extend `/api/describe`, no new endpoint
+---
 
-EDITH's core use case is "hey, what is this" — a spoken question *about what the camera sees*. So voice reuses the same vision call rather than forking a separate text-only path.
+## Part 1 — Shelve the prototype (30 min)
 
-**Request** (`lib/anthropic.ts` + `server.ts`):
-```json
-{ "image": "<base64 JPEG>", "mode": "read", "question": "what does this label say?" }
+On `halo-web-prototype` branch:
+- `apps/halo-prototype/README.md`: add a status header — *"LEARNING EXERCISE — superseded. Noa ships these features natively. Kept for the validated patterns: audio.ts (STT/TTS seam), gestures.ts (local hand tracking), lib/anthropic.ts (vision call). See Plans/ + SPINE.md for what Molly actually is."*
+- New `apps/halo-prototype/NOA_GAP_PROTOCOL.md`: the observation checklist for when the glasses arrive (use stock Noa for several days; log where it fails on: identity, cross-account tasks, continuity, authority; test Vibe Mode generating bridge scaffolding).
+- Final commit. Branch stays; Render service stays (calls fail harmlessly at $0 limit).
+
+## Part 2 — The spine: `apps/spine/`
+
+New self-contained app following the halo-prototype/console pattern (Bun.serve, no framework).
+
 ```
-- `image` stays required — client always captures a frame at the start of a voice turn, same as today's read mode.
-- `question` is new and optional; absent = today's exact behavior, unchanged.
-- **Response unchanged**: `{ "text": "<answer>" }`.
+apps/spine/
+├── server.ts               # Bun.serve: /api/chat, /api/people, /api/connectors, console UI
+├── lib/
+│   ├── agent.ts            # Claude tool-loop (claude-haiku-4-5 default), the ONLY paid path
+│   ├── memory.ts           # bun:sqlite — conversations, messages, facts
+│   ├── people.ts           # identity graph — people, roles, relationships, notes, (later) face links
+│   ├── tools.ts            # tool registry the agent can call (calendar_read, gmail_search, people_lookup, remember)
+│   └── google.ts           # OAuth2 (read-only Gmail + Calendar scopes), token refresh
+├── db/                     # SQLite file (gitignored)
+├── public/                 # minimal chat console (talk to Molly in browser, reuse audio.ts pattern for voice later)
+├── *.test.ts               # memory + people + tool-registry tests (no network)
+└── SPINE.md                # architecture + the moat rationale above
+```
 
-Changes:
-- `lib/anthropic.ts`: `describeImage(base64Jpeg, mode, question?)` — when `question` is present, use a new `PROMPTS.voiceQuestion` variant (wraps the existing read-mode instructions, appends the transcribed question, and asks for a short spoken-style answer — no "I see..." framing, 1-3 sentences, under 200 chars) instead of `PROMPTS.read`.
-- `server.ts` `handleDescribe`: parse optional `body.question` (string), pass through.
+### Phase A — skeleton (build first, works at $0 spend)
+- `memory.ts`: SQLite schema — `conversations(id, started_at, surface)`, `messages(id, conv_id, role, content, ts)`, `facts(id, subject, fact, source, ts)`.
+- `people.ts`: `people(id, name, role, org, notes, first_seen, last_seen)`, `person_events(person_id, event, ts)`. CRUD + search. This is the real-names graph Noa can't have — and the future landing place for Phase-7 face links.
+- `tools.ts`: typed tool registry with JSON-schema defs; `people_lookup`, `remember` (writes facts), stubs for google tools.
+- `server.ts`: routes + bearer auth (`SPINE_SHARED_SECRET`, same pattern as halo-prototype `checkAuth`).
+- Tests for memory/people/tools — pure, no network, `bun test` green.
 
-### New file: `public/audio.ts`
+### Phase B — agent loop (needs API budget raised)
+- `agent.ts`: messages loop with tool-use handling — send history + tool defs, execute requested tools locally, feed results back, return final text. Persist every turn via `memory.ts`. Model: `claude-haiku-4-5`, `max_tokens` small; every call logged with token counts to make spend visible.
+- Console at `/`: text chat first (voice is a later add via the proven `audio.ts` seam).
 
-Isolated Web Speech API wrapper — the entire swap-out seam for Halo's real mic/speaker later. No fetch calls, no EDITH panel knowledge — purely STT/TTS:
-- `startPushToTalk(onResult, onError?, onListeningChange?)` — creates a `SpeechRecognition` (with `webkitSpeechRecognition` fallback), non-continuous, `en-US`, fires `onResult(transcript)` when done.
-- `stopPushToTalk()` — calls `.stop()`, which triggers a final `onresult` then `onend`.
-- `speak(text)` — `SpeechSynthesisUtterance`, cancels any in-flight speech first (barge-in safe).
-- `stopSpeaking()`, `getVoiceCapabilities()` — feature-detection for showing/hiding the mic UI gracefully when unsupported (notably iOS Safari).
+### Phase C — Google OAuth (read-only)
+- `google.ts`: standard OAuth2 code flow, scopes `gmail.readonly` + `calendar.readonly`; tokens stored in `db/` (gitignored) or keychain, never in repo. Colin performs the browser consent step himself.
+- Wire `gmail_search`, `calendar_read` into the tool registry.
+- Note: Google Cloud project + OAuth client creation is a Colin-in-browser step; the plan provides exact click-path instructions in SPINE.md.
 
-`client.ts` imports these two function pairs and owns all orchestration (capture, fetch, panel updates) — `audio.ts` never touches the DOM beyond the Web Speech APIs themselves.
-
-### Interaction: mic button (primary) + spacebar-hold (secondary), safe alongside the existing tap counter
-
-Two entry points, one shared `beginVoiceCapture()` / `endVoiceCapture()` pair:
-
-- **Mic button** (`#mic-btn`, new element in `index.html`, bottom-right, separate from the existing bottom-left `#hud`): `pointerdown` → `beginVoiceCapture()`, `pointerup`/`pointercancel` → `endVoiceCapture()`. Works for mouse and touch.
-- **Spacebar hold**: the existing tap-counter uses a 450ms debounce on release. A hold is distinguished with a hold-timer armed on `keydown` (guarded by `e.repeat` so OS key-repeat doesn't re-arm it) at a **500ms threshold** — deliberately longer than the tap debounce. If the timer fires before `keyup`, the press is committed as a hold: any in-flight tap sequence is cancelled (`pressCount = 0`), and `beginVoiceCapture()` runs. If `keyup` happens first, it falls through to the existing tap-counting logic completely unchanged. The two gestures are mutually exclusive per keypress, decided at the threshold crossing — zero behavior change to today's 1-tap/2-tap/3-tap flow.
-
-`beginVoiceCapture()` shows a "listening" state (`#mic-btn[data-listening="true"]`, `#voice-indicator` text), calls `startPushToTalk()`. On result, calls a new `triggerVoiceQuestion(transcript)`.
-
-### `triggerVoiceQuestion(question)` — new function in `client.ts`, parallel to existing `triggerCapture()`
-
-Captures a fresh frame, POSTs `{ image, mode: "read", question }` to `/api/describe`, and on response:
-1. Renders the answer into `#hud-desc` via the existing `animateTextReveal()` typewriter effect (same visual path as camera-triggered answers).
-2. Calls `speak(responseText)` immediately after — text and voice carry the identical answer, in parallel, so "voice supplements display, doesn't replace it."
-
-Reuses `showThinking()`, `edith.setMode("read")`, `edith.setAnalyzing()` exactly as `triggerCapture("read")` does today.
-
-### UI additions
-
-- `index.html`: `#mic-btn` (circular button, 🎤, bottom-right) and `#voice-indicator` ("● LISTENING" text), both siblings of the existing `#hud`.
-- `styles.css`: reuses existing `--hud-green` variable and `scanPulse`/`glitchShift` keyframes already defined for the green monospace theme — no new palette introduced, stays consistent with the HUD-overlay layer (distinct from the blue/cyan EDITH canvas panels, which are a different visual layer).
-
-### Compatibility notes (flag in README, not blocking)
-- `SpeechRecognition` requires HTTPS/localhost — the Render deployment is fine; plain-HTTP local dev needs a callout.
-- iOS Safari has historically weak/no `SpeechRecognition` support — `getVoiceCapabilities()` gates whether the mic button renders, with a toast fallback ("voice not supported, use spacebar taps") instead of silent failure.
-- First `speechSynthesis.speak()` on mobile needs a user gesture — satisfied naturally by the mic button tap.
-
-## Files touched
-
-| File | Change |
-|---|---|
-| `apps/halo-prototype/public/audio.ts` | **New.** STT/TTS wrapper — sole swap point for real Halo hardware later. |
-| `apps/halo-prototype/public/client.ts` | Import `audio.ts`; hold-vs-tap spacebar logic; mic button handlers; `beginVoiceCapture`/`endVoiceCapture`; `triggerVoiceQuestion`. Existing tap-counter and `triggerCapture` untouched. |
-| `apps/halo-prototype/public/index.html` | Add `#mic-btn`, `#voice-indicator`. |
-| `apps/halo-prototype/public/styles.css` | Add `#mic-btn`, `#mic-btn[data-listening="true"]`, `#voice-indicator` (reuses existing theme vars/animations). |
-| `apps/halo-prototype/lib/anthropic.ts` | `describeImage(base64Jpeg, mode, question?)`; new `PROMPTS.voiceQuestion`. |
-| `apps/halo-prototype/server.ts` | `handleDescribe` parses optional `question`, passes through. |
-| `apps/halo-prototype/README.md` | Update "silent by design" section, document mic + spacebar-hold, note `question` field and HTTPS/iOS caveats. |
-
-No new dependencies — Web Speech API is native to the browser.
+## What is explicitly NOT in this build
+- No Swift/iOS until glasses land and the Noa gaps are observed (Phase 4 of the old roadmap, on hold).
+- No new glasses-facing features.
+- No always-on background agent/automations yet — request-response first, automations layer later.
+- No writes to Gmail/Calendar — read-only scopes only (authority-tier work comes after the read path is trusted).
 
 ## Verification
 
-**Local:**
 ```bash
-cd apps/halo-prototype && bun install
+cd apps/spine && bun install
+bun test                      # memory, people, tools — all green, zero network
 bunx tsc --noEmit
-ANTHROPIC_API_KEY=sk-... bun run server.ts
-# open http://localhost:3000 (or ngrok/LAN HTTPS if testing STT locally — plain http may block SpeechRecognition)
-# tap space once/twice/thrice — confirm ambient/read/toast flow is unchanged
-# hold spacebar past ~0.5s, ask a question aloud, release — confirm transcript triggers a read-mode
-#   response that both types into hud-desc AND is spoken aloud
-# tap-and-hold #mic-btn — same flow via touch/mouse
-# interrupt mid-speech with a new voice question — confirm speech barge-in cancels prior utterance
+SPINE_SHARED_SECRET=dev bun run server.ts
+# curl /api/people CRUD round-trip
+# curl /api/chat with API limit at $0 → clean "reasoning disabled (budget $0)" response, NOT a crash
+# after Colin raises budget: /api/chat "who is Marco?" → agent calls people_lookup → grounded answer
 ```
 
-**Live (after Render redeploys):**
-```bash
-curl -sI https://molly-gz19.onrender.com/     # expect 200
-```
-Open the Render URL on a phone browser (real HTTPS, real mic) and run the same push-to-talk flow.
+`git diff main origin/main` stays empty; spine work goes on a new branch `molly-spine` off main, PR per repo rules.
 
 ## Critical files
-`apps/halo-prototype/{server.ts, lib/anthropic.ts, public/client.ts, public/audio.ts, public/index.html, public/styles.css, README.md}`
+`apps/spine/{server.ts, lib/agent.ts, lib/memory.ts, lib/people.ts, lib/tools.ts, lib/google.ts, SPINE.md}`, `apps/halo-prototype/{README.md, NOA_GAP_PROTOCOL.md}`

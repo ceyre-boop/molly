@@ -1,5 +1,21 @@
 # Molly Halo AR Prototype
 
+> **STATUS: LEARNING EXERCISE — SUPERSEDED (2026-08-13)**
+>
+> Noa (Brilliant Labs' native assistant) ships these features in the box: scene
+> description, conversational voice Q&A, maps, basic face memory, even on-device
+> app generation via Vibe Mode. Building them again here was redundant.
+>
+> Kept for the validated patterns:
+> - `public/audio.ts` — isolated STT/TTS seam (swap-out boundary design)
+> - `public/gestures.ts` — local MediaPipe hand tracking, zero API cost
+> - `lib/anthropic.ts` — working Claude Haiku vision call + prompt patterns
+>
+> Molly's real layer is what Noa structurally can't access: the identity graph,
+> OAuth into Colin's accounts, authority tiers, cross-surface continuity.
+> That build lives in `apps/spine/` — see `SPINE.md` there and
+> `NOA_GAP_PROTOCOL.md` here for what happens when the glasses arrive.
+
 A browser-based prototype of Molly's AR interface for Brilliant Labs Halo glasses. Visual-first, silent by default, uses Claude Haiku 4.5 vision to describe camera scenes or read documents.
 
 ## Quick start (local)
