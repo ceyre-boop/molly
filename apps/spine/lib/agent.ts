@@ -1,11 +1,25 @@
 // The agent loop — the ONLY paid path in the spine. Everything else runs free.
 // Cleanly degrades when no API key / budget $0: the dashboard stays fully usable.
+// Every tool call routes through the three-tier permission pipeline
+// (agent/permissions.ts): tier-3 guard first, tier-2 voice confirm, tier-1 logged.
 import Anthropic from "@anthropic-ai/sdk"
 import { TOOL_DEFS, executeTool } from "./tools"
 import { getMessages } from "./memory"
+import { governedExecute, createSession, type AgentSession } from "../agent/permissions"
+import { MockVoiceTransport } from "../agent/voice-transport"
+import { RUN_CLAUDE_CODE_DEF, runClaudeCode } from "../agent/claude-code-tool"
+import { auditLog } from "../agent/audit"
 
 const MODEL = "claude-haiku-4-5"
 const MAX_TOOL_ROUNDS = 5
+
+const ALL_TOOL_DEFS = [...TOOL_DEFS, RUN_CLAUDE_CODE_DEF]
+
+// Route a governed call to the right executor.
+function dispatchTool(name: string, input: Record<string, unknown>, session: AgentSession): Promise<string> | string {
+  if (name === "run_claude_code") return runClaudeCode(input, session)
+  return executeTool(name, input)
+}
 
 const SYSTEM = `You are Molly, Colin's personal executive secretary — the spine behind every surface (desktop, Telegram, and soon Halo glasses).
 You are NOT a general assistant: you are the layer that knows what device assistants structurally can't — Colin's real identity graph, his stored facts, and (soon) his accounts.
@@ -23,7 +37,7 @@ export function reasoningAvailable(): boolean {
   return Boolean(process.env.ANTHROPIC_API_KEY)
 }
 
-export async function chat(convId: string, userMessage: string): Promise<AgentReply> {
+export async function chat(convId: string, userMessage: string, session?: AgentSession): Promise<AgentReply> {
   if (!reasoningAvailable()) {
     return {
       text: "Reasoning is offline — the API budget is set to $0. The identity graph, memory, and everything local still work. Raise the budget and I wake up.",
@@ -31,6 +45,18 @@ export async function chat(convId: string, userMessage: string): Promise<AgentRe
       toolCalls: [],
     }
   }
+
+  // Default session: dry-run, no declared repos (run_claude_code hard-denied),
+  // mock transport scripted to approve routine tier-2 writes (people_add,
+  // remember) so web chat keeps working — every approval still logged.
+  const sess =
+    session ??
+    createSession({
+      id: convId,
+      transport: new MockVoiceTransport(["yes", "yes", "yes", "yes", "yes"]),
+      declaredRepos: (process.env.SPINE_DECLARED_REPOS ?? "").split(",").filter(Boolean),
+      dryRun: true,
+    })
 
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
@@ -53,7 +79,7 @@ export async function chat(convId: string, userMessage: string): Promise<AgentRe
         model: MODEL,
         max_tokens: 512,
         system: SYSTEM,
-        tools: TOOL_DEFS as Anthropic.Tool[],
+        tools: ALL_TOOL_DEFS as Anthropic.Tool[],
         messages,
       })
       totalIn += response.usage.input_tokens
@@ -66,16 +92,29 @@ export async function chat(convId: string, userMessage: string): Promise<AgentRe
           .join("")
           .trim()
         console.log(`[agent] tokens in=${totalIn} out=${totalOut} tools=${toolCalls.length}`)
+        auditLog({
+          session_id: sess.id,
+          tool: "(session)",
+          tier: 1,
+          outcome: "session-summary",
+          tokens: totalIn + totalOut,
+          summary: `${toolCalls.length} tool call(s); reply ${text.length} chars`,
+        })
         return { text, offline: false, toolCalls, tokens: { input: totalIn, output: totalOut } }
       }
 
-      // Execute requested tools locally, feed results back
+      // Execute requested tools through the governed pipeline, feed results back
       messages.push({ role: "assistant", content: response.content })
       const results: Anthropic.ToolResultBlockParam[] = []
       for (const block of response.content) {
         if (block.type === "tool_use") {
           toolCalls.push(block.name)
-          const output = executeTool(block.name, block.input as Record<string, unknown>)
+          const output = await governedExecute(
+            block.name,
+            block.input as Record<string, unknown>,
+            sess,
+            (name, input, s) => dispatchTool(name, input, s)
+          )
           results.push({ type: "tool_result", tool_use_id: block.id, content: output })
         }
       }

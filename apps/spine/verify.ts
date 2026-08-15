@@ -42,6 +42,51 @@ async function api(path: string, body?: unknown): Promise<any> {
 
 console.log(`\nSpine end-to-end verification → ${BASE}\n`)
 
+// 0. Governance dry run — in-process, $0-safe, runs BEFORE anything paid.
+// Simulates a tier-1 / tier-2 / tier-3 sequence through the real permission
+// pipeline with the mock voice transport, then asserts the audit log is
+// complete and well-formed.
+console.log("— Governance dry run ($0-safe) —")
+{
+  const { createSession, governedExecute } = await import("./agent/permissions")
+  const { MockVoiceTransport } = await import("./agent/voice-transport")
+  const { sessionLog } = await import("./agent/audit")
+  const { runClaudeCode } = await import("./agent/claude-code-tool")
+
+  const transport = new MockVoiceTransport(["yes"])
+  const gsession = createSession({
+    id: `verify-gov-${Date.now().toString(36)}`,
+    transport,
+    declaredRepos: ["ceyre-boop/molly"],
+    dryRun: true,
+  })
+
+  const t1 = await governedExecute("people_lookup", { query: "governance probe" }, gsession, () => "t1-ok")
+  check("tier 1 executes with zero prompts", t1 === "t1-ok" && transport.spoken.length === 0)
+
+  const t2 = await governedExecute("remember", { subject: "gov", fact: "tier2 probe" }, gsession, () => "t2-ok")
+  check("tier 2 executed after mock voice confirm", t2 === "t2-ok" && transport.spoken.length === 1)
+
+  const t3 = await governedExecute(
+    "run_claude_code",
+    { task: "probe", repo: "ceyre-boop/NOT-DECLARED" },
+    gsession,
+    () => "t3-should-never-run"
+  )
+  check("tier 3 hard-denied (undeclared repo)", t3.includes("DENIED"))
+
+  const cc = await runClaudeCode({ task: "governance probe", repo: "ceyre-boop/molly" }, gsession)
+  check("run_claude_code dry-run spawns nothing", cc.includes("dry-run") && cc.includes("unpushed"))
+
+  const log = sessionLog(gsession.id)
+  const wellFormed =
+    log.length >= 3 &&
+    log.every((e) => e.ts > 0 && e.tool.length > 0 && [1, 2, 3].includes(e.tier) && e.outcome.length > 0 && e.summary.length > 0)
+  check("audit log complete and well-formed", wellFormed, `rows: ${log.length}`)
+  console.log(`    log: ${log.map((e) => `T${e.tier}:${e.outcome}`).join(" | ")}`)
+}
+console.log("")
+
 // 1. Health
 const health = await api("/api/health")
 check("health endpoint responds", health.ok === true)
