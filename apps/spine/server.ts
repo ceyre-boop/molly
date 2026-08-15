@@ -4,6 +4,10 @@ import { join } from "path"
 import { chat, reasoningAvailable } from "./lib/agent"
 import { counts, addFact, listFacts, ensureConversation, addMessage, kvGet, kvSet } from "./lib/memory"
 import { addPerson, listPeople, peopleCount } from "./lib/people"
+import { exportData, restoreOnBootIfEmpty } from "./lib/backup"
+
+// Restore the bundled backup into an empty DB (fresh container after deploy)
+await restoreOnBootIfEmpty()
 
 const PUBLIC_DIR = join(import.meta.dir, "public")
 const PORT = Number(process.env.PORT ?? 3000)
@@ -90,6 +94,12 @@ const server = Bun.serve({
     if (url.pathname === "/api/people") return handlePeople(req)
     if (url.pathname === "/api/facts") return handleFacts(req)
     if (url.pathname === "/api/health") return handleHealth()
+
+    // Full data export for the scheduled backup workflow
+    if (url.pathname === "/api/export") {
+      if (!checkAuth(req)) return Response.json({ error: "unauthorized" }, { status: 401 })
+      return Response.json(exportData())
+    }
 
     if (url.pathname === "/client.js")
       return new Response(clientJs, { headers: { "content-type": "text/javascript" } })
