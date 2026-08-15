@@ -90,8 +90,25 @@ spend (~a few cents).
 - **B** — agent loop live (raise API budget; code already shipped in `lib/agent.ts`)
 - **C** — Google OAuth read-only (gmail_search, calendar_read)
 - **D (parked, spec'd)** — local perception: command-gated object tracking
-- **Later** — authority tiers, Telegram surface, glasses client (after the
-  NOA_GAP_PROTOCOL observation period)
+- **Later** — authority tiers, Telegram surface, and the glasses lane below
+  (after the NOA_GAP_PROTOCOL observation period)
+
+### Glasses lane (clarified by the Halo spec sheet, 2026-08-15)
+
+The Halo is a thin client — Alif B1 (Cortex-M55) runs wake-word-class inference
+only; Noa's actual brain is Brilliant's cloud; connectivity is BLE-only through
+the phone. Consequences:
+
+1. **iOS bridge app is non-optional** (old Phase 4): the only path for the
+   spine's reasoning to reach the glasses is a phone app relaying BLE
+   alongside Noa. Two-way: mic/camera out to the spine, responses back to
+   display/speaker.
+2. **Claude Code by voice = supervision, not authoring.** No keyboard, small
+   display — the protocol is "run the migration" / "what failed" / "merge it"
+   with confirm-before-merge gates from the authority-tier framework. Scope as
+   its own protocol; it does not fall out of the hardware for free.
+3. **Noa/Molly routing needs an explicit rule** — generic question → Noa;
+   needs Colin's data/accounts/code → Molly. Designed, not ad hoc.
 
 ### Phase D spec — command-gated tracking (parked until glasses/camera exist)
 
