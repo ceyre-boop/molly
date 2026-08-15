@@ -1,0 +1,68 @@
+# $0 persistence for the Molly Spine's identity graph + memory.
+#
+# Every 6 hours: pull a full export from the live spine and commit it to
+# apps/spine/backups/latest.json on molly-spine. The commit message carries
+# [skip render] so backups never trigger deploys. Because the backup lives in
+# the repo, every REAL deploy ships it inside the container — and the spine
+# restores it on boot when its database is empty (lib/backup.ts). The redeploy
+# wipe heals itself; worst case loses whatever was added since the last backup.
+#
+# Lives on `main` (GitHub cron only runs from the default branch), commits to
+# `molly-spine` where the spine lives.
+
+name: Spine Backup
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: spine-backup
+  cancel-in-progress: false
+
+env:
+  SITE: https://molly-gz19.onrender.com
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout molly-spine
+        uses: actions/checkout@v4
+        with:
+          ref: molly-spine
+
+      - name: Export live data
+        run: |
+          set -u
+          # Cold start can take ~30s on the free tier — generous timeout, one retry.
+          curl -sf --max-time 120 "$SITE/api/export" -o export.json \
+            || { echo "first attempt failed (cold start?) — retrying"; sleep 20; curl -sf --max-time 120 "$SITE/api/export" -o export.json; }
+          jq -e '.exportedAt > 0' export.json > /dev/null  # sanity: well-formed export
+          # Normalize: strip the timestamp for change detection so a no-change
+          # export doesn't produce a new commit every 6 hours.
+          jq 'del(.exportedAt)' export.json > export.stable.json
+          mkdir -p apps/spine/backups
+          if [ -f apps/spine/backups/latest.json ] \
+             && jq 'del(.exportedAt)' apps/spine/backups/latest.json | diff -q - export.stable.json > /dev/null 2>&1; then
+            echo "No data changes since last backup — nothing to commit."
+            echo "changed=false" >> "$GITHUB_ENV"
+          else
+            mv export.json apps/spine/backups/latest.json
+            echo "changed=true" >> "$GITHUB_ENV"
+          fi
+
+      - name: Commit backup
+        if: env.changed == 'true'
+        run: |
+          git config user.name "spine-backup[bot]"
+          git config user.email "spine-backup@users.noreply.github.com"
+          git add apps/spine/backups/latest.json
+          git commit -m "backup: spine data snapshot [skip render]"
+          git push origin molly-spine
+          echo "Backup committed."
