@@ -86,12 +86,36 @@ spend (~a few cents).
 
 ## Phases
 
-- **A (this build)** — memory, identity graph, tool registry, dashboard, tests
-- **B** — agent loop live (raise API budget; code already shipped in `lib/agent.ts`)
-- **C** — Google OAuth read-only (gmail_search, calendar_read)
+- **A (done)** — memory, identity graph, tool registry, dashboard, tests
+- **B (done)** — agent loop live + three-tier authority (agent/), audit trail
+- **C (current lane — resequenced 2026-08-16)** — the Donna layer, in order:
+  1. **Calendar read-only connector** (NOT Gmail first — calendar is small,
+     structured, highest-signal for anticipation; Gmail is 50x volume, 5x
+     ambiguity, deferred)
+  2. **Morning brief** — cron → read calendar + spine memory → write the brief
+     into the spine; no sending, no acting. Doubles as the soak's daily
+     forcing function: a wrong brief surfaces memory gaps fast.
+  3. **Signed confirm links** — kill the mock confirm BEFORE any second
+     surface: pending action written to the spine, Colin taps a signed URL,
+     action executes. A `LinkConfirmTransport` behind the same VoiceTransport
+     seam — voice layers on top later.
+  4. **Mine the audit log** — promotion candidates (Tier 2 actions approved
+     unchanged repeatedly → real Tier 1 candidates) and a friction map. The
+     only honest input to loosening governance safely.
+  5. Then Telegram.
 - **D (parked, spec'd)** — local perception: command-gated object tracking
 - **Later** — authority tiers, Telegram surface, and the glasses lane below
   (after the NOA_GAP_PROTOCOL observation period)
+
+### Claude Code proving ground — declared-repo policy
+
+The `run_claude_code` soak runs against **ceyre-boop/molly** (and at most
+ceyre-boop/outreach-builder). NOT quant/Sovereign: the standing dispatch-lane
+rule ("never wire production repos — TABOOST_Platfrom, quant, email-automation
+— into an automation lane without explicit new approval") applies to this
+pathway too, and quant carries the ICT/sovereign isolation constraint. If
+Colin explicitly overrides this with fresh approval, that's a session-start
+declaration — never an in-flight widening.
 
 ### Glasses lane (clarified by the Halo spec sheet, 2026-08-15)
 
