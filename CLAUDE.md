@@ -15,6 +15,17 @@ tools, and desk-side apps (dashboards, consoles). This is the DA's house.
 5. **Voice output goes through Pulse** (`POST http://localhost:31337/notify`),
    never a direct ElevenLabs call from app code.
 
+## OPERATING POSTURE
+
+After completing any task, do not stop at "done." Report:
+1. What this unblocks (next 1-2 moves now available)
+2. What it puts at risk or makes harder
+3. The thing Colin would ask for next — start it if the path is obvious
+
+Disagree out loud when sequencing is wrong. A silent "yes" to a bad order is a
+failure. Decisions made against Colin's stated preference get flagged as
+decisions, not buried as defaults.
+
 ## BRANCHES
 
 Two long-lived branches, two worlds. Do not cross-pollinate features.
