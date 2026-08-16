@@ -8,16 +8,18 @@ import { getMessages } from "./memory"
 import { governedExecute, createSession, type AgentSession } from "../agent/permissions"
 import { MockVoiceTransport } from "../agent/voice-transport"
 import { RUN_CLAUDE_CODE_DEF, runClaudeCode } from "../agent/claude-code-tool"
+import { CALENDAR_READ_DEF, executeCalendarRead } from "./calendar-tool"
 import { auditLog } from "../agent/audit"
 
 const MODEL = "claude-haiku-4-5"
 const MAX_TOOL_ROUNDS = 5
 
-const ALL_TOOL_DEFS = [...TOOL_DEFS, RUN_CLAUDE_CODE_DEF]
+const ALL_TOOL_DEFS = [...TOOL_DEFS, RUN_CLAUDE_CODE_DEF, CALENDAR_READ_DEF]
 
 // Route a governed call to the right executor.
 function dispatchTool(name: string, input: Record<string, unknown>, session: AgentSession): Promise<string> | string {
   if (name === "run_claude_code") return runClaudeCode(input, session)
+  if (name === "calendar_read") return executeCalendarRead(input)
   return executeTool(name, input)
 }
 

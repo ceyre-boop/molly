@@ -25,7 +25,9 @@ export function exportData(): SpineBackup {
     people: all("people"),
     person_events: all("person_events"),
     facts: all("facts"),
-    kv: all("kv"),
+    // SECURITY: backups are committed to a PUBLIC repo. secret_* kv keys
+    // (OAuth tokens, state nonces) must never leave this process via export.
+    kv: db.query("SELECT * FROM kv WHERE key NOT LIKE 'secret_%'").all() as Record<string, unknown>[],
     conversations: all("conversations"),
     messages: all("messages"),
   }

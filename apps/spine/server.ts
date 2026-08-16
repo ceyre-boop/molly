@@ -5,6 +5,7 @@ import { chat, reasoningAvailable } from "./lib/agent"
 import { counts, addFact, listFacts, ensureConversation, addMessage, kvGet, kvSet } from "./lib/memory"
 import { addPerson, listPeople, peopleCount } from "./lib/people"
 import { exportData, restoreOnBootIfEmpty } from "./lib/backup"
+import { googleConfigured, googleConnected, getAuthUrl, exchangeCode } from "./lib/google"
 
 // Restore the bundled backup into an empty DB (fresh container after deploy)
 await restoreOnBootIfEmpty()
@@ -73,7 +74,9 @@ function handleHealth(): Response {
     messages: c.messages,
     // Real page visits only (GET /), never health pings — feeds the keep-warm poller
     lastVisit: Number(kvGet("lastVisit") ?? 0),
-    connectors: { google: "not connected" }, // Phase C
+    connectors: {
+      google: googleConnected() ? "connected" : googleConfigured() ? "configured — visit /oauth/google/start" : "not configured",
+    },
     surfaces: { web: "live", telegram: "planned", glasses: "awaiting hardware" },
   })
 }
@@ -99,6 +102,21 @@ const server = Bun.serve({
     if (url.pathname === "/api/export") {
       if (!checkAuth(req)) return Response.json({ error: "unauthorized" }, { status: 401 })
       return Response.json(exportData())
+    }
+
+    // Google OAuth (read-only Calendar) — Colin's browser drives this flow
+    if (url.pathname === "/oauth/google/start") {
+      if (!googleConfigured())
+        return new Response("Google OAuth not configured (GOOGLE_CLIENT_ID/SECRET missing). See SPINE.md.", { status: 503 })
+      return Response.redirect(getAuthUrl(), 302)
+    }
+    if (url.pathname === "/oauth/google/callback") {
+      const code = url.searchParams.get("code")
+      const state = url.searchParams.get("state")
+      if (!code || !state) return new Response("Missing code/state", { status: 400 })
+      const result = await exchangeCode(code, state)
+      if (!result.ok) return new Response(`Connection failed: ${result.error}`, { status: 400 })
+      return Response.redirect("/?connected=google", 302)
     }
 
     if (url.pathname === "/client.js")

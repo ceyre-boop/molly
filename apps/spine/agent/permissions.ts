@@ -52,6 +52,7 @@ const TIER1_ALLOWLIST = new Set([
   "recall", // memory recall
   "status_check", // spine health / status reads
   "dashboard_read", // TABOOST dashboard reads
+  "calendar_read", // Google Calendar, read-only scope — pure observation
 ])
 
 // ── Tier 3 hardcoded denial patterns ────────────────────────────────────────

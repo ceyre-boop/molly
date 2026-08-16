@@ -107,6 +107,25 @@ spend (~a few cents).
 - **Later** — authority tiers, Telegram surface, and the glasses lane below
   (after the NOA_GAP_PROTOCOL observation period)
 
+### Google Calendar setup (Colin's one-time click path)
+
+1. [console.cloud.google.com](https://console.cloud.google.com) → New Project (name: molly-spine)
+2. APIs & Services → Library → enable **Google Calendar API**
+3. APIs & Services → OAuth consent screen → External → app name "Molly Spine",
+   your email, add scope `calendar.readonly`, add yourself as a test user
+4. Credentials → Create Credentials → **OAuth client ID** → Web application →
+   Authorized redirect URI: `https://molly-gz19.onrender.com/oauth/google/callback`
+5. Copy the client ID + secret into Render env vars:
+   `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`,
+   `GOOGLE_REDIRECT_URI=https://molly-gz19.onrender.com/oauth/google/callback`
+   (Save → auto-redeploys)
+6. Visit `https://molly-gz19.onrender.com/oauth/google/start` and approve.
+
+Security notes: read-only scope only; tokens live in the kv store under
+`secret_*` keys which the backup exporter EXCLUDES (backups go to a public
+repo — enforced by test); the spine never sees your password, only Google's
+standard consent flow.
+
 ### Claude Code proving ground — declared-repo policy
 
 The `run_claude_code` soak runs against **ceyre-boop/molly** (and at most
