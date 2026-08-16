@@ -1,0 +1,32 @@
+# Morning brief cron — step 2 of the Donna sequencing.
+# 14:00 UTC = 7:00 AM Pacific (PDT; drifts to 6:00 AM in winter PST — accepted).
+# One agent call/day (~1-3¢). The endpoint self-guards: won't regenerate a
+# brief younger than 6h unless ?force=1, so a hammered endpoint can't burn
+# budget. Lives on main (cron only runs from the default branch).
+
+name: Morning Brief
+
+on:
+  schedule:
+    - cron: "0 14 * * *"
+  workflow_dispatch: {}
+
+concurrency:
+  group: morning-brief
+  cancel-in-progress: false
+
+env:
+  SITE: https://molly-gz19.onrender.com
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Generate
+        run: |
+          set -u
+          # Cold start + agent reasoning can take a while — generous timeout, one retry.
+          out=$(curl -sf --max-time 240 -X POST "$SITE/api/brief/generate" \
+            || { echo "retry after cold start" >&2; sleep 20; curl -sf --max-time 240 -X POST "$SITE/api/brief/generate"; })
+          echo "$out" | jq -r '"cached: \(.cached) | tokens: \(.brief.tokens) | \(.brief.text | .[0:120])"'
