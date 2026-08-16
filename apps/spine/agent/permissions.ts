@@ -135,7 +135,9 @@ export async function canUseTool(
 ): Promise<{ allowed: boolean; outcome: "confirmed-yes" | "confirmed-no" | "confirm-timeout" }> {
   const description = summarizeCall(toolName, input)
   await session.transport.speak(`Confirm: ${description}. Yes or no?`)
-  const answer = await session.transport.listenForConfirm(CONFIRM_TIMEOUT_MS)
+  // Transports may declare their own window (link taps need longer than voice)
+  const timeout = (session.transport as { confirmTimeoutMs?: number }).confirmTimeoutMs ?? CONFIRM_TIMEOUT_MS
+  const answer = await session.transport.listenForConfirm(timeout)
   if (answer === "yes") return { allowed: true, outcome: "confirmed-yes" }
   return { allowed: false, outcome: answer === "no" ? "confirmed-no" : "confirm-timeout" }
 }

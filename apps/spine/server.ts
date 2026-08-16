@@ -7,6 +7,8 @@ import { addPerson, listPeople, peopleCount } from "./lib/people"
 import { exportData, restoreOnBootIfEmpty } from "./lib/backup"
 import { googleConfigured, googleConnected, getAuthUrl, exchangeCode } from "./lib/google"
 import { getBrief, generateBrief } from "./lib/brief"
+import { getPending, listOpenConfirms, resolveConfirm, LinkConfirmTransport } from "./agent/confirm-links"
+import { createSession } from "./agent/permissions"
 
 // Restore the bundled backup into an empty DB (fresh container after deploy)
 await restoreOnBootIfEmpty()
@@ -38,7 +40,17 @@ async function handleChat(req: Request): Promise<Response> {
   if (!message) return Response.json({ error: "missing message" }, { status: 400 })
 
   ensureConversation(convId)
-  const reply = await chat(convId, message)
+  // Real confirms via signed links (the mock is dev-only, SPINE_CONFIRM_MODE=mock)
+  const session =
+    process.env.SPINE_CONFIRM_MODE === "mock"
+      ? undefined
+      : createSession({
+          id: convId,
+          transport: new LinkConfirmTransport(),
+          declaredRepos: (process.env.SPINE_DECLARED_REPOS ?? "").split(",").filter(Boolean),
+          dryRun: true,
+        })
+  const reply = await chat(convId, message, session)
   addMessage(convId, "user", message)
   addMessage(convId, "assistant", reply.text)
   return Response.json({ ...reply, conversationId: convId })
@@ -98,6 +110,46 @@ const server = Bun.serve({
     if (url.pathname === "/api/people") return handlePeople(req)
     if (url.pathname === "/api/facts") return handleFacts(req)
     if (url.pathname === "/api/health") return handleHealth()
+
+    // Signed confirm links: pending list, resolve, and the tap page.
+    // Tokens ride along only when auth passes (same trust envelope as chat/people).
+    if (url.pathname === "/api/confirms" && req.method === "GET") {
+      const authed = checkAuth(req)
+      return Response.json({
+        confirms: listOpenConfirms().map((c) => (authed ? c : { ...c, token: undefined })),
+      })
+    }
+    if (url.pathname === "/api/confirm/resolve" && req.method === "POST") {
+      const body = await req.json().catch(() => null)
+      const id = Number(body?.id)
+      const token = typeof body?.token === "string" ? body.token : ""
+      const decision = body?.decision === "approve" ? "approve" : "deny"
+      if (!id || !token) return Response.json({ error: "missing id/token" }, { status: 400 })
+      const result = resolveConfirm(id, token, decision)
+      return result.ok ? Response.json({ ok: true, decision }) : Response.json({ error: result.error }, { status: 400 })
+    }
+    if (url.pathname === "/confirm" && req.method === "GET") {
+      const id = Number(url.searchParams.get("id"))
+      const token = url.searchParams.get("t") ?? ""
+      const row = id ? getPending(id) : null
+      const valid = row && row.status === "pending" && row.token === token
+      const body = valid
+        ? `<h2 style="color:#3b82f6">Molly asks</h2>
+           <p style="font-size:15px">${row.description.replace(/</g, "&lt;")}</p>
+           <form method="post" action="/api/confirm/resolve" onsubmit="event.preventDefault();
+             fetch('/api/confirm/resolve',{method:'POST',headers:{'content-type':'application/json'},
+               body:JSON.stringify({id:${row.id},token:'${row.token}',decision:event.submitter.value})})
+             .then(r=>r.json()).then(d=>{document.body.innerHTML='<h2 style=color:#3b82f6>'+(d.ok?('✓ '+d.decision+'d'):('✗ '+d.error))+'</h2>'})">
+             <button name="d" value="approve" style="background:#3b82f6;color:#fff;border:none;padding:14px 28px;border-radius:8px;font-size:15px;margin-right:12px;cursor:pointer">Approve</button>
+             <button name="d" value="deny" style="background:#1a2338;color:#dbe4f3;border:1px solid #334;padding:14px 28px;border-radius:8px;font-size:15px;cursor:pointer">Deny</button>
+           </form>`
+        : `<h2 style="color:#f5b04c">Nothing to confirm</h2><p>${row ? `This request is already ${row.status}.` : "Unknown or invalid confirmation link."}</p>`
+      return new Response(
+        `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Confirm — Molly</title>
+         <body style="font-family:monospace;background:#0a0e1a;color:#dbe4f3;padding:40px;max-width:600px">${body}</body>`,
+        { headers: { "content-type": "text/html" } }
+      )
+    }
 
     // Morning brief: GET returns the latest, POST (cron) regenerates
     if (url.pathname === "/api/brief" && req.method === "GET")

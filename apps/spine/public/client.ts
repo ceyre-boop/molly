@@ -208,6 +208,59 @@ function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!)
 }
 
+// ── Pending confirms (signed link approvals) ────────────────────
+
+interface PendingConfirmView {
+  id: number
+  description: string
+  token?: string
+  created_at: number
+}
+
+async function refreshConfirms() {
+  try {
+    const res = await fetch("/api/confirms")
+    const { confirms } = (await res.json()) as { confirms: PendingConfirmView[] }
+    const card = $("confirms-card")
+    if (confirms.length === 0) {
+      card.style.display = "none"
+      return
+    }
+    card.style.display = ""
+    $("confirms-list").innerHTML = confirms
+      .map(
+        (c) => `
+        <div style="padding:10px 0;border-bottom:1px solid var(--line)">
+          <div style="font-size:13.5px;margin-bottom:10px">${escapeHtml(c.description)}</div>
+          <button class="confirm-btn" data-id="${c.id}" data-token="${c.token ?? ""}" data-decision="approve"
+            style="background:var(--blue);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:12.5px;cursor:pointer;margin-right:8px">Approve</button>
+          <button class="confirm-btn" data-id="${c.id}" data-token="${c.token ?? ""}" data-decision="deny"
+            style="background:var(--ink);color:var(--text);border:1px solid var(--line);padding:8px 18px;border-radius:8px;font-size:12.5px;cursor:pointer">Deny</button>
+        </div>`
+      )
+      .join("")
+    for (const btn of document.querySelectorAll<HTMLButtonElement>(".confirm-btn")) {
+      btn.onclick = async () => {
+        btn.disabled = true
+        await fetch("/api/confirm/resolve", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            id: Number(btn.dataset.id),
+            token: btn.dataset.token,
+            decision: btn.dataset.decision,
+          }),
+        }).catch(() => {})
+        refreshConfirms()
+      }
+    }
+  } catch {
+    /* keep hidden */
+  }
+}
+
+setInterval(refreshConfirms, 3000)
+
 // ── Morning brief ───────────────────────────────────────────────
 
 async function refreshBrief() {
@@ -227,6 +280,7 @@ refreshHealth()
 refreshPeople()
 refreshFacts()
 refreshBrief()
+refreshConfirms()
 setInterval(refreshHealth, 30_000)
 
 // Stamp a real visit (opens the keep-warm window) — bots fetching HTML never run this
