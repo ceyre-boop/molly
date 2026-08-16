@@ -21,7 +21,24 @@ export function googleConfigured(): boolean {
   return Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET)
 }
 
+// Seed kv tokens from the env-stored refresh token (survives redeploys).
+// Runs anywhere connection state is consulted, so a fresh container counts
+// as connected the moment GOOGLE_REFRESH_TOKEN exists in the env.
+function seedFromEnvIfNeeded(): void {
+  if (!kvGet(TOKENS_KEY) && process.env.GOOGLE_REFRESH_TOKEN) {
+    kvSet(
+      TOKENS_KEY,
+      JSON.stringify({
+        access_token: "",
+        refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
+        expires_at: 0,
+      } satisfies StoredTokens)
+    )
+  }
+}
+
 export function googleConnected(): boolean {
+  seedFromEnvIfNeeded()
   return Boolean(kvGet(TOKENS_KEY))
 }
 
@@ -77,20 +94,8 @@ export async function exchangeCode(
 }
 
 async function getAccessToken(): Promise<string | null> {
-  let raw = kvGet(TOKENS_KEY)
-
-  // Env-seeded fallback: redeploys wipe kv tokens (secret_* is excluded from
-  // backups by design). GOOGLE_REFRESH_TOKEN in the env survives deploys and
-  // re-seeds the connection on first use — set once after connecting.
-  if (!raw && process.env.GOOGLE_REFRESH_TOKEN) {
-    raw = JSON.stringify({
-      access_token: "",
-      refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
-      expires_at: 0,
-    } satisfies StoredTokens)
-    kvSet(TOKENS_KEY, raw)
-  }
-
+  seedFromEnvIfNeeded()
+  const raw = kvGet(TOKENS_KEY)
   if (!raw) return null
   let tokens: StoredTokens
   try {
