@@ -57,6 +57,6 @@ export async function executeCalendarRead(input: Record<string, unknown>): Promi
   const range = typeof input.range === "string" ? input.range : "today"
   const { min, max, label } = rangeToWindow(range)
   const events = await fetchEvents(min.toISOString(), max.toISOString())
-  if (events === null) return "Calendar fetch failed — the connection may need re-authorizing at /oauth/google/start."
+  if (!Array.isArray(events)) return `Calendar fetch failed (${events.error}).`
   return formatEvents(events, label)
 }

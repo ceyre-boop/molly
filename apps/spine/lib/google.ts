@@ -44,7 +44,10 @@ export function getAuthUrl(): string {
   return `https://accounts.google.com/o/oauth2/v2/auth?${params}`
 }
 
-export async function exchangeCode(code: string, state: string): Promise<{ ok: boolean; error?: string }> {
+export async function exchangeCode(
+  code: string,
+  state: string
+): Promise<{ ok: boolean; error?: string; refreshToken?: string }> {
   const expectedState = kvGet(STATE_KEY)
   if (!expectedState || state !== expectedState) return { ok: false, error: "state mismatch" }
 
@@ -70,11 +73,24 @@ export async function exchangeCode(code: string, state: string): Promise<{ ok: b
     expires_at: Date.now() + (data.expires_in - 60) * 1000,
   }
   kvSet(TOKENS_KEY, JSON.stringify(tokens))
-  return { ok: true }
+  return { ok: true, refreshToken: data.refresh_token }
 }
 
 async function getAccessToken(): Promise<string | null> {
-  const raw = kvGet(TOKENS_KEY)
+  let raw = kvGet(TOKENS_KEY)
+
+  // Env-seeded fallback: redeploys wipe kv tokens (secret_* is excluded from
+  // backups by design). GOOGLE_REFRESH_TOKEN in the env survives deploys and
+  // re-seeds the connection on first use — set once after connecting.
+  if (!raw && process.env.GOOGLE_REFRESH_TOKEN) {
+    raw = JSON.stringify({
+      access_token: "",
+      refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
+      expires_at: 0,
+    } satisfies StoredTokens)
+    kvSet(TOKENS_KEY, raw)
+  }
+
   if (!raw) return null
   let tokens: StoredTokens
   try {
@@ -117,9 +133,12 @@ export interface CalendarEvent {
   allDay: boolean
 }
 
-export async function fetchEvents(timeMinIso: string, timeMaxIso: string): Promise<CalendarEvent[] | null> {
+export async function fetchEvents(
+  timeMinIso: string,
+  timeMaxIso: string
+): Promise<CalendarEvent[] | { error: string }> {
   const token = await getAccessToken()
-  if (!token) return null
+  if (!token) return { error: "no valid token — reconnect at /oauth/google/start" }
 
   const params = new URLSearchParams({
     timeMin: timeMinIso,
@@ -131,7 +150,12 @@ export async function fetchEvents(timeMinIso: string, timeMaxIso: string): Promi
   const res = await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?${params}`, {
     headers: { authorization: `Bearer ${token}` },
   })
-  if (!res.ok) return null
+  if (!res.ok) {
+    const detail = res.status === 403
+      ? "HTTP 403 — is the Google Calendar API ENABLED for the project that owns the OAuth client?"
+      : `HTTP ${res.status}`
+    return { error: detail }
+  }
 
   const data = (await res.json()) as {
     items?: Array<{

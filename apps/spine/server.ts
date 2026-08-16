@@ -116,7 +116,22 @@ const server = Bun.serve({
       if (!code || !state) return new Response("Missing code/state", { status: 400 })
       const result = await exchangeCode(code, state)
       if (!result.ok) return new Response(`Connection failed: ${result.error}`, { status: 400 })
-      return Response.redirect("/?connected=google", 302)
+      // Show the refresh token ONCE so Colin can seed GOOGLE_REFRESH_TOKEN in
+      // Render's env — env vars survive redeploys, kv tokens don't (secret_*
+      // is excluded from public-repo backups by design).
+      return new Response(
+        `<!doctype html><meta charset="utf-8"><title>Connected</title>
+        <body style="font-family:monospace;background:#0a0e1a;color:#dbe4f3;padding:40px;max-width:720px">
+        <h2 style="color:#3b82f6">✓ Google Calendar connected</h2>
+        <p><strong>One more step to make this permanent:</strong> redeploys wipe this
+        connection unless you store the refresh token in Render.</p>
+        <p>Copy this value into Render → molly service → Environment as
+        <code style="color:#4ade80">GOOGLE_REFRESH_TOKEN</code>:</p>
+        <pre style="background:#111a2e;padding:14px;border-radius:8px;white-space:break-spaces">${result.refreshToken ?? "(not returned)"}</pre>
+        <p>This page shows it once. <a style="color:#3b82f6" href="/">Back to the spine →</a></p>
+        </body>`,
+        { headers: { "content-type": "text/html" } }
+      )
     }
 
     if (url.pathname === "/client.js")
