@@ -6,6 +6,7 @@ import { counts, addFact, listFacts, ensureConversation, addMessage, kvGet, kvSe
 import { addPerson, listPeople, peopleCount } from "./lib/people"
 import { exportData, restoreOnBootIfEmpty } from "./lib/backup"
 import { googleConfigured, googleConnected, getAuthUrl, exchangeCode } from "./lib/google"
+import { getBrief, generateBrief } from "./lib/brief"
 
 // Restore the bundled backup into an empty DB (fresh container after deploy)
 await restoreOnBootIfEmpty()
@@ -97,6 +98,16 @@ const server = Bun.serve({
     if (url.pathname === "/api/people") return handlePeople(req)
     if (url.pathname === "/api/facts") return handleFacts(req)
     if (url.pathname === "/api/health") return handleHealth()
+
+    // Morning brief: GET returns the latest, POST (cron) regenerates
+    if (url.pathname === "/api/brief" && req.method === "GET")
+      return Response.json({ brief: getBrief() })
+    if (url.pathname === "/api/brief/generate" && req.method === "POST") {
+      if (!checkAuth(req)) return Response.json({ error: "unauthorized" }, { status: 401 })
+      const force = url.searchParams.get("force") === "1"
+      const result = await generateBrief(force)
+      return Response.json(result)
+    }
 
     // Full data export for the scheduled backup workflow
     if (url.pathname === "/api/export") {

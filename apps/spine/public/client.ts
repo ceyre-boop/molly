@@ -208,9 +208,25 @@ function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!)
 }
 
+// ── Morning brief ───────────────────────────────────────────────
+
+async function refreshBrief() {
+  try {
+    const res = await fetch("/api/brief")
+    const { brief } = (await res.json()) as { brief: { text: string; generatedAt: number } | null }
+    if (!brief) return
+    $("brief-text").textContent = brief.text
+    const age = Math.round((Date.now() - brief.generatedAt) / 60000)
+    $("brief-chip").textContent = age < 60 ? `${age}m ago` : `${Math.round(age / 60)}h ago`
+  } catch {
+    /* brief card keeps its empty state */
+  }
+}
+
 refreshHealth()
 refreshPeople()
 refreshFacts()
+refreshBrief()
 setInterval(refreshHealth, 30_000)
 
 // Stamp a real visit (opens the keep-warm window) — bots fetching HTML never run this
