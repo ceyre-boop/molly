@@ -17,6 +17,7 @@ interface Health {
   facts: number
   conversations: number
   messages: number
+  connectors?: { google?: string }
 }
 
 function setVertebra(id: string, state: "live" | "warn" | "idle", status: string) {
@@ -32,7 +33,12 @@ async function refreshHealth() {
     setVertebra("identity", h.people > 0 ? "live" : "warn", `${h.people} ${h.people === 1 ? "person" : "people"}`)
     setVertebra("memory", h.facts > 0 ? "live" : "warn", `${h.facts} facts · ${h.messages} msgs`)
     setVertebra("reasoning", h.reasoning === "ready" ? "live" : "warn", h.reasoning === "ready" ? "ready" : "offline · $0 mode")
-    setVertebra("connectors", "warn", "0 connected")
+    const googleUp = h.connectors?.google === "connected"
+    setVertebra("connectors", googleUp ? "live" : "warn", googleUp ? "1 connected · google" : "0 connected")
+    const gcalDot = document.getElementById("conn-gcal-dot")
+    if (gcalDot) gcalDot.className = googleUp ? "dot dot-live" : "dot dot-off"
+    const gcalLabel = document.getElementById("conn-gcal-label")
+    if (gcalLabel) gcalLabel.textContent = googleUp ? "connected · read-only" : "read-only · Phase C"
     setVertebra("surfaces", "live", "web live")
 
     $("rail-foot").textContent = `spine ok · ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
