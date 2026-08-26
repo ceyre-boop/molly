@@ -1,5 +1,21 @@
 [
   {
+    "ts": "2026-08-26T19:27:36.288Z",
+    "kind": "pr",
+    "title": "Stop the CSV import from guessing categories",
+    "repo": "outreach-builder",
+    "url": "https://github.com/ceyre-boop/outreach-builder/pull/23",
+    "summary": "`handlePostImportCSV` coerced any unrecognized or blank category to `\"Beauty\"`:"
+  },
+  {
+    "ts": "2026-08-26T19:27:36.288Z",
+    "kind": "pr",
+    "title": "Carry Email-CC from brand export through to the outgoing message",
+    "repo": "outreach-builder",
+    "url": "https://github.com/ceyre-boop/outreach-builder/pull/22",
+    "summary": "## What changed"
+  },
+  {
     "ts": "2026-08-12T15:35:24.931Z",
     "kind": "pr",
     "title": "Fix invalid vercel.json framework value",
