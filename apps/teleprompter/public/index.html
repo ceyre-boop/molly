@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Molly Teleprompter — Halo readability rig</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Teleprompter <span class="sub">Halo readability rig</span></h1>
+    <p class="lede">
+      The display is the risk, not the software. This renders your script inside the
+      real panel geometry so you can answer one question before buying a BLE bridge:
+      <strong>can you read this while talking to a room?</strong>
+    </p>
+  </header>
+
+  <main>
+    <section class="stage">
+      <div class="frame-wrap">
+        <div id="frame-scale" class="frame-scale">
+        <div id="frame" class="frame" tabindex="0" aria-label="Simulated glasses display">
+          <div id="viewport" class="viewport">
+            <div id="script" class="script"></div>
+          </div>
+          <div id="empty" class="empty">Paste a script →</div>
+        </div>
+        </div>
+        <div class="frame-caption"><span id="frame-caption">—</span></div>
+      </div>
+
+      <div class="verdict" id="verdict-card">
+        <div class="verdict-head">
+          <span class="badge" id="verdict-badge">—</span>
+          <span class="verdict-note" id="verdict-note">Load a script to get a verdict.</span>
+        </div>
+        <dl class="stats">
+          <div><dt>Words / line</dt><dd id="stat-wpl">—</dd></div>
+          <div><dt>Chars / line</dt><dd id="stat-cpl">—</dd></div>
+          <div><dt>Lines</dt><dd id="stat-lines">—</dd></div>
+          <div><dt>Words</dt><dd id="stat-words">—</dd></div>
+          <div><dt>Runtime</dt><dd id="stat-runtime">—</dd></div>
+          <div><dt>Remaining</dt><dd id="stat-remaining">—</dd></div>
+        </dl>
+        <div class="transport">
+          <button id="toggle" class="primary">Start</button>
+          <button id="restart">Restart</button>
+          <span class="wpm-readout"><output id="wpm-readout">140</output> wpm</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Script</h2>
+      <textarea id="script-input" rows="8" spellcheck="false"
+        placeholder="Paste your transcript here, or load a .txt / .md file."></textarea>
+      <div class="row">
+        <input type="file" id="file" accept=".txt,.md,text/plain,text/markdown" />
+        <button id="sample">Load sample</button>
+      </div>
+
+      <h2>Display</h2>
+      <label>Panel <select id="profile"></select></label>
+      <label>Font size <input type="range" id="font" min="12" max="48" step="1" /> <output id="font-out"></output>px</label>
+      <label>Lines shown <input type="range" id="lines" min="1" max="10" step="1" /> <output id="lines-out"></output></label>
+      <label>Preview zoom <input type="range" id="zoom" min="1" max="4" step="0.5" /> <output id="zoom-out"></output>×</label>
+
+      <h2>Speed</h2>
+      <label>Pace <input type="range" id="wpm" min="60" max="240" step="10" /> <output id="wpm-out"></output> wpm</label>
+
+      <h2>Ring bindings</h2>
+      <p class="hint">
+        BLE page-turner rings enumerate as keyboards. Click the display, then press —
+        or squeeze the ring. Media keys never reach a web page, so nothing is bound to them.
+      </p>
+      <table class="bindings">
+        <tr><td>↑ &nbsp;PgUp&nbsp; +</td><td>faster</td></tr>
+        <tr><td>↓ &nbsp;PgDn&nbsp; −</td><td>slower</td></tr>
+        <tr><td>Space &nbsp;Enter&nbsp; K</td><td>start / stop</td></tr>
+        <tr><td>← &nbsp;→</td><td>back / forward one line</td></tr>
+        <tr><td>Home &nbsp;R</td><td>restart</td></tr>
+      </table>
+      <p class="hint" id="last-key">No ring input yet.</p>
+    </section>
+  </main>
+
+  <script type="module" src="/client.js"></script>
+</body>
+</html>

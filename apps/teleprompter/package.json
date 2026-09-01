@@ -1,0 +1,13 @@
+{
+  "name": "teleprompter",
+  "private": true,
+  "type": "module",
+  "engines": { "bun": ">=1.0.0" },
+  "scripts": {
+    "start": "bun run server.ts",
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.14"
+  }
+}
