@@ -272,7 +272,7 @@
   <section>
     <h2 class="label">Courses</h2>
     <div class="card tw">
-      <table><thead><tr><th>Course</th><th>Grade</th><th>Due</th></tr></thead>
+      <table><thead><tr><th>Course</th><th>Meets</th><th>Next</th></tr></thead>
       <tbody id="courses"></tbody></table>
     </div>
   </section>
@@ -328,36 +328,109 @@ const DESK = {
 
   // title | one short line | chip | sev
   needsYou: [
-    { title: "Fall registration",  note: "Send me your course list",        tag: "Confirm", sev: "soon" },
-    { title: "Trading vs. labs",   note: "09:30 and 14:00 blocks collide",  tag: "Decide",  sev: "soon" },
-    { title: "Daily 20 minutes",   note: "Pick the slot, same time daily",  tag: "Start",   sev: "ok"   }
+    { title: "PHIL-101 syllabus quiz", note: "Due Sun Sep 6 — the cheapest points of the term", tag: "Do",     sev: "urgent" },
+    { title: "COMM-131 sample outline", note: "Due Wed Sep 9, 10am, before class",              tag: "Do",     sev: "soon"   },
+    { title: "Tuesday trading cutoff",  note: "MATH-170 runs 5:00–7:20pm — no PM session Tue",   tag: "Decide", sev: "soon"   },
+    { title: "Daily 20 minutes",        note: "Pick the CARS slot and keep it fixed",            tag: "Start",  sev: "ok"     }
   ],
 
-  today: [
-    { from: "07:30", to: "09:00", name: "Morning" },
-    { from: "09:30", to: "11:00", name: "Market hours" },
-    { from: "11:00", to: "13:00", name: "Study" },
-    { from: "14:00", to: "16:00", name: "Market hours" },
-    { from: "16:00", to: "18:00", name: "Research" },
-    { from: "19:00", to: "21:00", name: "Open" }
-  ],
+  // Day-aware rail. Classes are from Google Calendar; blocks around them are the plan.
+  week: {
+    mon: [
+      { from: "07:30", to: "09:30", name: "Morning" },
+      { from: "09:30", to: "10:20", name: "Market open" },
+      { from: "10:30", to: "11:50", name: "COMM-131 · Curtice-Mott 2001" },
+      { from: "12:00", to: "14:00", name: "Study" },
+      { from: "14:00", to: "16:00", name: "Market hours" },
+      { from: "16:00", to: "18:00", name: "Research" },
+      { from: "19:00", to: "21:00", name: "Open" }
+    ],
+    tue: [
+      { from: "07:30", to: "09:30", name: "Morning" },
+      { from: "09:30", to: "11:00", name: "Market open" },
+      { from: "11:00", to: "13:15", name: "Study" },
+      { from: "13:30", to: "14:50", name: "PHIL-101 · Curtice-Mott 1111" },
+      { from: "15:00", to: "16:45", name: "Reset + reading" },
+      { from: "17:00", to: "19:20", name: "MATH-170 · Gorman 3202" },
+      { from: "19:30", to: "21:00", name: "Wind down" }
+    ],
+    wed: [
+      { from: "07:30", to: "09:30", name: "Morning" },
+      { from: "09:30", to: "10:20", name: "Market open" },
+      { from: "10:30", to: "11:50", name: "COMM-131 · Curtice-Mott 2001" },
+      { from: "12:00", to: "14:00", name: "Study" },
+      { from: "14:00", to: "16:00", name: "Market hours" },
+      { from: "16:00", to: "18:00", name: "Research" },
+      { from: "19:00", to: "21:00", name: "Open" }
+    ],
+    thu: [
+      { from: "07:30", to: "09:30", name: "Morning" },
+      { from: "09:30", to: "11:00", name: "Market open" },
+      { from: "11:00", to: "13:15", name: "Study" },
+      { from: "13:30", to: "14:50", name: "PHIL-101 · Curtice-Mott 1111" },
+      { from: "15:00", to: "16:00", name: "Market close" },
+      { from: "16:00", to: "18:00", name: "Research" },
+      { from: "19:00", to: "21:00", name: "Open" }
+    ],
+    fri: [
+      { from: "07:30", to: "09:30", name: "Morning" },
+      { from: "09:30", to: "11:00", name: "Market open · NFP first Fri" },
+      { from: "11:00", to: "14:00", name: "Deep work" },
+      { from: "14:00", to: "16:00", name: "Market hours" },
+      { from: "16:00", to: "17:30", name: "Weekly review" },
+      { from: "19:00", to: "21:00", name: "Open" }
+    ],
+    sat: [
+      { from: "09:00", to: "12:00", name: "Study block" },
+      { from: "12:00", to: "15:00", name: "Open" },
+      { from: "15:00", to: "17:00", name: "MATH problem set" }
+    ],
+    sun: [
+      { from: "10:00", to: "12:00", name: "PHIL reading" },
+      { from: "12:00", to: "14:00", name: "Weekly summary — due today" },
+      { from: "15:00", to: "17:00", name: "Week prep" },
+      { from: "19:00", to: "21:00", name: "Open" }
+    ]
+  },
 
+  // Soonest first — the top two drive the stat tiles.
   deadlines: [
-    { what: "Registration closes", date: "2026-08-21" },
-    { what: "Semester begins",     date: "2026-09-02" },
-    { what: "MCAT window",         date: "2030-05-01" }
+    { what: "NFP — monthly",              date: "2026-09-04" },
+    { what: "PHIL syllabus quiz",         date: "2026-09-06" },
+    { what: "COMM sample outline",        date: "2026-09-09" },
+    { what: "PHIL weekly summary 1",      date: "2026-09-13" },
+    { what: "FOMC rate decision",         date: "2026-09-16" },
+    { what: "COMM article presentation",  date: "2026-09-16" },
+    { what: "COMM favorite speech",       date: "2026-09-30" },
+    { what: "PHIL project proposal",      date: "2026-10-30" },
+    { what: "PHIL instructor meeting",    date: "2026-10-30" },
+    { what: "PHIL project draft",         date: "2026-11-20" },
+    { what: "MATH-170 final exam",        date: "2026-12-15" },
+    { what: "PHIL final project",         date: "2026-12-16" }
   ],
 
-  loopsOnYou:    ["Fall course list", "Pick trading window", "Pick daily 20 min"],
-  loopsOnOthers: ["Registrar — schedule posting", "Advisor — premed sign-off"],
+  loopsOnYou: [
+    "PHIL syllabus quiz (Sun)",
+    "COMM sample outline (Wed)",
+    "Book the PHIL instructor meeting — 5% of the grade",
+    "Pick the fixed CARS slot"
+  ],
+  loopsOnOthers: [
+    "PHIL instructor — meeting slot, deadline Oct 30",
+    "Advisor — winter registration window"
+  ],
 
   courses: [
-    { name: "Course 1", grade: "A−", due: "—" },
-    { name: "Course 2", grade: "B+", due: "—" },
-    { name: "Course 3", grade: "A",  due: "—" }
+    { name: "Introduction to Philosophy (PHIL-101)",  meets: "Tue/Thu 1:30–2:50 · CM 1111",  next: "Syllabus quiz — Sep 6" },
+    { name: "Fund of Public Speaking (COMM-131-07HON)", meets: "Mon/Wed 10:30–11:50 · CM 2001", next: "Sample outline — Sep 9" },
+    { name: "Analytic Geometry & Calculus 1 (MATH-170)", meets: "Tue 5:00–7:20 · Gorman 3202", next: "Final exam — Dec 15" }
   ],
 
-  projects: [],
+  projects: [
+    { title: "Molly spine",       note: "Calendar + morning brief live; glasses client is next", tag: "Build",  sev: "ok"     },
+    { title: "Alta / quant",      note: "NFP Sep 4, FOMC Sep 16 — size down into both",          tag: "Watch",  sev: "soon"   },
+    { title: "Teleprompter rig",  note: "Works. Parked at apps/teleprompter until Halo lands",   tag: "Parked", sev: ""       }
+  ],
 
   steps: [
     { name: "Foundation",    when: "Now → 2028", habit: "CARS 20 min/day", now: true },
@@ -367,7 +440,7 @@ const DESK = {
   ],
 
   years: [
-    { year: "2026", what: "Prerequisites" },
+    { year: "2026", what: "PHIL-101 · COMM-131 · MATH-170" },
     { year: "2027", what: "Biochem, Psych, Soc" },
     { year: "2028", what: "Content review" },
     { year: "2029", what: "Full-lengths" },
@@ -377,9 +450,9 @@ const DESK = {
   ],
 
   gaps: [
-    { title: "Course names",   note: "Still says Course 1, 2, 3" },
-    { title: "Class times",    note: "Needed to build study blocks" },
-    { title: "History purge",  note: "Old commit still holds real titles" }
+    { title: "Grades",        note: "Nothing posted yet — Canvas has no scores this early" },
+    { title: "Tue PM market", note: "MATH-170 owns 5:00–7:20; the block needs re-homing" },
+    { title: "CARS slot",     note: "Daily 20 min still has no fixed time" }
   ]
 };
 
@@ -403,12 +476,17 @@ const DESK = {
   };
   const sevFor = (n) => (n <= 7 ? "urgent" : n <= 21 ? "soon" : "ok");
 
-  const dl = DESK.deadlines.map((d) => ({ ...d, n: daysTo(d.date) }));
+  // Past dates drop off on their own, so the card stays current between edits.
+  const dl = DESK.deadlines
+    .map((d) => ({ ...d, n: daysTo(d.date) }))
+    .filter((d) => d.n >= 0)
+    .sort((a, b) => a.n - b.n);
+  const tile = (i) => dl[i] || { n: 0, what: "Nothing scheduled" };
 
   // stat tiles
   const tiles = [
-    { n: dl[0].n, unit: "days", l: dl[0].what, sev: sevFor(dl[0].n) },
-    { n: dl[1].n, unit: "days", l: dl[1].what, sev: sevFor(dl[1].n) },
+    { n: tile(0).n, unit: "days", l: tile(0).what, sev: sevFor(tile(0).n) },
+    { n: tile(1).n, unit: "days", l: tile(1).what, sev: sevFor(tile(1).n) },
     { n: DESK.needsYou.length, unit: "", l: "Needs you", sev: "accent" },
     { n: DESK.loopsOnYou.length + DESK.loopsOnOthers.length, unit: "", l: "Open loops", sev: "accent" }
   ];
@@ -427,11 +505,13 @@ const DESK = {
   // today
   const mins = now.getHours() * 60 + now.getMinutes();
   const toMin = (t) => { const [h, m] = t.split(":").map(Number); return h * 60 + m; };
-  $("rail").innerHTML = DESK.today.map((s) =>
+  const DAY_KEYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  const todaySlots = DESK.week[DAY_KEYS[now.getDay()]] || [];
+  $("rail").innerHTML = todaySlots.map((s) =>
     `<div class="slot" data-now="${mins >= toMin(s.from) && mins < toMin(s.to)}"><time>${esc(s.from)}</time><b>${esc(s.name)}</b></div>`).join("");
 
   // coming up
-  $("deadlines").innerHTML = dl.map((d) => {
+  $("deadlines").innerHTML = dl.slice(0, 6).map((d) => {
     const sev = sevFor(d.n);
     return `<div class="card row" data-sev="${sev}">
       <div class="stripe"></div>
@@ -445,7 +525,7 @@ const DESK = {
   $("loops-them").innerHTML = li(DESK.loopsOnOthers);
 
   $("courses").innerHTML = DESK.courses.map((c) =>
-    `<tr><td>${esc(c.name)}</td><td class="g">${esc(c.grade)}</td><td>${esc(c.due)}</td></tr>`).join("");
+    `<tr><td>${esc(c.name)}</td><td class="g">${esc(c.meets)}</td><td>${esc(c.next)}</td></tr>`).join("");
 
   // projects
   $("projects").innerHTML = DESK.projects.map((p) => `
