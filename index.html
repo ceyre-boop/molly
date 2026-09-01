@@ -328,13 +328,15 @@ const DESK = {
     { icon: "💬", name: "Telegram", url: "https://web.telegram.org" },
     { icon: "📋", name: "Sheets",   url: "https://docs.google.com/spreadsheets" },
     { icon: "🔥", name: "Firebase", url: "https://firebase.google.com/console" },
-    { icon: "🎓", name: "Canvas",   url: "https://mottcc.instructure.com/" }
+    { icon: "🎓", name: "Canvas",   url: "https://mottcc.instructure.com/" },
+    { icon: "〽️", name: "UM-Flint", url: "https://www.umflint.edu/registrar/registration/" }
   ],
 
   // title | one short line | chip | sev
   needsYou: [
     { title: "PHIL-101 syllabus quiz", note: "Due Sun Sep 6 — the cheapest points of the term", tag: "Do",     sev: "urgent" },
     { title: "COMM-131 sample outline", note: "Due Wed Sep 9, 10am, before class",              tag: "Do",     sev: "soon"   },
+    { title: "UM-Flint winter reg",    note: "Early reg opens Mon Nov 9 8am — status decides your path", tag: "Decide", sev: "soon" },
     { title: "Tuesday trading cutoff",  note: "MATH-170 runs 5:00–7:20pm — no PM session Tue",   tag: "Decide", sev: "soon"   },
     { title: "Tests are in class",     note: "Sep 22, Oct 13, Nov 3, Nov 24 — every test is a Tuesday", tag: "Plan",  sev: "soon" },
     { title: "Attendance is 150 pts",  note: "Miss a Tuesday and the points are gone — no make-up path", tag: "Note",  sev: "soon" },
@@ -426,20 +428,29 @@ const DESK = {
     { what: "PHIL project draft",         date: "2026-11-20" },
     { what: "MATH Test 4 (Ch. 5)",        date: "2026-11-24" },
     { what: "MATH §5.4–5.8",              date: "2026-12-04" },
+    { what: "UM-Flint early reg opens",   date: "2026-11-09" },
+    { what: "UM-Flint open registration",  date: "2026-11-17" },
     { what: "MATH final exam",            date: "2026-12-15" },
-    { what: "PHIL final project",         date: "2026-12-16" }
+    { what: "PHIL final project",         date: "2026-12-16" },
+    { what: "UM-Flint application deadline", date: "2026-12-18" },
+    { what: "UM-Flint reg closes",        date: "2027-01-05" },
+    { what: "UM-Flint classes begin",     date: "2027-01-06" },
+    { what: "UM-Flint add/drop deadline", date: "2027-01-20" }
   ],
 
   loopsOnYou: [
     "PHIL syllabus quiz (Sun)",
     "COMM sample outline (Wed)",
     "Book the PHIL instructor meeting — 5% of the grade",
-    "Pick the fixed CARS slot"
+    "Pick the fixed CARS slot",
+    "Confirm UM-Flint status — admitted, transfer, or still to apply",
+    "Pick winter courses before Nov 9"
   ],
   loopsOnOthers: [
     "FILM-181 instructor — activate the course so it can be added",
     "PHIL instructor — meeting slot, deadline Oct 30",
-    "Advisor — winter registration window"
+    "UM-Flint — registration appointment day (set by completed credits)",
+    "Mott advisor — which credits transfer to UM-Flint"
   ],
 
   courses: [
@@ -464,7 +475,7 @@ const DESK = {
 
   years: [
     { year: "2026", what: "PHIL-101 · COMM-131 · MATH-170" },
-    { year: "2027", what: "Biochem, Psych, Soc" },
+    { year: "2027", what: "UM-Flint winter · Biochem, Psych, Soc" },
     { year: "2028", what: "Content review" },
     { year: "2029", what: "Full-lengths" },
     { year: "2030", what: "MCAT + applications" },
@@ -475,6 +486,7 @@ const DESK = {
   gaps: [
     { title: "Canvas → calendar", note: "Calc work lives only in Canvas; it reached here by hand, not by sync" },
     { title: "FILM-181",         note: "Not active in Canvas — nothing to pull until the instructor opens it" },
+    { title: "UM-Flint status",  note: "Admitted, transferring, or guest? Decides the whole winter path" },
     { title: "Grades",           note: "Nothing posted yet — Canvas has no scores this early" },
     { title: "Tue PM market",    note: "MATH-170 owns 5:00–7:20; the block needs re-homing" },
     { title: "CARS slot",        note: "Daily 20 min still has no fixed time" }
