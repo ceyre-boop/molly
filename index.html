@@ -133,6 +133,11 @@
   .label::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
   .label .c { font-weight: 500; color: var(--ink-faint); font-variant-numeric: tabular-nums; letter-spacing: 0; }
 
+  /* A course the school hasn't opened yet, or one with no work on the calendar,
+     reads as unfinished rather than silently looking like the others. */
+  .tw tr[data-state="blocked"] td { color: var(--ink-soft); font-style: italic; }
+  .tw tr[data-state="blocked"] td:last-child,
+  .tw tr[data-state="thin"] td:last-child { color: var(--soon); }
   .card { background: var(--card); border: 1px solid var(--rule-soft); border-radius: 9px; box-shadow: var(--shadow); }
 
   /* needs you — one line each */
@@ -331,6 +336,8 @@ const DESK = {
     { title: "PHIL-101 syllabus quiz", note: "Due Sun Sep 6 — the cheapest points of the term", tag: "Do",     sev: "urgent" },
     { title: "COMM-131 sample outline", note: "Due Wed Sep 9, 10am, before class",              tag: "Do",     sev: "soon"   },
     { title: "Tuesday trading cutoff",  note: "MATH-170 runs 5:00–7:20pm — no PM session Tue",   tag: "Decide", sev: "soon"   },
+    { title: "Calculus has no work on it", note: "16 meetings + a final. No homework dates published", tag: "Chase", sev: "soon" },
+    { title: "FILM-181 still not active",  note: "Instructor hasn't opened it — can't add the course",  tag: "Chase", sev: "soon" },
     { title: "Daily 20 minutes",        note: "Pick the CARS slot and keep it fixed",            tag: "Start",  sev: "ok"     }
   ],
 
@@ -416,14 +423,17 @@ const DESK = {
     "Pick the fixed CARS slot"
   ],
   loopsOnOthers: [
+    "FILM-181 instructor — activate the course so it can be added",
+    "MATH-170 instructor — homework schedule, none published",
     "PHIL instructor — meeting slot, deadline Oct 30",
     "Advisor — winter registration window"
   ],
 
   courses: [
-    { name: "Introduction to Philosophy (PHIL-101)",  meets: "Tue/Thu 1:30–2:50 · CM 1111",  next: "Syllabus quiz — Sep 6" },
-    { name: "Fund of Public Speaking (COMM-131-07HON)", meets: "Mon/Wed 10:30–11:50 · CM 2001", next: "Sample outline — Sep 9" },
-    { name: "Analytic Geometry & Calculus 1 (MATH-170)", meets: "Tue 5:00–7:20 · Gorman 3202", next: "Final exam — Dec 15" }
+    { name: "Introduction to Philosophy (PHIL-101)",     meets: "Tue/Thu 1:30–2:50 · CM 1111",   next: "Syllabus quiz — Sep 6" },
+    { name: "Fund of Public Speaking (COMM-131-07HON)",  meets: "Mon/Wed 10:30–11:50 · CM 2001", next: "Sample outline — Sep 9" },
+    { name: "Analytic Geometry & Calculus 1 (MATH-170)", meets: "Tue 5:00–7:20 · Gorman 3202",   next: "Final exam — Dec 15", state: "thin" },
+    { name: "Introduction to Film (FILM-181-WWW02)",     meets: "Online · asynchronous",         next: "Not active — can't be added yet", state: "blocked" }
   ],
 
   projects: [
@@ -450,9 +460,11 @@ const DESK = {
   ],
 
   gaps: [
-    { title: "Grades",        note: "Nothing posted yet — Canvas has no scores this early" },
-    { title: "Tue PM market", note: "MATH-170 owns 5:00–7:20; the block needs re-homing" },
-    { title: "CARS slot",     note: "Daily 20 min still has no fixed time" }
+    { title: "Calc assignments", note: "Calendar has meetings and the final. No problem sets, no due dates" },
+    { title: "FILM-181",         note: "Not active in Canvas — nothing to pull until the instructor opens it" },
+    { title: "Grades",           note: "Nothing posted yet — Canvas has no scores this early" },
+    { title: "Tue PM market",    note: "MATH-170 owns 5:00–7:20; the block needs re-homing" },
+    { title: "CARS slot",        note: "Daily 20 min still has no fixed time" }
   ]
 };
 
@@ -525,7 +537,7 @@ const DESK = {
   $("loops-them").innerHTML = li(DESK.loopsOnOthers);
 
   $("courses").innerHTML = DESK.courses.map((c) =>
-    `<tr><td>${esc(c.name)}</td><td class="g">${esc(c.meets)}</td><td>${esc(c.next)}</td></tr>`).join("");
+    `<tr data-state="${esc(c.state || "")}"><td>${esc(c.name)}</td><td class="g">${esc(c.meets)}</td><td>${esc(c.next)}</td></tr>`).join("");
 
   // projects
   $("projects").innerHTML = DESK.projects.map((p) => `
