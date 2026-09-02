@@ -1,5 +1,21 @@
 [
   {
+    "ts": "2026-09-02T14:49:01.092Z",
+    "kind": "pr",
+    "title": "Stop the CSV import from guessing categories",
+    "repo": "outreach-builder",
+    "url": "https://github.com/ceyre-boop/outreach-builder/pull/23",
+    "summary": "`handlePostImportCSV` coerced any unrecognized or blank category to `\"Beauty\"`:"
+  },
+  {
+    "ts": "2026-09-02T14:49:01.092Z",
+    "kind": "pr",
+    "title": "Carry Email-CC from brand export through to the outgoing message",
+    "repo": "outreach-builder",
+    "url": "https://github.com/ceyre-boop/outreach-builder/pull/22",
+    "summary": "## What changed"
+  },
+  {
     "ts": "2026-08-11T21:48:10.493Z",
     "kind": "pr",
     "title": "Add analytics dashboard for outreach send activity",
