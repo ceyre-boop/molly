@@ -1,0 +1,65 @@
+#!/bin/zsh
+# openclaw-kimi — point OpenClaw at Kimi K2.6 on OpenRouter's free tier.
+#
+# Why this backend: Anthropic's April 2026 policy excludes third-party
+# harnesses (OpenClaw by name) from Claude subscription coverage, and
+# enforces it server-side. Routing Molly's gateway through the Max seat
+# risks the seat everything else here runs on. Kimi K2.6 free costs $0 and
+# carries no such restriction.
+#
+# Idempotent: safe to re-run. Never overwrites an existing config.
+
+set -euo pipefail
+
+CONFIG_DIR="${HOME}/.openclaw"
+CONFIG="${CONFIG_DIR}/openclaw.json"
+MODEL="openrouter/moonshotai/kimi-k2.6:free"
+
+die() { print -u2 "openclaw-kimi: $*"; exit 1 }
+
+command -v openclaw >/dev/null 2>&1 || die "openclaw not installed. Run: bun install -g openclaw"
+
+# OpenClaw needs a modern Node even when installed through bun.
+node_major=$(node -p 'process.versions.node.split(".")[0]' 2>/dev/null || echo 0)
+(( node_major >= 22 )) || die "node >= 22 required (found $(node --version 2>/dev/null || echo none))"
+
+if [[ ! -d "$CONFIG_DIR" ]]; then
+  print "Creating baseline workspace…"
+  openclaw setup --baseline
+fi
+
+if [[ -f "$CONFIG" ]]; then
+  print "Config already exists at ${CONFIG} — leaving it alone."
+  print ""
+  print "To switch it to free Kimi by hand, set:"
+  print "  agents.defaults.model.primary = \"${MODEL}\""
+  exit 0
+fi
+
+cat > "$CONFIG" <<JSON
+{
+  // Gateway stays on loopback. Nothing here is reachable off this machine.
+  gateway: { mode: "local", port: 18789 },
+
+  agents: {
+    defaults: {
+      // Kimi K2.6, free tier: \$0, 262K context.
+      // Rate limits: 20 requests/minute, 50/day — or 1000/day permanently
+      // once \$10 of OpenRouter credit has been bought at any point.
+      model: { primary: "${MODEL}" },
+    },
+  },
+
+  // OPENROUTER_API_KEY is stored by \`openclaw onboard --auth-choice
+  // openrouter-oauth\`. Do not paste a key into this file — it is not
+  // gitignored anywhere and secrets belong in the environment.
+  channels: {},
+}
+JSON
+
+print "Wrote ${CONFIG} → ${MODEL}"
+print ""
+print "Next, once:"
+print "  openclaw onboard --auth-choice openrouter-oauth   # browser sign-in, stores the key"
+print "  openclaw channels login                           # pick Telegram / WhatsApp / etc"
+print "  openclaw gateway --port 18789                     # run it"
