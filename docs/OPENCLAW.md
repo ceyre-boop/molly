@@ -4,8 +4,13 @@ Multi-channel gateway (Telegram, WhatsApp, Signal, Slack, iMessage, Discord…)
 that fronts an agent. Installed globally: `openclaw 2026.9.1`.
 
 ```bash
-bin/openclaw-kimi     # writes the config
+bin/openclaw-kimi     # creates the workspace, then sets the model
 ```
+
+The script runs `openclaw setup --baseline` first (which writes its own
+config), then patches `agents.defaults.model.primary` in place. It backs up to
+`openclaw.json.bak`, preserves every other key, and refuses to retarget a
+backend someone else already chose.
 
 ## Why not the Claude Max subscription
 
