@@ -1,0 +1,147 @@
+#!/usr/bin/env zsh
+# setkey — put a credential into every .env that needs it, without it ever
+# touching your shell history, your screen, or a backup you forget about.
+#
+#   setkey ANTHROPIC_API_KEY
+#   setkey ALPACA_API_KEY ALPACA_SECRET_KEY      # several in one go
+#
+# WHY NOT `echo "KEY=value" >> .env`:
+#   1. the value goes into ~/.zsh_history in plaintext, permanently
+#   2. `>>` appends, so a key already present ends up defined twice and which
+#      one wins depends on the parser
+#   3. `>` (one chevron, a typo away) truncates the whole file — which is
+#      exactly what happened here on 2026-08-13
+#
+# This reads with `read -s` (never echoed, never in history), REPLACES an
+# existing line rather than appending, backs the file up first, and keeps mode
+# 600. It updates every target file that already contains that key, so a
+# credential shared between projects cannot drift.
+
+set -u
+setopt no_hist_expand 2>/dev/null || true
+
+TARGETS=(
+  "$HOME/passing-funded-account-1-/.env"
+  "$HOME/quant/.env"
+  "$HOME/quant-mind/.env"
+  "$HOME/molly/.env"
+)
+
+# NO ARGUMENTS = the guided path, and it is the one to use.
+#
+# `setkey ANTHROPIC_API_KEY` is correct but reads like "set key to <this>", and
+# that misreading costs a live credential every time it happens — three in one
+# evening on 2026-08-15. A command whose correct use has to be explained twice is
+# a badly designed command, so bare `setkey` now asks nothing of the operator
+# except which slot to fill, and prompts for the value with the echo off.
+if (( $# == 0 )); then
+  print ""
+  print "  Which credential are you setting?"
+  print ""
+  MENU=(
+    "ANTHROPIC_API_KEY:Anthropic — AlphaZero's morning read"
+    "ALPACA_API_KEY:Alpaca paper — key id (starts PK)"
+    "ALPACA_SECRET_KEY:Alpaca paper — secret half"
+    "OPENAI_API_KEY:OpenAI"
+    "NASDAQ_DATA_LINK_API_KEY:Nasdaq Data Link"
+    "POLYGON_API_KEY:Polygon"
+    "THETADATA_API_KEY:ThetaData"
+  )
+  i=1
+  for m in $MENU; do
+    printf "   %2d)  %-26s %s\n" $i "${m%%:*}" "${m#*:}"
+    (( i++ ))
+  done
+  print "    q)  quit"
+  print ""
+  print -n "  number: "
+  read -r pick
+  [[ "$pick" == [qQ]* || -z "$pick" ]] && { print "  nothing changed\n"; exit 0 }
+  if [[ ! "$pick" == <-> ]] || (( pick < 1 || pick > ${#MENU} )); then
+    print "  not a valid choice — nothing changed\n"; exit 2
+  fi
+  chosen="${MENU[$pick]%%:*}"
+  print ""
+  exec "$0" "$chosen"
+fi
+
+BACKUP_DIR="$HOME/.env-backups/$(date +%Y%m%d-%H%M%S)"
+
+# GUARD: the argument is the key's NAME, never its VALUE.
+# `setkey sk-ant-api03-...` is the natural mistake — the name reads like it wants
+# the key — and it is an expensive one, because the secret is then in the shell
+# history and in any transcript watching the terminal. Refuse loudly and print
+# the correct form rather than treating a live credential as a variable name.
+for a in "$@"; do
+  if [[ "$a" == sk-* || "$a" == PK[A-Z0-9]* || "$a" == ghp_* || "$a" == xox[bap]-* \
+     || ( ${#a} -gt 40 && "$a" != [A-Z_0-9]## ) ]]; then
+    print -u2 ""
+    print -u2 "  REFUSING: that argument looks like a SECRET VALUE, not a key name."
+    print -u2 ""
+    print -u2 "  setkey takes the NAME of the variable. It then prompts you for the"
+    print -u2 "  value with the input hidden, so the secret never appears on screen,"
+    print -u2 "  in ~/.zsh_history, or in anything recording this terminal."
+    print -u2 ""
+    print -u2 "      setkey ANTHROPIC_API_KEY        <- correct; it will prompt"
+    print -u2 "      setkey ANTHROPIC_API_KEY=sk-..  <- wrong, secret is exposed"
+    print -u2 "      setkey sk-ant-api03-...         <- wrong, secret is exposed"
+    print -u2 ""
+    print -u2 "  Treat the value you just typed as compromised and rotate it."
+    print -u2 ""
+    exit 2
+  fi
+  # `KEY=value` form: same exposure, same refusal.
+  if [[ "$a" == *=* ]]; then
+    print -u2 "\n  REFUSING: pass only the name — 'setkey ${a%%=*}' — and let it prompt."
+    print -u2 "  The value you typed is now in your shell history; rotate it.\n"
+    exit 2
+  fi
+done
+
+for KEY in "$@"; do
+  # Which files already declare this key? Those are the ones to keep in sync.
+  present=()
+  for f in $TARGETS; do
+    [[ -f "$f" ]] && grep -q "^${KEY}=" "$f" && present+=("$f")
+  done
+
+  if (( ${#present} == 0 )); then
+    print "  $KEY is not in any known .env."
+    print -n "  Add it to ~/passing-funded-account-1-/.env? [y/N] "
+    read -r yn
+    [[ "$yn" == [yY]* ]] || { print "  skipped $KEY"; continue; }
+    present=("$HOME/passing-funded-account-1-/.env")
+  fi
+
+  print "\n  $KEY  ->  ${#present} file(s):"
+  for f in $present; do print "      ${f/$HOME/~}"; done
+
+  # -s: no echo. The value never appears on screen and never enters history.
+  print -n "  paste value (input hidden, then Enter): "
+  read -rs VALUE
+  print ""
+
+  if [[ -z "$VALUE" ]]; then print "  empty — skipped $KEY"; continue; fi
+  if [[ "$VALUE" == *$'\n'* ]]; then print "  value contains a newline — refusing"; continue; fi
+
+  mkdir -p "$BACKUP_DIR"
+  for f in $present; do
+    cp -p "$f" "$BACKUP_DIR/$(echo "${f/$HOME\//}" | tr '/' '_')"
+    # Rewrite through a temp file so an interrupted write cannot truncate the
+    # original — the failure mode this whole script exists because of.
+    tmp="$(mktemp)"
+    KEY="$KEY" VALUE="$VALUE" awk -v k="$KEY" '
+      BEGIN { done=0 }
+      $0 ~ "^"k"=" { if (!done) { print k"="ENVIRON["VALUE"]; done=1 } ; next }
+      { print }
+      END { if (!done) print k"="ENVIRON["VALUE"] }
+    ' "$f" > "$tmp"
+    chmod 600 "$tmp"
+    mv "$tmp" "$f"
+    print "      updated ${f/$HOME/~}"
+  done
+  unset VALUE
+done
+
+print "\n  backups: ${BACKUP_DIR/$HOME/~}"
+print "  verify:  preflight\n"

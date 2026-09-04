@@ -1,0 +1,107 @@
+#!/usr/bin/env bun
+// openclaw-free-model — point OpenClaw at a genuinely-free OpenRouter model.
+//
+// Why not the Claude Max subscription: Anthropic's April 2026 policy excludes
+// third-party harnesses (OpenClaw by name) from subscription coverage and
+// enforces it server-side. Full reasoning: docs/OPENCLAW.md.
+//
+// Why this verifies instead of hardcoding: the first version of this script
+// hardcoded "moonshotai/kimi-k2.6:free", which OpenRouter later withdrew —
+// the slug still resolved, but only as a PAID model. A hardcoded slug can
+// silently turn into a bill. So the price is checked against the live models
+// API before anything is written, and a model that is not $0 in both
+// directions is refused.
+//
+// Idempotent. Patches only agents.defaults.model, backs up before writing.
+
+import { existsSync } from "node:fs"
+import { homedir } from "node:os"
+import { join } from "node:path"
+
+const CONFIG_DIR = join(homedir(), ".openclaw")
+const CONFIG = join(CONFIG_DIR, "openclaw.json")
+
+// Preference order. First one that is still free AND actually answers wins.
+const PREFERRED = [
+  "minimax/minimax-m3:free",
+  "nvidia/nemotron-3-ultra-550b-a55b:free",
+  "nvidia/nemotron-3.5-lightning:free",
+  "google/gemma-4-31b-it:free",
+]
+
+const requested = Bun.argv[2]
+
+function die(msg: string): never {
+  console.error(`openclaw-free-model: ${msg}`)
+  process.exit(1)
+}
+
+if (!Bun.which("openclaw")) die("openclaw not installed. Run: bun install -g openclaw")
+
+interface ModelRow {
+  id: string
+  context_length: number | null
+  pricing: { prompt: string; completion: string }
+}
+
+const res = await fetch("https://openrouter.ai/api/v1/models")
+if (!res.ok) die(`OpenRouter models API returned ${res.status}`)
+const catalog: ModelRow[] = (await res.json()).data
+
+const isFree = (m: ModelRow) =>
+  Number(m.pricing?.prompt ?? 1) === 0 && Number(m.pricing?.completion ?? 1) === 0
+
+const freeIds = new Set(catalog.filter(isFree).map((m) => m.id))
+
+if (requested && !freeIds.has(requested)) {
+  die(`"${requested}" is not free on OpenRouter right now. Run without arguments to pick a verified free model.`)
+}
+
+const chosen = requested ?? PREFERRED.find((id) => freeIds.has(id))
+if (!chosen) {
+  console.error("None of the preferred models are free right now. Currently free:")
+  for (const m of catalog.filter(isFree).sort((a, b) => (b.context_length ?? 0) - (a.context_length ?? 0)).slice(0, 15)) {
+    console.error(`  ${String(m.context_length ?? 0).padStart(9)}  ${m.id}`)
+  }
+  process.exit(1)
+}
+
+const model = `openrouter/${chosen}`
+const ctx = catalog.find((m) => m.id === chosen)?.context_length ?? 0
+
+if (!existsSync(CONFIG_DIR)) {
+  console.log("Creating baseline workspace…")
+  Bun.spawnSync(["openclaw", "setup", "--baseline"], { stdout: "inherit", stderr: "inherit" })
+}
+if (!existsSync(CONFIG)) die(`expected ${CONFIG} after baseline setup, but it is missing`)
+
+const raw = await Bun.file(CONFIG).text()
+let config: Record<string, any>
+try {
+  config = JSON.parse(raw)
+} catch {
+  console.log(`${CONFIG} is not plain JSON — leaving it alone.`)
+  console.log(`\nSet this by hand:\n  agents.defaults.model.primary = "${model}"`)
+  process.exit(0)
+}
+
+if (config.agents?.defaults?.model?.primary === model) {
+  console.log(`Already on ${model} (verified free, ${ctx.toLocaleString()} ctx) — nothing to do.`)
+  process.exit(0)
+}
+
+await Bun.write(`${CONFIG}.bak`, raw)
+config.agents ??= {}
+config.agents.defaults ??= {}
+config.agents.defaults.model = { ...(config.agents.defaults.model ?? {}), primary: model }
+await Bun.write(CONFIG, JSON.stringify(config, null, 2) + "\n")
+
+console.log(`Set agents.defaults.model.primary → ${model}`)
+console.log(`Verified $0 prompt and completion · ${ctx.toLocaleString()} token context`)
+console.log(`Backup: ${CONFIG}.bak`)
+console.log(`
+Free-tier limits: 20 requests/minute, 50/day
+(1000/day permanently after a one-time $10 OpenRouter credit purchase)
+
+Apply it:
+  openclaw gateway restart`)
