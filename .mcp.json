@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "molly-spine": {
+      "command": "bun",
+      "args": ["run", "apps/spine/mcp/server.ts"],
+      "env": {}
+    }
+  }
+}
