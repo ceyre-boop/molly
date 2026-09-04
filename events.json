@@ -1,44 +1,1304 @@
 [
   {
-    "title": "Lab block",
-    "start": "2026-08-09T13:00:00-04:00",
-    "end": "2026-08-09T18:30:00-04:00",
-    "colorId": "6"
+    "title": "Introduction to Philosophy",
+    "start": "2026-09-01T13:30:00-04:00",
+    "end": "2026-09-01T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
   },
   {
-    "title": "Study block",
-    "start": "2026-08-10T19:00:00-04:00",
-    "end": "2026-08-10T22:00:00-04:00",
-    "colorId": "3"
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-09-01T17:00:00-04:00",
+    "end": "2026-09-01T19:20:00-04:00",
+    "colorId": "10",
+    "kind": "class"
   },
   {
-    "title": "Market event",
-    "start": "2026-08-12T08:30:00-04:00",
-    "end": "2026-08-12T10:00:00-04:00",
-    "colorId": "6"
+    "title": "Fund of Public Speaking",
+    "start": "2026-09-02T10:30:00-04:00",
+    "end": "2026-09-02T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
   },
   {
-    "title": "Study block",
-    "start": "2026-08-12T19:00:00-04:00",
-    "end": "2026-08-12T22:00:00-04:00",
-    "colorId": "3"
+    "title": "COMM-131: Organizing Your Speech (discussion) (10 pts)",
+    "start": "2026-09-02T23:59:00-04:00",
+    "end": "2026-09-02T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
   },
   {
-    "title": "Study block",
-    "start": "2026-08-14T19:00:00-04:00",
-    "end": "2026-08-14T22:00:00-04:00",
-    "colorId": "3"
+    "title": "COMM-131: Transitions Phrases (5 pts)",
+    "start": "2026-09-02T23:59:00-04:00",
+    "end": "2026-09-02T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
   },
   {
-    "title": "Study block",
-    "start": "2026-08-15T11:00:00-04:00",
-    "end": "2026-08-15T16:30:00-04:00",
-    "colorId": "3"
+    "title": "Introduction to Philosophy",
+    "start": "2026-09-03T13:30:00-04:00",
+    "end": "2026-09-03T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
   },
   {
-    "title": "Study block",
-    "start": "2026-08-16T13:00:00-04:00",
-    "end": "2026-08-16T18:30:00-04:00",
-    "colorId": "3"
+    "title": "🟠 NFP — Monthly (first Friday)",
+    "start": "2026-09-04T08:30:00-04:00",
+    "end": "2026-09-04T10:00:00-04:00",
+    "colorId": "6",
+    "kind": "event"
+  },
+  {
+    "title": "PHIL-101: Syllabus Quiz due",
+    "start": "2026-09-06T10:00:00-04:00",
+    "end": "2026-09-06T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "MATH-170: Week 1 discussion & participation due (15 pts)",
+    "start": "2026-09-06T23:00:00-04:00",
+    "end": "2026-09-06T23:59:00-04:00",
+    "colorId": "10",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-09-07T10:30:00-04:00",
+    "end": "2026-09-07T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-09-08T13:30:00-04:00",
+    "end": "2026-09-08T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-09-08T17:00:00-04:00",
+    "end": "2026-09-08T19:20:00-04:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 9-10 due",
+    "start": "2026-09-09T10:00:00-04:00",
+    "end": "2026-09-09T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-09-09T10:30:00-04:00",
+    "end": "2026-09-09T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Submit Sample Outline (25 pts)",
+    "start": "2026-09-09T23:59:00-04:00",
+    "end": "2026-09-09T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-09-10T13:30:00-04:00",
+    "end": "2026-09-10T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "MATH-170: §1.1, 1.2, 1.3 due (30 pts)",
+    "start": "2026-09-11T23:00:00-04:00",
+    "end": "2026-09-11T23:59:00-04:00",
+    "colorId": "10",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Weekly Summary 1 due",
+    "start": "2026-09-13T10:00:00-04:00",
+    "end": "2026-09-13T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 9-15 due",
+    "start": "2026-09-14T10:00:00-04:00",
+    "end": "2026-09-14T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-09-14T10:30:00-04:00",
+    "end": "2026-09-14T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Splendid Gesture Article (discussion) (10 pts)",
+    "start": "2026-09-14T23:59:00-04:00",
+    "end": "2026-09-14T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-09-15T13:30:00-04:00",
+    "end": "2026-09-15T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-09-15T17:00:00-04:00",
+    "end": "2026-09-15T19:20:00-04:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 9-17 due",
+    "start": "2026-09-16T10:00:00-04:00",
+    "end": "2026-09-16T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-09-16T10:30:00-04:00",
+    "end": "2026-09-16T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "🟠 FOMC Rate Decision",
+    "start": "2026-09-16T14:00:00-04:00",
+    "end": "2026-09-16T16:00:00-04:00",
+    "colorId": "6",
+    "kind": "event"
+  },
+  {
+    "title": "COMM-131: Listening Exercise (discussion) (20 pts)",
+    "start": "2026-09-16T23:59:00-04:00",
+    "end": "2026-09-16T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: Article Presentation (20 pts)",
+    "start": "2026-09-16T23:59:00-04:00",
+    "end": "2026-09-16T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-09-17T13:30:00-04:00",
+    "end": "2026-09-17T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "MATH-170: §1.4, 1.6 due (20 pts)",
+    "start": "2026-09-18T23:00:00-04:00",
+    "end": "2026-09-18T23:59:00-04:00",
+    "colorId": "10",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Weekly Summary 2 due",
+    "start": "2026-09-20T10:00:00-04:00",
+    "end": "2026-09-20T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 9-22 due",
+    "start": "2026-09-21T10:00:00-04:00",
+    "end": "2026-09-21T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-09-21T10:30:00-04:00",
+    "end": "2026-09-21T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Evaluation Criteria (discussion) (10 pts)",
+    "start": "2026-09-21T23:59:00-04:00",
+    "end": "2026-09-21T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: Fear of Public Speaking Article (discussion) (15 pts)",
+    "start": "2026-09-21T23:59:00-04:00",
+    "end": "2026-09-21T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-09-22T13:30:00-04:00",
+    "end": "2026-09-22T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-09-22T17:00:00-04:00",
+    "end": "2026-09-22T19:20:00-04:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "MATH-170: Test 1 (Ch. 2) — 100 pts",
+    "start": "2026-09-22T23:00:00-04:00",
+    "end": "2026-09-22T23:59:00-04:00",
+    "colorId": "11",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 9-24 due",
+    "start": "2026-09-23T10:00:00-04:00",
+    "end": "2026-09-23T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-09-23T10:30:00-04:00",
+    "end": "2026-09-23T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Amy Cuddy — body language (15 pts)",
+    "start": "2026-09-23T23:59:00-04:00",
+    "end": "2026-09-23T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-09-24T13:30:00-04:00",
+    "end": "2026-09-24T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "MATH-170: §2.1, 2.2, 2.3, 2.4, 2.5 due (50 pts)",
+    "start": "2026-09-25T23:00:00-04:00",
+    "end": "2026-09-25T23:59:00-04:00",
+    "colorId": "10",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Weekly Summary 3 due",
+    "start": "2026-09-27T10:00:00-04:00",
+    "end": "2026-09-27T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 9-28 due",
+    "start": "2026-09-28T10:00:00-04:00",
+    "end": "2026-09-28T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-09-28T10:30:00-04:00",
+    "end": "2026-09-28T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-09-29T13:30:00-04:00",
+    "end": "2026-09-29T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-09-29T17:00:00-04:00",
+    "end": "2026-09-29T19:20:00-04:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 10-1 due",
+    "start": "2026-09-30T10:00:00-04:00",
+    "end": "2026-09-30T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: SPEECH: Favorite Speech (100 pts)",
+    "start": "2026-09-30T10:00:00-04:00",
+    "end": "2026-09-30T10:01:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-09-30T10:30:00-04:00",
+    "end": "2026-09-30T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-10-01T13:30:00-04:00",
+    "end": "2026-10-01T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "🟠 NFP — Monthly (first Friday)",
+    "start": "2026-10-02T08:30:00-04:00",
+    "end": "2026-10-02T10:00:00-04:00",
+    "colorId": "6",
+    "kind": "event"
+  },
+  {
+    "title": "PHIL-101: Weekly Summary 4 due",
+    "start": "2026-10-04T10:00:00-04:00",
+    "end": "2026-10-04T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 10-6 due",
+    "start": "2026-10-05T10:00:00-04:00",
+    "end": "2026-10-05T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-10-05T10:30:00-04:00",
+    "end": "2026-10-05T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: PowerPoint Video (discussion) (5 pts)",
+    "start": "2026-10-05T23:59:00-04:00",
+    "end": "2026-10-05T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-10-06T13:30:00-04:00",
+    "end": "2026-10-06T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-10-06T17:00:00-04:00",
+    "end": "2026-10-06T19:20:00-04:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 10-8 due",
+    "start": "2026-10-07T10:00:00-04:00",
+    "end": "2026-10-07T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-10-07T10:30:00-04:00",
+    "end": "2026-10-07T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Slide Activity pg. 240 (15 pts)",
+    "start": "2026-10-07T23:59:00-04:00",
+    "end": "2026-10-07T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: Word Usage Article (discussion) (10 pts)",
+    "start": "2026-10-07T23:59:00-04:00",
+    "end": "2026-10-07T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-10-08T13:30:00-04:00",
+    "end": "2026-10-08T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "MATH-170: §3.1, 3.2, 3.3, 3.4 due (40 pts)",
+    "start": "2026-10-09T23:00:00-04:00",
+    "end": "2026-10-09T23:59:00-04:00",
+    "colorId": "10",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Weekly Summary 5 due",
+    "start": "2026-10-11T10:00:00-04:00",
+    "end": "2026-10-11T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 10-12 due",
+    "start": "2026-10-12T10:00:00-04:00",
+    "end": "2026-10-12T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: SPEECH: Dream Trip Visual Aid (100 pts)",
+    "start": "2026-10-12T10:00:00-04:00",
+    "end": "2026-10-12T10:01:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-10-12T10:30:00-04:00",
+    "end": "2026-10-12T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-10-13T13:30:00-04:00",
+    "end": "2026-10-13T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-10-13T17:00:00-04:00",
+    "end": "2026-10-13T19:20:00-04:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "MATH-170: Test 2 (Ch. 3) — 100 pts",
+    "start": "2026-10-13T23:00:00-04:00",
+    "end": "2026-10-13T23:59:00-04:00",
+    "colorId": "11",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 10-15 due",
+    "start": "2026-10-14T10:00:00-04:00",
+    "end": "2026-10-14T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-10-14T10:30:00-04:00",
+    "end": "2026-10-14T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Informative Speeches (discussion) (5 pts)",
+    "start": "2026-10-14T23:59:00-04:00",
+    "end": "2026-10-14T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-10-15T13:30:00-04:00",
+    "end": "2026-10-15T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "MATH-170: §3.5, 3.6, 3.7 due (30 pts)",
+    "start": "2026-10-16T23:00:00-04:00",
+    "end": "2026-10-16T23:59:00-04:00",
+    "colorId": "10",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Weekly Summary 6 due",
+    "start": "2026-10-18T10:00:00-04:00",
+    "end": "2026-10-18T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 10-20 due",
+    "start": "2026-10-19T10:00:00-04:00",
+    "end": "2026-10-19T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-10-19T10:30:00-04:00",
+    "end": "2026-10-19T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Fallacies (discussion) (10 pts)",
+    "start": "2026-10-19T11:59:00-04:00",
+    "end": "2026-10-19T12:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: Group Persuasive Analysis (50 pts)",
+    "start": "2026-10-19T12:00:00-04:00",
+    "end": "2026-10-19T12:01:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-10-20T13:30:00-04:00",
+    "end": "2026-10-20T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-10-20T17:00:00-04:00",
+    "end": "2026-10-20T19:20:00-04:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 10-22 due",
+    "start": "2026-10-21T10:00:00-04:00",
+    "end": "2026-10-21T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-10-21T10:30:00-04:00",
+    "end": "2026-10-21T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Persuasive Speech Analysis Exercise (25 pts)",
+    "start": "2026-10-21T10:30:00-04:00",
+    "end": "2026-10-21T10:31:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: Persuasive Communication Article (discussion) (10 pts)",
+    "start": "2026-10-21T12:00:00-04:00",
+    "end": "2026-10-21T12:01:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-10-22T13:30:00-04:00",
+    "end": "2026-10-22T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Weekly Summary 7 due",
+    "start": "2026-10-25T10:00:00-04:00",
+    "end": "2026-10-25T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 10-27 due",
+    "start": "2026-10-26T10:00:00-04:00",
+    "end": "2026-10-26T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: SPEECH: Persuasive Speech of Change (100 pts)",
+    "start": "2026-10-26T10:00:00-04:00",
+    "end": "2026-10-26T10:01:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-10-26T10:30:00-04:00",
+    "end": "2026-10-26T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-10-27T13:30:00-04:00",
+    "end": "2026-10-27T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-10-27T17:00:00-04:00",
+    "end": "2026-10-27T19:20:00-04:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 10-29 due",
+    "start": "2026-10-28T10:00:00-04:00",
+    "end": "2026-10-28T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-10-28T10:30:00-04:00",
+    "end": "2026-10-28T11:50:00-04:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Social Change (discussion) (5 pts)",
+    "start": "2026-10-28T23:59:00-04:00",
+    "end": "2026-10-28T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-10-29T13:30:00-04:00",
+    "end": "2026-10-29T14:50:00-04:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Project Proposal due (Final Activity, 10%)",
+    "start": "2026-10-30T10:00:00-04:00",
+    "end": "2026-10-30T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Mandatory Meeting with Instructor — deadline (5%)",
+    "start": "2026-10-30T10:30:00-04:00",
+    "end": "2026-10-30T11:00:00-04:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "MATH-170: §4.1, 4.2, 4.3, 4.4 due (40 pts)",
+    "start": "2026-10-30T23:00:00-04:00",
+    "end": "2026-10-30T23:59:00-04:00",
+    "colorId": "10",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Weekly Summary 8 due",
+    "start": "2026-11-01T10:00:00-05:00",
+    "end": "2026-11-01T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 11-3 due",
+    "start": "2026-11-02T10:00:00-05:00",
+    "end": "2026-11-02T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-11-02T10:30:00-05:00",
+    "end": "2026-11-02T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Leadership Style (discussion) (10 pts)",
+    "start": "2026-11-02T12:00:00-05:00",
+    "end": "2026-11-02T12:01:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: Speaking in the Workplace (discussion) (5 pts)",
+    "start": "2026-11-02T12:00:00-05:00",
+    "end": "2026-11-02T12:01:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-11-03T13:30:00-05:00",
+    "end": "2026-11-03T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-11-03T17:00:00-05:00",
+    "end": "2026-11-03T19:20:00-05:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "MATH-170: Test 3 (Ch. 4) — 100 pts",
+    "start": "2026-11-03T23:00:00-05:00",
+    "end": "2026-11-03T23:59:00-05:00",
+    "colorId": "11",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 11-5 due",
+    "start": "2026-11-04T10:00:00-05:00",
+    "end": "2026-11-04T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-11-04T10:30:00-05:00",
+    "end": "2026-11-04T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Online Speaking (discussion) (10 pts)",
+    "start": "2026-11-04T23:59:00-05:00",
+    "end": "2026-11-04T24:00:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-11-05T13:30:00-05:00",
+    "end": "2026-11-05T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "🟠 NFP — Monthly (first Friday)",
+    "start": "2026-11-06T08:30:00-05:00",
+    "end": "2026-11-06T10:00:00-05:00",
+    "colorId": "6",
+    "kind": "event"
+  },
+  {
+    "title": "MATH-170: §4.5, 4.6, 4.7 due (30 pts)",
+    "start": "2026-11-06T23:00:00-05:00",
+    "end": "2026-11-06T23:59:00-05:00",
+    "colorId": "10",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Weekly Summary 9 due",
+    "start": "2026-11-08T10:00:00-05:00",
+    "end": "2026-11-08T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "UM-Flint: Winter 2027 early registration OPENS (8am)",
+    "start": "2026-11-09T08:00:00-05:00",
+    "end": "2026-11-09T09:00:00-05:00",
+    "colorId": "5",
+    "kind": "event"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 11-10 due",
+    "start": "2026-11-09T10:00:00-05:00",
+    "end": "2026-11-09T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-11-09T10:30:00-05:00",
+    "end": "2026-11-09T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Career Analysis Assignment (50 pts)",
+    "start": "2026-11-09T23:59:00-05:00",
+    "end": "2026-11-09T24:00:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-11-10T13:30:00-05:00",
+    "end": "2026-11-10T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-11-10T17:00:00-05:00",
+    "end": "2026-11-10T19:20:00-05:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 11-12 due",
+    "start": "2026-11-11T10:00:00-05:00",
+    "end": "2026-11-11T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-11-11T10:30:00-05:00",
+    "end": "2026-11-11T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: When Mic Won't (10 pts)",
+    "start": "2026-11-11T12:00:00-05:00",
+    "end": "2026-11-11T12:01:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-11-12T13:30:00-05:00",
+    "end": "2026-11-12T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Weekly Summary 10 due",
+    "start": "2026-11-15T10:00:00-05:00",
+    "end": "2026-11-15T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 11-17 due",
+    "start": "2026-11-16T10:00:00-05:00",
+    "end": "2026-11-16T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: SPEECH: Demonstration Speech (100 pts)",
+    "start": "2026-11-16T10:00:00-05:00",
+    "end": "2026-11-16T10:01:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-11-16T10:30:00-05:00",
+    "end": "2026-11-16T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "UM-Flint: early registration window closes",
+    "start": "2026-11-16T22:00:00-05:00",
+    "end": "2026-11-16T23:59:00-05:00",
+    "colorId": "5",
+    "kind": "event"
+  },
+  {
+    "title": "UM-Flint: open registration begins",
+    "start": "2026-11-17T08:00:00-05:00",
+    "end": "2026-11-17T09:00:00-05:00",
+    "colorId": "5",
+    "kind": "event"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-11-17T13:30:00-05:00",
+    "end": "2026-11-17T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-11-17T17:00:00-05:00",
+    "end": "2026-11-17T19:20:00-05:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 11-19 due",
+    "start": "2026-11-18T10:00:00-05:00",
+    "end": "2026-11-18T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-11-18T10:30:00-05:00",
+    "end": "2026-11-18T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-11-19T13:30:00-05:00",
+    "end": "2026-11-19T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Project Draft due (Final Activity, 20%)",
+    "start": "2026-11-20T10:00:00-05:00",
+    "end": "2026-11-20T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Weekly Summary 11 due",
+    "start": "2026-11-22T10:00:00-05:00",
+    "end": "2026-11-22T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-11-23T10:30:00-05:00",
+    "end": "2026-11-23T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-11-24T13:30:00-05:00",
+    "end": "2026-11-24T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-11-24T17:00:00-05:00",
+    "end": "2026-11-24T19:20:00-05:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "MATH-170: Test 4 (Ch. 5) — 100 pts",
+    "start": "2026-11-24T23:00:00-05:00",
+    "end": "2026-11-24T23:59:00-05:00",
+    "colorId": "11",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-11-25T10:30:00-05:00",
+    "end": "2026-11-25T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Introduction of a Classmate pg. 274 (15 pts)",
+    "start": "2026-11-25T23:59:00-05:00",
+    "end": "2026-11-25T24:00:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-11-26T13:30:00-05:00",
+    "end": "2026-11-26T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 12-1 due",
+    "start": "2026-11-30T10:00:00-05:00",
+    "end": "2026-11-30T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-11-30T10:30:00-05:00",
+    "end": "2026-11-30T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Speech Analysis Assignment (50 pts)",
+    "start": "2026-11-30T10:30:00-05:00",
+    "end": "2026-11-30T10:31:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-12-01T13:30:00-05:00",
+    "end": "2026-12-01T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-12-01T17:00:00-05:00",
+    "end": "2026-12-01T19:20:00-05:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 12-3 due",
+    "start": "2026-12-02T10:00:00-05:00",
+    "end": "2026-12-02T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-12-02T10:30:00-05:00",
+    "end": "2026-12-02T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Who Inspires You (discussion) (10 pts)",
+    "start": "2026-12-02T23:59:00-05:00",
+    "end": "2026-12-02T24:00:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-12-03T13:30:00-05:00",
+    "end": "2026-12-03T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "🟠 NFP — Monthly (first Friday)",
+    "start": "2026-12-04T08:30:00-05:00",
+    "end": "2026-12-04T10:00:00-05:00",
+    "colorId": "6",
+    "kind": "event"
+  },
+  {
+    "title": "MATH-170: §5.4, 5.5, 5.6, 5.7, 5.8 due (50 pts)",
+    "start": "2026-12-04T23:00:00-05:00",
+    "end": "2026-12-04T23:59:00-05:00",
+    "colorId": "10",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Weekly Summary 12 due",
+    "start": "2026-12-06T10:00:00-05:00",
+    "end": "2026-12-06T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 12-8 due",
+    "start": "2026-12-07T10:00:00-05:00",
+    "end": "2026-12-07T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-12-07T10:30:00-05:00",
+    "end": "2026-12-07T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: COIL Project — video recording (35 pts)",
+    "start": "2026-12-07T23:59:00-05:00",
+    "end": "2026-12-07T24:00:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: Special Occasion Outline (20 pts)",
+    "start": "2026-12-07T23:59:00-05:00",
+    "end": "2026-12-07T24:00:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-12-08T13:30:00-05:00",
+    "end": "2026-12-08T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-12-08T17:00:00-05:00",
+    "end": "2026-12-08T19:20:00-05:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 12-10 due",
+    "start": "2026-12-09T10:00:00-05:00",
+    "end": "2026-12-09T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-12-09T10:30:00-05:00",
+    "end": "2026-12-09T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: Review Game (15 pts)",
+    "start": "2026-12-09T12:00:00-05:00",
+    "end": "2026-12-09T12:01:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-12-10T13:30:00-05:00",
+    "end": "2026-12-10T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "PHIL-101: Weekly Summary 13 due",
+    "start": "2026-12-13T10:00:00-05:00",
+    "end": "2026-12-13T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-12-14T10:30:00-05:00",
+    "end": "2026-12-14T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: COIL Project #2 — video responses (20 pts)",
+    "start": "2026-12-14T23:59:00-05:00",
+    "end": "2026-12-14T24:00:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: Course Review (participation) (35 pts)",
+    "start": "2026-12-14T23:59:00-05:00",
+    "end": "2026-12-14T24:00:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-12-15T13:30:00-05:00",
+    "end": "2026-12-15T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "Analytic Geometry & Calculus 1",
+    "start": "2026-12-15T17:00:00-05:00",
+    "end": "2026-12-15T19:20:00-05:00",
+    "colorId": "10",
+    "kind": "class"
+  },
+  {
+    "title": "MATH-170: Final Exam (cumulative) — 100 pts",
+    "start": "2026-12-15T23:00:00-05:00",
+    "end": "2026-12-15T23:59:00-05:00",
+    "colorId": "11",
+    "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Final Project due (Final Activity, 20%)",
+    "start": "2026-12-16T10:00:00-05:00",
+    "end": "2026-12-16T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: Reflections on Public Speaking (discussion) (20 pts)",
+    "start": "2026-12-16T10:00:00-05:00",
+    "end": "2026-12-16T10:01:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Fund of Public Speaking",
+    "start": "2026-12-16T10:30:00-05:00",
+    "end": "2026-12-16T11:50:00-05:00",
+    "colorId": "7",
+    "kind": "class"
+  },
+  {
+    "title": "COMM-131: SPEECH: Final Impromptu (25 pts)",
+    "start": "2026-12-16T12:00:00-05:00",
+    "end": "2026-12-16T12:01:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "COMM-131: Course Evaluation (3 pts)",
+    "start": "2026-12-16T23:59:00-05:00",
+    "end": "2026-12-16T24:00:00-05:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
+    "title": "Introduction to Philosophy",
+    "start": "2026-12-17T13:30:00-05:00",
+    "end": "2026-12-17T14:50:00-05:00",
+    "colorId": "3",
+    "kind": "class"
+  },
+  {
+    "title": "UM-Flint: Winter 2027 application deadline",
+    "start": "2026-12-18T22:00:00-05:00",
+    "end": "2026-12-18T23:59:00-05:00",
+    "colorId": "11",
+    "kind": "event"
+  },
+  {
+    "title": "UM-Flint: last day to register for Winter 2027",
+    "start": "2027-01-05T22:00:00-05:00",
+    "end": "2027-01-05T23:59:00-05:00",
+    "colorId": "11",
+    "kind": "event"
+  },
+  {
+    "title": "UM-Flint: Winter 2027 classes begin",
+    "start": "2027-01-06T09:00:00-05:00",
+    "end": "2027-01-06T10:00:00-05:00",
+    "colorId": "5",
+    "kind": "event"
+  },
+  {
+    "title": "UM-Flint: late add + 100% refund drop deadline (5pm)",
+    "start": "2027-01-20T16:00:00-05:00",
+    "end": "2027-01-20T17:00:00-05:00",
+    "colorId": "11",
+    "kind": "event"
   }
 ]

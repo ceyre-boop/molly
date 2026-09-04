@@ -133,6 +133,11 @@
   .label::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
   .label .c { font-weight: 500; color: var(--ink-faint); font-variant-numeric: tabular-nums; letter-spacing: 0; }
 
+  /* A course the school hasn't opened yet, or one with no work on the calendar,
+     reads as unfinished rather than silently looking like the others. */
+  .tw tr[data-state="blocked"] td { color: var(--ink-soft); font-style: italic; }
+  .tw tr[data-state="blocked"] td:last-child,
+  .tw tr[data-state="thin"] td:last-child { color: var(--soon); }
   .card { background: var(--card); border: 1px solid var(--rule-soft); border-radius: 9px; box-shadow: var(--shadow); }
 
   /* needs you — one line each */
@@ -272,7 +277,7 @@
   <section>
     <h2 class="label">Courses</h2>
     <div class="card tw">
-      <table><thead><tr><th>Course</th><th>Grade</th><th>Due</th></tr></thead>
+      <table><thead><tr><th>Course</th><th>Meets</th><th>Next</th></tr></thead>
       <tbody id="courses"></tbody></table>
     </div>
   </section>
@@ -323,41 +328,110 @@ const DESK = {
     { icon: "💬", name: "Telegram", url: "https://web.telegram.org" },
     { icon: "📋", name: "Sheets",   url: "https://docs.google.com/spreadsheets" },
     { icon: "🔥", name: "Firebase", url: "https://firebase.google.com/console" },
-    { icon: "🎓", name: "Canvas",   url: "https://mottcc.instructure.com/" }
+    { icon: "🎓", name: "Canvas",   url: "https://mottcc.instructure.com/" },
+    { icon: "〽️", name: "UM-Flint", url: "https://www.umflint.edu/registrar/registration/" }
   ],
 
   // title | one short line | chip | sev
   needsYou: [
-    { title: "Fall registration",  note: "Send me your course list",        tag: "Confirm", sev: "soon" },
-    { title: "Trading vs. labs",   note: "09:30 and 14:00 blocks collide",  tag: "Decide",  sev: "soon" },
-    { title: "Daily 20 minutes",   note: "Pick the slot, same time daily",  tag: "Start",   sev: "ok"   }
+    { title: "COMM-131 due tonight",   note: "Organizing Your Speech + Transitions Phrases — 15 pts",  tag: "Do",     sev: "urgent" },
+    { title: "PHIL-101 syllabus quiz", note: "Due Sun Sep 6 — the cheapest points of the term", tag: "Do",     sev: "urgent" },
+    { title: "COMM-131 sample outline", note: "Due Wed Sep 9, 10am, before class",              tag: "Do",     sev: "soon"   },
+    { title: "UM-Flint winter reg",    note: "Early reg opens Mon Nov 9 8am — status decides your path", tag: "Decide", sev: "soon" },
+    { title: "Tuesday trading cutoff",  note: "MATH-170 runs 5:00–7:20pm — no PM session Tue",   tag: "Decide", sev: "soon"   },
+    { title: "Tests are in class",     note: "Sep 22, Oct 13, Nov 3, Nov 24 — every test is a Tuesday", tag: "Plan",  sev: "soon" },
+    { title: "Attendance is 150 pts",  note: "Miss a Tuesday and the points are gone — no make-up path", tag: "Note",  sev: "soon" },
+    { title: "Nov 9 is stacked",       note: "UM-Flint reg opens 8am; COMM career analysis due 11:59pm", tag: "Plan",  sev: "ok" },
+    { title: "FILM-181 still not active",  note: "Instructor hasn't opened it — can't add the course",  tag: "Chase", sev: "soon" },
+    { title: "Daily 20 minutes",        note: "Pick the CARS slot and keep it fixed",            tag: "Start",  sev: "ok"     }
   ],
 
-  today: [
-    { from: "07:30", to: "09:00", name: "Morning" },
-    { from: "09:30", to: "11:00", name: "Market hours" },
-    { from: "11:00", to: "13:00", name: "Study" },
-    { from: "14:00", to: "16:00", name: "Market hours" },
-    { from: "16:00", to: "18:00", name: "Research" },
-    { from: "19:00", to: "21:00", name: "Open" }
-  ],
+  // Day-aware rail. Classes are from Google Calendar; blocks around them are the plan.
+  week: {
+    mon: [
+      { from: "07:30", to: "09:30", name: "Morning" },
+      { from: "09:30", to: "10:20", name: "Market open" },
+      { from: "10:30", to: "11:50", name: "COMM-131 · Curtice-Mott 2001" },
+      { from: "12:00", to: "14:00", name: "Study" },
+      { from: "14:00", to: "16:00", name: "Market hours" },
+      { from: "16:00", to: "18:00", name: "Research" },
+      { from: "19:00", to: "21:00", name: "Open" }
+    ],
+    tue: [
+      { from: "07:30", to: "09:30", name: "Morning" },
+      { from: "09:30", to: "11:00", name: "Market open" },
+      { from: "11:00", to: "13:15", name: "Study" },
+      { from: "13:30", to: "14:50", name: "PHIL-101 · Curtice-Mott 1111" },
+      { from: "15:00", to: "16:45", name: "Reset + reading" },
+      { from: "17:00", to: "19:20", name: "MATH-170 · Gorman 3202" },
+      { from: "19:30", to: "21:30", name: "Calc homework" }
+    ],
+    wed: [
+      { from: "07:30", to: "09:30", name: "Morning" },
+      { from: "09:30", to: "10:20", name: "Market open" },
+      { from: "10:30", to: "11:50", name: "COMM-131 · Curtice-Mott 2001" },
+      { from: "12:00", to: "14:00", name: "Study" },
+      { from: "14:00", to: "16:00", name: "Market hours" },
+      { from: "16:00", to: "18:00", name: "Research" },
+      { from: "19:00", to: "21:00", name: "Open" }
+    ],
+    thu: [
+      { from: "07:30", to: "09:30", name: "Morning" },
+      { from: "09:30", to: "11:00", name: "Market open" },
+      { from: "11:00", to: "13:15", name: "Study" },
+      { from: "13:30", to: "14:50", name: "PHIL-101 · Curtice-Mott 1111" },
+      { from: "15:00", to: "16:00", name: "Market close" },
+      { from: "16:00", to: "18:00", name: "Research" },
+      { from: "19:00", to: "21:00", name: "Open" }
+    ],
+    fri: [
+      { from: "07:30", to: "09:30", name: "Morning" },
+      { from: "09:30", to: "11:00", name: "Market open · NFP first Fri" },
+      { from: "11:00", to: "14:00", name: "Deep work" },
+      { from: "14:00", to: "16:00", name: "Market hours" },
+      { from: "16:00", to: "17:30", name: "Weekly review" },
+      { from: "19:00", to: "21:00", name: "Open" }
+    ],
+    sat: [
+      { from: "09:00", to: "12:00", name: "Study block" },
+      { from: "12:00", to: "15:00", name: "Open" },
+      { from: "15:00", to: "17:00", name: "MATH problem set" }
+    ],
+    sun: [
+      { from: "10:00", to: "12:00", name: "PHIL reading" },
+      { from: "12:00", to: "14:00", name: "Weekly summary — due today" },
+      { from: "15:00", to: "17:00", name: "Week prep" },
+      { from: "19:00", to: "21:00", name: "Open" }
+    ]
+  },
 
-  deadlines: [
-    { what: "Registration closes", date: "2026-08-21" },
-    { what: "Semester begins",     date: "2026-09-02" },
-    { what: "MCAT window",         date: "2030-05-01" }
+  loopsOnYou: [
+    "PHIL syllabus quiz (Sun)",
+    "COMM sample outline (Wed)",
+    "Book the PHIL instructor meeting — 5% of the grade",
+    "Pick the fixed CARS slot",
+    "Confirm UM-Flint status — admitted, transfer, or still to apply",
+    "Pick winter courses before Nov 9"
   ],
-
-  loopsOnYou:    ["Fall course list", "Pick trading window", "Pick daily 20 min"],
-  loopsOnOthers: ["Registrar — schedule posting", "Advisor — premed sign-off"],
+  loopsOnOthers: [
+    "FILM-181 instructor — activate the course so it can be added",
+    "PHIL instructor — meeting slot, deadline Oct 30",
+    "UM-Flint — registration appointment day (set by completed credits)",
+    "Mott advisor — which credits transfer to UM-Flint"
+  ],
 
   courses: [
-    { name: "Course 1", grade: "A−", due: "—" },
-    { name: "Course 2", grade: "B+", due: "—" },
-    { name: "Course 3", grade: "A",  due: "—" }
+    { name: "Introduction to Philosophy (PHIL-101)",     meets: "Tue/Thu 1:30–2:50 · CM 1111",   next: "Syllabus quiz — Sep 6" },
+    { name: "Fund of Public Speaking (COMM-131-07HON)",  meets: "Mon/Wed 10:30–11:50 · CM 2001", next: "2 due tonight 11:59pm" },
+    { name: "Analytic Geometry & Calculus 1 (MATH-170)", meets: "Tue 5:00–7:20 · Gorman 3202",   next: "§1.1–1.3 — Sep 11" },
+    { name: "Introduction to Film (FILM-181-WWW02)",     meets: "Online · asynchronous",         next: "Not active — can't be added yet", state: "blocked" }
   ],
 
-  projects: [],
+  projects: [
+    { title: "Molly spine",       note: "Calendar + morning brief live; glasses client is next", tag: "Build",  sev: "ok"     },
+    { title: "Alta / quant",      note: "NFP Sep 4, FOMC Sep 16 — size down into both",          tag: "Watch",  sev: "soon"   },
+    { title: "Teleprompter rig",  note: "Works. Parked at apps/teleprompter until Halo lands",   tag: "Parked", sev: ""       }
+  ],
 
   steps: [
     { name: "Foundation",    when: "Now → 2028", habit: "CARS 20 min/day", now: true },
@@ -367,8 +441,8 @@ const DESK = {
   ],
 
   years: [
-    { year: "2026", what: "Prerequisites" },
-    { year: "2027", what: "Biochem, Psych, Soc" },
+    { year: "2026", what: "PHIL-101 · COMM-131 · MATH-170" },
+    { year: "2027", what: "UM-Flint winter · Biochem, Psych, Soc" },
     { year: "2028", what: "Content review" },
     { year: "2029", what: "Full-lengths" },
     { year: "2030", what: "MCAT + applications" },
@@ -377,9 +451,13 @@ const DESK = {
   ],
 
   gaps: [
-    { title: "Course names",   note: "Still says Course 1, 2, 3" },
-    { title: "Class times",    note: "Needed to build study blocks" },
-    { title: "History purge",  note: "Old commit still holds real titles" }
+    { title: "Canvas → calendar", note: "Every course board reached here by hand. No sync exists yet" },
+    { title: "COMM undated work",  note: "12 ungraded/undated items (speech evaluations, extra credit) not on the board" },
+    { title: "FILM-181",         note: "Not active in Canvas — nothing to pull until the instructor opens it" },
+    { title: "UM-Flint status",  note: "Admitted, transferring, or guest? Decides the whole winter path" },
+    { title: "Grades",           note: "Nothing posted yet — Canvas has no scores this early" },
+    { title: "Tue PM market",    note: "MATH-170 owns 5:00–7:20; the block needs re-homing" },
+    { title: "CARS slot",        note: "Daily 20 min still has no fixed time" }
   ]
 };
 
@@ -403,17 +481,41 @@ const DESK = {
   };
   const sevFor = (n) => (n <= 7 ? "urgent" : n <= 21 ? "soon" : "ok");
 
-  const dl = DESK.deadlines.map((d) => ({ ...d, n: daysTo(d.date) }));
+  // Deadlines come from events.json — the same file the now-bar reads — so
+  // Canvas work is transcribed in exactly one place, never two.
+  let DUE = [];
+  const clockOf = (iso) => {
+    const d = new Date(iso);
+    return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  };
 
-  // stat tiles
-  const tiles = [
-    { n: dl[0].n, unit: "days", l: dl[0].what, sev: sevFor(dl[0].n) },
-    { n: dl[1].n, unit: "days", l: dl[1].what, sev: sevFor(dl[1].n) },
-    { n: DESK.needsYou.length, unit: "", l: "Needs you", sev: "accent" },
-    { n: DESK.loopsOnYou.length + DESK.loopsOnOthers.length, unit: "", l: "Open loops", sev: "accent" }
-  ];
-  $("stats").innerHTML = tiles.map((t) =>
-    `<div class="stat" data-sev="${t.sev}"><div class="n">${t.n}${t.unit ? ` <small>${t.unit}</small>` : ""}</div><div class="l">${esc(t.l)}</div></div>`).join("");
+  // Tiles are read at a glance, so the label sheds the points suffix and any
+  // tail that would wrap the card to three lines.
+  const tileLabel = (t) => {
+    const short = t.replace(/\s*\(\d+ pts\)$/, "").replace(/\s*\(discussion\)$/, "");
+    return short.length > 34 ? short.slice(0, 33) + "…" : short;
+  };
+
+  function paintDeadlines() {
+    const tile = (i) => DUE[i] || { n: 0, what: "Nothing scheduled" };
+    const tiles = [
+      { n: tile(0).n === 0 ? "today" : tile(0).n, unit: tile(0).n === 0 ? "" : "days", l: tileLabel(tile(0).what), sev: sevFor(tile(0).n) },
+      { n: tile(1).n === 0 ? "today" : tile(1).n, unit: tile(1).n === 0 ? "" : "days", l: tileLabel(tile(1).what), sev: sevFor(tile(1).n) },
+      { n: DESK.needsYou.length, unit: "", l: "Needs you", sev: "accent" },
+      { n: DESK.loopsOnYou.length + DESK.loopsOnOthers.length, unit: "", l: "Open loops", sev: "accent" }
+    ];
+    $("stats").innerHTML = tiles.map((t) =>
+      `<div class="stat" data-sev="${t.sev}"><div class="n">${t.n}${t.unit ? ` <small>${t.unit}</small>` : ""}</div><div class="l">${esc(t.l)}</div></div>`).join("");
+
+    $("deadlines").innerHTML = DUE.slice(0, 8).map((d) => {
+      const sev = sevFor(d.n);
+      return `<div class="card row" data-sev="${sev}">
+        <div class="stripe"></div>
+        <div class="rt"><b>${esc(d.what)}</b><span>${esc(d.date)} · ${esc(d.time)}</span></div>
+        <div class="rm"><span class="chip" data-sev="${sev}">${d.n === 0 ? "today" : d.n + " d"}</span></div>
+      </div>`;
+    }).join("");
+  }
 
   // needs you
   $("needs").innerHTML = DESK.needsYou.map((n) => `
@@ -427,25 +529,19 @@ const DESK = {
   // today
   const mins = now.getHours() * 60 + now.getMinutes();
   const toMin = (t) => { const [h, m] = t.split(":").map(Number); return h * 60 + m; };
-  $("rail").innerHTML = DESK.today.map((s) =>
+  const DAY_KEYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  const todaySlots = DESK.week[DAY_KEYS[now.getDay()]] || [];
+  $("rail").innerHTML = todaySlots.map((s) =>
     `<div class="slot" data-now="${mins >= toMin(s.from) && mins < toMin(s.to)}"><time>${esc(s.from)}</time><b>${esc(s.name)}</b></div>`).join("");
 
-  // coming up
-  $("deadlines").innerHTML = dl.map((d) => {
-    const sev = sevFor(d.n);
-    return `<div class="card row" data-sev="${sev}">
-      <div class="stripe"></div>
-      <div class="rt"><b>${esc(d.what)}</b><span>${esc(d.date)}</span></div>
-      <div class="rm"><span class="chip" data-sev="${sev}">${d.n} d</span></div>
-    </div>`;
-  }).join("");
+  paintDeadlines();
 
   const li = (a) => a.map((x) => `<li>${esc(x)}</li>`).join("");
   $("loops-you").innerHTML = li(DESK.loopsOnYou);
   $("loops-them").innerHTML = li(DESK.loopsOnOthers);
 
   $("courses").innerHTML = DESK.courses.map((c) =>
-    `<tr><td>${esc(c.name)}</td><td class="g">${esc(c.grade)}</td><td>${esc(c.due)}</td></tr>`).join("");
+    `<tr data-state="${esc(c.state || "")}"><td>${esc(c.name)}</td><td class="g">${esc(c.meets)}</td><td>${esc(c.next)}</td></tr>`).join("");
 
   // projects
   $("projects").innerHTML = DESK.projects.map((p) => `
@@ -500,6 +596,15 @@ const DESK = {
       EVENTS = raw.map((e) => ({ title: e.title, s: +new Date(e.start), e: +new Date(e.end),
                                  color: e.color || GCAL[e.colorId] || "#039BE5" }))
                   .filter((e) => e.s && e.e).sort((a, b) => a.s - b.s);
+
+      // A class meeting is somewhere to be, not something owed. Only work and
+      // dated events reach the deadline card.
+      DUE = raw.filter((e) => e.kind !== "class")
+               .map((e) => ({ what: e.title, date: e.start.slice(0, 10),
+                              time: clockOf(e.start), n: daysTo(e.start.slice(0, 10)) }))
+               .filter((d) => d.n >= 0)
+               .sort((a, b) => a.n - b.n || a.what.localeCompare(b.what));
+      paintDeadlines();
       paintBar();
     }).catch(paintBar);
   paintBar();
