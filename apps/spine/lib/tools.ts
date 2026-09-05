@@ -87,8 +87,12 @@ export async function executeTool(name: string, input: Record<string, unknown>):
       return `Added ${p.name} to the identity graph (id ${p.id}).`
     }
     case "remember": {
-      const f = await addFactIndexed(String(input.subject ?? ""), String(input.fact ?? ""), "agent")
-      return `Remembered: [${f.subject}] ${f.fact}`
+      const r = await addFactIndexed(String(input.subject ?? ""), String(input.fact ?? ""), "agent")
+      // Report the verdict rather than claiming a write that did not happen.
+      // "Remembered" for something the store already knew is a small lie that
+      // makes the agent re-tell Colin things it never actually saved.
+      const verb = { store: "Remembered", merge: "Updated", drop: "Already knew" }[r.verdict]
+      return `${verb}: [${r.fact.subject}] ${r.fact.fact}${r.verdict === "store" ? "" : ` — ${r.reason}`}`
     }
     case "recall": {
       // Hybrid: exact substring UNION vector neighbours. Literal-only is why

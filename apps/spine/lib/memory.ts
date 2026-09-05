@@ -48,6 +48,17 @@ db.run(`
   );
 `)
 
+// Added after the fact: a fact now records when it was last retrieved (for the
+// decay pass) and whether it has been archived. ALTER is wrapped because it
+// throws on a second run and IF NOT EXISTS is not available for columns.
+for (const [col, ddl] of [
+  ["last_recalled", "ALTER TABLE facts ADD COLUMN last_recalled INTEGER"],
+  ["archived", "ALTER TABLE facts ADD COLUMN archived INTEGER NOT NULL DEFAULT 0"],
+] as const) {
+  const has = (db.query("PRAGMA table_info(facts)").all() as { name: string }[]).some((c) => c.name === col)
+  if (!has) db.run(ddl)
+}
+
 export interface Message {
   role: "user" | "assistant"
   content: string
@@ -60,6 +71,10 @@ export interface Fact {
   fact: string
   source: string
   ts: number
+  /** When recall last returned this row. Null until it earns a retrieval. */
+  last_recalled: number | null
+  /** 1 once the decay pass has retired it. Archived, never deleted. */
+  archived: number
 }
 
 export function ensureConversation(id: string, surface = "web"): void {
@@ -91,13 +106,13 @@ export function addFact(subject: string, fact: string, source = "chat"): Fact {
 }
 
 export function listFacts(limit = 20): Fact[] {
-  return db.query("SELECT * FROM facts ORDER BY ts DESC LIMIT ?").all(limit) as Fact[]
+  return db.query("SELECT * FROM facts WHERE archived = 0 ORDER BY ts DESC LIMIT ?").all(limit) as Fact[]
 }
 
 export function searchFacts(term: string, limit = 10): Fact[] {
   const like = `%${term}%`
   return db
-    .query("SELECT * FROM facts WHERE subject LIKE ? OR fact LIKE ? ORDER BY ts DESC LIMIT ?")
+    .query("SELECT * FROM facts WHERE archived = 0 AND (subject LIKE ? OR fact LIKE ?) ORDER BY ts DESC LIMIT ?")
     .all(like, like, limit) as Fact[]
 }
 
@@ -118,7 +133,7 @@ export function counts(): { conversations: number; messages: number; facts: numb
   return {
     conversations: c("SELECT COUNT(*) n FROM conversations"),
     messages: c("SELECT COUNT(*) n FROM messages"),
-    facts: c("SELECT COUNT(*) n FROM facts"),
+    facts: c("SELECT COUNT(*) n FROM facts WHERE archived = 0"),
   }
 }
 
@@ -129,18 +144,40 @@ export function counts(): { conversations: number; messages: number; facts: numb
 
 import { embed, embeddingsAvailable } from "./embeddings"
 import { indexFact, nearestFacts, unindexedFactIds, vectorsAvailable } from "./vectors"
+import { judge, mergeInto, touchFact, type Verdict } from "./surprise"
 
-/** Store a fact and index it for semantic recall. Indexing failure is logged
- *  and swallowed: a fact that is written but unindexed is still findable by
- *  LIKE, whereas a fact lost to a dead embedding server is gone. */
-export async function addFactIndexed(subject: string, fact: string, source = "chat"): Promise<Fact> {
+export interface StoreResult {
+  fact: Fact
+  verdict: Verdict
+  reason: string
+}
+
+/** Store a fact and index it for semantic recall, unless the store already
+ *  knows it. The surprise gate decides — see lib/surprise.ts for the measured
+ *  thresholds and the refinement trap they exist to avoid.
+ *
+ *  Indexing failure is logged and swallowed: a fact written but unindexed is
+ *  still findable by LIKE, whereas a fact lost to a dead embedding server is
+ *  gone. */
+export async function addFactIndexed(subject: string, fact: string, source = "chat"): Promise<StoreResult> {
+  const decision = await judge(subject, fact)
+
+  if (decision.verdict === "drop" && decision.against) {
+    // Not a write, but it IS a retrieval — the fact just proved it is live.
+    touchFact(decision.against.id)
+    return { fact: decision.against, verdict: "drop", reason: decision.reason }
+  }
+  if (decision.verdict === "merge" && decision.against) {
+    return { fact: await mergeInto(decision.against, fact), verdict: "merge", reason: decision.reason }
+  }
+
   const row = addFact(subject, fact, source)
   try {
     if (vectorsAvailable()) indexFact(row.id, await embed(`${subject}: ${fact}`, "document"))
   } catch (e) {
     console.warn(`[memory] fact ${row.id} stored but not indexed:`, e instanceof Error ? e.message : e)
   }
-  return row
+  return { fact: row, verdict: "store", reason: decision.reason }
 }
 
 export interface Recalled extends Fact {
@@ -183,7 +220,7 @@ export async function recallFacts(query: string, limit = 10): Promise<Recalled[]
   try {
     const hits = nearestFacts(await embed(query, "query"), limit)
     const byId = new Map(
-      (db.query(`SELECT * FROM facts WHERE id IN (${hits.map(() => "?").join(",") || "NULL"})`)
+      (db.query(`SELECT * FROM facts WHERE archived = 0 AND id IN (${hits.map(() => "?").join(",") || "NULL"})`)
         .all(...hits.map((h) => h.factId)) as Fact[]).map((f) => [f.id, f])
     )
     semantic = hits
@@ -193,7 +230,9 @@ export async function recallFacts(query: string, limit = 10): Promise<Recalled[]
     console.warn("[memory] semantic recall failed, literal only:", e instanceof Error ? e.message : e)
   }
 
-  return [...literal, ...semantic].slice(0, limit)
+  const out = [...literal, ...semantic].slice(0, limit)
+  for (const f of out) touchFact(f.id) // it was asked for; it is earning its place
+  return out
 }
 
 /** Embed any facts written before the index existed. Returns how many it did. */
@@ -207,4 +246,31 @@ export async function backfillFactVectors(limit = 500): Promise<number> {
     try { indexFact(f.id, await embed(`${f.subject}: ${f.fact}`, "document")); done++ } catch { /* leave for next run */ }
   }
   return done
+}
+
+/** Wipe every table. Tests only.
+ *
+ *  bun runs all test files in ONE process, and `db` above is a module
+ *  singleton — so whichever file imports this module first decides
+ *  SPINE_DB_DIR for the entire run, and setting it per file is theatre. That
+ *  was harmless while tests only appended rows. It stopped being harmless the
+ *  moment the surprise gate made facts interact: one file's "The Halo glasses
+ *  arrive this month" started suppressing another file's "Halo arriving this
+ *  month" as a duplicate, and three tests failed for reasons that had nothing
+ *  to do with the code under test.
+ *
+ *  Files run sequentially, so a wipe in beforeAll gives real isolation.
+ *
+ *  Refuses to run against a database outside /tmp — this must never be
+ *  reachable from a real spine. */
+export function resetForTests(): void {
+  const file = db.filename
+  if (!file.startsWith("/tmp/") && !file.startsWith("/private/tmp/")) {
+    throw new Error(`resetForTests refused: ${file} is not a scratch database`)
+  }
+  // people/person_events are created by lib/people.ts and fact_vectors by
+  // lib/vectors.ts — either may be absent depending on what the test imported.
+  for (const t of ["messages", "conversations", "facts", "kv", "person_events", "people", "fact_vectors"]) {
+    try { db.run(`DELETE FROM ${t}`) } catch { /* table not created in this run */ }
+  }
 }

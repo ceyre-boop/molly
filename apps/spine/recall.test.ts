@@ -14,6 +14,12 @@ const { addFact, addFactIndexed, recallFacts, searchFacts, backfillFactVectors, 
 const { vectorsAvailable, vectorsStatus, nearestFacts, indexFact } = await import("./lib/vectors")
 const { embed, embeddingsAvailable, cosine, EMBED_DIMS, toBlob } = await import("./lib/embeddings")
 
+
+// bun runs every test file in one process and lib/memory.ts caches its
+// Database, so all files share whichever DB the first import created. Wipe it
+// so this file's assertions are about this file's data.
+const { resetForTests } = await import("./lib/memory")
+beforeAll(() => resetForTests())
 const online = await embeddingsAvailable()
 if (!online) {
   console.warn("[recall.test] Ollama/nomic-embed-text unavailable — semantic cases skipped")

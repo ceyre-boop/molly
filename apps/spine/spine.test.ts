@@ -10,6 +10,12 @@ const { addPerson, listPeople, searchPeople, touchPerson, personEvents, peopleCo
   await import("./lib/people")
 const { TOOL_DEFS, executeTool } = await import("./lib/tools")
 
+
+// bun runs every test file in one process and lib/memory.ts caches its
+// Database, so all files share whichever DB the first import created. Wipe it
+// so this file's assertions are about this file's data.
+const { resetForTests } = await import("./lib/memory")
+beforeAll(() => resetForTests())
 describe("memory", () => {
   test("stores and recalls facts", () => {
     addFact("coffee", "Colin takes it black", "test")
