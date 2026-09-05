@@ -6,3 +6,7 @@ node_modules/
 .DS_Store
 events.private.json
 desk-private.html
+
+# git worktrees (the spine lives here so its MCP server has a stable path
+# regardless of which branch the main tree is on)
+.worktrees/

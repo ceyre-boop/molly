@@ -4,14 +4,27 @@ Multi-channel gateway (Telegram, WhatsApp, Signal, Slack, iMessage, Discord…)
 that fronts an agent. Installed globally: `openclaw 2026.9.1`.
 
 ```bash
-bin/openclaw-free-model              # verifies price, then sets the model
-bin/openclaw-free-model <slug>       # or name one; refused unless it is $0
-openclaw gateway restart             # apply
+bin/molly-local-model                            # the default: a model on this machine
+bin/molly-local-model qwen3:14b                  # or name one; refused unless it is pulled
+launchctl kickstart -k gui/$(id -u)/ai.openclaw.gateway   # apply
 ```
 
-The script checks the live OpenRouter models API before writing anything and
-refuses any model that is not $0 for both prompt and completion. It patches
-only `agents.defaults.model.primary`, backing up to `openclaw.json.bak`.
+`bin/molly-local-model` points OpenClaw at the Ollama server this machine
+already runs, registering `models.providers.ollama` with the **native** API and
+no `/v1` suffix — OpenClaw's own docs are explicit that the OpenAI-compatible
+URL breaks tool calling and lets models emit raw tool-call JSON as prose. It
+reads `/api/tags` first and refuses to pin a model that is not actually pulled,
+because a model string that resolves in config and 404s at runtime is worse
+than no change at all.
+
+`bin/openclaw-free-model` is still here as the OpenRouter fallback. It checks
+the live models API and refuses anything that is not $0 in both directions —
+an earlier version hardcoded a `:free` slug that OpenRouter later withdrew,
+leaving the slug resolving as paid. Both scripts back up to `openclaw.json.bak`.
+
+Local is the default because it has no quota, no 402, and no policy exposure,
+and because it measured *faster* than the free OpenRouter pool: 5.8s warm for a
+Telegram-shaped turn against roughly one call in three coming back overloaded.
 
 ## Why not the Claude Max subscription
 
