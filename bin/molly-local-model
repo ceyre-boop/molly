@@ -1,0 +1,146 @@
+#!/usr/bin/env bun
+// molly-local-model — point OpenClaw at the Ollama server on this machine.
+//
+// Why local at all: Anthropic's April 2026 policy excludes third-party
+// harnesses (OpenClaw by name) from Max-subscription coverage and enforces it
+// server-side, and the OpenRouter free pool was too slow and contended to be
+// usable. A model on this box is free, has no quota, and measured faster than
+// the free pool. Full reasoning: docs/OPENCLAW.md.
+//
+// Two things this script exists to get right, both of which bit us before:
+//
+//   1. NOT /v1. OpenClaw's own docs (docs/providers/ollama.md:23) say the
+//      OpenAI-compatible URL "breaks tool calling and models can emit raw
+//      tool-call JSON as plain text". The native API and `api: "ollama"` is
+//      the only correct shape. A /v1 baseUrl looks like it works right up
+//      until the first tool call.
+//   2. `openclaw onboard` silently resets agents.defaults.model.primary to
+//      the PAID "openrouter/auto". Re-running this script is the recovery.
+//
+// Refuses to pin a model that is not actually pulled — a model string that
+// resolves in config but 404s at runtime is worse than no change at all.
+//
+// Idempotent. Backs up before writing. Leaves the OpenRouter provider intact
+// as a manual fallback; it just stops being the default.
+
+import { existsSync } from "node:fs"
+import { homedir } from "node:os"
+import { join } from "node:path"
+
+const CONFIG = join(homedir(), ".openclaw", "openclaw.json")
+const HOST = process.env.OLLAMA_HOST?.replace(/^(?!https?:\/\/)/, "http://") ?? "http://127.0.0.1:11434"
+
+// Preference order. First one actually pulled wins.
+const PREFERRED = ["qwen3:14b", "qwen3:8b", "qwen2.5:latest", "qwen3:4b"]
+
+const requested = Bun.argv[2]
+
+function die(msg: string): never {
+  console.error(`molly-local-model: ${msg}`)
+  process.exit(1)
+}
+
+if (!Bun.which("openclaw")) die("openclaw not installed. Run: bun install -g openclaw")
+if (!existsSync(CONFIG)) die(`${CONFIG} not found. Run: openclaw setup --baseline`)
+
+// ── what is actually on disk ────────────────────────────────────────────────
+interface TagRow { name: string; details?: { parameter_size?: string } }
+
+let installed: TagRow[]
+try {
+  const res = await fetch(`${HOST}/api/tags`)
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  installed = (await res.json()).models ?? []
+} catch (e) {
+  die(`cannot reach Ollama at ${HOST} (${e instanceof Error ? e.message : e}).
+  Start it:  launchctl kickstart -k gui/$(id -u)/com.molly.ollama`)
+}
+
+const names = installed.map((m) => m.name)
+if (!names.length) die(`Ollama is running but has no models. Try: ollama pull ${PREFERRED[1]}`)
+
+if (requested && !names.includes(requested)) {
+  console.error(`molly-local-model: "${requested}" is not pulled. Installed:`)
+  for (const n of names) console.error(`  ${n}`)
+  console.error(`\nPull it first:  ollama pull ${requested}`)
+  process.exit(1)
+}
+
+const chosen = requested ?? PREFERRED.find((id) => names.includes(id)) ?? names[0]
+
+// Ask Ollama for the real context window rather than guessing. The key varies
+// by architecture (llama.context_length, qwen3.context_length, …), so take
+// whichever *.context_length the model actually reports.
+let contextWindow = 32768
+try {
+  const res = await fetch(`${HOST}/api/show`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ model: chosen }),
+  })
+  if (res.ok) {
+    const info = (await res.json()).model_info ?? {}
+    const key = Object.keys(info).find((k) => k.endsWith(".context_length"))
+    if (key && Number(info[key]) > 0) contextWindow = Number(info[key])
+  }
+} catch { /* keep the default; a wrong-but-sane ctx beats failing the run */ }
+
+const model = `ollama/${chosen}`
+
+// ── patch the config ────────────────────────────────────────────────────────
+const raw = await Bun.file(CONFIG).text()
+let config: Record<string, any>
+try {
+  config = JSON.parse(raw)
+} catch {
+  console.log(`${CONFIG} is not plain JSON — leaving it alone.`)
+  console.log(`\nSet these by hand:\n  models.providers.ollama.baseUrl = "${HOST}"\n  agents.defaults.model.primary  = "${model}"`)
+  process.exit(0)
+}
+
+const provider = {
+  baseUrl: HOST,            // native API — NOT /v1, see the header comment
+  api: "ollama",
+  apiKey: "ollama-local",   // sentinel; loopback needs no real credential
+  timeoutSeconds: 240,
+  models: [
+    {
+      id: chosen,
+      name: `${chosen} (local)`,
+      cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+      contextWindow,
+      maxTokens: 4096,
+    },
+  ],
+}
+
+const already =
+  config.agents?.defaults?.model?.primary === model &&
+  JSON.stringify(config.models?.providers?.ollama) === JSON.stringify(provider)
+
+if (already) {
+  console.log(`Already on ${model} (${contextWindow.toLocaleString()} ctx) — nothing to do.`)
+  process.exit(0)
+}
+
+await Bun.write(`${CONFIG}.bak`, raw)
+
+config.models ??= {}
+config.models.providers ??= {}
+config.models.providers.ollama = provider
+
+config.agents ??= {}
+config.agents.defaults ??= {}
+config.agents.defaults.model = { ...(config.agents.defaults.model ?? {}), primary: model }
+config.agents.defaults.models = { ...(config.agents.defaults.models ?? {}), [model]: { alias: "Local" } }
+
+await Bun.write(CONFIG, JSON.stringify(config, null, 2) + "\n")
+
+const size = installed.find((m) => m.name === chosen)?.details?.parameter_size ?? "?"
+console.log(`Set agents.defaults.model.primary → ${model}`)
+console.log(`Provider models.providers.ollama → ${HOST} (native api, no /v1)`)
+console.log(`${size} params · ${contextWindow.toLocaleString()} token context · $0 forever`)
+console.log(`Backup: ${CONFIG}.bak`)
+console.log(`
+Apply it:
+  launchctl kickstart -k gui/$(id -u)/ai.openclaw.gateway`)

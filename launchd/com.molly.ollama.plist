@@ -21,6 +21,38 @@
         <string>*</string>
         <key>OLLAMA_HOST</key>
         <string>127.0.0.1:11434</string>
+
+        <!-- Keep the model resident. A cold load measured 16.6s on this box,
+             which is the entire "not intuitive" complaint. -1 pins it in RAM
+             for good; the cost is ~5GB held permanently. Drop to "30m" if the
+             desktop ever needs the headroom back. -->
+        <key>OLLAMA_KEEP_ALIVE</key>
+        <string>-1</string>
+
+        <!-- Ollama sizes the runtime context from VRAM and lands on 4096, which
+             is far below what the model advertises (40,960 for qwen3:8b). The
+             agent's system prompt alone is ~21k tokens, so the server was
+             silently truncating it - "truncating input prompt limit=4096
+             prompt=21063" - and dropping Molly's identity with it. She answered
+             as "Qwen, from Alibaba". Nothing errored; it just quietly discarded
+             the persona.
+
+             8192, not more: this box was already 27.8GB into a 28.6GB swap
+             file, and a 32k KV cache pushed total model residency to 10.2GB
+             and generation from 34 tok/s down to 12.8. The system prompt is
+             ~6k tokens on the minimal tool profile, so 8k holds it with
+             headroom and keeps the KV cache near 1.4GB. Raise it only after
+             checking `sysctl vm.swapusage`. -->
+        <key>OLLAMA_CONTEXT_LENGTH</key>
+        <string>8192</string>
+
+        <!-- KEEP_ALIVE=-1 pins every model the moment it is touched, not just
+             the default one. Benchmarking a second model put 10.7GB resident
+             on a box already 28GB into swap. Cap it at two: the chat model
+             plus nomic-embed-text (274MB), which the spine's recall needs
+             loaded alongside. A third would evict one of those on every call. -->
+        <key>OLLAMA_MAX_LOADED_MODELS</key>
+        <string>2</string>
         <key>PATH</key>
         <string>/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
     </dict>
