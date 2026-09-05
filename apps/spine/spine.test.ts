@@ -77,25 +77,25 @@ describe("tools registry", () => {
     }
   })
 
-  test("people_lookup finds real people", () => {
-    const out = executeTool("people_lookup", { query: "Marco" })
+  test("people_lookup finds real people", async () => {
+    const out = await executeTool("people_lookup", { query: "Marco" })
     expect(out).toContain("Marco")
     expect(out).toContain("TABOOST")
   })
 
-  test("remember + recall round-trip", () => {
-    executeTool("remember", { subject: "glasses", fact: "Halo arriving this month" })
-    const out = executeTool("recall", { query: "Halo" })
+  test("remember + recall round-trip", async () => {
+    await executeTool("remember", { subject: "glasses", fact: "Halo arriving this month" })
+    const out = await executeTool("recall", { query: "Halo" })
     expect(out).toContain("arriving")
   })
 
-  test("people_add creates a graph entry", () => {
-    const out = executeTool("people_add", { name: "Ava", role: "analyst" })
+  test("people_add creates a graph entry", async () => {
+    const out = await executeTool("people_add", { name: "Ava", role: "analyst" })
     expect(out).toContain("Ava")
     expect(searchPeople("Ava").length).toBe(1)
   })
 
-  test("unknown tool fails gracefully", () => {
-    expect(executeTool("nope", {})).toContain("Unknown tool")
+  test("unknown tool fails gracefully", async () => {
+    expect(await executeTool("nope", {})).toContain("Unknown tool")
   })
 })

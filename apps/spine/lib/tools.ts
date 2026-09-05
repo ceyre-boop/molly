@@ -1,6 +1,6 @@
 // Tool registry — what the agent can do locally, at zero API cost per execution.
 // Google connectors land here in Phase C as gmail_search / calendar_read.
-import { addFact, searchFacts } from "./memory"
+import { addFactIndexed, recallFacts } from "./memory"
 import { addPerson, searchPeople } from "./people"
 
 export interface ToolDef {
@@ -65,7 +65,10 @@ export const TOOL_DEFS: ToolDef[] = [
   },
 ]
 
-export function executeTool(name: string, input: Record<string, unknown>): string {
+// Async because recall and remember now go through the embedding server.
+// governedExecute and the MCP dispatch already await their executor, so this
+// costs the callers nothing.
+export async function executeTool(name: string, input: Record<string, unknown>): Promise<string> {
   switch (name) {
     case "people_lookup": {
       const results = searchPeople(String(input.query ?? ""))
@@ -84,13 +87,15 @@ export function executeTool(name: string, input: Record<string, unknown>): strin
       return `Added ${p.name} to the identity graph (id ${p.id}).`
     }
     case "remember": {
-      const f = addFact(String(input.subject ?? ""), String(input.fact ?? ""), "agent")
+      const f = await addFactIndexed(String(input.subject ?? ""), String(input.fact ?? ""), "agent")
       return `Remembered: [${f.subject}] ${f.fact}`
     }
     case "recall": {
-      const results = searchFacts(String(input.query ?? ""))
+      // Hybrid: exact substring UNION vector neighbours. Literal-only is why
+      // "when is my math exam" used to miss a fact about a calculus final.
+      const results = await recallFacts(String(input.query ?? ""))
       if (results.length === 0) return "No stored facts match."
-      return JSON.stringify(results.map((f) => ({ subject: f.subject, fact: f.fact })))
+      return JSON.stringify(results.map((f) => ({ subject: f.subject, fact: f.fact, via: f.via })))
     }
     default:
       return `Unknown tool: ${name}`
