@@ -32,22 +32,60 @@ wrong, not the effort.
 |---|---|
 | Service | `ai.openclaw.gateway` LaunchAgent, survives reboot |
 | Bind | `127.0.0.1` only, never the LAN |
-| Model | `openrouter/nvidia/nemotron-3-ultra-550b-a55b:free` — $0, 1M context |
-| Credential | OpenClaw secret store, write-only, host-scoped to `openrouter.ai` |
+| Model | `ollama/qwen3:8b` on this machine — $0, no quota, 41k context |
+| Engine | `com.molly.ollama` LaunchAgent, model pinned resident, 8k runtime context |
+| Tools | `tools.profile: minimal` + the spine over MCP (`spine__*`, 5 read-only tools) |
+| Credential | none needed for the local model; the OpenRouter key stays in the secret store as a manual fallback |
 | Channel | Telegram, `dmPolicy: allowlist`, single numeric `allowFrom` |
+
+### Why local
+
+Anthropic's April 2026 policy excludes third-party harnesses — OpenClaw by name
+— from Max-subscription coverage, and enforces it server-side. The OpenRouter
+free pool was the alternative and was rejected as "not fast intuitive": roughly
+one call in three came back overloaded. A model on this machine has no quota, no
+402, no policy exposure, and measured *faster* than the free pool.
+
+Measured here: **5.8s warm** for a Telegram-shaped turn, with the right identity
+and real context. First turn of a session is ~20s while the prompt is ingested.
+
+### Three silent failures this setup had to get past
+
+None of them errored. Each one just quietly did the wrong thing.
+
+- **Context truncation.** Ollama sizes its runtime context from VRAM and landed
+  on 4096. The system prompt was 21,063 tokens, so the server truncated it and
+  threw away the identity files. Molly answered "I am Qwen, and I work for
+  Alibaba Group." Fixed with `OLLAMA_CONTEXT_LENGTH`.
+- **The wrong tool profile.** `tools.profile` was `coding` — the full
+  filesystem/runtime toolset, wrong for a secretary who explicitly does not
+  write code, and most of that 21k prompt. Now `minimal`, with the spine's
+  read-only tools added back through `tools.alsoAllow`.
+- **A restart that was not one.** `launchctl kickstart -k` restarts the process
+  but does NOT re-read the plist. Every "restarted and verified" claim was the
+  old process answering with the old config. It takes `bootout` + `bootstrap`,
+  and the check is `ps eww` on the running pid — never the command's exit code.
 
 ### Quota discipline
 
-The free tier is **50 requests/day**. Two background jobs were spending it
-before a single message was sent:
+Moot for the local model, kept because the OpenRouter fallback still has a
+50/day cap and because both jobs also cost RAM and CPU here:
 
-- **Heartbeat, every 30 minutes** — 48 calls/day, the entire quota. Now `720h`.
+- **Heartbeat, every 30 minutes** — 48 calls/day, an entire free quota. Now `720h`.
 - **Memory dreaming, nightly** — disabled at
   `plugins.entries.memory-core.config.dreaming.enabled`. Disabling the cron
   alone is not enough; the plugin recreates it on every startup.
 
 Colin's instruction was "I don't need it doing something all the time, just when
 I call on it." Both changes serve that directly.
+
+### The spine, on the phone
+
+`mcp.servers.spine` runs `apps/spine/mcp/server.ts` over stdio from a git
+worktree at `.worktrees/spine`, so its path does not break when the main tree
+switches branches. Five tier-1 read tools reach Telegram; the two write tools
+stay closed because `SPINE_MCP_ALLOW_WRITES` is unset, and the tier-3 guard runs
+before tool lookup on every call regardless of who is asking.
 
 The weekly skill-collection review is deliberately left running — it is the only
 scheduled job that serves the self-improvement goal, and it costs one call a week.
@@ -63,11 +101,18 @@ returns a generic assistant, the workspace files did not load.
 
 ## Known rough edges
 
-- The free pool is contended: roughly one call in three returns "service
-  temporarily overloaded" and needs a resend. `openRouterRouting.allow_fallbacks`
-  is on, which helps but does not eliminate it. A one-time $10 OpenRouter credit
-  raises the daily cap 50 → 1000 permanently but does not buy priority.
+- An 8B model picks the wrong tool sometimes. Asked for `spine_status` it
+  reached for OpenClaw's own `status` and reported session stats as if they were
+  the spine's. Natural phrasing ("who is in my identity graph?") works better
+  than naming the tool.
+- `KEEP_ALIVE=-1` pins EVERY model touched, not just the default. Loading a
+  second one to benchmark it put 10.7GB resident on a box already deep in swap
+  and cut generation from 34 to 12.8 tok/s. `OLLAMA_MAX_LOADED_MODELS=2` caps it
+  at the chat model plus the embedder.
+- Raising the context window is not free. 32k cost ~5.4GB of KV cache and made
+  everything slower on this machine. 8k holds the ~6k system prompt with room
+  and stays near 1.4GB. Check `sysctl vm.swapusage` before raising it.
 - `openclaw gateway restart` does not restart an unmanaged process — it prints
   success and changes nothing. Use `launchctl kickstart -k` against the service.
 - `openclaw onboard` resets `agents.defaults.model.primary` to `openrouter/auto`,
-  which is paid. Re-run `bin/openclaw-free-model` after any onboard.
+  which is paid. Re-run `bin/molly-local-model` after any onboard.

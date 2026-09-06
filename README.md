@@ -89,18 +89,24 @@ molly/
 
 ## Automation Scripts
 
-### Jarvis — Your Workflow Assistant
+### The local brain
 
-New Python-based automation suite for context switching, organization, and daily workflow:
+Molly's always-on model runs on this machine, not on anyone's API. Free, no
+quota, no policy exposure — see `docs/OPENCLAW.md` for why the Max subscription
+cannot legally back a third-party harness.
 
-| Script | Purpose | Example |
-|--------|---------|---------|
-| `jarvis` | Master launcher | `jarvis context quant` |
-| `jarvis_context.py` | Project context switching | `python jarvis_context.py switch quant` |
-| `jarvis_briefing.py` | Daily morning briefing | `python jarvis_briefing.py` |
-| `jarvis_todos.py` | Unified todo tracker | `python jarvis_todos.py scan` |
-| `jarvis_organizer.py` | File organization | `python jarvis_organizer.py downloads` |
-| `jarvis_vscode.py` | VS Code integration | `python jarvis_vscode.py open quant` |
+| Command | Purpose |
+|---------|---------|
+| `bin/molly-local-model` | Point OpenClaw at the local Ollama server. Re-run after any `openclaw onboard`, which silently resets the model to a paid one. |
+| `bin/molly-local-model qwen3:14b` | Pin a specific model. Refuses one that is not actually pulled. |
+
+The Ollama server itself is the `com.molly.ollama` LaunchAgent (`launchd/`), which
+holds the model resident so there is no cold-start pause.
+
+> The eight `jarvis_*.py` scripts that used to be documented here were deleted in
+> September 2026. They hardcoded `/workspaces/...` Codespaces paths that never
+> existed on this machine, nothing invoked them, and one carried a live Telegram
+> token in tracked source. This repo is TypeScript and shell now, with no Python.
 
 ### Legacy Scripts
 
@@ -114,22 +120,12 @@ New Python-based automation suite for context switching, organization, and daily
 
 ### Running Scripts
 
-#### Jarvis (Recommended)
+#### The local brain
 
 ```bash
-# Add to your shell profile (.bashrc, .zshrc, or PowerShell profile):
-alias jarvis="python /workspaces/molly/scripts/jarvis"
-
-# Or on Windows PowerShell:
-function jarvis { python C:\workspaces\molly\scripts\jarvis $args }
-
-# Usage:
-jarvis context              # Show current project
-jarvis context quant        # Switch to quant project
-jarvis briefing             # Morning briefing
-jarvis todos list           # Show all todos
-jarvis organize downloads   # Organize Downloads folder
-jarvis code open quant      # Open quant in VS Code
+bun bin/molly-local-model          # pick the best model that is actually pulled
+openclaw models list               # confirm the provider registered
+curl -s localhost:11434/api/tags   # confirm the server is up
 ```
 
 #### Legacy Scripts
