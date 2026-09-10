@@ -88,7 +88,8 @@
     "start": "2026-09-09T10:00:00-04:00",
     "end": "2026-09-09T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -105,11 +106,25 @@
     "kind": "due"
   },
   {
+    "title": "PHIL-101: request ILL — Rosenstand, “Data, Kant, and Personhood” (needed Sep 24)",
+    "start": "2026-09-10T09:00:00-04:00",
+    "end": "2026-09-10T09:30:00-04:00",
+    "colorId": "5",
+    "kind": "event"
+  },
+  {
     "title": "Introduction to Philosophy",
     "start": "2026-09-10T13:30:00-04:00",
     "end": "2026-09-10T14:50:00-04:00",
     "colorId": "3",
     "kind": "class"
+  },
+  {
+    "title": "Mott: last day to drop with HALF refund",
+    "start": "2026-09-10T23:59:00-04:00",
+    "end": "2026-09-10T24:00:00-04:00",
+    "colorId": "11",
+    "kind": "event"
   },
   {
     "title": "MATH-170: §1.1, 1.2, 1.3 due (30 pts)",
@@ -119,18 +134,27 @@
     "kind": "due"
   },
   {
+    "title": "Mott: census / date of record",
+    "start": "2026-09-11T23:59:00-04:00",
+    "end": "2026-09-11T24:00:00-04:00",
+    "colorId": "11",
+    "kind": "event"
+  },
+  {
     "title": "PHIL-101: Weekly Summary 1 due",
     "start": "2026-09-13T10:00:00-04:00",
     "end": "2026-09-13T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "10 of 15"
   },
   {
     "title": "PHIL-101: Reading Activity 9-15 due",
     "start": "2026-09-14T10:00:00-04:00",
     "end": "2026-09-14T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -165,7 +189,8 @@
     "start": "2026-09-16T10:00:00-04:00",
     "end": "2026-09-16T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -182,6 +207,13 @@
     "kind": "event"
   },
   {
+    "title": "COMM-131: Article Presentation (20 pts)",
+    "start": "2026-09-16T23:59:00-04:00",
+    "end": "2026-09-16T24:00:00-04:00",
+    "colorId": "7",
+    "kind": "due"
+  },
+  {
     "title": "COMM-131: Listening Exercise (discussion) (20 pts)",
     "start": "2026-09-16T23:59:00-04:00",
     "end": "2026-09-16T24:00:00-04:00",
@@ -189,11 +221,11 @@
     "kind": "due"
   },
   {
-    "title": "COMM-131: Article Presentation (20 pts)",
-    "start": "2026-09-16T23:59:00-04:00",
-    "end": "2026-09-16T24:00:00-04:00",
-    "colorId": "7",
-    "kind": "due"
+    "title": "PHIL-101: request ILL — Flynn, “Becoming an Individual” (needed Oct 1)",
+    "start": "2026-09-17T09:00:00-04:00",
+    "end": "2026-09-17T09:30:00-04:00",
+    "colorId": "5",
+    "kind": "event"
   },
   {
     "title": "Introduction to Philosophy",
@@ -214,14 +246,16 @@
     "start": "2026-09-20T10:00:00-04:00",
     "end": "2026-09-20T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "10 of 15"
   },
   {
     "title": "PHIL-101: Reading Activity 9-22 due",
     "start": "2026-09-21T10:00:00-04:00",
     "end": "2026-09-21T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -270,7 +304,8 @@
     "start": "2026-09-23T10:00:00-04:00",
     "end": "2026-09-23T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -285,6 +320,13 @@
     "end": "2026-09-23T24:00:00-04:00",
     "colorId": "7",
     "kind": "due"
+  },
+  {
+    "title": "PHIL-101: request ILL — Tomasello, “The Key Is Social Cognition” (needed Oct 8)",
+    "start": "2026-09-24T09:00:00-04:00",
+    "end": "2026-09-24T09:30:00-04:00",
+    "colorId": "5",
+    "kind": "event"
   },
   {
     "title": "Introduction to Philosophy",
@@ -305,14 +347,16 @@
     "start": "2026-09-27T10:00:00-04:00",
     "end": "2026-09-27T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "10 of 15"
   },
   {
     "title": "PHIL-101: Reading Activity 9-28 due",
     "start": "2026-09-28T10:00:00-04:00",
     "end": "2026-09-28T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -336,18 +380,19 @@
     "kind": "class"
   },
   {
-    "title": "PHIL-101: Reading Activity 10-1 due",
-    "start": "2026-09-30T10:00:00-04:00",
-    "end": "2026-09-30T10:30:00-04:00",
-    "colorId": "3",
-    "kind": "due"
-  },
-  {
     "title": "COMM-131: SPEECH: Favorite Speech (100 pts)",
     "start": "2026-09-30T10:00:00-04:00",
     "end": "2026-09-30T10:01:00-04:00",
     "colorId": "7",
     "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 10-1 due",
+    "start": "2026-09-30T10:00:00-04:00",
+    "end": "2026-09-30T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -375,14 +420,16 @@
     "start": "2026-10-04T10:00:00-04:00",
     "end": "2026-10-04T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "10 of 15"
   },
   {
     "title": "PHIL-101: Reading Activity 10-6 due",
     "start": "2026-10-05T10:00:00-04:00",
     "end": "2026-10-05T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -417,7 +464,8 @@
     "start": "2026-10-07T10:00:00-04:00",
     "end": "2026-10-07T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -459,14 +507,8 @@
     "start": "2026-10-11T10:00:00-04:00",
     "end": "2026-10-11T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
-  },
-  {
-    "title": "PHIL-101: Reading Activity 10-12 due",
-    "start": "2026-10-12T10:00:00-04:00",
-    "end": "2026-10-12T10:30:00-04:00",
-    "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "10 of 15"
   },
   {
     "title": "COMM-131: SPEECH: Dream Trip Visual Aid (100 pts)",
@@ -476,11 +518,26 @@
     "kind": "due"
   },
   {
+    "title": "PHIL-101: Reading Activity 10-12 due",
+    "start": "2026-10-12T10:00:00-04:00",
+    "end": "2026-10-12T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due",
+    "optional": "20 of 28"
+  },
+  {
     "title": "Fund of Public Speaking",
     "start": "2026-10-12T10:30:00-04:00",
     "end": "2026-10-12T11:50:00-04:00",
     "colorId": "7",
     "kind": "class"
+  },
+  {
+    "title": "PHIL-101: request ILL — Cordova, “Ethics: The We and the I” (needed Oct 27)",
+    "start": "2026-10-13T09:00:00-04:00",
+    "end": "2026-10-13T09:30:00-04:00",
+    "colorId": "5",
+    "kind": "event"
   },
   {
     "title": "Introduction to Philosophy",
@@ -508,7 +565,8 @@
     "start": "2026-10-14T10:00:00-04:00",
     "end": "2026-10-14T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -543,14 +601,16 @@
     "start": "2026-10-18T10:00:00-04:00",
     "end": "2026-10-18T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "10 of 15"
   },
   {
     "title": "PHIL-101: Reading Activity 10-20 due",
     "start": "2026-10-19T10:00:00-04:00",
     "end": "2026-10-19T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -592,6 +652,14 @@
     "start": "2026-10-21T10:00:00-04:00",
     "end": "2026-10-21T10:30:00-04:00",
     "colorId": "3",
+    "kind": "due",
+    "optional": "20 of 28"
+  },
+  {
+    "title": "COMM-131: Persuasive Speech Analysis Exercise (25 pts)",
+    "start": "2026-10-21T10:30:00-04:00",
+    "end": "2026-10-21T10:31:00-04:00",
+    "colorId": "7",
     "kind": "due"
   },
   {
@@ -600,13 +668,6 @@
     "end": "2026-10-21T11:50:00-04:00",
     "colorId": "7",
     "kind": "class"
-  },
-  {
-    "title": "COMM-131: Persuasive Speech Analysis Exercise (25 pts)",
-    "start": "2026-10-21T10:30:00-04:00",
-    "end": "2026-10-21T10:31:00-04:00",
-    "colorId": "7",
-    "kind": "due"
   },
   {
     "title": "COMM-131: Persuasive Communication Article (discussion) (10 pts)",
@@ -627,14 +688,8 @@
     "start": "2026-10-25T10:00:00-04:00",
     "end": "2026-10-25T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
-  },
-  {
-    "title": "PHIL-101: Reading Activity 10-27 due",
-    "start": "2026-10-26T10:00:00-04:00",
-    "end": "2026-10-26T10:30:00-04:00",
-    "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "10 of 15"
   },
   {
     "title": "COMM-131: SPEECH: Persuasive Speech of Change (100 pts)",
@@ -642,6 +697,14 @@
     "end": "2026-10-26T10:01:00-04:00",
     "colorId": "7",
     "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 10-27 due",
+    "start": "2026-10-26T10:00:00-04:00",
+    "end": "2026-10-26T10:30:00-04:00",
+    "colorId": "3",
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -669,7 +732,8 @@
     "start": "2026-10-28T10:00:00-04:00",
     "end": "2026-10-28T10:30:00-04:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -693,7 +757,7 @@
     "kind": "class"
   },
   {
-    "title": "PHIL-101: Project Proposal due (Final Activity, 10%)",
+    "title": "PHIL-101: Project Proposal (10%) — DATE NOT SET, confirm with Halsne",
     "start": "2026-10-30T10:00:00-04:00",
     "end": "2026-10-30T10:30:00-04:00",
     "colorId": "3",
@@ -714,18 +778,27 @@
     "kind": "due"
   },
   {
+    "title": "Mott: midterm — last day to change to audit status",
+    "start": "2026-10-30T23:59:00-04:00",
+    "end": "2026-10-30T24:00:00-04:00",
+    "colorId": "11",
+    "kind": "event"
+  },
+  {
     "title": "PHIL-101: Weekly Summary 8 due",
     "start": "2026-11-01T10:00:00-05:00",
     "end": "2026-11-01T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "10 of 15"
   },
   {
     "title": "PHIL-101: Reading Activity 11-3 due",
     "start": "2026-11-02T10:00:00-05:00",
     "end": "2026-11-02T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -747,6 +820,13 @@
     "end": "2026-11-02T12:01:00-05:00",
     "colorId": "7",
     "kind": "due"
+  },
+  {
+    "title": "PHIL-101: request ILL — hooks, “Love as the Practice of Freedom” (needed Nov 17)",
+    "start": "2026-11-03T09:00:00-05:00",
+    "end": "2026-11-03T09:30:00-05:00",
+    "colorId": "5",
+    "kind": "event"
   },
   {
     "title": "Introduction to Philosophy",
@@ -774,7 +854,8 @@
     "start": "2026-11-04T10:00:00-05:00",
     "end": "2026-11-04T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -816,7 +897,8 @@
     "start": "2026-11-08T10:00:00-05:00",
     "end": "2026-11-08T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "10 of 15"
   },
   {
     "title": "UM-Flint: Winter 2027 early registration OPENS (8am)",
@@ -830,7 +912,8 @@
     "start": "2026-11-09T10:00:00-05:00",
     "end": "2026-11-09T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -865,7 +948,8 @@
     "start": "2026-11-11T10:00:00-05:00",
     "end": "2026-11-11T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -893,14 +977,8 @@
     "start": "2026-11-15T10:00:00-05:00",
     "end": "2026-11-15T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
-  },
-  {
-    "title": "PHIL-101: Reading Activity 11-17 due",
-    "start": "2026-11-16T10:00:00-05:00",
-    "end": "2026-11-16T10:30:00-05:00",
-    "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "10 of 15"
   },
   {
     "title": "COMM-131: SPEECH: Demonstration Speech (100 pts)",
@@ -908,6 +986,14 @@
     "end": "2026-11-16T10:01:00-05:00",
     "colorId": "7",
     "kind": "due"
+  },
+  {
+    "title": "PHIL-101: Reading Activity 11-17 due",
+    "start": "2026-11-16T10:00:00-05:00",
+    "end": "2026-11-16T10:30:00-05:00",
+    "colorId": "3",
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -949,7 +1035,8 @@
     "start": "2026-11-18T10:00:00-05:00",
     "end": "2026-11-18T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -966,7 +1053,7 @@
     "kind": "class"
   },
   {
-    "title": "PHIL-101: Project Draft due (Final Activity, 20%)",
+    "title": "PHIL-101: Project Draft (20%) — DATE NOT SET, confirm with Halsne",
     "start": "2026-11-20T10:00:00-05:00",
     "end": "2026-11-20T10:30:00-05:00",
     "colorId": "3",
@@ -977,7 +1064,8 @@
     "start": "2026-11-22T10:00:00-05:00",
     "end": "2026-11-22T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "10 of 15"
   },
   {
     "title": "Fund of Public Speaking",
@@ -1033,6 +1121,14 @@
     "start": "2026-11-30T10:00:00-05:00",
     "end": "2026-11-30T10:30:00-05:00",
     "colorId": "3",
+    "kind": "due",
+    "optional": "20 of 28"
+  },
+  {
+    "title": "COMM-131: Speech Analysis Assignment (50 pts)",
+    "start": "2026-11-30T10:30:00-05:00",
+    "end": "2026-11-30T10:31:00-05:00",
+    "colorId": "7",
     "kind": "due"
   },
   {
@@ -1041,13 +1137,6 @@
     "end": "2026-11-30T11:50:00-05:00",
     "colorId": "7",
     "kind": "class"
-  },
-  {
-    "title": "COMM-131: Speech Analysis Assignment (50 pts)",
-    "start": "2026-11-30T10:30:00-05:00",
-    "end": "2026-11-30T10:31:00-05:00",
-    "colorId": "7",
-    "kind": "due"
   },
   {
     "title": "Introduction to Philosophy",
@@ -1068,7 +1157,8 @@
     "start": "2026-12-02T10:00:00-05:00",
     "end": "2026-12-02T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -1110,14 +1200,16 @@
     "start": "2026-12-06T10:00:00-05:00",
     "end": "2026-12-06T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "10 of 15"
   },
   {
     "title": "PHIL-101: Reading Activity 12-8 due",
     "start": "2026-12-07T10:00:00-05:00",
     "end": "2026-12-07T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -1159,7 +1251,8 @@
     "start": "2026-12-09T10:00:00-05:00",
     "end": "2026-12-09T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "20 of 28"
   },
   {
     "title": "Fund of Public Speaking",
@@ -1183,11 +1276,19 @@
     "kind": "class"
   },
   {
+    "title": "Mott: last day to drop with a W",
+    "start": "2026-12-11T23:59:00-05:00",
+    "end": "2026-12-11T24:00:00-05:00",
+    "colorId": "11",
+    "kind": "event"
+  },
+  {
     "title": "PHIL-101: Weekly Summary 13 due",
     "start": "2026-12-13T10:00:00-05:00",
     "end": "2026-12-13T10:30:00-05:00",
     "colorId": "3",
-    "kind": "due"
+    "kind": "due",
+    "optional": "10 of 15"
   },
   {
     "title": "Fund of Public Speaking",
@@ -1232,13 +1333,6 @@
     "kind": "due"
   },
   {
-    "title": "PHIL-101: Final Project due (Final Activity, 20%)",
-    "start": "2026-12-16T10:00:00-05:00",
-    "end": "2026-12-16T10:30:00-05:00",
-    "colorId": "3",
-    "kind": "due"
-  },
-  {
     "title": "COMM-131: Reflections on Public Speaking (discussion) (20 pts)",
     "start": "2026-12-16T10:00:00-05:00",
     "end": "2026-12-16T10:01:00-05:00",
@@ -1278,6 +1372,34 @@
     "start": "2026-12-18T22:00:00-05:00",
     "end": "2026-12-18T23:59:00-05:00",
     "colorId": "11",
+    "kind": "event"
+  },
+  {
+    "title": "Mott: last day of classes",
+    "start": "2026-12-18T23:59:00-05:00",
+    "end": "2026-12-18T24:00:00-05:00",
+    "colorId": "11",
+    "kind": "event"
+  },
+  {
+    "title": "PHIL-101: Final Activity — final version (20%)",
+    "start": "2026-12-18T23:59:00-05:00",
+    "end": "2026-12-18T24:00:00-05:00",
+    "colorId": "3",
+    "kind": "due"
+  },
+  {
+    "title": "Mott: final grades due",
+    "start": "2026-12-21T23:59:00-05:00",
+    "end": "2026-12-21T24:00:00-05:00",
+    "colorId": "11",
+    "kind": "event"
+  },
+  {
+    "title": "🟠 NFP — Monthly (first Friday)",
+    "start": "2027-01-01T08:30:00-05:00",
+    "end": "2027-01-01T10:00:00-05:00",
+    "colorId": "6",
     "kind": "event"
   },
   {
