@@ -161,6 +161,8 @@
     padding: 4px 8px; border-radius: 4px; background: var(--rule-soft); color: var(--ink-soft);
     white-space: nowrap;
   }
+  .card.row[data-optional="1"] b { font-weight: 500; opacity: .82; }
+  .card.row[data-optional="1"] .stripe { opacity: .45; }
   .chip[data-sev="urgent"] { background: var(--urgent-bg); color: var(--urgent); }
   .chip[data-sev="soon"]   { background: var(--soon-bg);   color: var(--soon); }
   .chip[data-sev="ok"]     { background: var(--ok-bg);     color: var(--ok); }
@@ -329,14 +331,17 @@ const DESK = {
     { icon: "📋", name: "Sheets",   url: "https://docs.google.com/spreadsheets" },
     { icon: "🔥", name: "Firebase", url: "https://firebase.google.com/console" },
     { icon: "🎓", name: "Canvas",   url: "https://mottcc.instructure.com/" },
-    { icon: "〽️", name: "UM-Flint", url: "https://www.umflint.edu/registrar/registration/" }
+    { icon: "〽️", name: "UM-Flint", url: "https://www.umflint.edu/registrar/registration/" },
+    { icon: "🏛️", name: "PHIL tracker", url: "https://claude.ai/code/artifact/32c3401a-45da-4e59-b535-a56638f47594" },
+    { icon: "📚", name: "PHIL readings", url: "https://claude.ai/code/artifact/a62c3bd4-5e74-430f-8ec5-6dffce467710" }
   ],
 
   // title | one short line | chip | sev
   needsYou: [
-    { title: "COMM-131 due tonight",   note: "Organizing Your Speech + Transitions Phrases — 15 pts",  tag: "Do",     sev: "urgent" },
-    { title: "PHIL-101 syllabus quiz", note: "Due Sun Sep 6 — the cheapest points of the term", tag: "Do",     sev: "urgent" },
-    { title: "COMM-131 sample outline", note: "Due Wed Sep 9, 10am, before class",              tag: "Do",     sev: "soon"   },
+    { title: "Half-refund drop ends today", note: "Sep 10 is the last day; after this a drop refunds nothing", tag: "Do", sev: "urgent" },
+    { title: "5 PHIL readings need ILL", note: "No free or Mott copy. Rosenstand is needed Sep 24 — request now", tag: "Do", sev: "urgent" },
+    { title: "PHIL is pick-and-choose",  note: "10 of 15 summaries, 20 of 28 activities — choose, don't do all", tag: "Plan", sev: "soon" },
+    { title: "Final Activity is 50%",    note: "Proposal + draft dates are NOT set — ask Halsne in office hours", tag: "Chase", sev: "soon" },
     { title: "UM-Flint winter reg",    note: "Early reg opens Mon Nov 9 8am — status decides your path", tag: "Decide", sev: "soon" },
     { title: "Tuesday trading cutoff",  note: "MATH-170 runs 5:00–7:20pm — no PM session Tue",   tag: "Decide", sev: "soon"   },
     { title: "Tests are in class",     note: "Sep 22, Oct 13, Nov 3, Nov 24 — every test is a Tuesday", tag: "Plan",  sev: "soon" },
@@ -406,9 +411,9 @@ const DESK = {
   },
 
   loopsOnYou: [
-    "PHIL syllabus quiz (Sun)",
-    "COMM sample outline (Wed)",
+    "Request 5 PHIL readings via ILL — first one is needed Sep 24",
     "Book the PHIL instructor meeting — 5% of the grade",
+    "Choose which 10 of 15 weekly summaries you will actually submit",
     "Pick the fixed CARS slot",
     "Confirm UM-Flint status — admitted, transfer, or still to apply",
     "Pick winter courses before Nov 9"
@@ -421,15 +426,15 @@ const DESK = {
   ],
 
   courses: [
-    { name: "Introduction to Philosophy (PHIL-101)",     meets: "Tue/Thu 1:30–2:50 · CM 1111",   next: "Syllabus quiz — Sep 6" },
-    { name: "Fund of Public Speaking (COMM-131-07HON)",  meets: "Mon/Wed 10:30–11:50 · CM 2001", next: "2 due tonight 11:59pm" },
+    { name: "Introduction to Philosophy (PHIL-101)",     meets: "Tue/Thu 1:30–2:50 · CM 1111",   next: "Weekly Summary — Sep 13" },
+    { name: "Fund of Public Speaking (COMM-131-07HON)",  meets: "Mon/Wed 10:30–11:50 · CM 2001", next: "Splendid Gesture — Sep 14" },
     { name: "Analytic Geometry & Calculus 1 (MATH-170)", meets: "Tue 5:00–7:20 · Gorman 3202",   next: "§1.1–1.3 — Sep 11" },
-    { name: "Introduction to Film (FILM-181-WWW02)",     meets: "Online · asynchronous",         next: "Not active — can't be added yet", state: "blocked" }
+    { name: "Introduction to Film (FILM-181-WWW02)",     meets: "Online · asynchronous",         next: "Still not active — 10 days on", state: "blocked" }
   ],
 
   projects: [
-    { title: "Molly spine",       note: "Calendar + morning brief live; glasses client is next", tag: "Build",  sev: "ok"     },
-    { title: "Alta / quant",      note: "NFP Sep 4, FOMC Sep 16 — size down into both",          tag: "Watch",  sev: "soon"   },
+    { title: "Molly spine",       note: "Semantic recall + local brain live; write path is next", tag: "Build",  sev: "ok"     },
+    { title: "Alta / quant",      note: "FOMC Sep 16 — size down into it; NFP next on Oct 2",    tag: "Watch",  sev: "soon"   },
     { title: "Teleprompter rig",  note: "Works. Parked at apps/teleprompter until Halo lands",   tag: "Parked", sev: ""       }
   ],
 
@@ -497,7 +502,10 @@ const DESK = {
   };
 
   function paintDeadlines() {
-    const tile = (i) => DUE[i] || { n: 0, what: "Nothing scheduled" };
+    // Tiles read as "what is coming at me". A pick-10-of-15 summary is not
+    // coming at him, so the required work is what gets the two countdowns.
+    const REQUIRED = DUE.filter((d) => !d.optional);
+    const tile = (i) => REQUIRED[i] || DUE[i] || { n: 0, what: "Nothing scheduled" };
     const tiles = [
       { n: tile(0).n === 0 ? "today" : tile(0).n, unit: tile(0).n === 0 ? "" : "days", l: tileLabel(tile(0).what), sev: sevFor(tile(0).n) },
       { n: tile(1).n === 0 ? "today" : tile(1).n, unit: tile(1).n === 0 ? "" : "days", l: tileLabel(tile(1).what), sev: sevFor(tile(1).n) },
@@ -508,10 +516,11 @@ const DESK = {
       `<div class="stat" data-sev="${t.sev}"><div class="n">${t.n}${t.unit ? ` <small>${t.unit}</small>` : ""}</div><div class="l">${esc(t.l)}</div></div>`).join("");
 
     $("deadlines").innerHTML = DUE.slice(0, 8).map((d) => {
-      const sev = sevFor(d.n);
-      return `<div class="card row" data-sev="${sev}">
+      const sev = d.optional ? "ok" : sevFor(d.n);
+      const meta = d.optional ? `${esc(d.date)} · pick ${esc(d.optional)}` : `${esc(d.date)} · ${esc(d.time)}`;
+      return `<div class="card row" data-sev="${sev}" data-optional="${d.optional ? "1" : ""}">
         <div class="stripe"></div>
-        <div class="rt"><b>${esc(d.what)}</b><span>${esc(d.date)} · ${esc(d.time)}</span></div>
+        <div class="rt"><b>${esc(d.what)}</b><span>${meta}</span></div>
         <div class="rm"><span class="chip" data-sev="${sev}">${d.n === 0 ? "today" : d.n + " d"}</span></div>
       </div>`;
     }).join("");
@@ -600,7 +609,7 @@ const DESK = {
       // A class meeting is somewhere to be, not something owed. Only work and
       // dated events reach the deadline card.
       DUE = raw.filter((e) => e.kind !== "class")
-               .map((e) => ({ what: e.title, date: e.start.slice(0, 10),
+               .map((e) => ({ what: e.title, date: e.start.slice(0, 10), optional: e.optional,
                               time: clockOf(e.start), n: daysTo(e.start.slice(0, 10)) }))
                .filter((d) => d.n >= 0)
                .sort((a, b) => a.n - b.n || a.what.localeCompare(b.what));
