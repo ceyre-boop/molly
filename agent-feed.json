@@ -1,17 +1,19 @@
 {
-  "updated": "2026-09-22T21:25:00-04:00",
+  "updated": "2026-09-22T21:30:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for agent tasks",
-      "note": "13 scheduled tasks found in Claude tonight \u2014 cloud runs pause for approval until this is on",
+      "note": "Cloud runs pause for approval until this is on \u2014 tap the title to open the setting",
       "tag": "setup",
-      "sev": "urgent"
+      "sev": "urgent",
+      "url": "https://claude.ai/scheduled-task"
     },
     {
       "title": "Inbox triage latest run flagged \"needs attention\"",
       "note": "Claude's 8:30a/12:30p/5:30p triage flagged its latest run \u2014 say the word and I'll dig into Gmail here",
       "tag": "triage",
-      "sev": "soon"
+      "sev": "soon",
+      "url": "https://mail.google.com"
     },
     {
       "title": "FAFSA 2027-28 opens Oct 1",
@@ -31,6 +33,13 @@
       "tag": "28 d",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/90acad25-0ba4-4ba4-855e-e629857b46b4"
+    },
+    {
+      "title": "Set up \"Send mail as\" for ceyre@northbound-dev.com",
+      "note": "Gmail \u2192 Settings \u2192 Accounts \u2192 Send mail as. Unblocks tracked outreach and scoreboard email counts",
+      "tag": "setup",
+      "sev": "soon",
+      "url": "https://mail.google.com"
     }
   ],
   "jobs": []
