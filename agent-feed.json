@@ -1,17 +1,17 @@
 {
-  "updated": "2026-09-22T21:00:00-04:00",
+  "updated": "2026-09-22T21:10:00-04:00",
   "needs": [
     {
-      "title": "Turn on \"Automatically approve\" for the 7 agent tasks",
-      "note": "Cloud tasks pause for approval until this is on",
+      "title": "Turn on \"Automatically approve\" for agent tasks",
+      "note": "13 scheduled tasks found in Claude tonight \u2014 cloud runs pause for approval until this is on",
       "tag": "setup",
       "sev": "urgent"
     },
     {
-      "title": "Connect Gmail + Google Calendar to Muse",
-      "note": "Email triage, outreach sending, and lead-reply booking are blocked until both are connected",
-      "tag": "setup",
-      "sev": "urgent"
+      "title": "Inbox triage latest run flagged \"needs attention\"",
+      "note": "Claude's 8:30a/12:30p/5:30p triage flagged its latest run \u2014 say the word and I'll dig into Gmail here",
+      "tag": "triage",
+      "sev": "soon"
     },
     {
       "title": "FAFSA 2027-28 opens Oct 1",
@@ -36,34 +36,69 @@
   "jobs": [
     {
       "title": "Inbox triage",
-      "note": "8:30a + 12:30p + 5:30p \u2014 first run in progress",
+      "note": "8:30a + 12:30p + 5:30p daily \u2014 latest run needs attention",
+      "tag": "attention",
+      "sev": "soon"
+    },
+    {
+      "title": "Morning brief",
+      "note": "7:00a daily \u2014 enabled",
       "tag": "running",
       "sev": "accent"
     },
     {
-      "title": "Morning brief",
-      "note": "7:00a daily \u2014 first run tomorrow",
-      "tag": "scheduled",
+      "title": "Evening digest",
+      "note": "9:30p daily \u2014 enabled",
+      "tag": "running",
       "sev": "accent"
     },
     {
-      "title": "Market brief (read-only)",
-      "note": "8:45a weekdays \u2014 first run tomorrow",
-      "tag": "scheduled",
+      "title": "Outbound (Northbound + Settled)",
+      "note": "Weekdays 10:00a \u2014 enabled, needs Mac connected",
+      "tag": "running",
       "sev": "accent"
     },
     {
-      "title": "Scholarship scout",
-      "note": "Mondays 9a \u2014 tracker has 22 matches",
-      "tag": "tracker",
-      "sev": "accent",
-      "url": "https://claude.ai/code/artifact/90acad25-0ba4-4ba4-855e-e629857b46b4"
+      "title": "Dashboard sync",
+      "note": "Every 2h, 7a\u201311p \u2014 enabled, needs Mac connected",
+      "tag": "running",
+      "sev": "accent"
     },
     {
-      "title": "Evening digest + Mac tidy + Weekly learn",
-      "note": "9:30p + 10p + Sun 7p",
-      "tag": "scheduled",
+      "title": "NQ position watcher",
+      "note": "Hourly Sun\u2013Fri \u2014 enabled, needs Mac connected",
+      "tag": "running",
       "sev": "accent"
+    },
+    {
+      "title": "September account watch",
+      "note": "Weekdays 4:30p, read-only \u2014 enabled",
+      "tag": "running",
+      "sev": "accent"
+    },
+    {
+      "title": "Car brand reply check",
+      "note": "9:00a daily \u2014 enabled",
+      "tag": "running",
+      "sev": "accent"
+    },
+    {
+      "title": "Mac tidy",
+      "note": "10:00p nightly \u2014 enabled, needs Mac connected",
+      "tag": "running",
+      "sev": "accent"
+    },
+    {
+      "title": "Weekly review",
+      "note": "Sundays 7:00p \u2014 enabled",
+      "tag": "running",
+      "sev": "accent"
+    },
+    {
+      "title": "3 tasks paused",
+      "note": "Scholarship scout \u00b7 Market brief \u00b7 Daily inbox signal",
+      "tag": "paused",
+      "sev": "ok"
     }
   ]
 }
