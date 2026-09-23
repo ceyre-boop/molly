@@ -1,0 +1,15 @@
+{
+  "updated": "2026-09-22T18:10:00-04:00",
+  "needs": [
+    {"title": "Turn on \"Automatically approve\" for the 7 agent tasks", "note": "Cloud tasks pause for approval until this is on", "tag": "setup", "sev": "urgent"},
+    {"title": "FAFSA 2027-28 opens Oct 1", "note": "Unlocks Michigan Achievement + MCC Foundation scholarships", "tag": "Oct 1", "sev": "soon"},
+    {"title": "Stop Hunger scholarship due Oct 20", "note": "$10K. Only a fit if you do hunger-relief work", "tag": "28 d", "sev": "ok", "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"}
+  ],
+  "jobs": [
+    {"title": "Inbox triage", "note": "8:30a · 12:30p · 5:30p — first run in progress", "tag": "running", "sev": "accent"},
+    {"title": "Morning brief", "note": "7:00a daily — first run tomorrow", "tag": "scheduled", "sev": "accent"},
+    {"title": "Market brief (read-only)", "note": "8:45a weekdays — first run tomorrow", "tag": "scheduled", "sev": "accent"},
+    {"title": "Scholarship scout", "note": "Mondays 9a — tracker has 22 matches", "tag": "tracker", "sev": "accent", "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"},
+    {"title": "Evening digest · Mac tidy · Weekly learn", "note": "9:30p · 10p · Sun 7p", "tag": "scheduled", "sev": "accent"}
+  ]
+}

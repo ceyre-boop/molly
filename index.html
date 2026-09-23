@@ -253,6 +253,11 @@
   </section>
 
   <section>
+    <h2 class="label">Agent <span class="c" id="agent-c"></span> <span class="c" id="agent-age" style="font-weight:400"></span></h2>
+    <div class="rows" id="agent-feed"></div>
+  </section>
+
+  <section>
     <h2 class="label">Overnight <span class="c" id="activity-c">0</span></h2>
     <div class="rows" id="activity"></div>
   </section>
@@ -619,6 +624,30 @@ const DESK = {
   paintBar();
   setInterval(paintBar, 30000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) paintBar(); });
+
+  /* ---- agent feed (Claude scheduled agent, pushed by .agent-feed/push.sh) ---- */
+  const AGENT_SRC = ["https://raw.githubusercontent.com/ceyre-boop/molly/main/agent-feed.json", "./agent-feed.json"];
+  const escq = (s) => esc(s).replace(/"/g, "&quot;");
+  const ago = (ts) => { const m = Math.round((Date.now() - new Date(ts)) / 60000); return m < 60 ? m + "m ago" : m < 1440 ? Math.round(m / 60) + "h ago" : Math.round(m / 1440) + "d ago"; };
+  function paintAgent(f) {
+    const rows = [...(f.needs || []), ...(f.jobs || [])];
+    $("agent-c").textContent = (f.needs || []).length;
+    $("agent-age").textContent = f.updated ? "· updated " + ago(f.updated) : "";
+    $("agent-feed").innerHTML = rows.map((r) => `
+      <div class="card row" data-sev="${escq(r.sev || "accent")}">
+        <div class="stripe"></div>
+        <div class="rt"><b>${esc(r.title)}</b>${r.note ? `<span>${esc(r.note)}</span>` : ""}</div>
+        <div class="rm">${r.url ? `<a href="${escq(r.url)}" target="_blank" rel="noopener noreferrer">` : ""}<span class="chip" data-sev="${escq(r.sev || "accent")}">${esc(r.tag || "")}</span>${r.url ? "</a>" : ""}</div>
+      </div>`).join("");
+  }
+  async function loadAgent() {
+    for (const u of AGENT_SRC) {
+      try { const r = await fetch(u + "?t=" + Date.now(), { cache: "no-store" }); if (r.ok) { paintAgent(await r.json()); return; } } catch (e) {}
+    }
+  }
+  loadAgent();
+  setInterval(loadAgent, 120000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) loadAgent(); });
 
   /* ---- activity feed (overnight dispatch results) ---- */
   fetch("./activity.json", { cache: "no-store" })
