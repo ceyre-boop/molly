@@ -1,10 +1,10 @@
 {
   "week": "Sep 21 - Sep 27, 2026",
-  "updated": "2026-09-22T21:20:00-04:00",
+  "updated": "2026-09-22T21:45:00-04:00",
   "metrics": [
     {
       "label": "Emails sent",
-      "value": 0
+      "value": 22
     },
     {
       "label": "Replies",
@@ -19,5 +19,5 @@
       "value": "$0"
     }
   ],
-  "note": "First scoreboard. Pipeline under construction."
+  "note": "22 Northbound cold emails sent Sep 22 (first outreach batch)."
 }
