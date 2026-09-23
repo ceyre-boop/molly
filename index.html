@@ -258,6 +258,16 @@
   </section>
 
   <section>
+    <h2 class="label">Tasks <span class="c" id="tasks-c"></span> <a href="https://claude.ai/scheduled-task" target="_blank" rel="noopener noreferrer" style="font-weight:400;font-size:12px">open in Claude</a></h2>
+    <div class="rows" id="tasks"></div>
+  </section>
+
+  <section>
+    <h2 class="label">Money <span class="c" id="money-week" style="font-weight:400"></span></h2>
+    <div class="stats" id="money-stats"></div>
+  </section>
+
+  <section>
     <h2 class="label">Overnight <span class="c" id="activity-c">0</span></h2>
     <div class="rows" id="activity"></div>
   </section>
@@ -330,6 +340,7 @@ const DESK = {
     { icon: "📅", name: "Calendar", url: "https://calendar.google.com/calendar/u/0/r" },
     { icon: "📧", name: "Gmail",    url: "https://mail.google.com" },
     { icon: "🐙", name: "GitHub",   url: "https://github.com/ceyre-boop" },
+    { icon: "✨", name: "Muse",     url: "https://muse.ai" },
     { icon: "🚀", name: "TABOOST",  url: "https://live.taboost.me" },
     { icon: "📊", name: "Quant",    url: "https://ceyre-boop.github.io/quant/" },
     { icon: "💬", name: "Telegram", url: "https://web.telegram.org" },
@@ -647,6 +658,34 @@ const DESK = {
   loadAgent();
   setInterval(loadAgent, 120000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) loadAgent(); });
+
+  /* ---- tasks board (claude-tasks.json, updated by agent) ---- */
+  fetch("./claude-tasks.json", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : Promise.reject()))
+    .then((f) => {
+      const tsev = (s) => (s === "attention" ? "soon" : s === "paused" ? "ok" : "accent");
+      const tasks = f.tasks || [];
+      $("tasks-c").textContent = tasks.filter((t) => t.status === "enabled" || t.status === "attention").length + " on";
+      $("tasks").innerHTML = tasks.map((t) => {
+        const sev = tsev(t.status);
+        const sub = t.schedule + (t.note ? " \u00b7 " + t.note : "");
+        const chip = '<span class="chip" data-sev="' + sev + '">' + esc(t.status) + '</span>';
+        const rm = t.url ? '<a href="' + esc(t.url) + '" target="_blank" rel="noopener noreferrer">' + chip + '</a>' : chip;
+        return '<div class="card row" data-sev="' + sev + '"><div class="stripe"></div>' +
+          '<div class="rt"><b>' + esc(t.name) + '</b><span>' + esc(sub) + '</span></div>' +
+          '<div class="rm">' + rm + '</div></div>';
+      }).join("");
+    }).catch(() => {});
+
+  /* ---- money scoreboard (money-scoreboard.json, updated weekly) ---- */
+  fetch("./money-scoreboard.json", { cache: "no-store" })
+    .then((r) => (r.ok ? r.json() : Promise.reject()))
+    .then((f) => {
+      $("money-week").textContent = f.week ? "\u00b7 " + f.week : "";
+      $("money-stats").innerHTML = (f.metrics || []).map((m) =>
+        '<div class="stat" data-sev="accent"><div class="n">' + esc(String(m.value)) + '</div>' +
+        '<div class="l">' + esc(m.label) + '</div></div>').join("");
+    }).catch(() => {});
 
   /* ---- activity feed (overnight dispatch results) ---- */
   fetch("./activity.json", { cache: "no-store" })

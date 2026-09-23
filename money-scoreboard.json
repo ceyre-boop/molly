@@ -1,0 +1,23 @@
+{
+  "week": "Sep 21 - Sep 27, 2026",
+  "updated": "2026-09-22T21:20:00-04:00",
+  "metrics": [
+    {
+      "label": "Emails sent",
+      "value": 0
+    },
+    {
+      "label": "Replies",
+      "value": 0
+    },
+    {
+      "label": "Calls booked",
+      "value": 0
+    },
+    {
+      "label": "Dollars in",
+      "value": "$0"
+    }
+  ],
+  "note": "First scoreboard. Pipeline under construction."
+}
