@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-22T21:10:00-04:00",
+  "updated": "2026-09-22T21:25:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for agent tasks",
@@ -33,72 +33,5 @@
       "url": "https://claude.ai/code/artifact/90acad25-0ba4-4ba4-855e-e629857b46b4"
     }
   ],
-  "jobs": [
-    {
-      "title": "Inbox triage",
-      "note": "8:30a + 12:30p + 5:30p daily \u2014 latest run needs attention",
-      "tag": "attention",
-      "sev": "soon"
-    },
-    {
-      "title": "Morning brief",
-      "note": "7:00a daily \u2014 enabled",
-      "tag": "running",
-      "sev": "accent"
-    },
-    {
-      "title": "Evening digest",
-      "note": "9:30p daily \u2014 enabled",
-      "tag": "running",
-      "sev": "accent"
-    },
-    {
-      "title": "Outbound (Northbound + Settled)",
-      "note": "Weekdays 10:00a \u2014 enabled, needs Mac connected",
-      "tag": "running",
-      "sev": "accent"
-    },
-    {
-      "title": "Dashboard sync",
-      "note": "Every 2h, 7a\u201311p \u2014 enabled, needs Mac connected",
-      "tag": "running",
-      "sev": "accent"
-    },
-    {
-      "title": "NQ position watcher",
-      "note": "Hourly Sun\u2013Fri \u2014 enabled, needs Mac connected",
-      "tag": "running",
-      "sev": "accent"
-    },
-    {
-      "title": "September account watch",
-      "note": "Weekdays 4:30p, read-only \u2014 enabled",
-      "tag": "running",
-      "sev": "accent"
-    },
-    {
-      "title": "Car brand reply check",
-      "note": "9:00a daily \u2014 enabled",
-      "tag": "running",
-      "sev": "accent"
-    },
-    {
-      "title": "Mac tidy",
-      "note": "10:00p nightly \u2014 enabled, needs Mac connected",
-      "tag": "running",
-      "sev": "accent"
-    },
-    {
-      "title": "Weekly review",
-      "note": "Sundays 7:00p \u2014 enabled",
-      "tag": "running",
-      "sev": "accent"
-    },
-    {
-      "title": "3 tasks paused",
-      "note": "Scholarship scout \u00b7 Market brief \u00b7 Daily inbox signal",
-      "tag": "paused",
-      "sev": "ok"
-    }
-  ]
+  "jobs": []
 }
