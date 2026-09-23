@@ -1,0 +1,83 @@
+{
+  "updated": "2026-09-22T21:20:00-04:00",
+  "tasks": [
+    {
+      "name": "Inbox triage",
+      "schedule": "8:30a / 12:30p / 5:30p daily",
+      "status": "attention",
+      "note": "Latest run flagged needs attention"
+    },
+    {
+      "name": "Morning brief",
+      "schedule": "Daily 7:00a",
+      "status": "enabled",
+      "note": ""
+    },
+    {
+      "name": "Evening digest",
+      "schedule": "Daily 9:30p",
+      "status": "enabled",
+      "note": ""
+    },
+    {
+      "name": "Outbound (Northbound + Settled)",
+      "schedule": "Weekdays 10:00a",
+      "status": "enabled",
+      "note": "Needs Mac connected"
+    },
+    {
+      "name": "Dashboard sync (Molly)",
+      "schedule": "Every 2h, 7a-11p",
+      "status": "enabled",
+      "note": "Needs Mac connected"
+    },
+    {
+      "name": "NQ position watcher (The Leap)",
+      "schedule": "Hourly, Sun-Fri",
+      "status": "enabled",
+      "note": "Paper-trading contest; needs Mac"
+    },
+    {
+      "name": "September account watch",
+      "schedule": "Weekdays 4:30p",
+      "status": "enabled",
+      "note": "Read-only"
+    },
+    {
+      "name": "Car brand reply check",
+      "schedule": "Daily 9:00a",
+      "status": "enabled",
+      "note": "~103 brands"
+    },
+    {
+      "name": "Mac tidy",
+      "schedule": "Nightly 10:00p",
+      "status": "enabled",
+      "note": "Needs Mac connected"
+    },
+    {
+      "name": "Weekly review",
+      "schedule": "Sundays 7:00p",
+      "status": "enabled",
+      "note": ""
+    },
+    {
+      "name": "Scholarship scout",
+      "schedule": "Was Mon 9:00a",
+      "status": "paused",
+      "note": ""
+    },
+    {
+      "name": "Market brief",
+      "schedule": "Was weekdays 8:45a",
+      "status": "paused",
+      "note": "Public.com read-only"
+    },
+    {
+      "name": "Daily inbox signal",
+      "schedule": "Was daily",
+      "status": "paused",
+      "note": ""
+    }
+  ]
+}
