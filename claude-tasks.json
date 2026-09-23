@@ -1,83 +1,96 @@
 {
-  "updated": "2026-09-22T21:20:00-04:00",
+  "updated": "2026-09-22T21:25:00-04:00",
   "tasks": [
     {
       "name": "Inbox triage",
       "schedule": "8:30a / 12:30p / 5:30p daily",
       "status": "attention",
-      "note": "Latest run flagged needs attention"
+      "note": "Latest run flagged needs attention",
+      "url": "https://claude.ai/scheduled-task"
     },
     {
       "name": "Morning brief",
       "schedule": "Daily 7:00a",
       "status": "enabled",
-      "note": ""
+      "note": "",
+      "url": "https://claude.ai/scheduled-task"
     },
     {
       "name": "Evening digest",
       "schedule": "Daily 9:30p",
       "status": "enabled",
-      "note": ""
+      "note": "",
+      "url": "https://claude.ai/scheduled-task"
     },
     {
       "name": "Outbound (Northbound + Settled)",
       "schedule": "Weekdays 10:00a",
       "status": "enabled",
-      "note": "Needs Mac connected"
+      "note": "Needs Mac connected",
+      "url": "https://claude.ai/scheduled-task"
     },
     {
       "name": "Dashboard sync (Molly)",
       "schedule": "Every 2h, 7a-11p",
       "status": "enabled",
-      "note": "Needs Mac connected"
+      "note": "Needs Mac connected",
+      "url": "https://claude.ai/scheduled-task"
     },
     {
       "name": "NQ position watcher (The Leap)",
       "schedule": "Hourly, Sun-Fri",
       "status": "enabled",
-      "note": "Paper-trading contest; needs Mac"
+      "note": "Paper-trading contest; needs Mac",
+      "url": "https://claude.ai/scheduled-task"
     },
     {
       "name": "September account watch",
       "schedule": "Weekdays 4:30p",
       "status": "enabled",
-      "note": "Read-only"
+      "note": "Read-only",
+      "url": "https://claude.ai/scheduled-task"
     },
     {
       "name": "Car brand reply check",
       "schedule": "Daily 9:00a",
       "status": "enabled",
-      "note": "~103 brands"
+      "note": "~103 brands",
+      "url": "https://claude.ai/scheduled-task"
     },
     {
       "name": "Mac tidy",
       "schedule": "Nightly 10:00p",
       "status": "enabled",
-      "note": "Needs Mac connected"
+      "note": "Needs Mac connected",
+      "url": "https://claude.ai/scheduled-task"
     },
     {
       "name": "Weekly review",
       "schedule": "Sundays 7:00p",
       "status": "enabled",
-      "note": ""
+      "note": "",
+      "url": "https://claude.ai/scheduled-task"
     },
     {
       "name": "Scholarship scout",
       "schedule": "Was Mon 9:00a",
       "status": "paused",
-      "note": ""
+      "note": "",
+      "url": "https://claude.ai/scheduled-task"
     },
     {
       "name": "Market brief",
       "schedule": "Was weekdays 8:45a",
       "status": "paused",
-      "note": "Public.com read-only"
+      "note": "Public.com read-only",
+      "url": "https://claude.ai/scheduled-task"
     },
     {
       "name": "Daily inbox signal",
       "schedule": "Was daily",
       "status": "paused",
-      "note": ""
+      "note": "",
+      "url": "https://claude.ai/scheduled-task"
     }
   ]
 }
