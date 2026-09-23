@@ -258,7 +258,7 @@
   </section>
 
   <section>
-    <h2 class="label">Tasks <span class="c" id="tasks-c"></span></h2>
+    <h2 class="label">Tasks <span class="c" id="tasks-c"></span> <a href="https://claude.ai/scheduled-task" target="_blank" rel="noopener noreferrer" style="font-weight:400;font-size:12px">open in Claude</a></h2>
     <div class="rows" id="tasks"></div>
   </section>
 
@@ -340,6 +340,7 @@ const DESK = {
     { icon: "📅", name: "Calendar", url: "https://calendar.google.com/calendar/u/0/r" },
     { icon: "📧", name: "Gmail",    url: "https://mail.google.com" },
     { icon: "🐙", name: "GitHub",   url: "https://github.com/ceyre-boop" },
+    { icon: "✨", name: "Muse",     url: "https://muse.ai" },
     { icon: "🚀", name: "TABOOST",  url: "https://live.taboost.me" },
     { icon: "📊", name: "Quant",    url: "https://ceyre-boop.github.io/quant/" },
     { icon: "💬", name: "Telegram", url: "https://web.telegram.org" },
@@ -670,7 +671,11 @@ const DESK = {
         const sub = t.schedule + (t.note ? " \u00b7 " + t.note : "");
         return '<div class="card row" data-sev="' + sev + '"><div class="stripe"></div>' +
           '<div class="rt"><b>' + esc(t.name) + '</b><span>' + esc(sub) + '</span></div>' +
-          '<div class="rm"><span class="chip" data-sev="' + sev + '">' + esc(t.status) + '</span></div></div>';
+          'const chip = '<span class="chip" data-sev="' + sev + '">' + esc(t.status) + '</span>';
+        const rm = t.url ? '<a href="' + esc(t.url) + '" target="_blank" rel="noopener noreferrer">' + chip + '</a>' : chip;
+        return '<div class="card row" data-sev="' + sev + '"><div class="stripe"></div>' +
+          '<div class="rt"><b>' + esc(t.name) + '</b><span>' + esc(sub) + '</span></div>' +
+          '<div class="rm">' + rm + '</div></div>';';
       }).join("");
     }).catch(() => {});
 
