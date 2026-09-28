@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28T11:22:00-04:00",
+  "updated": "2026-09-28T13:08:00-04:00",
   "needs": [
     {
       "title": "PHIL-101 Reading Activity 9-28 due tonight",
@@ -8,14 +8,8 @@
       "sev": "urgent"
     },
     {
-      "title": "Re-enable Outbound job (auto-disabled, Mac offline)",
-      "note": "Disabled: device absent at fire; last ran Fri. Turn it back on in scheduled tasks",
-      "tag": "disabled",
-      "sev": "urgent"
-    },
-    {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Inbox triage, Morning brief, Evening digest pending; Weekly review abandoned Sun",
+      "note": "Inbox triage + Morning brief pending; Evening digest + Weekly review abandoned",
       "tag": "setup",
       "sev": "urgent"
     },
@@ -42,7 +36,7 @@
   "jobs": [
     {
       "title": "Inbox triage",
-      "note": "Pending approval since Mon 8:35a · next Mon 12:33p · 0 needs reply, 0 drafts",
+      "note": "Pending approval since Mon 12:34p · next Mon 5:33p · 0 needs reply, 0 drafts",
       "tag": "pending",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
@@ -55,15 +49,15 @@
     },
     {
       "title": "Evening digest",
-      "note": "Pending approval since Sun 9:30p · next Mon 9:30p",
+      "note": "Abandoned Sun 9:30p (no approval) · next Mon 9:30p",
       "tag": "pending",
       "sev": "soon"
     },
     {
       "title": "Outbound (Northbound + Settled)",
-      "note": "Auto-disabled (Mac absent) · last ok Fri 10:01a",
-      "tag": "disabled",
-      "sev": "urgent"
+      "note": "Re-enabled · last ok Mon 11:33a · next Tue 10:00a",
+      "tag": "ok",
+      "sev": "ok"
     },
     {
       "title": "Mac tidy (nightly)",
@@ -92,8 +86,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "11:19a: +0.81% (+$43.91) · NVDA +2.26%, PLTR -0.73%, MCD -0.68% · $5,470",
-      "tag": "+0.81%",
+      "note": "1:06p: +0.90% (+$48.69) · NVDA +2.44%, MCD -0.82%, PLTR -0.58% · $5,475",
+      "tag": "+0.90%",
       "sev": "accent"
     }
   ]
