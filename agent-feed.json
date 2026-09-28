@@ -1,22 +1,22 @@
 {
-  "updated": "2026-09-27T15:06:00-04:00",
+  "updated": "2026-09-28T00:14:00-04:00",
   "needs": [
     {
-      "title": "PHIL-101 Weekly Summary 3 due tonight",
-      "note": "Canvas 11:59pm today; Reading Activity 9-28 due Mon",
+      "title": "PHIL-101 Reading Activity 9-28 due tonight",
+      "note": "Canvas 11:59pm today (Mon); COMM-131 class 10:30a",
       "tag": "today",
       "sev": "urgent"
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Inbox triage + Morning brief pending; Evening digest abandoned Sat; Weekly review 7p",
+      "note": "Inbox triage, Evening digest, Weekly review pending; Morning brief abandoned Sun",
       "tag": "setup",
       "sev": "urgent"
     },
     {
       "title": "COMM-131 speech outline due Wed 10am",
       "note": "\"Your Favorite Speech\" 3–5 min; outline on Canvas by 10am Sep 30",
-      "tag": "3 d",
+      "tag": "2 d",
       "sev": "soon"
     },
     {
@@ -28,7 +28,7 @@
     {
       "title": "Stop Hunger scholarship due Oct 20",
       "note": "$10K. Only a fit if you do hunger-relief work",
-      "tag": "23 d",
+      "tag": "22 d",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
@@ -36,21 +36,21 @@
   "jobs": [
     {
       "title": "Inbox triage",
-      "note": "Pending since Sun 12:33p · next Sun 5:33p · 0 needs reply, 0 drafts",
+      "note": "Pending approval since Sun 5:33p · next Mon 8:33a · 0 needs reply, 0 drafts",
       "tag": "pending",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
     },
     {
       "title": "Morning brief",
-      "note": "Pending since Sun 7:04a · next Mon 7:03a",
-      "tag": "pending",
+      "note": "Abandoned Sun 7:04a · next Mon 7:03a",
+      "tag": "abandoned",
       "sev": "soon"
     },
     {
       "title": "Evening digest",
-      "note": "Abandoned Sat 9:30p · next Sun 9:30p",
-      "tag": "abandoned",
+      "note": "Pending approval since Sun 9:30p · next Mon 9:30p",
+      "tag": "pending",
       "sev": "soon"
     },
     {
@@ -61,15 +61,15 @@
     },
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last Sun 2:05p · next Sun 10:01p · re-enabled",
+      "note": "Last Sun 2:05p · Sun 10:01p run not recorded yet",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Weekly review",
-      "note": "Not run yet · next Sun 7:01p",
+      "note": "Pending approval since Sun 7:02p · next Sun Oct 4 7:00p",
       "tag": "pending",
-      "sev": "accent"
+      "sev": "soon"
     },
     {
       "title": "Scholarship scout",
