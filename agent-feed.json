@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28T17:08:00-04:00",
+  "updated": "2026-09-28T19:08:00-04:00",
   "needs": [
     {
       "title": "PHIL-101 Reading Activity 9-28 due tonight",
@@ -36,7 +36,7 @@
   "jobs": [
     {
       "title": "Inbox triage",
-      "note": "Pending approval since Mon 12:34p · next Mon 5:33p · 0 needs reply, 0 drafts",
+      "note": "Pending approval since Mon 5:33p · next Tue 8:33a · 0 needs reply, 0 drafts",
       "tag": "pending",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
