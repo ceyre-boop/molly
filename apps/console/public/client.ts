@@ -22,6 +22,10 @@ const orb = document.getElementById("orb") as HTMLButtonElement
 const transcriptEl = document.getElementById("transcript") as HTMLParagraphElement
 const resultEl = document.getElementById("result") as HTMLParagraphElement
 const activityLogEl = document.getElementById("activity-log") as HTMLDivElement
+const repoEl = document.getElementById("repo") as HTMLSelectElement
+
+// Hand Space back to push-to-talk once a repo is chosen.
+repoEl.addEventListener("change", () => repoEl.blur())
 
 function setState(state: OrbState) {
   orb.dataset.state = state
@@ -102,12 +106,19 @@ async function submit(text: string) {
     const res = await fetch("/api/submit", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ text, repo: repoEl.value }),
     })
     const data = (await res.json()) as SubmitResponse
     setState("speaking")
     if (data.kind === "dispatch" && data.issue) {
-      resultEl.innerHTML = `✓ ${data.title}<br><small><a href="${data.issue}" target="_blank" rel="noopener">View issue</a></small>`
+      const link = document.createElement("a")
+      link.href = data.issue
+      link.target = "_blank"
+      link.rel = "noopener"
+      link.textContent = data.issue
+      const small = document.createElement("small")
+      small.append(link)
+      resultEl.replaceChildren(`✓ ${data.message}`, document.createElement("br"), small)
     } else {
       resultEl.textContent = data.message
     }
