@@ -14,6 +14,7 @@
 import { join } from "path"
 import { appendInboxEntry } from "./lib/inbox"
 import { sendPulse } from "./lib/pulse"
+import { INBOX_ACK, dispatchAck, dispatchFailure } from "./lib/replies"
 import { classify, extractIssueTitle, resolveRepo } from "./lib/routing"
 import { enqueueTask } from "./lib/dispatch-queue"
 
@@ -70,22 +71,24 @@ async function handleSubmit(req: Request): Promise<Response> {
 
     if (result.ok) {
       await enqueueTask({ title, text, repo, url: result.url })
-      await sendPulse("Queued for execution.")
+      const message = dispatchAck(repo, title)
+      await sendPulse(message)
       return Response.json({
         ok: true,
         kind: "dispatch",
         title,
         repo,
         url: result.url,
-        message: "Queued for execution.",
+        message,
         issue: result.url,
       })
     }
-    await sendPulse(`Failed to file issue: ${result.error}`)
-    return Response.json({ ok: false, error: result.error }, { status: 500 })
+    const message = dispatchFailure(result.error)
+    await sendPulse(message)
+    return Response.json({ ok: false, kind: "dispatch", error: result.error, message }, { status: 500 })
   }
 
-  // Regular question: queue for Claude to respond
+  // Everything else: desk inbox, plus a question-queue entry for bin/respond.ts
   appendInboxEntry(text)
   await enqueueTask({
     title: text.slice(0, 50),
@@ -94,10 +97,11 @@ async function handleSubmit(req: Request): Promise<Response> {
     url: undefined,
   })
 
+  await sendPulse(INBOX_ACK)
   return Response.json({
     ok: true,
     kind: "response",
-    message: "I'm thinking...",
+    message: INBOX_ACK,
   })
 }
 
