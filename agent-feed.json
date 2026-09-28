@@ -1,21 +1,21 @@
 {
-  "updated": "2026-09-28T07:26:00-04:00",
+  "updated": "2026-09-28T09:31:00-04:00",
   "needs": [
     {
       "title": "PHIL-101 Reading Activity 9-28 due tonight",
-      "note": "Canvas 11:59pm today (Mon); COMM-131 class 10:30a",
+      "note": "Canvas 11:59pm today (Mon); COMM-131 class 10:30a (Curtice-Mott 2001)",
       "tag": "today",
       "sev": "urgent"
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Inbox triage, Evening digest, Weekly review, Morning brief all stuck pending",
+      "note": "Inbox triage, Morning brief, Evening digest pending; Weekly review abandoned Sun",
       "tag": "setup",
       "sev": "urgent"
     },
     {
-      "title": "COMM-131 speech outline due Wed 10am",
-      "note": "\"Your Favorite Speech\" 3–5 min; outline on Canvas by 10am Sep 30",
+      "title": "Wed: COMM-131 speech outline 10am + PHIL reading",
+      "note": "\"Your Favorite Speech\" 3–5 min outline on Canvas; PHIL Reading Activity 10-1",
       "tag": "2 d",
       "sev": "soon"
     },
@@ -36,7 +36,7 @@
   "jobs": [
     {
       "title": "Inbox triage",
-      "note": "Pending approval since Sun 5:33p · next Mon 8:33a · 0 needs reply, 0 drafts",
+      "note": "Pending approval since Mon 8:35a · next Mon 12:33p · 0 needs reply, 0 drafts",
       "tag": "pending",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
@@ -67,7 +67,7 @@
     },
     {
       "title": "Weekly review",
-      "note": "Pending approval since Sun 7:02p · next Sun Oct 4 7:00p",
+      "note": "Abandoned Sun 7:02p (no approval) · next Sun Oct 4 7:00p",
       "tag": "pending",
       "sev": "soon"
     },
@@ -86,8 +86,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Fri close: day -0.23% (-$12.46) · NVDA +0.20%, PLTR -1.50% · $5,426",
-      "tag": "-0.23%",
+      "note": "Pre-mkt 9:29a: +0.55% (+$29.76) · NVDA +1.96%, PLTR -1.67%, new MCD · $5,456",
+      "tag": "+0.55%",
       "sev": "accent"
     }
   ]
