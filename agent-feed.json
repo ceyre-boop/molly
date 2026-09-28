@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28T00:14:00-04:00",
+  "updated": "2026-09-28T07:26:00-04:00",
   "needs": [
     {
       "title": "PHIL-101 Reading Activity 9-28 due tonight",
@@ -9,7 +9,7 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Inbox triage, Evening digest, Weekly review pending; Morning brief abandoned Sun",
+      "note": "Inbox triage, Evening digest, Weekly review, Morning brief all stuck pending",
       "tag": "setup",
       "sev": "urgent"
     },
@@ -43,8 +43,8 @@
     },
     {
       "title": "Morning brief",
-      "note": "Abandoned Sun 7:04a · next Mon 7:03a",
-      "tag": "abandoned",
+      "note": "Pending approval since Mon 7:05a · next Tue 7:03a",
+      "tag": "pending",
       "sev": "soon"
     },
     {
@@ -61,7 +61,7 @@
     },
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last Sun 2:05p · Sun 10:01p run not recorded yet",
+      "note": "Last Mon 12:13a · next Mon 10:01p",
       "tag": "ok",
       "sev": "ok"
     },
