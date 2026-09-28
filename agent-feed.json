@@ -1,46 +1,94 @@
 {
-  "updated": "2026-09-22T21:30:00-04:00",
+  "updated": "2026-09-27T15:06:00-04:00",
   "needs": [
     {
-      "title": "Turn on \"Automatically approve\" for agent tasks",
-      "note": "Cloud runs pause for approval until this is on \u2014 tap the title to open the setting",
+      "title": "PHIL-101 Weekly Summary 3 due tonight",
+      "note": "Canvas 11:59pm today; Reading Activity 9-28 due Mon",
+      "tag": "today",
+      "sev": "urgent"
+    },
+    {
+      "title": "Turn on \"Automatically approve\" for the agent tasks",
+      "note": "Inbox triage + Morning brief pending; Evening digest abandoned Sat; Weekly review 7p",
       "tag": "setup",
-      "sev": "urgent",
-      "url": "https://claude.ai/scheduled-task"
+      "sev": "urgent"
     },
     {
-      "title": "Inbox triage latest run flagged \"needs attention\"",
-      "note": "Claude's 8:30a/12:30p/5:30p triage flagged its latest run \u2014 say the word and I'll dig into Gmail here",
-      "tag": "triage",
-      "sev": "soon",
-      "url": "https://mail.google.com"
-    },
-    {
-      "title": "FAFSA 2027-28 opens Oct 1",
-      "note": "Unlocks Michigan Achievement + OCC Foundation scholarships",
-      "tag": "Oct 1",
+      "title": "COMM-131 speech outline due Wed 10am",
+      "note": "\"Your Favorite Speech\" 3–5 min; outline on Canvas by 10am Sep 30",
+      "tag": "3 d",
       "sev": "soon"
     },
     {
-      "title": "Settled sales page still shows hello@example.com",
-      "note": "Page was built as an artifact in another session and I can't reach it. Point me at the file or I rebuild it with ceyre@northbound-dev.com",
-      "tag": "settled",
+      "title": "FAFSA 2027-28 opens Oct 1",
+      "note": "Unlocks Michigan Achievement + MCC Foundation scholarships",
+      "tag": "setup",
       "sev": "soon"
     },
     {
       "title": "Stop Hunger scholarship due Oct 20",
       "note": "$10K. Only a fit if you do hunger-relief work",
-      "tag": "28 d",
+      "tag": "23 d",
       "sev": "ok",
-      "url": "https://claude.ai/code/artifact/90acad25-0ba4-4ba4-855e-e629857b46b4"
-    },
-    {
-      "title": "Set up \"Send mail as\" for ceyre@northbound-dev.com",
-      "note": "Gmail \u2192 Settings \u2192 Accounts \u2192 Send mail as. Unblocks tracked outreach and scoreboard email counts",
-      "tag": "setup",
-      "sev": "soon",
-      "url": "https://mail.google.com"
+      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
   ],
-  "jobs": []
+  "jobs": [
+    {
+      "title": "Inbox triage",
+      "note": "Pending since Sun 12:33p · next Sun 5:33p · 0 needs reply, 0 drafts",
+      "tag": "pending",
+      "sev": "soon",
+      "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
+    },
+    {
+      "title": "Morning brief",
+      "note": "Pending since Sun 7:04a · next Mon 7:03a",
+      "tag": "pending",
+      "sev": "soon"
+    },
+    {
+      "title": "Evening digest",
+      "note": "Abandoned Sat 9:30p · next Sun 9:30p",
+      "tag": "abandoned",
+      "sev": "soon"
+    },
+    {
+      "title": "Outbound (Northbound + Settled)",
+      "note": "Last Fri 10:01a · next Mon 10:00a",
+      "tag": "ok",
+      "sev": "ok"
+    },
+    {
+      "title": "Mac tidy (nightly)",
+      "note": "Last Sun 2:05p · next Sun 10:01p · re-enabled",
+      "tag": "ok",
+      "sev": "ok"
+    },
+    {
+      "title": "Weekly review",
+      "note": "Not run yet · next Sun 7:01p",
+      "tag": "pending",
+      "sev": "accent"
+    },
+    {
+      "title": "Scholarship scout",
+      "note": "Disabled · never run · tracker: next deadline Oct 20",
+      "tag": "pending",
+      "sev": "accent",
+      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
+    },
+    {
+      "title": "Market brief (read-only)",
+      "note": "Disabled · never run",
+      "tag": "pending",
+      "sev": "accent"
+    },
+    {
+      "title": "Portfolio",
+      "note": "Fri close: day -0.23% (-$12.46) · NVDA +0.20%, PLTR -1.50% · $5,426",
+      "tag": "-0.23%",
+      "sev": "accent"
+    }
+  ]
 }
