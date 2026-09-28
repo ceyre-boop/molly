@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28T13:08:00-04:00",
+  "updated": "2026-09-28T15:08:00-04:00",
   "needs": [
     {
       "title": "PHIL-101 Reading Activity 9-28 due tonight",
@@ -55,7 +55,7 @@
     },
     {
       "title": "Outbound (Northbound + Settled)",
-      "note": "Re-enabled · last ok Mon 11:33a · next Tue 10:00a",
+      "note": "Last ok Mon 11:33a · next Tue 10:00a",
       "tag": "ok",
       "sev": "ok"
     },
@@ -86,8 +86,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "1:06p: +0.90% (+$48.69) · NVDA +2.44%, MCD -0.82%, PLTR -0.58% · $5,475",
-      "tag": "+0.90%",
+      "note": "3:06p: +0.71% (+$38.56) · NVDA +2.17%, MCD -0.93%, PLTR -0.67% · $5,465",
+      "tag": "+0.71%",
       "sev": "accent"
     }
   ]
