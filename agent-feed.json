@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28T21:07:00-04:00",
+  "updated": "2026-09-28T23:07:00-04:00",
   "needs": [
     {
       "title": "PHIL-101 Reading Activity 9-28 due tonight",
@@ -36,7 +36,7 @@
   "jobs": [
     {
       "title": "Inbox triage",
-      "note": "Last ok Mon 5:33p (manual OK) · next Tue 8:33a · 0 needs reply, 0 drafts",
+      "note": "Last ok Mon 5:33p · next Tue 8:33a · 0 needs reply, 0 drafts",
       "tag": "ok",
       "sev": "ok",
       "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
@@ -49,7 +49,7 @@
     },
     {
       "title": "Evening digest",
-      "note": "Last ok Sun 9:30p (manual OK) · next Mon 9:30p",
+      "note": "Last ok Mon 9:30p · next Tue 9:30p",
       "tag": "ok",
       "sev": "ok"
     },
@@ -61,7 +61,7 @@
     },
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Mon 12:13a · next Mon 10:01p",
+      "note": "Last ok Mon 10:02p · next Tue 10:01p",
       "tag": "ok",
       "sev": "ok"
     },
