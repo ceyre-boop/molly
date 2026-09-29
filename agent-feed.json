@@ -1,23 +1,23 @@
 {
-  "updated": "2026-09-29T13:08:00-04:00",
+  "updated": "2026-09-29T13:47:00-04:00",
   "needs": [
     {
-      "title": "PHIL-101 class at 1:30pm",
-      "note": "Curtice-Mott 1111 · then MATH-170 5pm Gorman 3202",
-      "tag": "1:30p",
-      "sev": "soon"
-    },
-    {
-      "title": "Outbound job auto-disabled (Mac absent)",
-      "note": "Northbound/Settled outreach off since Mon; re-enable with Mac online",
-      "tag": "disabled",
-      "sev": "urgent"
-    },
-    {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Morning brief stuck pending since 7:04a; Weekly review abandoned Sun",
+      "note": "Morning brief was stuck pending; Weekly review only finished today 1:42p",
       "tag": "setup",
       "sev": "urgent"
+    },
+    {
+      "title": "4 agent jobs gone from scheduled tasks",
+      "note": "Inbox triage, Morning brief, Evening digest, Outbound not listed since 1p; check app",
+      "tag": "missing",
+      "sev": "urgent"
+    },
+    {
+      "title": "MATH-170 at 5pm",
+      "note": "Gorman 3202 · PHIL-101 runs till 2:50p",
+      "tag": "5p",
+      "sev": "soon"
     },
     {
       "title": "Wed: COMM-131 speech outline 10am + PHIL reading",
@@ -41,41 +41,16 @@
   ],
   "jobs": [
     {
-      "title": "Inbox triage",
-      "note": "Last ok Tue 12:34p · next Tue 5:33p · 0 needs reply, 0 drafts",
-      "tag": "ok",
-      "sev": "ok",
-      "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
-    },
-    {
-      "title": "Morning brief",
-      "note": "Pending since Tue 7:04a (awaiting approval) · next Wed 7:03a",
-      "tag": "pending",
-      "sev": "soon"
-    },
-    {
-      "title": "Evening digest",
-      "note": "Last ok Mon 9:30p · next Tue 9:30p",
+      "title": "Weekly review",
+      "note": "Fired Sun 7:02p, finished Tue 1:42p ok · next Sun Oct 4 7:00p",
       "tag": "ok",
       "sev": "ok"
-    },
-    {
-      "title": "Outbound (Northbound + Settled)",
-      "note": "Last ok Mon 11:32a · disabled: device absent",
-      "tag": "disabled",
-      "sev": "urgent"
     },
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Mon 10:02p · next Tue 10:01p",
       "tag": "ok",
       "sev": "ok"
-    },
-    {
-      "title": "Weekly review",
-      "note": "Abandoned Sun 7:02p (no approval) · next Sun Oct 4 7:00p",
-      "tag": "pending",
-      "sev": "soon"
     },
     {
       "title": "Scholarship scout",
@@ -91,9 +66,16 @@
       "sev": "accent"
     },
     {
+      "title": "Inbox triage",
+      "note": "0 needs reply, 0 drafts · task not in scheduled list",
+      "tag": "missing",
+      "sev": "soon",
+      "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
+    },
+    {
       "title": "Portfolio",
-      "note": "1:06p intraday: -0.01% (-$0.34) · MCD +0.33%, NVDA +0.19%, PLTR -0.89% · $5,441",
-      "tag": "-0.01%",
+      "note": "1:46p intraday: -0.18% (-$9.80) · MCD +0.36%, NVDA -0.10%, PLTR -1.03% · $5,432",
+      "tag": "-0.18%",
       "sev": "accent"
     }
   ]
