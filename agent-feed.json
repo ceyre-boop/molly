@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28T19:08:00-04:00",
+  "updated": "2026-09-28T21:07:00-04:00",
   "needs": [
     {
       "title": "PHIL-101 Reading Activity 9-28 due tonight",
@@ -9,7 +9,7 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Inbox triage + Morning brief pending; Evening digest + Weekly review abandoned",
+      "note": "Morning brief + Weekly review abandoned; Inbox triage + Evening digest need manual OK",
       "tag": "setup",
       "sev": "urgent"
     },
@@ -36,32 +36,32 @@
   "jobs": [
     {
       "title": "Inbox triage",
-      "note": "Pending approval since Mon 5:33p · next Tue 8:33a · 0 needs reply, 0 drafts",
-      "tag": "pending",
-      "sev": "soon",
+      "note": "Last ok Mon 5:33p (manual OK) · next Tue 8:33a · 0 needs reply, 0 drafts",
+      "tag": "ok",
+      "sev": "ok",
       "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
     },
     {
       "title": "Morning brief",
-      "note": "Pending approval since Mon 7:05a · next Tue 7:03a",
+      "note": "Abandoned Mon 7:05a (no approval) · next Tue 7:03a",
       "tag": "pending",
       "sev": "soon"
     },
     {
       "title": "Evening digest",
-      "note": "Abandoned Sun 9:30p (no approval) · next Mon 9:30p",
-      "tag": "pending",
-      "sev": "soon"
+      "note": "Last ok Sun 9:30p (manual OK) · next Mon 9:30p",
+      "tag": "ok",
+      "sev": "ok"
     },
     {
       "title": "Outbound (Northbound + Settled)",
-      "note": "Last ok Mon 11:33a · next Tue 10:00a",
+      "note": "Last ok Mon 11:32a · next Tue 10:00a",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last Mon 12:13a · next Mon 10:01p",
+      "note": "Last ok Mon 12:13a · next Mon 10:01p",
       "tag": "ok",
       "sev": "ok"
     },
