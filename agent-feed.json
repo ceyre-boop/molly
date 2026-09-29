@@ -1,21 +1,21 @@
 {
-  "updated": "2026-09-29T13:47:00-04:00",
+  "updated": "2026-09-29T15:22:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Morning brief was stuck pending; Weekly review only finished today 1:42p",
+      "note": "Scholarship scout + Market brief still disabled; only Mac tidy + sync are auto",
       "tag": "setup",
       "sev": "urgent"
     },
     {
-      "title": "4 agent jobs gone from scheduled tasks",
-      "note": "Inbox triage, Morning brief, Evening digest, Outbound not listed since 1p; check app",
+      "title": "5 agent jobs gone from scheduled tasks",
+      "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review not listed; check app",
       "tag": "missing",
       "sev": "urgent"
     },
     {
       "title": "MATH-170 at 5pm",
-      "note": "Gorman 3202 · PHIL-101 runs till 2:50p",
+      "note": "Gorman 3202 · till 7:20p",
       "tag": "5p",
       "sev": "soon"
     },
@@ -41,12 +41,6 @@
   ],
   "jobs": [
     {
-      "title": "Weekly review",
-      "note": "Fired Sun 7:02p, finished Tue 1:42p ok · next Sun Oct 4 7:00p",
-      "tag": "ok",
-      "sev": "ok"
-    },
-    {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Mon 10:02p · next Tue 10:01p",
       "tag": "ok",
@@ -66,16 +60,22 @@
       "sev": "accent"
     },
     {
+      "title": "Weekly review",
+      "note": "Finished Tue 1:42p ok · task no longer in scheduled list",
+      "tag": "missing",
+      "sev": "soon"
+    },
+    {
       "title": "Inbox triage",
-      "note": "0 needs reply, 0 drafts · task not in scheduled list",
+      "note": "0 needs reply, 0 drafts, 0 waiting on · task not in scheduled list",
       "tag": "missing",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
     },
     {
       "title": "Portfolio",
-      "note": "1:46p intraday: -0.18% (-$9.80) · MCD +0.36%, NVDA -0.10%, PLTR -1.03% · $5,432",
-      "tag": "-0.18%",
+      "note": "3:19p intraday: -0.27% (-$14.66) · MCD +0.37%, NVDA -0.36%, PLTR -0.84% · $5,427",
+      "tag": "-0.27%",
       "sev": "accent"
     }
   ]
