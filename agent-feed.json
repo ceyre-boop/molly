@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-29T15:22:00-04:00",
+  "updated": "2026-09-29T17:07:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -14,10 +14,10 @@
       "sev": "urgent"
     },
     {
-      "title": "MATH-170 at 5pm",
+      "title": "MATH-170 now",
       "note": "Gorman 3202 · till 7:20p",
-      "tag": "5p",
-      "sev": "soon"
+      "tag": "till 7:20p",
+      "sev": "urgent"
     },
     {
       "title": "Wed: COMM-131 speech outline 10am + PHIL reading",
@@ -74,8 +74,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "3:19p intraday: -0.27% (-$14.66) · MCD +0.37%, NVDA -0.36%, PLTR -0.84% · $5,427",
-      "tag": "-0.27%",
+      "note": "Close: -0.23% (-$12.78) · MCD +0.34%, NVDA -0.46%, PLTR -0.39% · $5,429",
+      "tag": "-0.23%",
       "sev": "accent"
     }
   ]
