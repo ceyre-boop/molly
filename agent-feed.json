@@ -1,22 +1,28 @@
 {
-  "updated": "2026-09-28T23:07:00-04:00",
+  "updated": "2026-09-29T13:08:00-04:00",
   "needs": [
     {
-      "title": "PHIL-101 Reading Activity 9-28 due tonight",
-      "note": "Canvas 11:59pm today (Mon)",
-      "tag": "today",
+      "title": "PHIL-101 class at 1:30pm",
+      "note": "Curtice-Mott 1111 · then MATH-170 5pm Gorman 3202",
+      "tag": "1:30p",
+      "sev": "soon"
+    },
+    {
+      "title": "Outbound job auto-disabled (Mac absent)",
+      "note": "Northbound/Settled outreach off since Mon; re-enable with Mac online",
+      "tag": "disabled",
       "sev": "urgent"
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Morning brief + Weekly review abandoned; Inbox triage + Evening digest need manual OK",
+      "note": "Morning brief stuck pending since 7:04a; Weekly review abandoned Sun",
       "tag": "setup",
       "sev": "urgent"
     },
     {
       "title": "Wed: COMM-131 speech outline 10am + PHIL reading",
       "note": "\"Your Favorite Speech\" 3–5 min outline on Canvas; PHIL Reading Activity 10-1",
-      "tag": "2 d",
+      "tag": "1 d",
       "sev": "soon"
     },
     {
@@ -28,7 +34,7 @@
     {
       "title": "Stop Hunger scholarship due Oct 20",
       "note": "$10K. Only a fit if you do hunger-relief work",
-      "tag": "22 d",
+      "tag": "21 d",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
@@ -36,14 +42,14 @@
   "jobs": [
     {
       "title": "Inbox triage",
-      "note": "Last ok Mon 5:33p · next Tue 8:33a · 0 needs reply, 0 drafts",
+      "note": "Last ok Tue 12:34p · next Tue 5:33p · 0 needs reply, 0 drafts",
       "tag": "ok",
       "sev": "ok",
       "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
     },
     {
       "title": "Morning brief",
-      "note": "Abandoned Mon 7:05a (no approval) · next Tue 7:03a",
+      "note": "Pending since Tue 7:04a (awaiting approval) · next Wed 7:03a",
       "tag": "pending",
       "sev": "soon"
     },
@@ -55,9 +61,9 @@
     },
     {
       "title": "Outbound (Northbound + Settled)",
-      "note": "Last ok Mon 11:32a · next Tue 10:00a",
-      "tag": "ok",
-      "sev": "ok"
+      "note": "Last ok Mon 11:32a · disabled: device absent",
+      "tag": "disabled",
+      "sev": "urgent"
     },
     {
       "title": "Mac tidy (nightly)",
@@ -86,8 +92,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "5:06p close: +0.34% (+$18.59) · NVDA +1.74%, MCD -1.18%, PLTR -1.05% · $5,445",
-      "tag": "+0.34%",
+      "note": "1:06p intraday: -0.01% (-$0.34) · MCD +0.33%, NVDA +0.19%, PLTR -0.89% · $5,441",
+      "tag": "-0.01%",
       "sev": "accent"
     }
   ]
