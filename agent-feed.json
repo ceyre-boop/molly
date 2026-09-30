@@ -1,6 +1,12 @@
 {
-  "updated": "2026-09-29T21:07:00-04:00",
+  "updated": "2026-09-30T01:08:00-04:00",
   "needs": [
+    {
+      "title": "Today: COMM-131 speech outline 10am + PHIL reading",
+      "note": "\"Your Favorite Speech\" 3–5 min outline on Canvas by 10a; PHIL Reading Activity 10-1",
+      "tag": "today 10a",
+      "sev": "urgent"
+    },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
       "note": "Scholarship scout + Market brief still disabled; only Mac tidy + sync are auto",
@@ -14,13 +20,7 @@
       "sev": "urgent"
     },
     {
-      "title": "Wed: COMM-131 speech outline 10am + PHIL reading",
-      "note": "\"Your Favorite Speech\" 3–5 min outline on Canvas; PHIL Reading Activity 10-1",
-      "tag": "tmrw 10a",
-      "sev": "soon"
-    },
-    {
-      "title": "FAFSA 2027-28 opens Oct 1",
+      "title": "FAFSA 2027-28 opens tomorrow (Oct 1)",
       "note": "Unlocks Michigan Achievement + MCC Foundation scholarships",
       "tag": "setup",
       "sev": "soon"
@@ -28,7 +28,7 @@
     {
       "title": "Stop Hunger scholarship due Oct 20",
       "note": "$10K. Only a fit if you do hunger-relief work",
-      "tag": "21 d",
+      "tag": "20 d",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
@@ -36,7 +36,7 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Mon 10:02p · next Tue 10:01p",
+      "note": "Last ok Tue 10:02p · next Wed 10:01p",
       "tag": "ok",
       "sev": "ok"
     },
@@ -68,7 +68,7 @@
     },
     {
       "title": "Portfolio",
-      "note": "Close: -0.23% (-$12.78) · MCD +0.34%, NVDA -0.46%, PLTR -0.39% · $5,429",
+      "note": "Tue close: -0.23% (-$12.78) · MCD +0.34%, NVDA -0.46%, PLTR -0.39% · $5,429",
       "tag": "-0.23%",
       "sev": "accent"
     }
