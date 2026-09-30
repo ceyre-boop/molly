@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-30T10:56:00-04:00",
+  "updated": "2026-09-30T11:11:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -30,39 +30,39 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Tue 10:02p · next Wed 10:01p",
+      "note": "Last ok Tue 10:02p \u00b7 next Wed 10:01p",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
-      "note": "Disabled · never run · tracker: next deadline Oct 20",
+      "note": "Disabled \u00b7 never run \u00b7 tracker: next deadline Oct 20",
       "tag": "pending",
       "sev": "accent",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Market brief (read-only)",
-      "note": "Disabled · never run",
+      "note": "Disabled \u00b7 never run",
       "tag": "pending",
       "sev": "accent"
     },
     {
       "title": "Weekly review",
-      "note": "Finished Tue 1:42p ok · task no longer in scheduled list",
+      "note": "Finished Tue 1:42p ok \u00b7 task no longer in scheduled list",
       "tag": "missing",
       "sev": "soon"
     },
     {
       "title": "Inbox triage",
-      "note": "0 needs reply, 0 drafts, 0 waiting on · task not in scheduled list",
+      "note": "0 needs reply, 0 drafts \u00b7 task not in scheduled list",
       "tag": "missing",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
     },
     {
       "title": "Portfolio",
-      "note": "Wed 10:54a: +1.09% (+$59.23) · NVDA +1.59%, PLTR +1.58%, MCD -0.23% · $5,480",
+      "note": "Wed 11:09a: +1.09% (+$59.02) \u00b7 PLTR +1.82%, NVDA +1.55%, MCD -0.35% \u00b7 $5,480",
       "tag": "+1.09%",
       "sev": "accent"
     }
