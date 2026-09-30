@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-30T11:11:00-04:00",
+  "updated": "2026-09-30T13:07:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -55,15 +55,15 @@
     },
     {
       "title": "Inbox triage",
-      "note": "0 needs reply, 0 drafts \u00b7 task not in scheduled list",
+      "note": "0 needs reply, 0 drafts, 0 waiting \u00b7 task not in scheduled list",
       "tag": "missing",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
     },
     {
       "title": "Portfolio",
-      "note": "Wed 11:09a: +1.09% (+$59.02) \u00b7 PLTR +1.82%, NVDA +1.55%, MCD -0.35% \u00b7 $5,480",
-      "tag": "+1.09%",
+      "note": "Wed 1:06p: +0.99% (+$53.64) \u00b7 NVDA +1.59%, PLTR +1.21%, MCD -0.32% \u00b7 $5,474",
+      "tag": "+0.99%",
       "sev": "accent"
     }
   ]
