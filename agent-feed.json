@@ -1,12 +1,6 @@
 {
-  "updated": "2026-09-30T01:08:00-04:00",
+  "updated": "2026-09-30T10:56:00-04:00",
   "needs": [
-    {
-      "title": "Today: COMM-131 speech outline 10am + PHIL reading",
-      "note": "\"Your Favorite Speech\" 3–5 min outline on Canvas by 10a; PHIL Reading Activity 10-1",
-      "tag": "today 10a",
-      "sev": "urgent"
-    },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
       "note": "Scholarship scout + Market brief still disabled; only Mac tidy + sync are auto",
@@ -68,8 +62,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Tue close: -0.23% (-$12.78) · MCD +0.34%, NVDA -0.46%, PLTR -0.39% · $5,429",
-      "tag": "-0.23%",
+      "note": "Wed 10:54a: +1.09% (+$59.23) · NVDA +1.59%, PLTR +1.58%, MCD -0.23% · $5,480",
+      "tag": "+1.09%",
       "sev": "accent"
     }
   ]
