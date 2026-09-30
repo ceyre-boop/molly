@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-30T15:07:00-04:00",
+  "updated": "2026-09-30T17:07:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -62,8 +62,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Wed 3:06p: +0.68% (+$36.67) \u00b7 NVDA +1.54%, PLTR +0.67%, MCD -0.98% \u00b7 $5,457",
-      "tag": "+0.68%",
+      "note": "Wed close: +0.04% (+$2.25) \u00b7 NVDA +0.76%, PLTR -0.25%, MCD -1.13% \u00b7 $5,423",
+      "tag": "+0.04%",
       "sev": "accent"
     }
   ]
