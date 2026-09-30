@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-29T19:07:00-04:00",
+  "updated": "2026-09-29T21:07:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -14,15 +14,9 @@
       "sev": "urgent"
     },
     {
-      "title": "MATH-170 now",
-      "note": "Gorman 3202 · till 7:20p",
-      "tag": "till 7:20p",
-      "sev": "urgent"
-    },
-    {
       "title": "Wed: COMM-131 speech outline 10am + PHIL reading",
       "note": "\"Your Favorite Speech\" 3–5 min outline on Canvas; PHIL Reading Activity 10-1",
-      "tag": "1 d",
+      "tag": "tmrw 10a",
       "sev": "soon"
     },
     {
