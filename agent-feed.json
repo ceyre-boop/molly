@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-30T19:08:00-04:00",
+  "updated": "2026-09-30T23:06:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -30,7 +30,7 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Tue 10:02p \u00b7 next Wed 10:01p",
+      "note": "Last ok Wed 11:03p \u00b7 next Thu 10:01p",
       "tag": "ok",
       "sev": "ok"
     },
