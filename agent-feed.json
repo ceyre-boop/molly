@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-30T23:06:00-04:00",
+  "updated": "2026-10-05T10:40:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -9,20 +9,21 @@
     },
     {
       "title": "5 agent jobs gone from scheduled tasks",
-      "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review not listed; check app",
+      "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review not listed",
       "tag": "missing",
       "sev": "urgent"
     },
     {
-      "title": "FAFSA 2027-28 opens tomorrow (Oct 1)",
-      "note": "Unlocks Michigan Achievement + MCC Foundation scholarships",
+      "title": "File the 2027-28 FAFSA (open since Oct 1)",
+      "note": "Unlocks Michigan Achievement + MCC Foundation scholarships; unchecked in tracker",
       "tag": "setup",
-      "sev": "soon"
+      "sev": "soon",
+      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Stop Hunger scholarship due Oct 20",
-      "note": "$10K. Only a fit if you do hunger-relief work",
-      "tag": "20 d",
+      "note": "$10K. Only a fit if you do hunger-relief work; status: To check",
+      "tag": "15 d",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
@@ -30,7 +31,7 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Wed 11:03p \u00b7 next Thu 10:01p",
+      "note": "Last ok Mon 10:37a \u00b7 next Mon 10:01p",
       "tag": "ok",
       "sev": "ok"
     },
@@ -48,22 +49,16 @@
       "sev": "accent"
     },
     {
-      "title": "Weekly review",
-      "note": "Finished Tue 1:42p ok \u00b7 task no longer in scheduled list",
-      "tag": "missing",
-      "sev": "soon"
-    },
-    {
-      "title": "Inbox triage",
-      "note": "0 needs reply, 0 drafts, 0 waiting \u00b7 task not in scheduled list",
+      "title": "Inbox",
+      "note": "0 needs reply, 0 drafts, 0 waiting \u00b7 triage task not in scheduled list",
       "tag": "missing",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
     },
     {
       "title": "Portfolio",
-      "note": "Wed close: +0.04% (+$2.25) \u00b7 NVDA +0.76%, PLTR -0.25%, MCD -1.13% \u00b7 $5,423",
-      "tag": "+0.04%",
+      "note": "Mon 10:37a: +0.57% (+$31) \u00b7 NVDA +1.42%, PLTR -0.15%, MCD -0.55% \u00b7 $5,536",
+      "tag": "+0.57%",
       "sev": "accent"
     }
   ]
