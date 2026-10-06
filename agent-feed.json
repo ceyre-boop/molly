@@ -1,8 +1,8 @@
 {
-  "updated": "2026-10-06T17:07:00-04:00",
+  "updated": "2026-10-06T19:07:00-04:00",
   "needs": [
     {
-      "title": "In MATH-170 now until 7:20p",
+      "title": "In MATH-170 until 7:20p",
       "note": "Gorman 3202 \u00b7 Test 2 (Ch. 3) is next Tue Oct 13",
       "tag": "now",
       "sev": "urgent"
@@ -22,7 +22,7 @@
     {
       "title": "3 assignments due Wed 11:59p",
       "note": "COMM-131 Slide Activity + Word Usage discussion; PHIL-101 Reading 10-8",
-      "tag": "1 d",
+      "tag": "tomorrow",
       "sev": "soon"
     },
     {
