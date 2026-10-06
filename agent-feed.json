@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-05T21:08:00-04:00",
+  "updated": "2026-10-05T23:07:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -29,7 +29,7 @@
     },
     {
       "title": "Review 1 draft (to hello@itsbrilliant.co)",
-      "note": "Draft saved 6:54p today in Gmail Drafts",
+      "note": "Draft saved 6:54p Mon in Gmail Drafts",
       "tag": "1 draft",
       "sev": "accent",
       "url": "https://mail.google.com/mail/u/0/#drafts"
@@ -38,7 +38,7 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Mon 10:37a \u00b7 next Mon 10:01p",
+      "note": "Last ok Mon 10:02p \u00b7 next Tue 10:01p",
       "tag": "ok",
       "sev": "ok"
     },
