@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-06T07:20:00-04:00",
+  "updated": "2026-10-06T09:23:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -70,8 +70,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Pre-mkt Tue: +0.80% (+$44) \u00b7 NVDA +1.02%, PLTR +0.91%, MCD +0.28% \u00b7 $5,620",
-      "tag": "+0.80%",
+      "note": "Pre-mkt Tue: +0.84% (+$47) \u00b7 NVDA +1.16%, PLTR +0.82%, MCD +0.23% \u00b7 $5,622",
+      "tag": "+0.84%",
       "sev": "accent"
     }
   ]
