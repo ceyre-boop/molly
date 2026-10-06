@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-05T23:07:00-04:00",
+  "updated": "2026-10-06T07:20:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -14,6 +14,12 @@
       "sev": "urgent"
     },
     {
+      "title": "3 assignments due Wed 11:59p",
+      "note": "COMM-131 Slide Activity + Word Usage discussion; PHIL-101 Reading 10-8",
+      "tag": "1 d",
+      "sev": "soon"
+    },
+    {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
       "note": "Unlocks Michigan Achievement + MCC Foundation scholarships; unchecked in tracker",
       "tag": "setup",
@@ -22,8 +28,8 @@
     },
     {
       "title": "Stop Hunger scholarship due Oct 20",
-      "note": "$10K. Only a fit if you do hunger-relief work; status: To check",
-      "tag": "15 d",
+      "note": "$10K. Prep block Tue Oct 13 on calendar; status: To check",
+      "tag": "14 d",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -64,8 +70,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Mon close: +1.58% (+$87) \u00b7 NVDA +2.67%, MCD +0.56%, PLTR +0.27% \u00b7 $5,591",
-      "tag": "+1.58%",
+      "note": "Pre-mkt Tue: +0.80% (+$44) \u00b7 NVDA +1.02%, PLTR +0.91%, MCD +0.28% \u00b7 $5,620",
+      "tag": "+0.80%",
       "sev": "accent"
     }
   ]
