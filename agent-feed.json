@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-06T13:07:00-04:00",
+  "updated": "2026-10-06T15:07:00-04:00",
   "needs": [
     {
-      "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Scholarship scout + Market brief still disabled; only Mac tidy + sync are auto",
-      "tag": "setup",
+      "title": "MATH-170 class at 5:00p",
+      "note": "Gorman 3202 \u00b7 until 7:20p",
+      "tag": "2 h",
       "sev": "urgent"
     },
     {
@@ -14,9 +14,9 @@
       "sev": "urgent"
     },
     {
-      "title": "PHIL-101 class at 1:30p",
-      "note": "Curtice-Mott 1111 \u00b7 then MATH-170 at 5:00p (Gorman 3202)",
-      "tag": "25 min",
+      "title": "Turn on \"Automatically approve\" for the agent tasks",
+      "note": "Scholarship scout + Market brief still disabled; only Mac tidy + sync are auto",
+      "tag": "setup",
       "sev": "urgent"
     },
     {
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "1:06p Tue: +0.65% (+$36) \u00b7 PLTR +1.51%, NVDA +0.55%, MCD +0.16% \u00b7 $5,612",
-      "tag": "+0.65%",
+      "note": "3:06p Tue: +0.52% (+$29) \u00b7 PLTR +1.68%, NVDA +0.48%, MCD -0.33% \u00b7 $5,605",
+      "tag": "+0.52%",
       "sev": "accent"
     }
   ]
