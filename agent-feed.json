@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-06T09:23:00-04:00",
+  "updated": "2026-10-06T11:15:00-04:00",
   "needs": [
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -11,6 +11,12 @@
       "title": "5 agent jobs gone from scheduled tasks",
       "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review not listed",
       "tag": "missing",
+      "sev": "urgent"
+    },
+    {
+      "title": "PHIL-101 class at 1:30p",
+      "note": "Curtice-Mott 1111 \u00b7 then MATH-170 at 5:00p (Gorman 3202)",
+      "tag": "2 h",
       "sev": "urgent"
     },
     {
@@ -32,13 +38,6 @@
       "tag": "14 d",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
-    },
-    {
-      "title": "Review 1 draft (to hello@itsbrilliant.co)",
-      "note": "Draft saved 6:54p Mon in Gmail Drafts",
-      "tag": "1 draft",
-      "sev": "accent",
-      "url": "https://mail.google.com/mail/u/0/#drafts"
     }
   ],
   "jobs": [
@@ -63,15 +62,15 @@
     },
     {
       "title": "Inbox",
-      "note": "0 needs reply, 1 draft, 0 waiting \u00b7 triage task not in scheduled list",
+      "note": "0 needs reply, 1 draft (to hello@itsbrilliant.co), 0 waiting \u00b7 triage task missing",
       "tag": "missing",
       "sev": "soon",
-      "url": "https://mail.google.com/mail/u/0/#label/Claude%2FNeeds+Reply"
+      "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Portfolio",
-      "note": "Pre-mkt Tue: +0.84% (+$47) \u00b7 NVDA +1.16%, PLTR +0.82%, MCD +0.23% \u00b7 $5,622",
-      "tag": "+0.84%",
+      "note": "11:14a Tue: +1.07% (+$60) \u00b7 PLTR +1.57%, NVDA +1.35%, MCD +0.15% \u00b7 $5,635",
+      "tag": "+1.07%",
       "sev": "accent"
     }
   ]
