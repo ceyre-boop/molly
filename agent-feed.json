@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-07T21:08:00-04:00",
+  "updated": "2026-10-07T23:06:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -9,7 +9,7 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Scholarship scout now on (ran 7:46p) but not auto-approved; Market brief still off",
+      "note": "Scholarship scout runs but isn't auto-approved; Market brief still off",
       "tag": "setup",
       "sev": "urgent"
     },
@@ -22,7 +22,7 @@
     {
       "title": "MATH-170 Test 2 (Ch. 3) Tue Oct 13",
       "note": "HW 3.1-3.4 due Fri 11:59p first",
-      "tag": "6 d",
+      "tag": "5 d",
       "sev": "soon"
     },
     {
@@ -35,7 +35,7 @@
     {
       "title": "Stop Hunger scholarship due Oct 20",
       "note": "$10K. Prep block Tue Oct 13 on calendar; status: To check",
-      "tag": "13 d",
+      "tag": "12 d",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
@@ -43,14 +43,14 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Tue 10:02p \u00b7 next Wed 10:01p",
-      "tag": "ok 23h ago",
+      "note": "Last ok Wed 10:02p \u00b7 next Thu 10:01p",
+      "tag": "ok 1h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Wed 7:46p \u00b7 next Mon Oct 12 9:08a \u00b7 next deadline Oct 20",
-      "tag": "ok 1h ago",
+      "tag": "ok 3h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Close Wed: -0.34% (-$19) \u00b7 NVDA -0.75%, MCD -0.59%, PLTR +0.95% \u00b7 $5,574",
-      "tag": "-0.34%",
+      "note": "Close Wed: -0.29% (-$16) \u00b7 NVDA -0.64%, MCD -0.66%, PLTR +0.98% \u00b7 $5,576",
+      "tag": "-0.29%",
       "sev": "accent"
     }
   ]
