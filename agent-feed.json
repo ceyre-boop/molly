@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-07T19:46:00-04:00",
+  "updated": "2026-10-07T21:08:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -9,7 +9,7 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Scholarship scout + Market brief still disabled; only Mac tidy + sync are auto",
+      "note": "Scholarship scout now on (ran 7:46p) but not auto-approved; Market brief still off",
       "tag": "setup",
       "sev": "urgent"
     },
@@ -44,14 +44,14 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Tue 10:02p \u00b7 next Wed 10:01p",
-      "tag": "ok 22h ago",
+      "tag": "ok 23h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
-      "note": "Disabled \u00b7 never run \u00b7 tracker: next deadline Oct 20",
-      "tag": "pending",
-      "sev": "accent",
+      "note": "Last ok Wed 7:46p \u00b7 next Mon Oct 12 9:08a \u00b7 next deadline Oct 20",
+      "tag": "ok 1h ago",
+      "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
