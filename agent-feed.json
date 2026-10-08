@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-08T17:07:00-04:00",
+  "updated": "2026-10-08T19:45:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -28,7 +28,7 @@
     },
     {
       "title": "Stop Hunger scholarship due Oct 20",
-      "note": "$10K. Prep block Tue Oct 13 on calendar; status: To check",
+      "note": "$10K. Prep block Tue Oct 13 on calendar; answer 3 essay questions in tracker",
       "tag": "12 d",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -38,13 +38,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Wed 10:02p \u00b7 next Thu 10:01p",
-      "tag": "ok 19h ago",
+      "tag": "ok 22h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Wed 7:46p \u00b7 next Mon Oct 12 9:08a \u00b7 next deadline Oct 20",
-      "tag": "ok 21h ago",
+      "tag": "ok 1d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -63,8 +63,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Close Thu: -0.23% (-$13) \u00b7 MCD +2.65%, PLTR +2.31%, NVDA -2.66% \u00b7 $5,562",
-      "tag": "-0.23%",
+      "note": "Close Thu: -0.26% (-$15) \u00b7 MCD +2.64%, PLTR +2.31%, NVDA -2.72% \u00b7 $5,560",
+      "tag": "-0.26%",
       "sev": "accent"
     }
   ]
