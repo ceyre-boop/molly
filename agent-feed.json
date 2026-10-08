@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-08T12:06:00-04:00",
+  "updated": "2026-10-08T13:08:00-04:00",
   "needs": [
     {
       "title": "PHIL-101 class today 1:30p",
@@ -44,13 +44,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Wed 10:02p \u00b7 next Thu 10:01p",
-      "tag": "ok 14h ago",
+      "tag": "ok 15h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Wed 7:46p \u00b7 next Mon Oct 12 9:08a \u00b7 next deadline Oct 20",
-      "tag": "ok 16h ago",
+      "tag": "ok 17h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -62,15 +62,15 @@
     },
     {
       "title": "Inbox",
-      "note": "0 needs reply, 1 draft (to hello@itsbrilliant.co), 0 waiting \u00b7 triage task missing",
+      "note": "0 needs reply, 2 drafts (Marco, hello@itsbrilliant.co), 0 waiting \u00b7 triage task missing",
       "tag": "missing",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Portfolio",
-      "note": "Intraday Thu: +0.31% (+$17) \u00b7 PLTR +2.03%, MCD +1.45%, NVDA -0.94% \u00b7 $5,591",
-      "tag": "+0.31%",
+      "note": "Intraday Thu: -0.26% (-$14) \u00b7 MCD +2.69%, PLTR +1.72%, NVDA -2.49% \u00b7 $5,560",
+      "tag": "-0.26%",
       "sev": "accent"
     }
   ]
