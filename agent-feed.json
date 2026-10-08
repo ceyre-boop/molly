@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-08T15:50:00-04:00",
+  "updated": "2026-10-08T17:07:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -38,13 +38,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Wed 10:02p \u00b7 next Thu 10:01p",
-      "tag": "ok 18h ago",
+      "tag": "ok 19h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Wed 7:46p \u00b7 next Mon Oct 12 9:08a \u00b7 next deadline Oct 20",
-      "tag": "ok 20h ago",
+      "tag": "ok 21h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -63,8 +63,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Intraday Thu: -0.36% (-$20) \u00b7 MCD +2.71%, PLTR +2.19%, NVDA -2.90% \u00b7 $5,554",
-      "tag": "-0.36%",
+      "note": "Close Thu: -0.23% (-$13) \u00b7 MCD +2.65%, PLTR +2.31%, NVDA -2.66% \u00b7 $5,562",
+      "tag": "-0.23%",
       "sev": "accent"
     }
   ]
