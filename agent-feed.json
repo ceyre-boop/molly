@@ -1,6 +1,12 @@
 {
-  "updated": "2026-10-08T23:08:00-04:00",
+  "updated": "2026-10-09T07:24:00-04:00",
   "needs": [
+    {
+      "title": "MATH-170 HW 3.1-3.4 due today 11:59p",
+      "note": "Test 2 (Ch. 3) Tue Oct 13; COMM-131 speech Mon Oct 12 10a; PHIL summary Sun",
+      "tag": "today",
+      "sev": "urgent"
+    },
     {
       "title": "5 agent jobs gone from scheduled tasks",
       "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review not listed",
@@ -14,12 +20,6 @@
       "sev": "urgent"
     },
     {
-      "title": "MATH-170 HW 3.1-3.4 due Fri 11:59p",
-      "note": "Test 2 (Ch. 3) Tue Oct 13; COMM-131 speech Mon Oct 12 10a",
-      "tag": "1 d",
-      "sev": "soon"
-    },
-    {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
       "note": "Unlocks Michigan Achievement + MCC Foundation scholarships; unchecked in tracker",
       "tag": "setup",
@@ -29,7 +29,7 @@
     {
       "title": "Stop Hunger scholarship due Oct 20",
       "note": "$10K. Prep block Tue Oct 13 on calendar; answer 3 essay questions in tracker",
-      "tag": "12 d",
+      "tag": "11 d",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
@@ -38,13 +38,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Thu 10:02p \u00b7 next Fri 10:01p",
-      "tag": "ok 1h ago",
+      "tag": "ok 9h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Wed 7:46p \u00b7 next Mon Oct 12 9:08a \u00b7 next deadline Oct 20",
-      "tag": "ok 1d ago",
+      "tag": "ok 2d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -63,8 +63,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Close Thu: -0.26% (-$15) \u00b7 MCD +2.64%, PLTR +2.31%, NVDA -2.72% \u00b7 $5,560",
-      "tag": "-0.26%",
+      "note": "Pre-mkt Fri: +0.91% (+$51) \u00b7 NVDA +1.58%, PLTR +0.64%, MCD -0.12% \u00b7 $5,604",
+      "tag": "+0.91%",
       "sev": "accent"
     }
   ]
