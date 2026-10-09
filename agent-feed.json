@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-09T07:24:00-04:00",
+  "updated": "2026-10-09T09:27:00-04:00",
   "needs": [
     {
       "title": "MATH-170 HW 3.1-3.4 due today 11:59p",
-      "note": "Test 2 (Ch. 3) Tue Oct 13; COMM-131 speech Mon Oct 12 10a; PHIL summary Sun",
+      "note": "Test 2 (Ch. 3) Tue Oct 13; COMM-131 speech Mon 10a; PHIL summary + FILM 181 wk1 Sun",
       "tag": "today",
       "sev": "urgent"
     },
@@ -38,7 +38,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Thu 10:02p \u00b7 next Fri 10:01p",
-      "tag": "ok 9h ago",
+      "tag": "ok 11h ago",
       "sev": "ok"
     },
     {
@@ -63,8 +63,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Pre-mkt Fri: +0.91% (+$51) \u00b7 NVDA +1.58%, PLTR +0.64%, MCD -0.12% \u00b7 $5,604",
-      "tag": "+0.91%",
+      "note": "Pre-mkt Fri: +0.97% (+$54) \u00b7 NVDA +1.57%, PLTR +1.24%, MCD -0.38% \u00b7 $5,608",
+      "tag": "+0.97%",
       "sev": "accent"
     }
   ]
