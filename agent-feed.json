@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-08T21:07:00-04:00",
+  "updated": "2026-10-08T23:08:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -37,8 +37,8 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Wed 10:02p \u00b7 next Thu 10:01p",
-      "tag": "ok 23h ago",
+      "note": "Last ok Thu 10:02p \u00b7 next Fri 10:01p",
+      "tag": "ok 1h ago",
       "sev": "ok"
     },
     {
