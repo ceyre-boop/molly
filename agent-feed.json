@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-10T17:07:00-04:00",
+  "updated": "2026-10-10T19:08:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -15,7 +15,7 @@
     },
     {
       "title": "PHIL summary 5 + FILM 181 week 1 due Sun",
-      "note": "Then COMM-131 speech Mon 10a; MATH-170 Test 2 (Ch. 3) Tue Oct 13",
+      "note": "Sun: PHIL 10a, FILM 11p. Mon: COMM-131 speech 10a. Tue: MATH-170 Test 2 (Ch. 3)",
       "tag": "1 d",
       "sev": "soon"
     },
@@ -38,7 +38,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Fri 10:02p \u00b7 next Sat 10:01p",
-      "tag": "ok 19h ago",
+      "tag": "ok 21h ago",
       "sev": "ok"
     },
     {
