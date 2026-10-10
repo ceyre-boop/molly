@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-10T11:40:00-04:00",
+  "updated": "2026-10-10T13:08:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -8,16 +8,16 @@
       "sev": "urgent"
     },
     {
-      "title": "PHIL summary 5 + FILM 181 week 1 due Sun",
-      "note": "Then COMM-131 speech Mon 10a; MATH-170 Test 2 (Ch. 3) Tue Oct 13",
-      "tag": "1 d",
-      "sev": "soon"
-    },
-    {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
       "note": "Scholarship scout runs but isn't auto-approved; Market brief still off",
       "tag": "setup",
       "sev": "urgent"
+    },
+    {
+      "title": "PHIL summary 5 + FILM 181 week 1 due Sun",
+      "note": "Then COMM-131 speech Mon 10a; MATH-170 Test 2 (Ch. 3) Tue Oct 13",
+      "tag": "1 d",
+      "sev": "soon"
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
@@ -38,7 +38,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Fri 10:02p \u00b7 next Sat 10:01p",
-      "tag": "ok 14h ago",
+      "tag": "ok 15h ago",
       "sev": "ok"
     },
     {
