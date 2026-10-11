@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-11T09:08:00-04:00",
+  "updated": "2026-10-11T11:08:00-04:00",
   "needs": [
     {
-      "title": "PHIL-101 Weekly Summary 5 due 10a today",
-      "note": "Then FILM 181 Week 1 work due 11p tonight",
-      "tag": "10a today",
+      "title": "FILM 181 Week 1 work due 11p tonight",
+      "note": "Top 10 list, lecture, reading, discussion, Shawshank + Doodlebug reflections",
+      "tag": "11p today",
       "sev": "urgent"
     },
     {
@@ -15,7 +15,7 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Scholarship scout runs but isn't auto-approved; Market brief still off",
+      "note": "Scholarship scout (runs Mon 9a) not auto-approved; Market brief still off",
       "tag": "setup",
       "sev": "urgent"
     },
@@ -43,9 +43,9 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Fri 10:02p \u00b7 now paused: Mac was offline (device absent)",
-      "tag": "paused",
-      "sev": "soon"
+      "note": "Last ok today 9:23a \u00b7 next tonight 10:01p \u00b7 auto-approved",
+      "tag": "ok 2h ago",
+      "sev": "ok"
     },
     {
       "title": "Scholarship scout",
