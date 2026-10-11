@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-11T15:08:00-04:00",
+  "updated": "2026-10-11T17:07:00-04:00",
   "needs": [
     {
       "title": "FILM 181 Week 1 work due 11p tonight",
@@ -36,40 +36,40 @@
       "title": "Stop Hunger scholarship due Oct 20",
       "note": "$10K. Prep block Tue Oct 13 on calendar; answer 3 essay questions in tracker",
       "tag": "9 d",
-      "sev": "ok",
+      "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
   ],
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok today 9:23a \u00b7 next tonight 10:01p \u00b7 auto-approved",
-      "tag": "ok 6h ago",
+      "note": "Last ok today 9:23a · next tonight 10:01p · auto-approved",
+      "tag": "ok 8h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
-      "note": "Last ok Wed 7:46p \u00b7 next Mon Oct 12 9:08a \u00b7 next deadline Oct 20",
+      "note": "Last ok Wed 7:46p · next Mon Oct 12 9:08a · next deadline Oct 20",
       "tag": "ok 4d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Market brief (read-only)",
-      "note": "Disabled \u00b7 never run",
+      "note": "Disabled · never run",
       "tag": "pending",
       "sev": "accent"
     },
     {
       "title": "Inbox",
-      "note": "0 needs reply, 2 drafts (Marco, hello@itsbrilliant.co), 0 waiting \u00b7 triage task missing",
+      "note": "0 needs reply, 2 drafts (Marco, hello@itsbrilliant.co), 0 waiting · triage task missing",
       "tag": "missing",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Portfolio",
-      "note": "Fri close: +0.75% (+$42) \u00b7 PLTR +4.97%, NVDA -0.46%, MCD -0.44% \u00b7 $5,595",
+      "note": "Fri close: +0.75% (+$42) · PLTR +4.97%, NVDA -0.46%, MCD -0.44% · $5,595",
       "tag": "+0.75%",
       "sev": "accent"
     }
