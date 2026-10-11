@@ -1,6 +1,12 @@
 {
-  "updated": "2026-10-10T19:08:00-04:00",
+  "updated": "2026-10-11T09:08:00-04:00",
   "needs": [
+    {
+      "title": "PHIL-101 Weekly Summary 5 due 10a today",
+      "note": "Then FILM 181 Week 1 work due 11p tonight",
+      "tag": "10a today",
+      "sev": "urgent"
+    },
     {
       "title": "5 agent jobs gone from scheduled tasks",
       "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review not listed",
@@ -14,8 +20,8 @@
       "sev": "urgent"
     },
     {
-      "title": "PHIL summary 5 + FILM 181 week 1 due Sun",
-      "note": "Sun: PHIL 10a, FILM 11p. Mon: COMM-131 speech 10a. Tue: MATH-170 Test 2 (Ch. 3)",
+      "title": "Mon: COMM-131 speech + PHIL reading 10a; Tue MATH Test 2",
+      "note": "MATH-170 Test 2 (Ch. 3) Tue 10a; COMM discussion + PHIL reading Wed",
       "tag": "1 d",
       "sev": "soon"
     },
@@ -29,7 +35,7 @@
     {
       "title": "Stop Hunger scholarship due Oct 20",
       "note": "$10K. Prep block Tue Oct 13 on calendar; answer 3 essay questions in tracker",
-      "tag": "10 d",
+      "tag": "9 d",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
@@ -37,14 +43,14 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Fri 10:02p \u00b7 next Sat 10:01p",
-      "tag": "ok 21h ago",
-      "sev": "ok"
+      "note": "Last ok Fri 10:02p \u00b7 now paused: Mac was offline (device absent)",
+      "tag": "paused",
+      "sev": "soon"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Wed 7:46p \u00b7 next Mon Oct 12 9:08a \u00b7 next deadline Oct 20",
-      "tag": "ok 3d ago",
+      "tag": "ok 4d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
