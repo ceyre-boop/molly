@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-12T13:08:00-04:00",
+  "updated": "2026-10-12T15:08:00-04:00",
   "needs": [
     {
       "title": "PHIL Reading 10-12 due tonight 11:59p",
@@ -44,13 +44,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 10:02p \u00b7 next tonight 10:01p \u00b7 auto-approved",
-      "tag": "ok 15h ago",
+      "tag": "ok 17h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok today 9:10a \u00b7 next Mon Oct 19 9:09a \u00b7 next deadline Oct 20",
-      "tag": "ok 4h ago",
+      "tag": "ok 6h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Midday: -0.62% (-$47) \u00b7 NVDA -1.22%, PLTR -1.14%, MCD +0.12% \u00b7 $7,545",
-      "tag": "-0.62%",
+      "note": "3:06p: -0.64% (-$49) \u00b7 NVDA -1.20%, PLTR -1.24%, MCD +0.06% \u00b7 $7,544",
+      "tag": "-0.64%",
       "sev": "accent"
     }
   ]
