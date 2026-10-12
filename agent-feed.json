@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-12T09:40:00-04:00",
+  "updated": "2026-10-12T13:08:00-04:00",
   "needs": [
     {
-      "title": "COMM-131 Dream Trip speech at 10a (class 10:30)",
-      "note": "Visual aid speech, 100 pts; PHIL Reading 10-12 due on Canvas by 11:59p",
-      "tag": "10a today",
+      "title": "PHIL Reading 10-12 due tonight 11:59p",
+      "note": "Canvas submission; MATH-170 Test 2 is tomorrow 10a",
+      "tag": "tonight",
       "sev": "urgent"
     },
     {
@@ -21,7 +21,7 @@
     },
     {
       "title": "MATH-170 Test 2 (Ch. 3) Tue 10a",
-      "note": "Also Tue: Stop Hunger prep block; Wed COMM discussion + PHIL reading",
+      "note": "Also Tue: Stop Hunger prep block; Wed COMM discussion + PHIL reading 10-15",
       "tag": "tomorrow",
       "sev": "soon"
     },
@@ -44,13 +44,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 10:02p \u00b7 next tonight 10:01p \u00b7 auto-approved",
-      "tag": "ok 12h ago",
+      "tag": "ok 15h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok today 9:10a \u00b7 next Mon Oct 19 9:09a \u00b7 next deadline Oct 20",
-      "tag": "ok 30m ago",
+      "tag": "ok 4h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Open: -0.15% (-$12) \u00b7 PLTR +1.32%, NVDA -0.58%, MCD -0.88% \u00b7 $7,581",
-      "tag": "-0.15%",
+      "note": "Midday: -0.62% (-$47) \u00b7 NVDA -1.22%, PLTR -1.14%, MCD +0.12% \u00b7 $7,545",
+      "tag": "-0.62%",
       "sev": "accent"
     }
   ]
