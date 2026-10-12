@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-11T23:08:00-04:00",
+  "updated": "2026-10-12T08:46:00-04:00",
   "needs": [
     {
-      "title": "FILM 181 Week 1 work due 11:59p tonight",
-      "note": "Top 10 list, lecture, reading, discussion, Shawshank + Doodlebug reflections",
-      "tag": "tonight",
+      "title": "COMM-131 Dream Trip speech + PHIL reading due 10a",
+      "note": "Speech visual aid (100 pts) at 10a; PHIL Reading 10-12 on Canvas by 11:59p",
+      "tag": "10a today",
       "sev": "urgent"
     },
     {
@@ -15,13 +15,13 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Scholarship scout (runs Mon 9a) not auto-approved; Market brief still off",
+      "note": "Scholarship scout (runs today 9:08a) not auto-approved; Market brief still off",
       "tag": "setup",
       "sev": "urgent"
     },
     {
-      "title": "Mon: COMM-131 speech + PHIL reading 10a; Tue MATH Test 2",
-      "note": "MATH-170 Test 2 (Ch. 3) Tue 10a; COMM discussion + PHIL reading Wed",
+      "title": "MATH-170 Test 2 (Ch. 3) Tue 10a",
+      "note": "Also Tue: Stop Hunger prep block; Wed COMM discussion + PHIL reading",
       "tag": "tomorrow",
       "sev": "soon"
     },
@@ -35,7 +35,7 @@
     {
       "title": "Stop Hunger scholarship due Oct 20",
       "note": "$10K. Prep block Tue Oct 13 on calendar; answer 3 essay questions in tracker",
-      "tag": "9 d",
+      "tag": "8 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
@@ -43,14 +43,14 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok today 10:02p \u00b7 next Mon 10:01p \u00b7 auto-approved",
-      "tag": "ok 1h ago",
+      "note": "Last ok Sun 10:02p \u00b7 next tonight 10:01p \u00b7 auto-approved",
+      "tag": "ok 11h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
-      "note": "Last ok Wed 7:46p \u00b7 next Mon Oct 12 9:08a \u00b7 next deadline Oct 20",
-      "tag": "ok 4d ago",
+      "note": "Last ok Wed 7:46p \u00b7 next today 9:08a \u00b7 next deadline Oct 20",
+      "tag": "ok 5d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Fri close: +0.75% (+$42) \u00b7 PLTR +4.97%, NVDA -0.46%, MCD -0.44% \u00b7 $5,595",
-      "tag": "+0.75%",
+      "note": "Pre-market: -0.13% (-$10) \u00b7 MCD +0.28%, PLTR -0.26%, NVDA -0.39% \u00b7 $7,582",
+      "tag": "-0.13%",
       "sev": "accent"
     }
   ]
