@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-11T21:08:00-04:00",
+  "updated": "2026-10-11T23:08:00-04:00",
   "needs": [
     {
-      "title": "FILM 181 Week 1 work due 11p tonight",
+      "title": "FILM 181 Week 1 work due 11:59p tonight",
       "note": "Top 10 list, lecture, reading, discussion, Shawshank + Doodlebug reflections",
-      "tag": "11p today",
+      "tag": "tonight",
       "sev": "urgent"
     },
     {
@@ -43,8 +43,8 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok today 9:23a \u00b7 next tonight 10:01p \u00b7 auto-approved",
-      "tag": "ok 12h ago",
+      "note": "Last ok today 10:02p \u00b7 next Mon 10:01p \u00b7 auto-approved",
+      "tag": "ok 1h ago",
       "sev": "ok"
     },
     {
