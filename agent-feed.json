@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-12T19:08:00-04:00",
+  "updated": "2026-10-12T21:08:00-04:00",
   "needs": [
     {
       "title": "PHIL Reading 10-12 due tonight 11:59p",
@@ -44,13 +44,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 10:02p \u00b7 next tonight 10:01p \u00b7 auto-approved",
-      "tag": "ok 21h ago",
+      "tag": "ok 23h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok today 9:10a \u00b7 next Mon Oct 19 9:09a \u00b7 next deadline Oct 20",
-      "tag": "ok 10h ago",
+      "tag": "ok 12h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
