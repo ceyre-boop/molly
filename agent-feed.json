@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-12T23:07:00-04:00",
+  "updated": "2026-10-13T08:29:00-04:00",
   "needs": [
     {
-      "title": "PHIL Reading 10-12 due tonight 11:59p",
-      "note": "Canvas submission; MATH-170 Test 2 is tomorrow 10a",
-      "tag": "tonight",
+      "title": "MATH-170 Test 2 (Ch. 3) today 10a",
+      "note": "Starts in ~1.5h; PHIL-101 1:30p, MATH-170 class 5p",
+      "tag": "10a",
       "sev": "urgent"
     },
     {
@@ -15,15 +15,16 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Scholarship scout ran ok 9:10a but isn't auto-approved; Market brief still off",
+      "note": "Scholarship scout ran ok Mon 9:10a but isn't auto-approved; Market brief still off",
       "tag": "setup",
       "sev": "urgent"
     },
     {
-      "title": "MATH-170 Test 2 (Ch. 3) Tue 10a",
-      "note": "Also Tue: Stop Hunger prep block; Wed COMM discussion + PHIL reading 10-15",
-      "tag": "tomorrow",
-      "sev": "soon"
+      "title": "Stop Hunger scholarship due Oct 20",
+      "note": "$10K. Prep block is today; answer 3 essay questions in tracker",
+      "tag": "7 d",
+      "sev": "soon",
+      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
@@ -33,24 +34,23 @@
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
-      "title": "Stop Hunger scholarship due Oct 20",
-      "note": "$10K. Prep block Tue Oct 13; answer 3 essay questions in tracker",
-      "tag": "8 d",
-      "sev": "soon",
-      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
+      "title": "Wed: COMM-131 discussion + PHIL reading 10-15",
+      "note": "Both due Wed Oct 14 11:59p on Canvas; MATH HW 3.5-3.7 due Fri",
+      "tag": "tomorrow",
+      "sev": "soon"
     }
   ],
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok tonight 10:02p \u00b7 next Tue 10:01p \u00b7 auto-approved",
-      "tag": "ok 1h ago",
+      "note": "Last ok Mon 10:02p \u00b7 next Tue 10:01p \u00b7 auto-approved",
+      "tag": "ok 10h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Mon 9:10a \u00b7 next Mon Oct 19 9:09a \u00b7 next deadline Oct 20",
-      "tag": "ok 14h ago",
+      "tag": "ok 23h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Mon close: -0.48% (-$36) \u00b7 NVDA -1.36%, PLTR -0.17%, MCD +0.28% \u00b7 $7,556",
-      "tag": "-0.48%",
+      "note": "Pre-market: -0.17% (-$13) \u00b7 MCD +1.14%, NVDA -0.70%, PLTR -0.77% \u00b7 $7,545",
+      "tag": "-0.17%",
       "sev": "accent"
     }
   ]
