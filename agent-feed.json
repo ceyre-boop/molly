@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-13T14:01:00-04:00",
+  "updated": "2026-10-13T15:08:00-04:00",
   "needs": [
     {
       "title": "MATH-170 class today 5p",
@@ -15,7 +15,7 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Scholarship scout ran ok 1:42p today but isn't auto-approved; Market brief still off",
+      "note": "Scholarship scout ran ok 1:42p but isn't auto-approved; Market brief still off",
       "tag": "setup",
       "sev": "urgent"
     },
@@ -43,14 +43,14 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Tue 1:42p (manual) \u00b7 next Tue 10:01p \u00b7 auto-approved",
-      "tag": "ok 0h ago",
+      "note": "Last ok Tue 1:42p \u00b7 next Tue 10:01p \u00b7 auto-approved",
+      "tag": "ok 1h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Tue 1:42p \u00b7 next Mon Oct 19 9:09a \u00b7 next deadline Oct 20",
-      "tag": "ok 0h ago",
+      "tag": "ok 1h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Intraday 2:00p: +0.09% (+$7) \u00b7 NVDA +0.35%, MCD +0.09%, PLTR -0.30% \u00b7 $7,566",
-      "tag": "+0.09%",
+      "note": "Intraday 3:07p: +0.19% (+$14) \u00b7 NVDA +0.46%, MCD +0.47%, PLTR -0.39% \u00b7 $7,573",
+      "tag": "+0.19%",
       "sev": "accent"
     }
   ]
