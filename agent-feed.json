@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-13T15:08:00-04:00",
+  "updated": "2026-10-13T17:28:00-04:00",
   "needs": [
     {
-      "title": "MATH-170 class today 5p",
+      "title": "MATH-170 class now until 7:20p",
       "note": "Gorman 3202 \u00b7 5:00\u20137:20p",
-      "tag": "5p",
+      "tag": "now",
       "sev": "urgent"
     },
     {
@@ -44,13 +44,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Tue 1:42p \u00b7 next Tue 10:01p \u00b7 auto-approved",
-      "tag": "ok 1h ago",
+      "tag": "ok 4h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Tue 1:42p \u00b7 next Mon Oct 19 9:09a \u00b7 next deadline Oct 20",
-      "tag": "ok 1h ago",
+      "tag": "ok 4h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Intraday 3:07p: +0.19% (+$14) \u00b7 NVDA +0.46%, MCD +0.47%, PLTR -0.39% \u00b7 $7,573",
-      "tag": "+0.19%",
+      "note": "Close: +0.46% (+$34) \u00b7 NVDA +1.29%, MCD +0.22%, PLTR -0.34% \u00b7 $7,593",
+      "tag": "+0.46%",
       "sev": "accent"
     }
   ]
