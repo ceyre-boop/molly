@@ -1,12 +1,6 @@
 {
-  "updated": "2026-10-13T17:28:00-04:00",
+  "updated": "2026-10-13T20:21:00-04:00",
   "needs": [
-    {
-      "title": "MATH-170 class now until 7:20p",
-      "note": "Gorman 3202 \u00b7 5:00\u20137:20p",
-      "tag": "now",
-      "sev": "urgent"
-    },
     {
       "title": "5 agent jobs gone from scheduled tasks",
       "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review not listed",
@@ -20,8 +14,14 @@
       "sev": "urgent"
     },
     {
+      "title": "Wed: COMM-131 discussion + PHIL reading 10-15",
+      "note": "Both due Wed Oct 14 11:59p on Canvas; MATH HW 3.5-3.7 due Fri",
+      "tag": "tomorrow",
+      "sev": "soon"
+    },
+    {
       "title": "Stop Hunger scholarship due Oct 20",
-      "note": "$10K. Prep block is today; answer 3 essay questions in tracker",
+      "note": "$10K. Answer 3 essay questions in tracker; prep block was today",
       "tag": "7 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -32,25 +32,19 @@
       "tag": "setup",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
-    },
-    {
-      "title": "Wed: COMM-131 discussion + PHIL reading 10-15",
-      "note": "Both due Wed Oct 14 11:59p on Canvas; MATH HW 3.5-3.7 due Fri",
-      "tag": "tomorrow",
-      "sev": "soon"
     }
   ],
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Tue 1:42p \u00b7 next Tue 10:01p \u00b7 auto-approved",
-      "tag": "ok 4h ago",
+      "tag": "ok 7h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Tue 1:42p \u00b7 next Mon Oct 19 9:09a \u00b7 next deadline Oct 20",
-      "tag": "ok 4h ago",
+      "tag": "ok 7h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -69,8 +63,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Close: +0.46% (+$34) \u00b7 NVDA +1.29%, MCD +0.22%, PLTR -0.34% \u00b7 $7,593",
-      "tag": "+0.46%",
+      "note": "Close: +0.35% (+$26) \u00b7 NVDA +1.17%, MCD +0.10%, PLTR -0.58% \u00b7 $7,585",
+      "tag": "+0.35%",
       "sev": "accent"
     }
   ]
