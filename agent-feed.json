@@ -1,15 +1,9 @@
 {
-  "updated": "2026-10-14T23:07:00-04:00",
+  "updated": "2026-10-15T07:16:00-04:00",
   "needs": [
     {
-      "title": "Today: COMM-131 discussion + PHIL reading 10-15",
-      "note": "Both due 11:59p tonight on Canvas; MATH HW 3.5-3.7 due Fri",
-      "tag": "today",
-      "sev": "urgent"
-    },
-    {
-      "title": "Public: $6.9K on margin, acct -9.9% today",
-      "note": "Cash -$6,907 vs no-margin policy; GEV -7.3%, FIX -7.5%, VST -7.1%; acct $6,835",
+      "title": "Public: $6.9K on margin, down again pre-market",
+      "note": "Cash -$6,907 vs no-margin policy; pre-mkt -$303 (~-4.3%), GEV -3.7%; acct $6,743",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -21,14 +15,20 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Scholarship scout ran ok Tue 1:42p but isn't auto-approved; Market brief still off",
+      "note": "Scholarship scout ran ok Tue but isn't auto-approved; Market brief still off",
       "tag": "setup",
       "sev": "urgent"
     },
     {
+      "title": "MATH-170 HW 3.5-3.7 due Fri",
+      "note": "Due Fri Oct 16 11:59p on Canvas; PHIL-101 class today 1:30p",
+      "tag": "1 d",
+      "sev": "soon"
+    },
+    {
       "title": "Stop Hunger scholarship due Oct 20",
       "note": "$10K. Answer 3 essay questions in tracker; Essay bank still empty",
-      "tag": "6 d",
+      "tag": "5 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -44,13 +44,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Wed 10:02p \u00b7 next Thu 10:01p \u00b7 auto-approved",
-      "tag": "ok 1h ago",
+      "tag": "ok 9h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Tue 1:42p \u00b7 next Mon Oct 19 9:09a \u00b7 next deadline Oct 20",
-      "tag": "ok 33h ago",
+      "tag": "ok",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Day: -9.9% (-$750) \u00b7 GEV -7.3%, FIX -7.5%, VST -7.1% \u00b7 $6,835",
-      "tag": "-9.9%",
+      "note": "Pre-market: ~-4.3% (-$303) \u00b7 GEV -3.7%, FIX -3.2%, VST -2.9% \u00b7 $6,743",
+      "tag": "-4.3%",
       "sev": "urgent"
     }
   ]
