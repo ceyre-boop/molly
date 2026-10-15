@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-15T09:20:00-04:00",
+  "updated": "2026-10-15T13:50:00-04:00",
   "needs": [
     {
-      "title": "Public: $6.9K on margin, down again pre-market",
-      "note": "Cash -$6,907 vs no-margin policy; pre-mkt -$275 (~-3.9%), GEV -2.8%; acct $6,772",
+      "title": "Public: $6.9K on margin, down 3.3% today",
+      "note": "Cash -$6,907 vs no-margin policy; day -$229, GEV -2.7%, PWR -4.1%; acct $6,818",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -21,7 +21,7 @@
     },
     {
       "title": "MATH-170 HW 3.5-3.7 due Fri",
-      "note": "Due Fri Oct 16 11:59p on Canvas; PHIL-101 class today 1:30p",
+      "note": "Due Fri Oct 16 11:59p on Canvas",
       "tag": "1 d",
       "sev": "soon"
     },
@@ -44,7 +44,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Wed 10:02p \u00b7 next Thu 10:01p \u00b7 auto-approved",
-      "tag": "ok 11h ago",
+      "tag": "ok 16h ago",
       "sev": "ok"
     },
     {
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Pre-market: ~-3.9% (-$275) \u00b7 FIX -3.6%, GEV -2.8%, VST -2.8% \u00b7 $6,772",
-      "tag": "-3.9%",
+      "note": "Midday: -3.3% (-$229) \u00b7 GEV -2.7%, PWR -4.1%, FIX -5.0%, MCD +1.9% \u00b7 $6,818",
+      "tag": "-3.3%",
       "sev": "urgent"
     }
   ]
