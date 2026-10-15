@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-14T19:07:00-04:00",
+  "updated": "2026-10-14T21:07:00-04:00",
   "needs": [
     {
       "title": "Today: COMM-131 discussion + PHIL reading 10-15",
@@ -8,8 +8,8 @@
       "sev": "urgent"
     },
     {
-      "title": "Public: $6.9K on margin, acct -8.9% today",
-      "note": "Cash -$6,907 vs no-margin policy; GEV -7%, VST -6.5%, CEG -5.6%; acct $6,910",
+      "title": "Public: $6.9K on margin, acct -9.9% today",
+      "note": "Cash -$6,907 vs no-margin policy; GEV -7.3%, FIX -7.5%, VST -7.1%; acct $6,835",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -44,13 +44,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Tue 10:02p \u00b7 next Wed 10:01p \u00b7 auto-approved",
-      "tag": "ok 21h ago",
+      "tag": "ok 23h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Tue 1:42p \u00b7 next Mon Oct 19 9:09a \u00b7 next deadline Oct 20",
-      "tag": "ok 29h ago",
+      "tag": "ok 31h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Day: -8.9% (-$675) \u00b7 GEV -7.0%, VST -6.5%, CEG -5.6% \u00b7 $6,910",
-      "tag": "-8.9%",
+      "note": "Day: -9.9% (-$750) \u00b7 GEV -7.3%, FIX -7.5%, VST -7.1% \u00b7 $6,835",
+      "tag": "-9.9%",
       "sev": "urgent"
     }
   ]
