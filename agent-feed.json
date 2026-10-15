@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-15T15:44:00-04:00",
+  "updated": "2026-10-15T17:08:00-04:00",
   "needs": [
     {
-      "title": "Public: $6.9K on margin, down 1.9% today",
-      "note": "Cash -$6,907 vs no-margin policy; day -$136, FIX -3.2%, PWR -2.1%, NVDA -1.7%; acct $6,910",
+      "title": "Public: $6.9K on margin, down 2.8% today",
+      "note": "Cash -$6,907 vs no-margin policy; day -$196, FIX -4.1%, PWR -2.8%, NVDA -2.0%; acct $6,851",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -44,7 +44,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Wed 10:02p \u00b7 next Thu 10:01p \u00b7 auto-approved",
-      "tag": "ok 18h ago",
+      "tag": "ok 19h ago",
       "sev": "ok"
     },
     {
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "3:43p: -1.9% (-$136) \u00b7 FIX -3.2%, PWR -2.1%, NVDA -1.7%, MCD +1.6% \u00b7 $6,910",
-      "tag": "-1.9%",
+      "note": "Close: -2.8% (-$196) \u00b7 FIX -4.1%, PWR -2.8%, NVDA -2.0%, MCD +1.7% \u00b7 $6,851",
+      "tag": "-2.8%",
       "sev": "urgent"
     }
   ]
