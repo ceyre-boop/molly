@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-15T07:16:00-04:00",
+  "updated": "2026-10-15T09:20:00-04:00",
   "needs": [
     {
       "title": "Public: $6.9K on margin, down again pre-market",
-      "note": "Cash -$6,907 vs no-margin policy; pre-mkt -$303 (~-4.3%), GEV -3.7%; acct $6,743",
+      "note": "Cash -$6,907 vs no-margin policy; pre-mkt -$275 (~-3.9%), GEV -2.8%; acct $6,772",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -44,7 +44,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Wed 10:02p \u00b7 next Thu 10:01p \u00b7 auto-approved",
-      "tag": "ok 9h ago",
+      "tag": "ok 11h ago",
       "sev": "ok"
     },
     {
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Pre-market: ~-4.3% (-$303) \u00b7 GEV -3.7%, FIX -3.2%, VST -2.9% \u00b7 $6,743",
-      "tag": "-4.3%",
+      "note": "Pre-market: ~-3.9% (-$275) \u00b7 FIX -3.6%, GEV -2.8%, VST -2.8% \u00b7 $6,772",
+      "tag": "-3.9%",
       "sev": "urgent"
     }
   ]
