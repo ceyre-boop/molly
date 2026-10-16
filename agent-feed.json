@@ -1,10 +1,16 @@
 {
-  "updated": "2026-10-15T23:07:00-04:00",
+  "updated": "2026-10-16T07:10:00-04:00",
   "needs": [
     {
-      "title": "Public: $6.9K on margin, down 2.8% today",
-      "note": "Cash -$6,907 vs no-margin policy; day -$196, FIX -4.1%, PWR -2.8%, NVDA -2.0%; acct $6,851",
+      "title": "Public: $8.9K on margin, 2.8x leveraged",
+      "note": "Cash -$8,907 vs no-margin policy; acct $4,949; NVDA 53%, GEV 42% of acct; pre-mkt +$62",
       "tag": "margin",
+      "sev": "urgent"
+    },
+    {
+      "title": "MATH-170 HW 3.5-3.7 due tonight",
+      "note": "Due today 11:59p on Canvas (10 pts each)",
+      "tag": "today",
       "sev": "urgent"
     },
     {
@@ -15,20 +21,14 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Scholarship scout ran ok Tue but isn't auto-approved; Market brief still off",
+      "note": "Scholarship scout still not auto-approved; Market brief still off",
       "tag": "setup",
       "sev": "urgent"
     },
     {
-      "title": "MATH-170 HW 3.5-3.7 due Fri",
-      "note": "Due Fri Oct 16 11:59p on Canvas",
-      "tag": "tomorrow",
-      "sev": "soon"
-    },
-    {
       "title": "Stop Hunger scholarship due Oct 20",
       "note": "$10K. Answer 3 essay questions in tracker; status still To check",
-      "tag": "5 d",
+      "tag": "4 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -43,35 +43,35 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Thu 10:02p \u00b7 next Fri 10:01p \u00b7 auto-approved",
-      "tag": "ok 1h ago",
+      "note": "Last ok Thu 10:02p · next Fri 10:01p · auto-approved",
+      "tag": "ok 9h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
-      "note": "Last ok Tue 1:42p \u00b7 next Mon Oct 19 9:09a \u00b7 next deadline Oct 20",
+      "note": "Last ok Tue 1:42p · next Mon Oct 19 9:09a · next deadline Oct 20",
       "tag": "ok",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Market brief (read-only)",
-      "note": "Disabled \u00b7 never run",
+      "note": "Disabled · never run",
       "tag": "pending",
       "sev": "accent"
     },
     {
       "title": "Inbox",
-      "note": "0 needs reply, 2 drafts (Marco, hello@itsbrilliant.co), 0 waiting \u00b7 triage task missing",
+      "note": "0 needs reply, 3 drafts (2 hello@itsbrilliant.co, Marco), 0 waiting · triage task missing",
       "tag": "missing",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Portfolio",
-      "note": "Close (4pm): -2.8% (-$196) \u00b7 FIX -4.1%, PWR -2.8%, NVDA -2.0%, MCD +1.7% \u00b7 $6,851",
-      "tag": "-2.8%",
-      "sev": "urgent"
+      "note": "Pre-market: +1.3% (+$62) · PWR +4.6%, MCD +0.6%, GEV -0.5% · $4,949",
+      "tag": "+1.3%",
+      "sev": "ok"
     }
   ]
 }
