@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-15T21:06:52-04:00",
+  "updated": "2026-10-15T23:07:00-04:00",
   "needs": [
     {
       "title": "Public: $6.9K on margin, down 2.8% today",
@@ -43,8 +43,8 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Wed 10:02p \u00b7 next Thu 10:01p \u00b7 auto-approved",
-      "tag": "ok 23h ago",
+      "note": "Last ok Thu 10:02p \u00b7 next Fri 10:01p \u00b7 auto-approved",
+      "tag": "ok 1h ago",
       "sev": "ok"
     },
     {
