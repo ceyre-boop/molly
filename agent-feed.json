@@ -1,16 +1,10 @@
 {
-  "updated": "2026-10-16T23:07:00-04:00",
+  "updated": "2026-10-17T12:44:00-04:00",
   "needs": [
     {
       "title": "Public: $8.9K on margin, 3.0x leveraged",
-      "note": "Cash -$8,907 vs no-margin policy; acct $4,559; NVDA 57%, GEV 45%, ETN 36% of acct",
+      "note": "As of Fri close: cash -$8,907 vs no-margin policy; acct $4,559; NVDA 57% of acct",
       "tag": "margin",
-      "sev": "urgent"
-    },
-    {
-      "title": "MATH-170 HW 3.5-3.7 due tonight",
-      "note": "Due 11:59p on Canvas (10 pts each) \u2014 under 1h left",
-      "tag": "today",
       "sev": "urgent"
     },
     {
@@ -26,11 +20,17 @@
       "sev": "urgent"
     },
     {
-      "title": "Stop Hunger scholarship due Oct 20",
+      "title": "Stop Hunger scholarship due Tue Oct 20",
       "note": "$10K. Answer 3 essay questions in tracker or set Skip; status still To check",
-      "tag": "4 d",
+      "tag": "3 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
+    },
+    {
+      "title": "Sun: PHIL-101 Summary 6 + FILM 181 Week 2 due",
+      "note": "Both due 11:59p Sun on Canvas; Mon noon: COMM-131 Group Persuasive Analysis (50 pts)",
+      "tag": "1 d",
+      "sev": "soon"
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
@@ -44,7 +44,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Fri 10:45p \u00b7 next Sat 10:05p \u00b7 auto-approved",
-      "tag": "ok 0h ago",
+      "tag": "ok 14h ago",
       "sev": "ok"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "title": "Portfolio",
-      "note": "Fri close: -6.7% (-$329) \u00b7 PLTR -8.2%, FIX -3.5%, ETN -3.4% \u00b7 $4,559",
+      "note": "Fri close: -6.7% (-$329) \u00b7 PLTR -8.2%, FIX -3.5%, ETN -3.4% \u00b7 $4,559 \u00b7 mkt closed",
       "tag": "-6.7%",
       "sev": "accent"
     }
