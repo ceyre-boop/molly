@@ -1,15 +1,15 @@
 {
-  "updated": "2026-10-16T22:47:00-04:00",
+  "updated": "2026-10-16T23:07:00-04:00",
   "needs": [
     {
       "title": "Public: $8.9K on margin, 3.0x leveraged",
-      "note": "Cash -$8,907 vs no-margin policy; acct $4,550; NVDA 57%, GEV 45%, ETN 36% of acct",
+      "note": "Cash -$8,907 vs no-margin policy; acct $4,559; NVDA 57%, GEV 45%, ETN 36% of acct",
       "tag": "margin",
       "sev": "urgent"
     },
     {
       "title": "MATH-170 HW 3.5-3.7 due tonight",
-      "note": "Due tonight 11:59p on Canvas (10 pts each) \u2014 ~1h left",
+      "note": "Due 11:59p on Canvas (10 pts each) \u2014 under 1h left",
       "tag": "today",
       "sev": "urgent"
     },
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Fri close: -6.9% (-$337) \u00b7 PLTR -8.0%, FIX -4.1%, ETN -3.6% \u00b7 $4,550",
-      "tag": "-6.9%",
+      "note": "Fri close: -6.7% (-$329) \u00b7 PLTR -8.2%, FIX -3.5%, ETN -3.4% \u00b7 $4,559",
+      "tag": "-6.7%",
       "sev": "accent"
     }
   ]
