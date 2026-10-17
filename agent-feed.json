@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-16T19:08:00-04:00",
+  "updated": "2026-10-16T22:47:00-04:00",
   "needs": [
     {
       "title": "Public: $8.9K on margin, 3.0x leveraged",
@@ -9,7 +9,7 @@
     },
     {
       "title": "MATH-170 HW 3.5-3.7 due tonight",
-      "note": "Due today 11:59p on Canvas (10 pts each)",
+      "note": "Due tonight 11:59p on Canvas (10 pts each) \u2014 ~1h left",
       "tag": "today",
       "sev": "urgent"
     },
@@ -21,7 +21,7 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Scholarship scout still not auto-approved; Market brief still off",
+      "note": "Scholarship scout still not auto-approved; Market brief still disabled",
       "tag": "setup",
       "sev": "urgent"
     },
@@ -43,8 +43,8 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Thu 10:02p \u00b7 next Fri 10:01p \u00b7 auto-approved",
-      "tag": "ok 21h ago",
+      "note": "Last ok Fri 10:45p \u00b7 next Sat 10:05p \u00b7 auto-approved",
+      "tag": "ok 0h ago",
       "sev": "ok"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "title": "Portfolio",
-      "note": "Day: -6.9% (-$337) \u00b7 PLTR -8.0%, FIX -4.1%, ETN -3.6% \u00b7 $4,550",
+      "note": "Fri close: -6.9% (-$337) \u00b7 PLTR -8.0%, FIX -4.1%, ETN -3.6% \u00b7 $4,550",
       "tag": "-6.9%",
       "sev": "accent"
     }
