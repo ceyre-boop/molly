@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-17T13:10:00-04:00",
+  "updated": "2026-10-17T15:07:00-04:00",
   "needs": [
     {
       "title": "Public: $8.9K on margin, 3.0x leveraged",
@@ -44,7 +44,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Fri 10:45p \u00b7 next Sat 10:05p \u00b7 auto-approved",
-      "tag": "ok 14h ago",
+      "tag": "ok 16h ago",
       "sev": "ok"
     },
     {
