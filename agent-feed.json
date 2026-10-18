@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-18T15:07:00-04:00",
+  "updated": "2026-10-18T17:08:00-04:00",
   "needs": [
     {
-      "title": "Today: PHIL-101 Summary 6 + FILM 181 Week 2 due",
-      "note": "Both due 11:59p tonight on Canvas; Mon noon: COMM-131 Group Persuasive Analysis (50 pts)",
+      "title": "Tonight: PHIL-101 Summary 6 + FILM 181 Week 2 due",
+      "note": "Both due 11:59p on Canvas; Mon noon: COMM-131 Group Persuasive Analysis (50 pts)",
       "tag": "today",
       "sev": "urgent"
     },
@@ -44,7 +44,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 2:32a \u00b7 next Sun 10:05p \u00b7 auto-approved",
-      "tag": "ok 13h ago",
+      "tag": "ok 15h ago",
       "sev": "ok"
     },
     {
