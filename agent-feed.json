@@ -1,6 +1,12 @@
 {
-  "updated": "2026-10-17T15:07:00-04:00",
+  "updated": "2026-10-18T02:33:00-04:00",
   "needs": [
+    {
+      "title": "Today: PHIL-101 Summary 6 + FILM 181 Week 2 due",
+      "note": "Both due 11:59p tonight on Canvas; Mon noon: COMM-131 Group Persuasive Analysis (50 pts)",
+      "tag": "today",
+      "sev": "urgent"
+    },
     {
       "title": "Public: $8.9K on margin, 3.0x leveraged",
       "note": "As of Fri close: cash -$8,907 vs no-margin policy; acct $4,559; NVDA 57% of acct",
@@ -22,15 +28,9 @@
     {
       "title": "Stop Hunger scholarship due Tue Oct 20",
       "note": "$10K. Answer 3 essay questions in tracker or set Skip; status still To check",
-      "tag": "3 d",
+      "tag": "2 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
-    },
-    {
-      "title": "Sun: PHIL-101 Summary 6 + FILM 181 Week 2 due",
-      "note": "Both due 11:59p Sun on Canvas; Mon noon: COMM-131 Group Persuasive Analysis (50 pts)",
-      "tag": "1 d",
-      "sev": "soon"
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
@@ -43,8 +43,8 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Fri 10:45p \u00b7 next Sat 10:05p \u00b7 auto-approved",
-      "tag": "ok 16h ago",
+      "note": "Last ok Sun 2:32a \u00b7 next Sun 10:05p \u00b7 auto-approved",
+      "tag": "ok 0h ago",
       "sev": "ok"
     },
     {
