@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-18T21:08:00-04:00",
+  "updated": "2026-10-18T23:08:00-04:00",
   "needs": [
     {
-      "title": "Tonight: FILM 181 Week 2 + PHIL-101 Summary 6 due",
-      "note": "Both 11:59p on Canvas; Mon noon: COMM-131 Group Persuasive Analysis (50 pts)",
+      "title": "Tonight 11:59p: FILM 181 Week 2 (Cinematography)",
+      "note": "Mon: COMM-131 Fallacies 11:59a, Group Persuasive Analysis noon (50 pts), PHIL RA",
       "tag": "today",
       "sev": "urgent"
     },
@@ -43,8 +43,8 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Sun 2:32a \u00b7 next Sun 10:05p \u00b7 auto-approved",
-      "tag": "ok 19h ago",
+      "note": "Last ok Sun 10:06p \u00b7 next Mon 10:05p \u00b7 auto-approved",
+      "tag": "ok 1h ago",
       "sev": "ok"
     },
     {
