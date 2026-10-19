@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19T07:11:00-04:00",
+  "updated": "2026-10-19T09:13:00-04:00",
   "needs": [
     {
       "title": "Today: COMM-131 Group Persuasive Analysis due noon",
@@ -9,7 +9,7 @@
     },
     {
       "title": "Public: $8.9K on margin, 2.9x leveraged",
-      "note": "Cash -$8,937 vs no-margin policy; acct $4,797; NVDA 55% of acct",
+      "note": "Cash -$8,937 vs no-margin policy; acct $4,824; NVDA 55% of acct",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -21,7 +21,7 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Scholarship scout (runs 9:09a today) not auto-approved; Market brief disabled",
+      "note": "Scholarship scout due 9:09a, not auto-approved, hasn't run; Market brief disabled",
       "tag": "setup",
       "sev": "urgent"
     },
@@ -44,14 +44,14 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 10:06p \u00b7 next Mon 10:05p \u00b7 auto-approved",
-      "tag": "ok 9h ago",
+      "tag": "ok 11h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
-      "note": "Last ok Tue 1:42p \u00b7 next Mon 9:09a \u00b7 next deadline Oct 20",
-      "tag": "ok",
-      "sev": "ok",
+      "note": "Last ok Tue 1:42p \u00b7 due Mon 9:09a, not yet run \u00b7 next deadline Oct 20",
+      "tag": "due now",
+      "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
@@ -63,14 +63,14 @@
     {
       "title": "Inbox",
       "note": "0 needs reply, 3 drafts (2 hello@itsbrilliant.co, Marco), 0 waiting \u00b7 triage task missing",
-      "tag": "missing",
+      "tag": "3 drafts",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Portfolio",
-      "note": "Pre-mkt +4.4% (+$201) \u00b7 FIX +3.4%, PWR +2.8%, GEV +2.0% \u00b7 $4,797",
-      "tag": "+4.4%",
+      "note": "Pre-mkt +5.0% (+$229) \u00b7 FIX +3.7%, ETN +2.4%, GEV +2.3% \u00b7 $4,824",
+      "tag": "+5.0%",
       "sev": "accent"
     }
   ]
