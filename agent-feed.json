@@ -1,15 +1,15 @@
 {
-  "updated": "2026-10-18T23:08:00-04:00",
+  "updated": "2026-10-19T07:11:00-04:00",
   "needs": [
     {
-      "title": "Tonight 11:59p: FILM 181 Week 2 (Cinematography)",
-      "note": "Mon: COMM-131 Fallacies 11:59a, Group Persuasive Analysis noon (50 pts), PHIL RA",
+      "title": "Today: COMM-131 Group Persuasive Analysis due noon",
+      "note": "50 pts. Also COMM-131 Fallacies 11:59a, PHIL RA 11:59p; class 10:30a CM 2001",
       "tag": "today",
       "sev": "urgent"
     },
     {
-      "title": "Public: $8.9K on margin, 3.0x leveraged",
-      "note": "As of Fri close: cash -$8,907 vs no-margin policy; acct $4,559; NVDA 57% of acct",
+      "title": "Public: $8.9K on margin, 2.9x leveraged",
+      "note": "Cash -$8,937 vs no-margin policy; acct $4,797; NVDA 55% of acct",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -21,14 +21,14 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Scholarship scout still not auto-approved; Market brief still disabled",
+      "note": "Scholarship scout (runs 9:09a today) not auto-approved; Market brief disabled",
       "tag": "setup",
       "sev": "urgent"
     },
     {
-      "title": "Stop Hunger scholarship due Tue Oct 20",
+      "title": "Stop Hunger scholarship due tomorrow (Tue Oct 20)",
       "note": "$10K. Answer 3 essay questions in tracker or set Skip; status still To check",
-      "tag": "2 d",
+      "tag": "1 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -44,12 +44,12 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 10:06p \u00b7 next Mon 10:05p \u00b7 auto-approved",
-      "tag": "ok 1h ago",
+      "tag": "ok 9h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
-      "note": "Last ok Tue 1:42p \u00b7 next Mon Oct 19 9:09a \u00b7 next deadline Oct 20",
+      "note": "Last ok Tue 1:42p \u00b7 next Mon 9:09a \u00b7 next deadline Oct 20",
       "tag": "ok",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Fri close: -6.7% (-$329) \u00b7 PLTR -8.2%, FIX -3.5%, ETN -3.4% \u00b7 $4,559 \u00b7 mkt closed",
-      "tag": "-6.7%",
+      "note": "Pre-mkt +4.4% (+$201) \u00b7 FIX +3.4%, PWR +2.8%, GEV +2.0% \u00b7 $4,797",
+      "tag": "+4.4%",
       "sev": "accent"
     }
   ]
