@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-19T18:18:00-04:00",
+  "updated": "2026-10-19T19:08:00-04:00",
   "needs": [
     {
       "title": "Stop Hunger scholarship due tomorrow (Tue Oct 20)",
@@ -44,13 +44,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 10:06p \u00b7 next Mon 10:05p \u00b7 auto-approved",
-      "tag": "ok 20h ago",
+      "tag": "ok 21h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Mon 9:18a \u00b7 next Mon Oct 26 9:03a \u00b7 next deadline Oct 20",
-      "tag": "ok 9h ago",
+      "tag": "ok 10h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
