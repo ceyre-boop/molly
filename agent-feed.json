@@ -1,12 +1,6 @@
 {
-  "updated": "2026-10-19T11:10:00-04:00",
+  "updated": "2026-10-19T16:10:00-04:00",
   "needs": [
-    {
-      "title": "Today: COMM-131 Group Persuasive Analysis due noon",
-      "note": "50 pts, ~50 min left. Also COMM-131 Fallacies 11:59a, PHIL RA 11:59p",
-      "tag": "today",
-      "sev": "urgent"
-    },
     {
       "title": "Stop Hunger scholarship due tomorrow (Tue Oct 20)",
       "note": "$10K. Answer 3 essay questions in tracker or set Skip; status still To check",
@@ -16,7 +10,7 @@
     },
     {
       "title": "Public: $8.9K on margin, 2.9x leveraged",
-      "note": "Cash -$8,937 vs no-margin policy; acct $4,672; NVDA 57% of acct",
+      "note": "Cash -$8,937 vs no-margin policy; acct $4,663; NVDA 57% of acct",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -25,6 +19,12 @@
       "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review not listed",
       "tag": "missing",
       "sev": "urgent"
+    },
+    {
+      "title": "Wed Oct 21: COMM-131 Speech Analysis + Article due",
+      "note": "Speech Analysis 25 pts 10:30a, Persuasive Article 10 pts noon; PHIL RA 10-22 11:59p",
+      "tag": "2 d",
+      "sev": "soon"
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -44,13 +44,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 10:06p \u00b7 next Mon 10:05p \u00b7 auto-approved",
-      "tag": "ok 13h ago",
+      "tag": "ok 18h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
       "note": "Last ok Mon 9:18a \u00b7 next Mon Oct 26 9:03a \u00b7 next deadline Oct 20",
-      "tag": "ok 2h ago",
+      "tag": "ok 7h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Day +1.7% (+$77) \u00b7 PLTR +4.7%, FIX +3.2%, NVDA +2.0%, CEG -2.5% \u00b7 $4,672",
-      "tag": "+1.7%",
+      "note": "Day +1.5% (+$68) \u00b7 PLTR +4.5%, PWR +4.0%, FIX +2.2%, CEG -3.0% \u00b7 $4,663",
+      "tag": "+1.5%",
       "sev": "accent"
     }
   ]
