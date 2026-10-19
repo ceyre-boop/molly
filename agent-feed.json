@@ -1,15 +1,22 @@
 {
-  "updated": "2026-10-19T09:13:00-04:00",
+  "updated": "2026-10-19T11:10:00-04:00",
   "needs": [
     {
       "title": "Today: COMM-131 Group Persuasive Analysis due noon",
-      "note": "50 pts. Also COMM-131 Fallacies 11:59a, PHIL RA 11:59p; class 10:30a CM 2001",
+      "note": "50 pts, ~50 min left. Also COMM-131 Fallacies 11:59a, PHIL RA 11:59p",
       "tag": "today",
       "sev": "urgent"
     },
     {
+      "title": "Stop Hunger scholarship due tomorrow (Tue Oct 20)",
+      "note": "$10K. Answer 3 essay questions in tracker or set Skip; status still To check",
+      "tag": "1 d",
+      "sev": "urgent",
+      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
+    },
+    {
       "title": "Public: $8.9K on margin, 2.9x leveraged",
-      "note": "Cash -$8,937 vs no-margin policy; acct $4,824; NVDA 55% of acct",
+      "note": "Cash -$8,937 vs no-margin policy; acct $4,672; NVDA 57% of acct",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -21,16 +28,9 @@
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
-      "note": "Scholarship scout due 9:09a, not auto-approved, hasn't run; Market brief disabled",
+      "note": "Scholarship scout still not auto-approved (ran 9:18a ok); Market brief disabled",
       "tag": "setup",
-      "sev": "urgent"
-    },
-    {
-      "title": "Stop Hunger scholarship due tomorrow (Tue Oct 20)",
-      "note": "$10K. Answer 3 essay questions in tracker or set Skip; status still To check",
-      "tag": "1 d",
-      "sev": "soon",
-      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
+      "sev": "soon"
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
@@ -44,14 +44,14 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 10:06p \u00b7 next Mon 10:05p \u00b7 auto-approved",
-      "tag": "ok 11h ago",
+      "tag": "ok 13h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
-      "note": "Last ok Tue 1:42p \u00b7 due Mon 9:09a, not yet run \u00b7 next deadline Oct 20",
-      "tag": "due now",
-      "sev": "soon",
+      "note": "Last ok Mon 9:18a \u00b7 next Mon Oct 26 9:03a \u00b7 next deadline Oct 20",
+      "tag": "ok 2h ago",
+      "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Pre-mkt +5.0% (+$229) \u00b7 FIX +3.7%, ETN +2.4%, GEV +2.3% \u00b7 $4,824",
-      "tag": "+5.0%",
+      "note": "Day +1.7% (+$77) \u00b7 PLTR +4.7%, FIX +3.2%, NVDA +2.0%, CEG -2.5% \u00b7 $4,672",
+      "tag": "+1.7%",
       "sev": "accent"
     }
   ]
