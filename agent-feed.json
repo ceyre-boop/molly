@@ -1,22 +1,16 @@
 {
-  "updated": "2026-10-20T15:14:00-04:00",
+  "updated": "2026-10-20T19:25:00-04:00",
   "needs": [
     {
-      "title": "Stop Hunger scholarship due TODAY (Tue Oct 20)",
+      "title": "Stop Hunger scholarship due TONIGHT (Tue Oct 20)",
       "note": "$10K. Answer 3 essay questions or set Skip in tracker; status still To check",
-      "tag": "today",
+      "tag": "tonight",
       "sev": "urgent",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
-      "title": "MATH-170 at 5p (Gorman 3202)",
-      "note": "Wed: PHIL RA, COMM Speech Analysis 10:30a, COMM Article noon",
-      "tag": "5p",
-      "sev": "urgent"
-    },
-    {
-      "title": "Public: $8.9K on margin, 3.0x leveraged",
-      "note": "Cash -$8,937 vs no-margin policy; acct $4,442 (-3.0% today); NVDA 60% of acct",
+      "title": "Public: $8.9K on margin, 2.9x leveraged",
+      "note": "Cash -$8,937 vs no-margin policy; acct $4,595; NVDA 59% of acct",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -25,6 +19,12 @@
       "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review not listed",
       "tag": "missing",
       "sev": "urgent"
+    },
+    {
+      "title": "Wed AM: PHIL RA + COMM Speech Analysis due 10:30a",
+      "note": "COMM Persuasive Article due noon; COMM-131 class 10:30a (Curtice-Mott 2001)",
+      "tag": "tomorrow",
+      "sev": "soon"
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -44,7 +44,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Mon 10:06p \u00b7 next Tue 10:05p \u00b7 auto-approved",
-      "tag": "ok 17h ago",
+      "tag": "ok 21h ago",
       "sev": "ok"
     },
     {
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Intraday -$140 (-3.0%) \u00b7 FIX -4.6%, PWR -2.9%, ETN -2.0%, MCD +1.2% \u00b7 $4,442",
-      "tag": "-3.0%",
+      "note": "Day +$13 (+0.3%) \u00b7 VST +1.7%, NVDA +1.5%, FIX -2.7%, PWR -1.7% \u00b7 $4,595",
+      "tag": "+0.3%",
       "sev": "accent"
     }
   ]
