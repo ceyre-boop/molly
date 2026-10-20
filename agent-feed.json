@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-20T11:08:00-04:00",
+  "updated": "2026-10-20T13:48:00-04:00",
   "needs": [
     {
       "title": "Stop Hunger scholarship due TODAY (Tue Oct 20)",
@@ -10,14 +10,14 @@
     },
     {
       "title": "Public: $8.9K on margin, 3.0x leveraged",
-      "note": "Cash -$8,937 vs no-margin policy; acct $4,539; NVDA 59% of acct",
+      "note": "Cash -$8,937 vs no-margin policy; acct $4,446 (-3.0% today); NVDA 60% of acct",
       "tag": "margin",
       "sev": "urgent"
     },
     {
-      "title": "PHIL-101 at 1:30p (Curtice-Mott 1111)",
-      "note": "MATH-170 5p. Wed: COMM Speech Analysis 10:30a, Article noon; PHIL RA 11:59p",
-      "tag": "1:30p",
+      "title": "In PHIL-101 now; MATH-170 at 5p (Gorman 3202)",
+      "note": "Wed: COMM Speech Analysis 10:30a, Article noon; PHIL RA 11:59p",
+      "tag": "5p",
       "sev": "urgent"
     },
     {
@@ -44,7 +44,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Mon 10:06p \u00b7 next Tue 10:05p \u00b7 auto-approved",
-      "tag": "ok 13h ago",
+      "tag": "ok 16h ago",
       "sev": "ok"
     },
     {
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Intraday -$43 (-0.9%) \u00b7 ETN -1.8%, PWR -2.3%, FIX -2.8%, MCD +1.8% \u00b7 $4,539",
-      "tag": "-0.9%",
+      "note": "Intraday -$136 (-3.0%) \u00b7 FIX -4.7%, PWR -3.9%, ETN -2.5%, MCD +1.3% \u00b7 $4,446",
+      "tag": "-3.0%",
       "sev": "accent"
     }
   ]
