@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-20T09:14:00-04:00",
+  "updated": "2026-10-20T11:08:00-04:00",
   "needs": [
     {
       "title": "Stop Hunger scholarship due TODAY (Tue Oct 20)",
@@ -10,8 +10,14 @@
     },
     {
       "title": "Public: $8.9K on margin, 3.0x leveraged",
-      "note": "Cash -$8,937 vs no-margin policy; acct $4,451; NVDA 59% of acct",
+      "note": "Cash -$8,937 vs no-margin policy; acct $4,539; NVDA 59% of acct",
       "tag": "margin",
+      "sev": "urgent"
+    },
+    {
+      "title": "PHIL-101 at 1:30p (Curtice-Mott 1111)",
+      "note": "MATH-170 5p. Wed: COMM Speech Analysis 10:30a, Article noon; PHIL RA 11:59p",
+      "tag": "1:30p",
       "sev": "urgent"
     },
     {
@@ -19,12 +25,6 @@
       "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review not listed",
       "tag": "missing",
       "sev": "urgent"
-    },
-    {
-      "title": "Wed Oct 21: COMM-131 Speech Analysis + Article due",
-      "note": "Speech Analysis 25 pts 10:30a, Persuasive Article 10 pts noon; PHIL RA 10-22 11:59p",
-      "tag": "1 d",
-      "sev": "soon"
     },
     {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
@@ -44,12 +44,12 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Mon 10:06p \u00b7 next Tue 10:05p \u00b7 auto-approved",
-      "tag": "ok 11h ago",
+      "tag": "ok 13h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
-      "note": "Last ok Mon 9:18a \u00b7 next Mon Oct 26 9:03a \u00b7 next deadline today",
+      "note": "Last ok Mon 9:18a \u00b7 next Mon Oct 26 9:03a \u00b7 next: MLK Tribute Nov 7 (18 d)",
       "tag": "ok 1d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Pre-mkt -$131 (-2.9%) \u00b7 FIX -2.7%, GEV -2.1%, ETN -1.8%, MCD +0.8% \u00b7 $4,451",
-      "tag": "-2.9%",
+      "note": "Intraday -$43 (-0.9%) \u00b7 ETN -1.8%, PWR -2.3%, FIX -2.8%, MCD +1.8% \u00b7 $4,539",
+      "tag": "-0.9%",
       "sev": "accent"
     }
   ]
