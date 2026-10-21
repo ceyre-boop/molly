@@ -1,16 +1,16 @@
 {
-  "updated": "2026-10-20T19:25:00-04:00",
+  "updated": "2026-10-20T21:08:00-04:00",
   "needs": [
     {
       "title": "Stop Hunger scholarship due TONIGHT (Tue Oct 20)",
-      "note": "$10K. Answer 3 essay questions or set Skip in tracker; status still To check",
+      "note": "$10K. ~3h left: answer 3 essay Qs or set Skip in tracker; status still To check",
       "tag": "tonight",
       "sev": "urgent",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Public: $8.9K on margin, 2.9x leveraged",
-      "note": "Cash -$8,937 vs no-margin policy; acct $4,595; NVDA 59% of acct",
+      "note": "Cash -$8,937 vs no-margin policy; acct $4,608; NVDA 59% of acct",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -44,7 +44,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Mon 10:06p \u00b7 next Tue 10:05p \u00b7 auto-approved",
-      "tag": "ok 21h ago",
+      "tag": "ok 23h ago",
       "sev": "ok"
     },
     {
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Day +$13 (+0.3%) \u00b7 VST +1.7%, NVDA +1.5%, FIX -2.7%, PWR -1.7% \u00b7 $4,595",
-      "tag": "+0.3%",
+      "note": "Day +$26 (+0.6%) \u00b7 VST +2.1%, NVDA +1.8%, FIX -2.7%, PWR -1.7% \u00b7 $4,608",
+      "tag": "+0.6%",
       "sev": "accent"
     }
   ]
