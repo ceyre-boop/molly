@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-20T21:08:00-04:00",
+  "updated": "2026-10-20T23:07:00-04:00",
   "needs": [
     {
       "title": "Stop Hunger scholarship due TONIGHT (Tue Oct 20)",
-      "note": "$10K. ~3h left: answer 3 essay Qs or set Skip in tracker; status still To check",
-      "tag": "tonight",
+      "note": "$10K. <1h left (11:59p): answer 3 essay Qs or set Skip in tracker",
+      "tag": "<1h",
       "sev": "urgent",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -43,13 +43,13 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Mon 10:06p \u00b7 next Tue 10:05p \u00b7 auto-approved",
-      "tag": "ok 23h ago",
+      "note": "Last ok Tue 10:06p \u00b7 next Wed 10:05p \u00b7 auto-approved",
+      "tag": "ok 1h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
-      "note": "Last ok Mon 9:18a \u00b7 next Mon Oct 26 9:03a \u00b7 next: MLK Tribute Nov 7 (18 d)",
+      "note": "Last ok Mon 9:18a \u00b7 next Mon Oct 26 9:03a \u00b7 next: MLK Tribute Nov 7 (17 d)",
       "tag": "ok 1d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -69,7 +69,7 @@
     },
     {
       "title": "Portfolio",
-      "note": "Day +$26 (+0.6%) \u00b7 VST +2.1%, NVDA +1.8%, FIX -2.7%, PWR -1.7% \u00b7 $4,608",
+      "note": "Close +$26 (+0.6%) \u00b7 VST +2.1%, NVDA +1.8%, FIX -2.7%, PWR -1.7% \u00b7 $4,608",
       "tag": "+0.6%",
       "sev": "accent"
     }
