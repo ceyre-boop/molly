@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-21T13:08:00-04:00",
+  "updated": "2026-10-21T15:08:00-04:00",
   "needs": [
     {
       "title": "Public: $8.9K on margin, 2.9x leveraged",
-      "note": "Cash -$8,937 vs no-margin policy; acct $4,790; NVDA 57% of acct",
+      "note": "Cash -$8,937 vs no-margin policy; acct $4,751; NVDA 57% of acct",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -44,7 +44,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Tue 10:06p \u00b7 next Wed 10:05p \u00b7 auto-approved",
-      "tag": "ok 15h ago",
+      "tag": "ok 17h ago",
       "sev": "ok"
     },
     {
@@ -62,15 +62,15 @@
     },
     {
       "title": "Inbox",
-      "note": "0 needs reply, 3 drafts (2 hello@itsbrilliant.co, Marco), 0 waiting \u00b7 triage task missing",
+      "note": "0 needs reply, 3 drafts (2 hello@itsbrilliant.co, Marco) \u00b7 triage task missing",
       "tag": "3 drafts",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Portfolio",
-      "note": "Stocks +$379 (+2.8%) today \u00b7 GEV +4.6%, CEG +4.5%, VST +4.4%, NVDA +2.5% \u00b7 acct $4,790",
-      "tag": "+2.8%",
+      "note": "Stocks +$340 (+2.5%) today \u00b7 CEG +4.6%, VST +4.4%, GEV +3.9%, PLTR +3.6% \u00b7 acct $4,751",
+      "tag": "+2.5%",
       "sev": "accent"
     }
   ]
