@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-21T15:08:00-04:00",
+  "updated": "2026-10-21T17:07:00-04:00",
   "needs": [
     {
       "title": "Public: $8.9K on margin, 2.9x leveraged",
-      "note": "Cash -$8,937 vs no-margin policy; acct $4,751; NVDA 57% of acct",
+      "note": "Cash -$8,937 vs no-margin policy; acct $4,738; NVDA 57% of acct",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -15,7 +15,7 @@
     },
     {
       "title": "COMM-131 Persuasive Speech of Change due Mon",
-      "note": "Mon Oct 26 10:00a, 100 pts; also PHIL Weekly Summary 7 due Sun",
+      "note": "Mon Oct 26 10:00a, 100 pts; also PHIL Weekly Summary 7 + FILM 181 wk 3 due Sun",
       "tag": "5 d",
       "sev": "soon"
     },
@@ -44,7 +44,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Tue 10:06p \u00b7 next Wed 10:05p \u00b7 auto-approved",
-      "tag": "ok 17h ago",
+      "tag": "ok 19h ago",
       "sev": "ok"
     },
     {
@@ -62,14 +62,14 @@
     },
     {
       "title": "Inbox",
-      "note": "0 needs reply, 3 drafts (2 hello@itsbrilliant.co, Marco) \u00b7 triage task missing",
+      "note": "0 needs reply, 0 waiting, 3 drafts (2 hello@itsbrilliant.co, Marco) \u00b7 triage task missing",
       "tag": "3 drafts",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Portfolio",
-      "note": "Stocks +$340 (+2.5%) today \u00b7 CEG +4.6%, VST +4.4%, GEV +3.9%, PLTR +3.6% \u00b7 acct $4,751",
+      "note": "Stocks +$328 (+2.5%) today \u00b7 PLTR +4.7%, GEV +4.5%, VST +4.2%, CEG -1.1% \u00b7 acct $4,738",
       "tag": "+2.5%",
       "sev": "accent"
     }
