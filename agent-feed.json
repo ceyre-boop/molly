@@ -1,10 +1,16 @@
 {
-  "updated": "2026-10-22T09:10:00-04:00",
+  "updated": "2026-10-22T11:08:00-04:00",
   "needs": [
     {
-      "title": "Public: $8.9K on margin, 3.0x leveraged",
-      "note": "Cash -$8,937 vs no-margin policy; acct $4,474; NVDA 59% of acct; pre-mkt -$306",
+      "title": "Public: down $793 today, 3.2x leveraged on margin",
+      "note": "Acct $3,987 (-17% today); cash -$8,937; GEV -10.8%, VST -9.3%, FIX -8.2%",
       "tag": "margin",
+      "sev": "urgent"
+    },
+    {
+      "title": "PHIL-101 class at 1:30p today",
+      "note": "Curtice-Mott Complex 1111, until 2:50p",
+      "tag": "1:30p",
       "sev": "urgent"
     },
     {
@@ -20,13 +26,6 @@
       "sev": "soon"
     },
     {
-      "title": "MLK Tribute scholarship due Sat Nov 7",
-      "note": "Ask Mott fin aid how to apply; Stop Hunger (10/20) passed, mark Skip/Submitted",
-      "tag": "16 d",
-      "sev": "soon",
-      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
-    },
-    {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
       "note": "Scholarship scout still not auto-approved (ran Mon 9:18a ok); Market brief disabled",
       "tag": "setup",
@@ -34,7 +33,7 @@
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
-      "note": "Unlocks Michigan Achievement + MCC Foundation scholarships; unchecked in tracker",
+      "note": "Unlocks Michigan Achievement + MCC Foundation scholarships; also MLK Tribute due Nov 7",
       "tag": "setup",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -44,7 +43,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Wed 10:07p \u00b7 next Thu 10:05p \u00b7 auto-approved",
-      "tag": "ok 11h ago",
+      "tag": "ok 13h ago",
       "sev": "ok"
     },
     {
@@ -69,9 +68,9 @@
     },
     {
       "title": "Portfolio",
-      "note": "Pre-mkt -$306 (-2.2%) \u00b7 GEV -3.8%, FIX -3.7%, ETN -3.5%, MCD +1.0% \u00b7 acct $4,474",
-      "tag": "-2.2%",
-      "sev": "accent"
+      "note": "Day -$793 (stocks -5.8%, equity -17%) \u00b7 GEV -10.8%, VST -9.3% \u00b7 MCD +1.3% \u00b7 acct $3,987",
+      "tag": "-5.8%",
+      "sev": "urgent"
     }
   ]
 }
