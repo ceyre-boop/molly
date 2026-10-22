@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-21T21:07:00-04:00",
+  "updated": "2026-10-21T23:09:00-04:00",
   "needs": [
     {
       "title": "Public: $8.9K on margin, 2.9x leveraged",
-      "note": "Cash -$8,937 vs no-margin policy; acct $4,718; NVDA 57% of acct",
+      "note": "Cash -$8,937 vs no-margin policy; acct $4,659; NVDA 57% of acct",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -43,8 +43,8 @@
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Tue 10:06p \u00b7 next Wed 10:05p \u00b7 auto-approved",
-      "tag": "ok 23h ago",
+      "note": "Last ok Tue 10:07p \u00b7 next Wed 10:05p \u00b7 auto-approved",
+      "tag": "ok 1h ago",
       "sev": "ok"
     },
     {
@@ -69,8 +69,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Stocks +$308 (+2.3%) today \u00b7 CEG +4.8%, PLTR +4.0%, VST +3.5%, MCD -0.2% \u00b7 acct $4,718",
-      "tag": "+2.3%",
+      "note": "Stocks +$249 (+1.9%) today \u00b7 CEG +3.9%, PLTR +3.7%, VST +2.8%, MCD -0.1% \u00b7 acct $4,659",
+      "tag": "+1.9%",
       "sev": "accent"
     }
   ]
