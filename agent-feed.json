@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-22T17:46:00-04:00",
+  "updated": "2026-10-22T19:07:00-04:00",
   "needs": [
     {
-      "title": "Public: down $840 today, 3.3x leveraged on margin",
-      "note": "Acct $3,940 (-18% today); cash -$8,937; FIX -13.8%, GEV -10.7%, VST -9.8%",
+      "title": "Public: down $836 today, 3.3x leveraged on margin",
+      "note": "Acct $3,944 (-17.5% today); cash -$8,937; FIX -13.4%, GEV -10.7%, VST -10.0%",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -44,7 +44,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Wed 10:07p \u00b7 next Thu 10:05p \u00b7 auto-approved",
-      "tag": "ok 20h ago",
+      "tag": "ok 21h ago",
       "sev": "ok"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "title": "Portfolio",
-      "note": "Day -$840 (stocks -6.1%, equity -18%) \u00b7 FIX -13.8%, GEV -10.7% \u00b7 MCD +2.3% \u00b7 acct $3,940",
+      "note": "Day -$836 (stocks -6.1%, equity -17.5%) \u00b7 FIX -13.4%, GEV -10.7% \u00b7 MCD +2.4% \u00b7 acct $3,944",
       "tag": "-6.1%",
       "sev": "urgent"
     }
