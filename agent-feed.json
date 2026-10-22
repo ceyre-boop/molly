@@ -1,16 +1,16 @@
 {
-  "updated": "2026-10-22T11:08:00-04:00",
+  "updated": "2026-10-22T13:42:00-04:00",
   "needs": [
     {
-      "title": "Public: down $793 today, 3.2x leveraged on margin",
-      "note": "Acct $3,987 (-17% today); cash -$8,937; GEV -10.8%, VST -9.3%, FIX -8.2%",
+      "title": "Public: down $818 today, 3.3x leveraged on margin",
+      "note": "Acct $3,962 (-17% today); cash -$8,937; GEV -11.4%, VST -10.5%, FIX -8.9%",
       "tag": "margin",
       "sev": "urgent"
     },
     {
-      "title": "PHIL-101 class at 1:30p today",
-      "note": "Curtice-Mott Complex 1111, until 2:50p",
-      "tag": "1:30p",
+      "title": "PHIL-101 in class now, until 2:50p",
+      "note": "Curtice-Mott Complex 1111; nothing else on calendar today",
+      "tag": "now",
       "sev": "urgent"
     },
     {
@@ -43,7 +43,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Wed 10:07p \u00b7 next Thu 10:05p \u00b7 auto-approved",
-      "tag": "ok 13h ago",
+      "tag": "ok 16h ago",
       "sev": "ok"
     },
     {
@@ -68,8 +68,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Day -$793 (stocks -5.8%, equity -17%) \u00b7 GEV -10.8%, VST -9.3% \u00b7 MCD +1.3% \u00b7 acct $3,987",
-      "tag": "-5.8%",
+      "note": "Day -$818 (stocks -6.0%, equity -17%) \u00b7 GEV -11.4%, VST -10.5% \u00b7 MCD +2.1% \u00b7 acct $3,962",
+      "tag": "-6.0%",
       "sev": "urgent"
     }
   ]
