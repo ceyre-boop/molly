@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-23T17:09:00-04:00",
+  "updated": "2026-10-23T19:07:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -38,7 +38,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Thu 10:06p \u00b7 next Fri 10:05p \u00b7 auto-approved",
-      "tag": "ok 19h ago",
+      "tag": "ok 21h ago",
       "sev": "ok"
     },
     {
@@ -63,7 +63,7 @@
     },
     {
       "title": "Portfolio",
-      "note": "Margin cleared (cash -$0.45) \u00b7 acct $3,803 \u00b7 MCD 39%, PLTR 32%, NVDA 29% \u00b7 day -$32",
+      "note": "Acct $3,803 \u00b7 cash -$0.45 \u00b7 MCD 39%, PLTR 32%, NVDA 29% \u00b7 day -$32",
       "tag": "-0.8%",
       "sev": "accent"
     }
