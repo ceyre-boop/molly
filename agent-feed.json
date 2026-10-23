@@ -1,12 +1,6 @@
 {
-  "updated": "2026-10-23T15:10:00-04:00",
+  "updated": "2026-10-23T17:09:00-04:00",
   "needs": [
-    {
-      "title": "Public: 3.3x leveraged on margin, cash -$8,937",
-      "note": "Acct $3,816 (-$63 vs 1p); FIX -9.0% today, -28.3% from cost; NVDA 68%, GEV 48% of equity",
-      "tag": "margin",
-      "sev": "urgent"
-    },
     {
       "title": "5 agent jobs gone from scheduled tasks",
       "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review not listed",
@@ -20,13 +14,6 @@
       "sev": "soon"
     },
     {
-      "title": "Flint MLK Tribute Scholarship due Nov 7",
-      "note": "Ask Mott financial aid how to apply; Stop Hunger (Oct 20) passed, still To check \u2014 missed?",
-      "tag": "15 d",
-      "sev": "accent",
-      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
-    },
-    {
       "title": "Turn on \"Automatically approve\" for the agent tasks",
       "note": "Scholarship scout still not auto-approved (ran Mon 9:18a ok); Market brief disabled",
       "tag": "setup",
@@ -38,13 +25,20 @@
       "tag": "setup",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
+    },
+    {
+      "title": "Flint MLK Tribute Scholarship due Nov 7",
+      "note": "Ask Mott financial aid how to apply; Stop Hunger (Oct 20) passed, still To check \u2014 missed?",
+      "tag": "15 d",
+      "sev": "accent",
+      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
   ],
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Thu 10:06p \u00b7 next Fri 10:05p \u00b7 auto-approved",
-      "tag": "ok 17h ago",
+      "tag": "ok 19h ago",
       "sev": "ok"
     },
     {
@@ -69,8 +63,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Day -$157 (stocks -1.2%) \u00b7 FIX -9.0%, MCD -2.0%, VST -1.1% \u00b7 all red \u00b7 acct $3,816",
-      "tag": "-1.2%",
+      "note": "Margin cleared (cash -$0.45) \u00b7 acct $3,803 \u00b7 MCD 39%, PLTR 32%, NVDA 29% \u00b7 day -$32",
+      "tag": "-0.8%",
       "sev": "accent"
     }
   ]
