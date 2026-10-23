@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-22T23:07:00-04:00",
+  "updated": "2026-10-23T07:08:00-04:00",
   "needs": [
     {
-      "title": "Public: down $842 today, 3.3x leveraged on margin",
-      "note": "Acct $3,938 (-17.6% today); cash -$8,937; FIX -14.0%, GEV -10.8%, VST -10.3%",
+      "title": "Public: 3.2x leveraged on margin, cash -$8,937",
+      "note": "Acct $3,989; pre-mkt +$17; GEV 47%, NVDA 65% of equity; FIX -23.5% from cost",
       "tag": "margin",
       "sev": "urgent"
     },
@@ -16,13 +16,13 @@
     {
       "title": "COMM-131 Persuasive Speech of Change due Mon",
       "note": "Mon Oct 26 10:00a, 100 pts; also PHIL Weekly Summary 7 + FILM 181 wk 3 due Sun",
-      "tag": "4 d",
+      "tag": "3 d",
       "sev": "soon"
     },
     {
       "title": "Flint MLK Tribute Scholarship due Nov 7",
       "note": "Ask Mott financial aid how to apply; Stop Hunger (Oct 20) passed, still To check \u2014 missed?",
-      "tag": "16 d",
+      "tag": "15 d",
       "sev": "accent",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -44,13 +44,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Thu 10:06p \u00b7 next Fri 10:05p \u00b7 auto-approved",
-      "tag": "ok 1h ago",
+      "tag": "ok 9h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
-      "note": "Last ok Mon 9:18a \u00b7 next Mon Oct 26 9:03a \u00b7 next: MLK Tribute Nov 7 (16 d)",
-      "tag": "ok 3d ago",
+      "note": "Last ok Mon 9:18a \u00b7 next Mon Oct 26 9:03a \u00b7 next: MLK Tribute Nov 7 (15 d)",
+      "tag": "ok 4d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -69,9 +69,9 @@
     },
     {
       "title": "Portfolio",
-      "note": "Day -$842 (stocks -6.1%, equity -17.6%) \u00b7 FIX -14.0%, GEV -10.8% \u00b7 MCD +2.5% \u00b7 acct $3,938",
-      "tag": "-6.1%",
-      "sev": "urgent"
+      "note": "Pre-mkt +$17 (stocks +0.1%) \u00b7 ETN +1.0%, VST +0.6% \u00b7 FIX -2.9% \u00b7 acct $3,989",
+      "tag": "+0.1%",
+      "sev": "accent"
     }
   ]
 }
