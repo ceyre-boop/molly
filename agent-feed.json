@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-23T19:07:00-04:00",
+  "updated": "2026-10-23T21:07:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -9,7 +9,7 @@
     },
     {
       "title": "COMM-131 Persuasive Speech of Change due Mon",
-      "note": "Mon Oct 26 10:00a, 100 pts; also PHIL Weekly Summary 7 + FILM 181 wk 3 due Sun",
+      "note": "Mon Oct 26 10:00a, 100 pts; PHIL Weekly Summary 7 + FILM 181 wk 3 due Sun",
       "tag": "3 d",
       "sev": "soon"
     },
@@ -38,7 +38,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Thu 10:06p \u00b7 next Fri 10:05p \u00b7 auto-approved",
-      "tag": "ok 21h ago",
+      "tag": "ok 23h ago",
       "sev": "ok"
     },
     {
@@ -63,8 +63,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "Acct $3,803 \u00b7 cash -$0.45 \u00b7 MCD 39%, PLTR 32%, NVDA 29% \u00b7 day -$32",
-      "tag": "-0.8%",
+      "note": "Acct $3,808 \u00b7 cash -$0.45 \u00b7 MCD 39%, PLTR 32%, NVDA 29% \u00b7 day -$27",
+      "tag": "-0.7%",
       "sev": "accent"
     }
   ]
