@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-23T23:06:00-04:00",
+  "updated": "2026-10-24T07:08:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -8,9 +8,9 @@
       "sev": "urgent"
     },
     {
-      "title": "COMM-131 Persuasive Speech of Change due Mon",
-      "note": "Mon Oct 26 10:00a, 100 pts; PHIL Weekly Summary 7 + FILM 181 wk 3 due Sun",
-      "tag": "3 d",
+      "title": "PHIL Weekly Summary 7 + FILM 181 wk 3 due Sun",
+      "note": "Sun Oct 25; COMM-131 Persuasive Speech of Change due Mon 10:00a (100 pts)",
+      "tag": "1 d",
       "sev": "soon"
     },
     {
@@ -28,8 +28,8 @@
     },
     {
       "title": "Flint MLK Tribute Scholarship due Nov 7",
-      "note": "Ask Mott financial aid how to apply; Stop Hunger (Oct 20) passed, still To check \u2014 missed?",
-      "tag": "15 d",
+      "note": "Prep event Sat Oct 31; ask Mott financial aid how to apply; Stop Hunger (Oct 20) missed?",
+      "tag": "14 d",
       "sev": "accent",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
@@ -38,13 +38,13 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Fri 10:06p \u00b7 next Sat 10:05p \u00b7 auto-approved",
-      "tag": "ok 1h ago",
+      "tag": "ok 9h ago",
       "sev": "ok"
     },
     {
       "title": "Scholarship scout",
-      "note": "Last ok Mon 9:18a \u00b7 next Mon Oct 26 9:03a \u00b7 next: MLK Tribute Nov 7 (15 d)",
-      "tag": "ok 4d ago",
+      "note": "Last ok Mon 9:18a \u00b7 next Mon Oct 26 9:03a \u00b7 next: MLK Tribute Nov 7 (14 d)",
+      "tag": "ok 5d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
@@ -63,7 +63,7 @@
     },
     {
       "title": "Portfolio",
-      "note": "Acct $3,808 \u00b7 cash -$0.45 \u00b7 MCD 39%, PLTR 32%, NVDA 29% \u00b7 day -$27",
+      "note": "Fri close: acct $3,808 \u00b7 MCD 39%, PLTR 32%, NVDA 29% \u00b7 day -$27 \u00b7 weekend, not refreshed",
       "tag": "-0.7%",
       "sev": "accent"
     }
