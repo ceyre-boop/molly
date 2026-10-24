@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-24T11:08:00-04:00",
+  "updated": "2026-10-24T13:07:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -32,13 +32,19 @@
       "tag": "14 d",
       "sev": "accent",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
+    },
+    {
+      "title": "PHIL-101 instructor meeting + proposal by Fri",
+      "note": "Meet Dr. Halsne (5%) and Project Proposal due Fri Oct 30; MATH 4.1-4.4 HW same day",
+      "tag": "6 d",
+      "sev": "soon"
     }
   ],
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Fri 10:06p \u00b7 next Sat 10:05p \u00b7 auto-approved",
-      "tag": "ok 13h ago",
+      "tag": "ok 15h ago",
       "sev": "ok"
     },
     {
