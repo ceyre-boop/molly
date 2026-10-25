@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-24T19:08:00-04:00",
+  "updated": "2026-10-24T21:06:37-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -11,6 +11,12 @@
       "title": "PHIL Weekly Summary 7 + FILM 181 wk 3 due Sun",
       "note": "Sun Oct 25; COMM-131 Persuasive Speech of Change due Mon 10:00a (100 pts)",
       "tag": "1 d",
+      "sev": "soon"
+    },
+    {
+      "title": "PHIL-101 instructor meeting + proposal by Fri",
+      "note": "Meet Dr. Halsne (5%) and Project Proposal due Fri Oct 30; MATH 4.1-4.4 HW same day",
+      "tag": "6 d",
       "sev": "soon"
     },
     {
@@ -32,19 +38,13 @@
       "tag": "14 d",
       "sev": "accent",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
-    },
-    {
-      "title": "PHIL-101 instructor meeting + proposal by Fri",
-      "note": "Meet Dr. Halsne (5%) and Project Proposal due Fri Oct 30; MATH 4.1-4.4 HW same day",
-      "tag": "6 d",
-      "sev": "soon"
     }
   ],
   "jobs": [
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Fri 10:06p \u00b7 next Sat 10:05p \u00b7 auto-approved",
-      "tag": "ok 21h ago",
+      "tag": "ok 23h ago",
       "sev": "ok"
     },
     {
