@@ -1,10 +1,10 @@
 {
-  "updated": "2026-10-26T09:14:00-04:00",
+  "updated": "2026-10-26T11:14:00-04:00",
   "needs": [
     {
-      "title": "COMM-131 Persuasive Speech today 10:00a (100 pts)",
-      "note": "Class 10:30a Curtice-Mott 2001; PHIL Reading Activity 10-27 due 11:59p tonight",
-      "tag": "10:00a",
+      "title": "PHIL Reading Activity 10-27 due 11:59p tonight",
+      "note": "From this morning's calendar read; calendar API quota error this run",
+      "tag": "tonight",
       "sev": "urgent"
     },
     {
@@ -14,23 +14,10 @@
       "sev": "urgent"
     },
     {
-      "title": "Approve Scholarship scout run (due 9:03a, not run)",
-      "note": "Not auto-approved; last ran Oct 19. Turn on Automatically approve",
-      "tag": "approval",
-      "sev": "urgent"
-    },
-    {
       "title": "PHIL-101 instructor meeting + proposal by Fri",
       "note": "Meet Dr. Halsne (5%) + Project Proposal due Fri Oct 30; MATH 4.1-4.4 HW same day",
       "tag": "4 d",
       "sev": "soon"
-    },
-    {
-      "title": "Flint MLK Tribute scholarship due Nov 7",
-      "note": "Ask Mott fin aid how to apply; prep Sat. Stop Hunger (Oct 20) still To check",
-      "tag": "12 d",
-      "sev": "accent",
-      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
@@ -38,21 +25,28 @@
       "tag": "setup",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
+    },
+    {
+      "title": "Flint MLK Tribute scholarship due Nov 7",
+      "note": "Ask Mott fin aid how to apply. Stop Hunger (Oct 20) passed: set Skip/Submitted",
+      "tag": "12 d",
+      "sev": "accent",
+      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
   ],
   "jobs": [
     {
-      "title": "Mac tidy (nightly)",
-      "note": "Last ok Sun 10:06p \u00b7 next Mon 10:05p \u00b7 auto-approved",
-      "tag": "ok 11h ago",
-      "sev": "ok"
+      "title": "Scholarship scout",
+      "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 9:03a",
+      "tag": "ok 2h ago",
+      "sev": "ok",
+      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
-      "title": "Scholarship scout",
-      "note": "Last ok Mon Oct 19 9:18a \u00b7 today 9:03a run not fired (needs approval)",
-      "tag": "pending",
-      "sev": "soon",
-      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
+      "title": "Mac tidy (nightly)",
+      "note": "Last ok Sun 10:06p \u00b7 next Mon 10:05p \u00b7 auto-approved",
+      "tag": "ok 13h ago",
+      "sev": "ok"
     },
     {
       "title": "Market brief (read-only)",
@@ -68,9 +62,15 @@
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
+      "title": "Calendar read",
+      "note": "Google Calendar API quota exhausted at 11:12a; retry next sync",
+      "tag": "failed",
+      "sev": "accent"
+    },
+    {
       "title": "Portfolio",
-      "note": "Pre-market 9:10a: acct $3,811 \u00b7 MCD 39%, PLTR 32%, NVDA 29% \u00b7 day +$8 \u00b7 no open orders",
-      "tag": "+0.2%",
+      "note": "11:13a: acct $3,854 \u00b7 MCD 39%, PLTR 32%, NVDA 29% (+2.8%) \u00b7 day +$52 \u00b7 no orders",
+      "tag": "+1.4%",
       "sev": "accent"
     }
   ]
