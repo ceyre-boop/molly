@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-27T14:01:00-04:00",
+  "updated": "2026-10-27T16:05:00-04:00",
   "needs": [
     {
       "title": "PHIL Reading Activity 10-27 due 11:59p tonight",
@@ -10,7 +10,7 @@
     {
       "title": "MATH-170 at 5:00p today",
       "note": "Gorman Bldg 3202 \u00b7 then TABOOST Royal Rumble 9p",
-      "tag": "in 3h",
+      "tag": "in 55m",
       "sev": "urgent"
     },
     {
@@ -43,7 +43,7 @@
   "jobs": [
     {
       "title": "Scholarship scout",
-      "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 9:03a",
+      "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 8:03a",
       "tag": "ok 1d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Mon 10:06p \u00b7 next Tue 10:05p \u00b7 auto-approved",
-      "tag": "ok 16h ago",
+      "tag": "ok 18h ago",
       "sev": "ok"
     },
     {
@@ -75,8 +75,8 @@
     },
     {
       "title": "Portfolio",
-      "note": "acct $3,860 \u00b7 MCD 39% (-0.5%), PLTR 32% (+0.3%), NVDA 29% (+0.8%) \u00b7 day +$4 \u00b7 no orders",
-      "tag": "+0.1%",
+      "note": "acct $3,854 \u00b7 MCD 39% (-0.5%), PLTR 32% (-0.4%), NVDA 29% (+0.9%) \u00b7 day -$2 \u00b7 no orders",
+      "tag": "-0.1%",
       "sev": "accent"
     }
   ]
