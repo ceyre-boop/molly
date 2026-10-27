@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-26T21:08:00-04:00",
+  "updated": "2026-10-26T23:08:00-04:00",
   "needs": [
     {
       "title": "PHIL Reading Activity 10-27 due 11:59p tonight",
@@ -38,14 +38,14 @@
     {
       "title": "Scholarship scout",
       "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 9:03a",
-      "tag": "ok 12h ago",
+      "tag": "ok 14h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Sun 10:06p \u00b7 next Mon 10:05p \u00b7 auto-approved",
-      "tag": "ok 23h ago",
+      "note": "Last ok Mon 10:06p \u00b7 next Tue 10:05p \u00b7 auto-approved",
+      "tag": "ok 1h ago",
       "sev": "ok"
     },
     {
@@ -63,7 +63,7 @@
     },
     {
       "title": "Calendar read",
-      "note": "Nothing left tonight; next PHIL-101 Tue 1:30p, MATH-170 5p, TABOOST live 9p",
+      "note": "Next PHIL-101 Tue 1:30p, MATH-170 5p, TABOOST Royal Rumble 9p",
       "tag": "ok",
       "sev": "ok"
     },
