@@ -1,16 +1,10 @@
 {
-  "updated": "2026-10-27T16:05:00-04:00",
+  "updated": "2026-10-27T17:07:00-04:00",
   "needs": [
     {
       "title": "PHIL Reading Activity 10-27 due 11:59p tonight",
-      "note": "Canvas; next: PHIL 10-29 + COMM Social Change due Wed 11:59p",
+      "note": "Canvas; tomorrow 11:59p: PHIL 10-29 + COMM Social Change",
       "tag": "tonight",
-      "sev": "urgent"
-    },
-    {
-      "title": "MATH-170 at 5:00p today",
-      "note": "Gorman Bldg 3202 \u00b7 then TABOOST Royal Rumble 9p",
-      "tag": "in 55m",
       "sev": "urgent"
     },
     {
@@ -38,6 +32,12 @@
       "tag": "11 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
+    },
+    {
+      "title": "MATH-170 Test 3 (Ch. 4) Tue Nov 3",
+      "note": "100 pts; HW 4.1-4.4 due Fri first",
+      "tag": "7 d",
+      "sev": "soon"
     }
   ],
   "jobs": [
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Mon 10:06p \u00b7 next Tue 10:05p \u00b7 auto-approved",
-      "tag": "ok 18h ago",
+      "tag": "ok 19h ago",
       "sev": "ok"
     },
     {
@@ -69,14 +69,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "Next MATH-170 5p, TABOOST Royal Rumble 9p; Prep: MLK Tribute Sat",
+      "note": "In MATH-170 till 7:20p; TABOOST Royal Rumble 9p; Prep: MLK Tribute Sat",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "acct $3,854 \u00b7 MCD 39% (-0.5%), PLTR 32% (-0.4%), NVDA 29% (+0.9%) \u00b7 day -$2 \u00b7 no orders",
-      "tag": "-0.1%",
+      "note": "acct $3,854 \u00b7 MCD 39% (-0.6%), PLTR 32% (-0.1%), NVDA 29% (+0.7%) \u00b7 day -$2 \u00b7 no orders",
+      "tag": "-0.05%",
       "sev": "accent"
     }
   ]
