@@ -1,10 +1,16 @@
 {
-  "updated": "2026-10-26T23:08:00-04:00",
+  "updated": "2026-10-27T14:01:00-04:00",
   "needs": [
     {
       "title": "PHIL Reading Activity 10-27 due 11:59p tonight",
       "note": "Canvas; next: PHIL 10-29 + COMM Social Change due Wed 11:59p",
       "tag": "tonight",
+      "sev": "urgent"
+    },
+    {
+      "title": "MATH-170 at 5:00p today",
+      "note": "Gorman Bldg 3202 \u00b7 then TABOOST Royal Rumble 9p",
+      "tag": "in 3h",
       "sev": "urgent"
     },
     {
@@ -16,12 +22,12 @@
     {
       "title": "PHIL-101 instructor meeting + proposal by Fri",
       "note": "Meet Dr. Halsne (5%) + Project Proposal due Fri Oct 30; MATH 4.1-4.4 HW same day",
-      "tag": "4 d",
+      "tag": "3 d",
       "sev": "soon"
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
-      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (12 d)",
+      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (11 d)",
       "tag": "setup",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -29,7 +35,7 @@
     {
       "title": "Flint MLK Tribute scholarship due Nov 7",
       "note": "Prep Sat Oct 31. Ask Mott fin aid how to apply. Stop Hunger (Oct 20) passed: set Skip",
-      "tag": "12 d",
+      "tag": "11 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
@@ -38,14 +44,14 @@
     {
       "title": "Scholarship scout",
       "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 9:03a",
-      "tag": "ok 14h ago",
+      "tag": "ok 1d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Mon 10:06p \u00b7 next Tue 10:05p \u00b7 auto-approved",
-      "tag": "ok 1h ago",
+      "tag": "ok 16h ago",
       "sev": "ok"
     },
     {
@@ -63,14 +69,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "Next PHIL-101 Tue 1:30p, MATH-170 5p, TABOOST Royal Rumble 9p",
+      "note": "Next MATH-170 5p, TABOOST Royal Rumble 9p; Prep: MLK Tribute Sat",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "acct $3,856 \u00b7 MCD 39%, PLTR 32%, NVDA 29% (+2.6%) \u00b7 day +$53 \u00b7 no orders",
-      "tag": "+1.4%",
+      "note": "acct $3,860 \u00b7 MCD 39% (-0.5%), PLTR 32% (+0.3%), NVDA 29% (+0.8%) \u00b7 day +$4 \u00b7 no orders",
+      "tag": "+0.1%",
       "sev": "accent"
     }
   ]
