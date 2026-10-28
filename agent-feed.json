@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-28T09:29:00-04:00",
+  "updated": "2026-10-28T11:22:00-04:00",
   "needs": [
     {
       "title": "PHIL Reading 10-29 + COMM Social Change due tonight",
-      "note": "Both 11:59p on Canvas; COMM-131 class 10:30a (Curtice-Mott 2001)",
+      "note": "Both 11:59p on Canvas (from 7a calendar read; calendar API quota-limited since)",
       "tag": "tonight",
       "sev": "urgent"
     },
@@ -28,7 +28,7 @@
     },
     {
       "title": "Flint MLK Tribute scholarship due Nov 7",
-      "note": "Prep Sat Oct 31; essay bank empty. Stop Hunger (Oct 20) passed: set Skip",
+      "note": "Prep Sat Oct 31; essay bank empty. Stop Hunger (Oct 20) still To check: set Skip",
       "tag": "10 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Tue 10:08p \u00b7 next Wed 10:05p \u00b7 auto-approved",
-      "tag": "ok 11h ago",
+      "tag": "ok 13h ago",
       "sev": "ok"
     },
     {
@@ -69,14 +69,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "Quota error at 9:29a; showing 7a read: COMM 10:30a, PHIL/COMM due 11:59p",
+      "note": "Quota error again at 11:21a; needs rows use 7a read",
       "tag": "stale",
       "sev": "accent"
     },
     {
       "title": "Portfolio",
-      "note": "Open Wed: acct $3,854 \u00b7 MCD 39%, PLTR 32%, NVDA 30% \u00b7 day -$3 \u00b7 no orders",
-      "tag": "-0.08%",
+      "note": "Wed 11:21a: acct $3,842 \u00b7 MCD +0.9%, PLTR -2.3%, NVDA flat \u00b7 day -$16 \u00b7 no orders",
+      "tag": "-0.40%",
       "sev": "accent"
     }
   ]
