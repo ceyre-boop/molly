@@ -1,10 +1,16 @@
 {
-  "updated": "2026-10-27T17:07:00-04:00",
+  "updated": "2026-10-27T20:01:00-04:00",
   "needs": [
     {
       "title": "PHIL Reading Activity 10-27 due 11:59p tonight",
       "note": "Canvas; tomorrow 11:59p: PHIL 10-29 + COMM Social Change",
       "tag": "tonight",
+      "sev": "urgent"
+    },
+    {
+      "title": "TABOOST: Royal Rumble 9p (TikTok Live)",
+      "note": "Starts in ~1h, runs to 11p; Rookie Rumble Wed 9p",
+      "tag": "9p",
       "sev": "urgent"
     },
     {
@@ -15,7 +21,7 @@
     },
     {
       "title": "PHIL-101 instructor meeting + proposal by Fri",
-      "note": "Meet Dr. Halsne (5%) + Project Proposal due Fri Oct 30; MATH 4.1-4.4 HW same day",
+      "note": "Meet Dr. Halsne (5%) + Proposal Fri Oct 30; MATH 4.1-4.4 HW Fri; Test 3 Tue Nov 3",
       "tag": "3 d",
       "sev": "soon"
     },
@@ -32,12 +38,6 @@
       "tag": "11 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
-    },
-    {
-      "title": "MATH-170 Test 3 (Ch. 4) Tue Nov 3",
-      "note": "100 pts; HW 4.1-4.4 due Fri first",
-      "tag": "7 d",
-      "sev": "soon"
     }
   ],
   "jobs": [
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Mon 10:06p \u00b7 next Tue 10:05p \u00b7 auto-approved",
-      "tag": "ok 19h ago",
+      "tag": "ok 22h ago",
       "sev": "ok"
     },
     {
@@ -69,14 +69,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "In MATH-170 till 7:20p; TABOOST Royal Rumble 9p; Prep: MLK Tribute Sat",
+      "note": "TABOOST Royal Rumble 9p; COMM 10:30a Wed; Prep: MLK Tribute Sat",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "acct $3,854 \u00b7 MCD 39% (-0.6%), PLTR 32% (-0.1%), NVDA 29% (+0.7%) \u00b7 day -$2 \u00b7 no orders",
-      "tag": "-0.05%",
+      "note": "acct $3,859 \u00b7 MCD 39% (-0.6%), PLTR 32% (+0.1%), NVDA 29% (+1.0%) \u00b7 day +$3 \u00b7 no orders",
+      "tag": "+0.08%",
       "sev": "accent"
     }
   ]
