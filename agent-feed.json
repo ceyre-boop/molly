@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-28T07:08:00-04:00",
+  "updated": "2026-10-28T09:29:00-04:00",
   "needs": [
     {
       "title": "PHIL Reading 10-29 + COMM Social Change due tonight",
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Tue 10:08p \u00b7 next Wed 10:05p \u00b7 auto-approved",
-      "tag": "ok 9h ago",
+      "tag": "ok 11h ago",
       "sev": "ok"
     },
     {
@@ -69,14 +69,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "Next: COMM 10:30a; PHIL/COMM due 11:59p; Prep: MLK Tribute Sat",
-      "tag": "ok",
-      "sev": "ok"
+      "note": "Quota error at 9:29a; showing 7a read: COMM 10:30a, PHIL/COMM due 11:59p",
+      "tag": "stale",
+      "sev": "accent"
     },
     {
       "title": "Portfolio",
-      "note": "Pre-mkt Wed: acct $3,845 \u00b7 MCD 39%, PLTR 32%, NVDA 30% \u00b7 day -$12 \u00b7 no orders",
-      "tag": "-0.32%",
+      "note": "Open Wed: acct $3,854 \u00b7 MCD 39%, PLTR 32%, NVDA 30% \u00b7 day -$3 \u00b7 no orders",
+      "tag": "-0.08%",
       "sev": "accent"
     }
   ]
