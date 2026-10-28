@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-27T23:07:00-04:00",
+  "updated": "2026-10-28T07:08:00-04:00",
   "needs": [
     {
-      "title": "PHIL Reading Activity 10-27 due 11:59p tonight",
-      "note": "Canvas; Wed 11:59p: PHIL 10-29 + COMM Social Change",
+      "title": "PHIL Reading 10-29 + COMM Social Change due tonight",
+      "note": "Both 11:59p on Canvas; COMM-131 class 10:30a (Curtice-Mott 2001)",
       "tag": "tonight",
       "sev": "urgent"
     },
@@ -16,12 +16,12 @@
     {
       "title": "PHIL-101 instructor meeting + proposal by Fri",
       "note": "Meet Dr. Halsne (5%) + Proposal Fri Oct 30; MATH 4.1-4.4 HW Fri; Test 3 Tue Nov 3",
-      "tag": "3 d",
+      "tag": "2 d",
       "sev": "soon"
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
-      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (11 d)",
+      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (10 d)",
       "tag": "setup",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -29,14 +29,14 @@
     {
       "title": "Flint MLK Tribute scholarship due Nov 7",
       "note": "Prep Sat Oct 31; essay bank empty. Stop Hunger (Oct 20) passed: set Skip",
-      "tag": "11 d",
+      "tag": "10 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
-      "title": "TABOOST: Rookie Rumble Wed 9-11p",
+      "title": "TABOOST: Rookie Rumble tonight 9-11p",
       "note": "TikTok Live; Sunday Knockout Nov 1 8p",
-      "tag": "Wed",
+      "tag": "tonight",
       "sev": "accent"
     }
   ],
@@ -44,14 +44,14 @@
     {
       "title": "Scholarship scout",
       "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 8:03a",
-      "tag": "ok 1d ago",
+      "tag": "ok 2d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Tue 10:08p \u00b7 next Wed 10:05p \u00b7 auto-approved",
-      "tag": "ok 1h ago",
+      "tag": "ok 9h ago",
       "sev": "ok"
     },
     {
@@ -62,21 +62,21 @@
     },
     {
       "title": "Inbox",
-      "note": "0 needs reply \u00b7 waiting/drafts unavailable (Gmail quota) \u00b7 triage task missing",
-      "tag": "ok",
+      "note": "0 needs reply \u00b7 0 waiting on \u00b7 3 drafts (Brilliant x2, TABOOST) \u00b7 triage task missing",
+      "tag": "3 drafts",
       "sev": "accent",
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Calendar read",
-      "note": "Next: COMM 10:30a Wed; PHIL/COMM due Wed; Prep: MLK Tribute Sat",
+      "note": "Next: COMM 10:30a; PHIL/COMM due 11:59p; Prep: MLK Tribute Sat",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Close Tue: acct $3,859 \u00b7 MCD 39%, PLTR 32%, NVDA 29% \u00b7 day +$3 \u00b7 no orders",
-      "tag": "+0.08%",
+      "note": "Pre-mkt Wed: acct $3,845 \u00b7 MCD 39%, PLTR 32%, NVDA 30% \u00b7 day -$12 \u00b7 no orders",
+      "tag": "-0.32%",
       "sev": "accent"
     }
   ]
