@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-28T11:22:00-04:00",
+  "updated": "2026-10-28T13:08:00-04:00",
   "needs": [
     {
       "title": "PHIL Reading 10-29 + COMM Social Change due tonight",
-      "note": "Both 11:59p on Canvas (from 7a calendar read; calendar API quota-limited since)",
+      "note": "Both 11:59p on Canvas",
       "tag": "tonight",
       "sev": "urgent"
     },
@@ -43,7 +43,7 @@
   "jobs": [
     {
       "title": "Scholarship scout",
-      "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 8:03a",
+      "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 9:03a",
       "tag": "ok 2d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Tue 10:08p \u00b7 next Wed 10:05p \u00b7 auto-approved",
-      "tag": "ok 13h ago",
+      "tag": "ok 15h ago",
       "sev": "ok"
     },
     {
@@ -69,14 +69,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "Quota error again at 11:21a; needs rows use 7a read",
-      "tag": "stale",
-      "sev": "accent"
+      "note": "OK 1:07p \u00b7 next: Rookie Rumble 9p; PHIL meeting + proposal Fri",
+      "tag": "ok",
+      "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Wed 11:21a: acct $3,842 \u00b7 MCD +0.9%, PLTR -2.3%, NVDA flat \u00b7 day -$16 \u00b7 no orders",
-      "tag": "-0.40%",
+      "note": "Wed 1:07p: acct $3,835 \u00b7 MCD +0.6%, PLTR -2.3%, NVDA -0.2% \u00b7 day -$22 \u00b7 no orders",
+      "tag": "-0.58%",
       "sev": "accent"
     }
   ]
