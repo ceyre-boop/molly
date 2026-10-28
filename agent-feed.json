@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-28T13:08:00-04:00",
+  "updated": "2026-10-28T17:53:00-04:00",
   "needs": [
     {
       "title": "PHIL Reading 10-29 + COMM Social Change due tonight",
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Tue 10:08p \u00b7 next Wed 10:05p \u00b7 auto-approved",
-      "tag": "ok 15h ago",
+      "tag": "ok 20h ago",
       "sev": "ok"
     },
     {
@@ -69,14 +69,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 1:07p \u00b7 next: Rookie Rumble 9p; PHIL meeting + proposal Fri",
+      "note": "OK 5:53p \u00b7 next: Rookie Rumble 9p; PHIL meeting + proposal Fri",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Wed 1:07p: acct $3,835 \u00b7 MCD +0.6%, PLTR -2.3%, NVDA -0.2% \u00b7 day -$22 \u00b7 no orders",
-      "tag": "-0.58%",
+      "note": "Wed close: acct $3,833 \u00b7 MCD +0.8%, PLTR -1.5%, NVDA -1.7% \u00b7 day -$25 \u00b7 no orders",
+      "tag": "-0.64%",
       "sev": "accent"
     }
   ]
