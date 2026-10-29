@@ -1,12 +1,6 @@
 {
-  "updated": "2026-10-29T13:10:00-04:00",
+  "updated": "2026-10-29T15:07:00-04:00",
   "needs": [
-    {
-      "title": "PHIL-101 class 1:30p (Curtice-Mott 1111)",
-      "note": "Last class before Fri: meet Dr. Halsne today (meeting 5% due Fri)",
-      "tag": "1:30p",
-      "sev": "urgent"
-    },
     {
       "title": "5 agent jobs gone from scheduled tasks",
       "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review not listed",
@@ -14,9 +8,15 @@
       "sev": "urgent"
     },
     {
-      "title": "PHIL proposal + instructor meeting due Fri",
-      "note": "PHIL Proposal 10% + Halsne meeting 5% Fri Oct 30; MATH 4.1-4.4 HW Fri; Test 3 Tue Nov 3",
+      "title": "PHIL proposal + Halsne meeting due Fri",
+      "note": "PHIL Proposal 10% + instructor meeting 5% Fri Oct 30; MATH 4.1-4.4 HW Fri",
       "tag": "1 d",
+      "sev": "soon"
+    },
+    {
+      "title": "MATH-170 Test 3 (Ch. 4) Tue Nov 3",
+      "note": "100 pts, held in Tuesday class",
+      "tag": "5 d",
       "sev": "soon"
     },
     {
@@ -45,7 +45,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Wed 10:06p \u00b7 next Thu 10:05p \u00b7 auto-approved",
-      "tag": "ok 15h ago",
+      "tag": "ok 17h ago",
       "sev": "ok"
     },
     {
@@ -63,14 +63,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 1:09p \u00b7 next: PHIL-101 1:30p; PHIL proposal + meeting Fri",
+      "note": "OK 3:07p \u00b7 nothing else today; PHIL proposal + meeting Fri a.m.",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Intraday 1:09p: acct $3,841 \u00b7 MCD +2.0%, NVDA -0.9%, PLTR -1.4% \u00b7 no orders",
-      "tag": "+0.07%",
+      "note": "Intraday 3:06p: acct $3,846 \u00b7 MCD +2.7%, NVDA -1.2%, PLTR -1.5% \u00b7 no orders",
+      "tag": "+0.21%",
       "sev": "accent"
     }
   ]
