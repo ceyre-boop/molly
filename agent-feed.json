@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-28T19:07:00-04:00",
+  "updated": "2026-10-28T21:08:00-04:00",
   "needs": [
     {
       "title": "PHIL Reading 10-29 + COMM Social Change due tonight",
@@ -34,9 +34,9 @@
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
-      "title": "TABOOST: Rookie Rumble tonight 9-11p",
-      "note": "TikTok Live, starts in ~2h; Sunday Knockout Nov 1 8p",
-      "tag": "tonight",
+      "title": "TABOOST: Rookie Rumble live now 9-11p",
+      "note": "TikTok Live, on now; Sunday Knockout Nov 1 8p",
+      "tag": "live",
       "sev": "accent"
     }
   ],
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Tue 10:08p \u00b7 next Wed 10:05p \u00b7 auto-approved",
-      "tag": "ok 20h ago",
+      "tag": "ok 23h ago",
       "sev": "ok"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 7:07p \u00b7 next: Rookie Rumble 9p; PHIL meeting + proposal Fri",
+      "note": "OK 9:08p \u00b7 now: Rookie Rumble; next: PHIL-101 Thu 1:30p; PHIL proposal Fri",
       "tag": "ok",
       "sev": "ok"
     },
