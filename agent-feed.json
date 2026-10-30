@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-30T12:24:00-04:00",
+  "updated": "2026-10-30T13:08:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -45,7 +45,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Thu 10:06p \u00b7 next Fri 10:05p \u00b7 auto-approved",
-      "tag": "ok 14h ago",
+      "tag": "ok 15h ago",
       "sev": "ok"
     },
     {
@@ -63,14 +63,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 12:24p \u00b7 nothing else today; Prep: MLK Tribute Sat; TABOOST Knockout Sun 8p",
+      "note": "OK 1:08p \u00b7 nothing else today; Prep: MLK Tribute Sat; TABOOST Knockout Sun 8p",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Intraday: acct $3,768 \u00b7 PLTR -4.9%, NVDA -4.2%, MCD +0.4% \u00b7 no orders",
-      "tag": "-2.58%",
+      "note": "Intraday: acct $3,758 \u00b7 PLTR -5.8%, NVDA -4.7%, MCD +0.8% \u00b7 no orders",
+      "tag": "-2.85%",
       "sev": "accent"
     }
   ]
