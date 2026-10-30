@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-30T17:08:00-04:00",
+  "updated": "2026-10-30T19:08:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Thu 10:06p \u00b7 next Fri 10:05p \u00b7 auto-approved",
-      "tag": "ok 19h ago",
+      "tag": "ok 21h ago",
       "sev": "ok"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 5:08p \u00b7 nothing else today; Prep: MLK Tribute Sat; TABOOST Knockout Sun 8p",
+      "note": "OK 7:08p \u00b7 nothing else today; Prep: MLK Tribute Sat; TABOOST Knockout Sun 8p",
       "tag": "ok",
       "sev": "ok"
     },
