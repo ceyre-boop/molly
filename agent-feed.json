@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29T17:08:00-04:00",
+  "updated": "2026-10-29T21:06:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -45,7 +45,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Wed 10:06p \u00b7 next Thu 10:05p \u00b7 auto-approved",
-      "tag": "ok 19h ago",
+      "tag": "ok 23h ago",
       "sev": "ok"
     },
     {
@@ -63,14 +63,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 5:08p \u00b7 nothing else today; PHIL proposal + meeting Fri a.m.",
+      "note": "OK 9:06p \u00b7 nothing else today; PHIL proposal + meeting Fri a.m.",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Close: acct $3,842 \u00b7 MCD +3.2%, NVDA -2.2%, PLTR -1.5% \u00b7 no orders",
-      "tag": "+0.10%",
+      "note": "Close: acct $3,846 \u00b7 MCD +3.5%, NVDA -2.5%, PLTR -1.5% \u00b7 no orders",
+      "tag": "+0.19%",
       "sev": "accent"
     }
   ]
