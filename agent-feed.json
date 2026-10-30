@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29T21:07:00-04:00",
+  "updated": "2026-10-29T23:06:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -10,8 +10,8 @@
     {
       "title": "PHIL proposal + Halsne meeting due Fri",
       "note": "PHIL Proposal 10% + instructor meeting 5% Fri Oct 30; MATH 4.1-4.4 HW Fri",
-      "tag": "1 d",
-      "sev": "soon"
+      "tag": "tomorrow",
+      "sev": "urgent"
     },
     {
       "title": "MATH-170 Test 3 (Ch. 4) Tue Nov 3",
@@ -37,15 +37,15 @@
   "jobs": [
     {
       "title": "Scholarship scout",
-      "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 8:03a",
+      "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 9:03a",
       "tag": "ok 3d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Wed 10:06p \u00b7 next Thu 10:05p \u00b7 auto-approved",
-      "tag": "ok 23h ago",
+      "note": "Last ok Thu 10:06p \u00b7 next Fri 10:05p \u00b7 auto-approved",
+      "tag": "ok 1h ago",
       "sev": "ok"
     },
     {
@@ -63,7 +63,7 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 9:08p \u00b7 nothing else today; PHIL proposal + meeting Fri a.m.",
+      "note": "OK 11:06p \u00b7 nothing else today; PHIL proposal + meeting + MATH HW Fri a.m.",
       "tag": "ok",
       "sev": "ok"
     },
