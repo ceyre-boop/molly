@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-30T13:08:00-04:00",
+  "updated": "2026-10-30T17:08:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -12,6 +12,12 @@
       "note": "PHIL Proposal 10% + instructor meeting 5% today; MATH 4.1-4.4 HW due today",
       "tag": "today",
       "sev": "urgent"
+    },
+    {
+      "title": "Sun Nov 1: PHIL Summary 8 + FILM 181 Week 4",
+      "note": "Both due Sun 11:59p; COMM-131 discussions (2) due Mon noon",
+      "tag": "2 d",
+      "sev": "soon"
     },
     {
       "title": "MATH-170 Test 3 (Ch. 4) Tue Nov 3",
@@ -45,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Thu 10:06p \u00b7 next Fri 10:05p \u00b7 auto-approved",
-      "tag": "ok 15h ago",
+      "tag": "ok 19h ago",
       "sev": "ok"
     },
     {
@@ -63,14 +69,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 1:08p \u00b7 nothing else today; Prep: MLK Tribute Sat; TABOOST Knockout Sun 8p",
+      "note": "OK 5:08p \u00b7 nothing else today; Prep: MLK Tribute Sat; TABOOST Knockout Sun 8p",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Intraday: acct $3,758 \u00b7 PLTR -5.8%, NVDA -4.7%, MCD +0.8% \u00b7 no orders",
-      "tag": "-2.85%",
+      "note": "Close: acct $3,750 \u00b7 PLTR -6.3%, NVDA -4.1%, MCD +0.1% \u00b7 no orders",
+      "tag": "-3.07%",
       "sev": "accent"
     }
   ]
