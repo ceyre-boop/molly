@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29T23:06:00-04:00",
+  "updated": "2026-10-30T12:24:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -8,28 +8,28 @@
       "sev": "urgent"
     },
     {
-      "title": "PHIL proposal + Halsne meeting due Fri",
-      "note": "PHIL Proposal 10% + instructor meeting 5% Fri Oct 30; MATH 4.1-4.4 HW Fri",
-      "tag": "tomorrow",
+      "title": "PHIL proposal + Halsne meeting due today",
+      "note": "PHIL Proposal 10% + instructor meeting 5% today; MATH 4.1-4.4 HW due today",
+      "tag": "today",
       "sev": "urgent"
     },
     {
       "title": "MATH-170 Test 3 (Ch. 4) Tue Nov 3",
-      "note": "100 pts, held in Tuesday class",
-      "tag": "5 d",
+      "note": "100 pts, held in Tuesday class; HW 4.5-4.7 due Fri Nov 6",
+      "tag": "4 d",
       "sev": "soon"
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
-      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (9 d)",
+      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (8 d)",
       "tag": "setup",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Flint MLK Tribute scholarship due Nov 7",
-      "note": "Prep Sat Oct 31; essay bank empty. Stop Hunger (Oct 20) still To check: set Skip",
-      "tag": "9 d",
+      "note": "Prep tomorrow; essay bank empty. Stop Hunger (Oct 20) still To check: set Skip",
+      "tag": "8 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
@@ -38,14 +38,14 @@
     {
       "title": "Scholarship scout",
       "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 9:03a",
-      "tag": "ok 3d ago",
+      "tag": "ok 4d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Thu 10:06p \u00b7 next Fri 10:05p \u00b7 auto-approved",
-      "tag": "ok 1h ago",
+      "tag": "ok 14h ago",
       "sev": "ok"
     },
     {
@@ -63,14 +63,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 11:06p \u00b7 nothing else today; PHIL proposal + meeting + MATH HW Fri a.m.",
+      "note": "OK 12:24p \u00b7 nothing else today; Prep: MLK Tribute Sat; TABOOST Knockout Sun 8p",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Close: acct $3,846 \u00b7 MCD +3.5%, NVDA -2.5%, PLTR -1.5% \u00b7 no orders",
-      "tag": "+0.19%",
+      "note": "Intraday: acct $3,768 \u00b7 PLTR -4.9%, NVDA -4.2%, MCD +0.4% \u00b7 no orders",
+      "tag": "-2.58%",
       "sev": "accent"
     }
   ]
