@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-30T19:08:00-04:00",
+  "updated": "2026-10-30T22:56:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -9,7 +9,7 @@
     },
     {
       "title": "PHIL proposal + Halsne meeting due today",
-      "note": "PHIL Proposal 10% + instructor meeting 5% today; MATH 4.1-4.4 HW due today",
+      "note": "Due 11:59p tonight: PHIL Proposal 10% + instructor mtg 5%; MATH 4.1-4.4 HW",
       "tag": "today",
       "sev": "urgent"
     },
@@ -34,7 +34,7 @@
     },
     {
       "title": "Flint MLK Tribute scholarship due Nov 7",
-      "note": "Prep tomorrow; essay bank empty. Stop Hunger (Oct 20) still To check: set Skip",
+      "note": "Prep day is tomorrow (Sat); essay bank empty. Stop Hunger (Oct 20): set Skip",
       "tag": "8 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -43,15 +43,15 @@
   "jobs": [
     {
       "title": "Scholarship scout",
-      "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 9:03a",
+      "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 8:03a (EST)",
       "tag": "ok 4d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Thu 10:06p \u00b7 next Fri 10:05p \u00b7 auto-approved",
-      "tag": "ok 21h ago",
+      "note": "Last ok Fri 10:06p \u00b7 next Sat 10:05p \u00b7 auto-approved",
+      "tag": "ok 49m ago",
       "sev": "ok"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 7:08p \u00b7 nothing else today; Prep: MLK Tribute Sat; TABOOST Knockout Sun 8p",
+      "note": "OK 10:55p \u00b7 nothing else today; Prep: MLK Tribute Sat; TABOOST Knockout Sun 8p",
       "tag": "ok",
       "sev": "ok"
     },
