@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-30T23:08:00-04:00",
+  "updated": "2026-10-31T16:58:00-04:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -8,50 +8,50 @@
       "sev": "urgent"
     },
     {
-      "title": "PHIL proposal + Halsne meeting due today",
-      "note": "Due 11:59p tonight: PHIL Proposal 10% + instructor mtg 5%; MATH 4.1-4.4 HW",
-      "tag": "today",
-      "sev": "urgent"
+      "title": "Prep today: Flint MLK Tribute (due Nov 7)",
+      "note": "Prep day is today; essay bank empty. Ask Mott financial aid how to apply",
+      "tag": "7 d",
+      "sev": "urgent",
+      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Sun Nov 1: PHIL Summary 8 + FILM 181 Week 4",
       "note": "Both due Sun 11:59p; COMM-131 discussions (2) due Mon noon",
-      "tag": "2 d",
+      "tag": "1 d",
       "sev": "soon"
     },
     {
       "title": "MATH-170 Test 3 (Ch. 4) Tue Nov 3",
       "note": "100 pts, held in Tuesday class; HW 4.5-4.7 due Fri Nov 6",
-      "tag": "4 d",
+      "tag": "3 d",
       "sev": "soon"
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
-      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (8 d)",
+      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (7 d)",
       "tag": "setup",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
-      "title": "Flint MLK Tribute scholarship due Nov 7",
-      "note": "Prep day is tomorrow (Sat); essay bank empty. Stop Hunger (Oct 20): set Skip",
-      "tag": "8 d",
-      "sev": "soon",
-      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
+      "title": "TABOOST Shop month close Mon Nov 2 10a",
+      "note": "Run \"run month close\" in ~/TABOOST-Shop so Month-End recap has Oct data",
+      "tag": "2 d",
+      "sev": "soon"
     }
   ],
   "jobs": [
     {
       "title": "Scholarship scout",
-      "note": "Last ok Mon 9:25a \u00b7 next Mon Nov 2 8:03a (EST)",
-      "tag": "ok 4d ago",
+      "note": "Last ok Mon Oct 26 9:25a \u00b7 next Mon Nov 2 8:03a (EST)",
+      "tag": "ok 5d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Fri 10:06p \u00b7 next Sat 10:05p \u00b7 auto-approved",
-      "tag": "ok 1h ago",
+      "tag": "ok 19h ago",
       "sev": "ok"
     },
     {
@@ -69,13 +69,13 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 11:07p \u00b7 nothing else today; Prep: MLK Tribute Sat; TABOOST Knockout Sun 8p",
+      "note": "OK 4:58p \u00b7 nothing else today; TABOOST Knockout Sun 8p; MLK Tribute due Sat Nov 7",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Close: acct $3,757 \u00b7 PLTR -6.0%, NVDA -3.9%, MCD +0.3% \u00b7 no orders",
+      "note": "Fri close: acct $3,757 \u00b7 PLTR -6.0%, NVDA -3.9%, MCD +0.3% \u00b7 weekend, no refresh",
       "tag": "-2.88%",
       "sev": "accent"
     }
