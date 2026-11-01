@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-31T19:07:00-04:00",
+  "updated": "2026-11-01T09:25:00-05:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -8,50 +8,50 @@
       "sev": "urgent"
     },
     {
-      "title": "Prep today: Flint MLK Tribute (due Nov 7)",
-      "note": "Prep day is today; essay bank empty. Ask Mott financial aid how to apply",
-      "tag": "7 d",
-      "sev": "urgent",
-      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
+      "title": "Tonight: PHIL Summary 8 + FILM 181 Week 4",
+      "note": "Both due Sun 11:59p; COMM-131 discussions (2) due Mon noon",
+      "tag": "today",
+      "sev": "urgent"
     },
     {
-      "title": "Sun Nov 1: PHIL Summary 8 + FILM 181 Week 4",
-      "note": "Both due Sun 11:59p; COMM-131 discussions (2) due Mon noon",
+      "title": "TABOOST Shop month close Mon Nov 2 10a",
+      "note": "Run \"run month close\" in ~/TABOOST-Shop so Month-End recap has Oct data",
       "tag": "1 d",
       "sev": "soon"
     },
     {
       "title": "MATH-170 Test 3 (Ch. 4) Tue Nov 3",
       "note": "100 pts, held in Tuesday class; HW 4.5-4.7 due Fri Nov 6",
-      "tag": "3 d",
+      "tag": "2 d",
       "sev": "soon"
     },
     {
-      "title": "File the 2027-28 FAFSA (open since Oct 1)",
-      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (7 d)",
-      "tag": "setup",
+      "title": "Flint MLK Tribute due Sat Nov 7",
+      "note": "Prep day passed; essay bank empty. Ask Mott financial aid how to apply",
+      "tag": "6 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
-      "title": "TABOOST Shop month close Mon Nov 2 10a",
-      "note": "Run \"run month close\" in ~/TABOOST-Shop so Month-End recap has Oct data",
-      "tag": "2 d",
-      "sev": "soon"
+      "title": "File the 2027-28 FAFSA (open since Oct 1)",
+      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (6 d)",
+      "tag": "setup",
+      "sev": "soon",
+      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     }
   ],
   "jobs": [
     {
       "title": "Scholarship scout",
-      "note": "Last ok Mon Oct 26 9:25a \u00b7 next Mon Nov 2 8:03a (EST)",
-      "tag": "ok 5d ago",
+      "note": "Last ok Mon Oct 26 9:25a \u00b7 next Mon Nov 2 8:03a \u00b7 Stop Hunger (Oct 20) still To check",
+      "tag": "ok 6d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Fri 10:06p \u00b7 next Sat 10:05p \u00b7 auto-approved",
-      "tag": "ok 21h ago",
+      "note": "Last ok Sun 9:23a (catch-up run) \u00b7 next Sun 9:05p EST",
+      "tag": "ok 0h ago",
       "sev": "ok"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 7:07p \u00b7 nothing else today; TABOOST Knockout Sun 8p; MLK Tribute due Sat Nov 7",
+      "note": "OK 9:25a \u00b7 TABOOST Knockout 8p; MATH Test 3 Tue; MLK Tribute due Sat Nov 7",
       "tag": "ok",
       "sev": "ok"
     },
