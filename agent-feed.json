@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-01T10:07:00-05:00",
+  "updated": "2026-11-01T12:07:00-05:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 9:23a (catch-up run) \u00b7 next Sun 9:05p EST",
-      "tag": "ok 1h ago",
+      "tag": "ok 3h ago",
       "sev": "ok"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 10:07a \u00b7 PHIL Summary 8 + FILM Wk4 tonight; Knockout 8p; MATH Test 3 Tue",
+      "note": "OK 12:07p \u00b7 PHIL Summary 8 + FILM Wk4 tonight; Knockout 8p; MATH Test 3 Tue",
       "tag": "ok",
       "sev": "ok"
     },
