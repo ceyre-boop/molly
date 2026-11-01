@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-01T14:07:00-05:00",
+  "updated": "2026-11-01T16:07:00-05:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -9,7 +9,7 @@
     },
     {
       "title": "Tonight: PHIL Summary 8 + FILM 181 Week 4",
-      "note": "Both due Sun 11:59p; COMM-131 discussions (2) due Mon noon",
+      "note": "Both due Sun 11:59p; Knockout 8p; COMM-131 discussions (2) due Mon noon",
       "tag": "today",
       "sev": "urgent"
     },
@@ -43,7 +43,7 @@
   "jobs": [
     {
       "title": "Scholarship scout",
-      "note": "Last ok Mon Oct 26 9:25a \u00b7 next Mon Nov 2 8:03a \u00b7 Stop Hunger (Oct 20) still To check",
+      "note": "Last ok Mon Oct 26 9:25a \u00b7 next Mon Nov 2 8:03a EST",
       "tag": "ok 6d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 9:23a (catch-up run) \u00b7 next Sun 9:05p EST",
-      "tag": "ok 5h ago",
+      "tag": "ok 7h ago",
       "sev": "ok"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 2:07p \u00b7 PHIL Summary 8 + FILM Wk4 tonight; Knockout 8p; MATH Test 3 Tue",
+      "note": "OK 4:07p \u00b7 FILM Wk4 + PHIL Summary 8 tonight; Knockout 8p; MATH Test 3 Tue",
       "tag": "ok",
       "sev": "ok"
     },
