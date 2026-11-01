@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-01T16:07:00-05:00",
+  "updated": "2026-11-01T18:08:00-05:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -9,7 +9,7 @@
     },
     {
       "title": "Tonight: PHIL Summary 8 + FILM 181 Week 4",
-      "note": "Both due Sun 11:59p; Knockout 8p; COMM-131 discussions (2) due Mon noon",
+      "note": "Both due Sun 11:59p; Knockout 8p (in 2h); COMM-131 discussions (2) due Mon noon",
       "tag": "today",
       "sev": "urgent"
     },
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 9:23a (catch-up run) \u00b7 next Sun 9:05p EST",
-      "tag": "ok 7h ago",
+      "tag": "ok 9h ago",
       "sev": "ok"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 4:07p \u00b7 FILM Wk4 + PHIL Summary 8 tonight; Knockout 8p; MATH Test 3 Tue",
+      "note": "OK 6:08p \u00b7 Knockout 8p; FILM Wk4 + PHIL Summary 8 tonight; MATH Test 3 Tue",
       "tag": "ok",
       "sev": "ok"
     },
