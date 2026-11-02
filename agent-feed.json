@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-01T20:07:00-05:00",
+  "updated": "2026-11-01T22:08:00-05:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -9,32 +9,32 @@
     },
     {
       "title": "Tonight: PHIL Summary 8 + FILM 181 Week 4",
-      "note": "Both due 11:59p; Knockout live now till 10p; COMM-131 discussions (2) due Mon noon",
+      "note": "Both due 11:59p; Mon noon: COMM-131 discussions (2) + PHIL RA 11-3",
       "tag": "today",
       "sev": "urgent"
     },
     {
       "title": "TABOOST Shop month close Mon Nov 2 10a",
       "note": "Run \"run month close\" in ~/TABOOST-Shop so Month-End recap has Oct data",
-      "tag": "14 h",
+      "tag": "12 h",
       "sev": "soon"
     },
     {
       "title": "MATH-170 Test 3 (Ch. 4) Tue Nov 3",
       "note": "100 pts, held in Tuesday class; HW 4.5-4.7 due Fri Nov 6",
-      "tag": "2 d",
+      "tag": "1 d",
       "sev": "soon"
     },
     {
       "title": "Flint MLK Tribute due Sat Nov 7",
       "note": "Essay bank empty. Ask Mott financial aid how to apply; Stop Hunger (Oct 20) still To check",
-      "tag": "6 d",
+      "tag": "5 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
-      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (6 d)",
+      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (5 d)",
       "tag": "setup",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -50,8 +50,8 @@
     },
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Sun 9:23a (catch-up run) \u00b7 next Sun 9:05p EST",
-      "tag": "ok 11h ago",
+      "note": "Last ok Sun 9:06p \u00b7 next Mon 9:05p EST",
+      "tag": "ok 1h ago",
       "sev": "ok"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 8:07p \u00b7 Knockout now; FILM Wk4 + PHIL Summary 8 tonight; MATH Test 3 Tue",
+      "note": "OK 10:08p \u00b7 FILM Wk4 + PHIL Summary 8 tonight; month close Mon 10a; MATH Test 3 Tue",
       "tag": "ok",
       "sev": "ok"
     },
