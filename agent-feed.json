@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-02T11:37:00-05:00",
+  "updated": "2026-11-02T12:48:00-05:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -8,8 +8,8 @@
       "sev": "urgent"
     },
     {
-      "title": "COMM-131 discussions (2) due noon + PHIL RA 11-3",
-      "note": "Leadership Style + Speaking in the Workplace by 12p; PHIL Reading Activity 11-3 by 11:59p",
+      "title": "PHIL RA 11-3 due tonight 11:59p",
+      "note": "COMM-131 discussions (Leadership Style, Speaking) were due noon \u2014 submitted?",
       "tag": "today",
       "sev": "urgent"
     },
@@ -20,7 +20,7 @@
       "sev": "urgent"
     },
     {
-      "title": "MATH-170 Test 3 (Ch. 4) Tue Nov 3",
+      "title": "MATH-170 Test 3 (Ch. 4) Tue Nov 3, 10a",
       "note": "100 pts, held in Tuesday class; HW 4.5-4.7 due Fri Nov 6",
       "tag": "1 d",
       "sev": "soon"
@@ -44,14 +44,14 @@
     {
       "title": "Scholarship scout",
       "note": "Last ok Mon Nov 2 8:42a \u00b7 next Mon Nov 9 8:03a EST",
-      "tag": "ok 3h ago",
+      "tag": "ok 4h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 9:06p \u00b7 next Mon 9:05p EST",
-      "tag": "ok 15h ago",
+      "tag": "ok 16h ago",
       "sev": "ok"
     },
     {
@@ -69,14 +69,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 11:37a \u00b7 COMM-131 x2 noon; MATH Test 3 Tue; MLK Tribute Sat",
+      "note": "OK 12:47p \u00b7 nothing else today; MATH Test 3 Tue 10a; MLK Tribute Sat",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Acct $3,795 \u00b7 MCD +2.1%, NVDA +1.0%, PLTR +0.2%",
-      "tag": "+1.22%",
+      "note": "Acct $3,786 \u00b7 MCD +2.1%, NVDA +0.5%, PLTR -0.1%",
+      "tag": "+0.96%",
       "sev": "accent"
     }
   ]
