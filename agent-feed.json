@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-02T12:48:00-05:00",
+  "updated": "2026-11-02T17:45:00-05:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -27,7 +27,7 @@
     },
     {
       "title": "Flint MLK Tribute due Sat Nov 7",
-      "note": "Ask Mott financial aid how to apply; essay bank empty",
+      "note": "Ask Mott financial aid how to apply; Stop Hunger (Oct 20) still To check \u2014 mark Skip",
       "tag": "5 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -44,14 +44,14 @@
     {
       "title": "Scholarship scout",
       "note": "Last ok Mon Nov 2 8:42a \u00b7 next Mon Nov 9 8:03a EST",
-      "tag": "ok 4h ago",
+      "tag": "ok 9h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 9:06p \u00b7 next Mon 9:05p EST",
-      "tag": "ok 16h ago",
+      "tag": "ok 21h ago",
       "sev": "ok"
     },
     {
@@ -62,21 +62,21 @@
     },
     {
       "title": "Inbox",
-      "note": "0 needs reply \u00b7 0 waiting on \u00b7 3 drafts (Brilliant x2, TABOOST) \u00b7 triage task missing",
-      "tag": "3 drafts",
-      "sev": "accent",
+      "note": "0 needs reply \u00b7 0 waiting \u00b7 26 new drafts 2:48p to VCs/IR (Tesla, OpenAI\u2026) \u2014 review",
+      "tag": "29 drafts",
+      "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Calendar read",
-      "note": "OK 12:47p \u00b7 nothing else today; MATH Test 3 Tue 10a; MLK Tribute Sat",
+      "note": "OK 5:44p \u00b7 nothing else today; MATH Test 3 Tue 10a; MLK Tribute Sat",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Acct $3,786 \u00b7 MCD +2.1%, NVDA +0.5%, PLTR -0.1%",
-      "tag": "+0.96%",
+      "note": "Acct $3,705 \u00b7 MCD +2.7%, NVDA -1.2%, PLTR -6.6%",
+      "tag": "-1.20%",
       "sev": "accent"
     }
   ]
