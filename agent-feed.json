@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-02T18:06:00-05:00",
+  "updated": "2026-11-02T20:07:00-05:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -22,7 +22,7 @@
     {
       "title": "MATH-170 Test 3 (Ch. 4) Tue Nov 3, 10a",
       "note": "100 pts, held in Tuesday class; HW 4.5-4.7 due Fri Nov 6",
-      "tag": "1 d",
+      "tag": "tmrw 10a",
       "sev": "soon"
     },
     {
@@ -44,14 +44,14 @@
     {
       "title": "Scholarship scout",
       "note": "Last ok Mon Nov 2 8:42a \u00b7 next Mon Nov 9 8:03a EST",
-      "tag": "ok 9h ago",
+      "tag": "ok 11h ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Sun 9:06p \u00b7 next Mon 9:05p EST",
-      "tag": "ok 21h ago",
+      "tag": "ok 23h ago",
       "sev": "ok"
     },
     {
@@ -62,21 +62,21 @@
     },
     {
       "title": "Inbox",
-      "note": "0 needs reply \u00b7 0 waiting \u00b7 26 drafts 2:48p to VCs/IR (Tesla, OpenAI\u2026) \u2014 review",
+      "note": "0 needs reply \u00b7 0 waiting \u00b7 26 drafts to VCs/IR (Tesla, OpenAI\u2026) from 2:48p \u2014 review",
       "tag": "29 drafts",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Calendar read",
-      "note": "OK 6:06p \u00b7 nothing else today; MATH Test 3 Tue 10a; MLK Tribute Sat",
+      "note": "OK 8:07p \u00b7 nothing else today; MATH Test 3 Tue 10a; MLK Tribute Sat",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Close $3,710 \u00b7 MCD +2.8%, NVDA -0.9%, PLTR -6.5%",
-      "tag": "-1.06%",
+      "note": "$3,721 \u00b7 MCD +2.9%, NVDA -0.4%, PLTR -6.0%",
+      "tag": "-0.76%",
       "sev": "accent"
     }
   ]
