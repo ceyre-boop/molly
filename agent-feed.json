@@ -1,12 +1,6 @@
 {
-  "updated": "2026-11-03T16:07:00-05:00",
+  "updated": "2026-11-03T18:08:00-05:00",
   "needs": [
-    {
-      "title": "MATH-170 at 5:00p (Gorman 3202)",
-      "note": "Calc 1 until 7:20p",
-      "tag": "53 m",
-      "sev": "urgent"
-    },
     {
       "title": "5 agent jobs gone from scheduled tasks",
       "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review not listed",
@@ -51,7 +45,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Mon 9:06p \u00b7 next Tue 9:05p EST",
-      "tag": "ok 19h ago",
+      "tag": "ok 21h ago",
       "sev": "ok"
     },
     {
@@ -69,13 +63,13 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 4:07p \u00b7 MATH 5p; COMM+PHIL due Wed; MATH HW Fri; MLK Tribute Sat",
+      "note": "OK 6:08p \u00b7 MATH in class til 7:20p; COMM+PHIL due Wed; MATH HW Fri; MLK Sat",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "$3,735 \u00b7 NVDA +2.5%, MCD -1.0%, PLTR -1.9%",
+      "note": "Close \u00b7 $3,735 \u00b7 NVDA +2.5%, MCD -1.0%, PLTR -1.9%",
       "tag": "-0.28%",
       "sev": "accent"
     }
