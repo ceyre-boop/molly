@@ -1,10 +1,10 @@
 {
-  "updated": "2026-11-03T09:30:00-05:00",
+  "updated": "2026-11-03T10:07:00-05:00",
   "needs": [
     {
-      "title": "MATH-170 Test 3 (Ch. 4) today 10a",
-      "note": "100 pts, in class; HW 4.5-4.7 due Fri Nov 6",
-      "tag": "10a today",
+      "title": "MATH-170 Test 3 (Ch. 4) now until 10:30a",
+      "note": "100 pts, in class; next: PHIL-101 1:30p, MATH-170 5p",
+      "tag": "now",
       "sev": "urgent"
     },
     {
@@ -20,6 +20,12 @@
       "sev": "urgent"
     },
     {
+      "title": "COMM-131 Online Speaking + PHIL RA 11-5 due Wed",
+      "note": "Both due Wed Nov 4 11:59p on Canvas",
+      "tag": "1 d",
+      "sev": "soon"
+    },
+    {
       "title": "Flint MLK Tribute due Sat Nov 7",
       "note": "Ask Mott financial aid how to apply; Stop Hunger (Oct 20) still To check \u2014 mark Skip",
       "tag": "4 d",
@@ -32,12 +38,6 @@
       "tag": "setup",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
-    },
-    {
-      "title": "COMM-131 Online Speaking + PHIL RA 11-5 due Wed",
-      "note": "Both due Wed Nov 4 11:59p on Canvas",
-      "tag": "1 d",
-      "sev": "soon"
     }
   ],
   "jobs": [
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Mon 9:06p \u00b7 next Tue 9:05p EST",
-      "tag": "ok 12h ago",
+      "tag": "ok 13h ago",
       "sev": "ok"
     },
     {
@@ -69,14 +69,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 9:30a \u00b7 MATH Test 3 10a; PHIL 1:30p; MATH 5p; MLK Tribute Sat",
+      "note": "OK 10:07a \u00b7 MATH Test 3 now; PHIL 1:30p; MATH 5p; MLK Tribute Sat",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "$3,694 \u00b7 NVDA +3.0%, MCD -1.2%, PLTR -5.9%",
-      "tag": "-1.38%",
+      "note": "$3,703 \u00b7 NVDA +2.8%, MCD -1.2%, PLTR -4.9%",
+      "tag": "-1.15%",
       "sev": "accent"
     }
   ]
