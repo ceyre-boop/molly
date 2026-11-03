@@ -1,10 +1,10 @@
 {
-  "updated": "2026-11-03T15:53:00-05:00",
+  "updated": "2026-11-03T16:07:00-05:00",
   "needs": [
     {
       "title": "MATH-170 at 5:00p (Gorman 3202)",
       "note": "Calc 1 until 7:20p",
-      "tag": "1 h",
+      "tag": "53 m",
       "sev": "urgent"
     },
     {
@@ -69,14 +69,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 3:53p \u00b7 MATH 5p; COMM+PHIL due Wed; MATH HW Fri; MLK Tribute Sat",
+      "note": "OK 4:07p \u00b7 MATH 5p; COMM+PHIL due Wed; MATH HW Fri; MLK Tribute Sat",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "$3,736 \u00b7 NVDA +2.3%, MCD -1.2%, PLTR -1.3%",
-      "tag": "-0.26%",
+      "note": "$3,735 \u00b7 NVDA +2.5%, MCD -1.0%, PLTR -1.9%",
+      "tag": "-0.28%",
       "sev": "accent"
     }
   ]
