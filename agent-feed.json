@@ -1,10 +1,10 @@
 {
-  "updated": "2026-11-03T13:14:00-05:00",
+  "updated": "2026-11-03T15:53:00-05:00",
   "needs": [
     {
-      "title": "PHIL-101 at 1:30p (Curtice-Mott 1111)",
-      "note": "Then MATH-170 5p, Gorman 3202",
-      "tag": "17 min",
+      "title": "MATH-170 at 5:00p (Gorman 3202)",
+      "note": "Calc 1 until 7:20p",
+      "tag": "1 h",
       "sev": "urgent"
     },
     {
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Mon 9:06p \u00b7 next Tue 9:05p EST",
-      "tag": "ok 16h ago",
+      "tag": "ok 19h ago",
       "sev": "ok"
     },
     {
@@ -69,14 +69,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 1:13p \u00b7 PHIL 1:30p; MATH 5p; COMM+PHIL due Wed; MLK Tribute Sat",
+      "note": "OK 3:53p \u00b7 MATH 5p; COMM+PHIL due Wed; MATH HW Fri; MLK Tribute Sat",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "$3,742 \u00b7 NVDA +3.2%, MCD -1.2%, PLTR -1.8%",
-      "tag": "-0.12%",
+      "note": "$3,736 \u00b7 NVDA +2.3%, MCD -1.2%, PLTR -1.3%",
+      "tag": "-0.26%",
       "sev": "accent"
     }
   ]
