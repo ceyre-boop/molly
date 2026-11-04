@@ -1,9 +1,9 @@
 {
-  "updated": "2026-11-04T06:07:00-05:00",
+  "updated": "2026-11-04T08:10:00-05:00",
   "needs": [
     {
       "title": "COMM-131 Online Speaking + PHIL RA 11-5 due tonight",
-      "note": "Both due today 11:59p on Canvas; COMM-131 class 10:30a",
+      "note": "Both due 11:59p on Canvas; COMM-131 class 10:30a (Curtice-Mott 2001)",
       "tag": "today",
       "sev": "urgent"
     },
@@ -45,7 +45,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Tue 9:06p \u00b7 next Wed 9:05p EST",
-      "tag": "ok 9h ago",
+      "tag": "ok 11h ago",
       "sev": "ok"
     },
     {
@@ -57,14 +57,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 6:06a \u00b7 COMM+PHIL due tonight; MATH HW Fri; MLK Sat; FILM wk5 Sun",
+      "note": "OK 8:10a \u00b7 COMM+PHIL due tonight; NFP Fri; MATH HW Fri; MLK Sat; FILM wk5 Sun",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Pre-mkt \u00b7 $3,722 \u00b7 NVDA +1.4%, MCD 0.0%, PLTR -2.6%",
-      "tag": "-0.37%",
+      "note": "Pre-mkt \u00b7 $3,704 \u00b7 MCD +2.3%, NVDA -1.1%, PLTR -5.2%",
+      "tag": "-0.85%",
       "sev": "accent"
     }
   ]
