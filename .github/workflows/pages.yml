@@ -6,6 +6,7 @@ on:
     paths:
       - 'index.html'
       - 'events.json'
+      - 'money-scoreboard.json'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 

@@ -1,14 +1,14 @@
 {
-  "week": "Sep 21 - Sep 27, 2026",
-  "updated": "2026-09-22T21:45:00-04:00",
+  "week": "Nov 2 - Nov 8, 2026",
+  "updated": "2026-11-03T20:42:00-05:00",
   "metrics": [
     {
       "label": "Emails sent",
-      "value": 22
+      "value": 183
     },
     {
       "label": "Replies",
-      "value": 0
+      "value": 1
     },
     {
       "label": "Calls booked",
@@ -19,5 +19,5 @@
       "value": "$0"
     }
   ],
-  "note": "22 Northbound cold emails sent Sep 22 (first outreach batch)."
+  "note": "Cumulative to date: 183 Northbound outreach emails sent, 1 reply, 0 calls booked, $0 in."
 }
