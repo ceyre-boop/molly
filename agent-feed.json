@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05T14:08:00-05:00",
+  "updated": "2026-11-05T14:21:00-05:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -22,8 +22,8 @@
     },
     {
       "title": "Weekend schoolwork: PHIL WS9 + FILM 181 wk5 (Sun)",
-      "note": "Then Mon: COMM Career Analysis (50 pts) + PHIL RA 11-10; MATH HW due Fri",
-      "tag": "3 due",
+      "note": "MATH HW due Fri; Mon: COMM Career Analysis (50 pts) + PHIL RA 11-10",
+      "tag": "4 due",
       "sev": "soon"
     },
     {
@@ -57,14 +57,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 2:08p \u00b7 PHIL until 2:50; NFP+MATH HW Fri; MLK Sat; PHIL+FILM Sun; COMM Mon",
+      "note": "OK 2:20p \u00b7 PHIL until 2:50; NFP+MATH HW Fri; MLK Sat; PHIL+FILM Sun; COMM Mon",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Intraday \u00b7 $3,557 \u00b7 PLTR -10.0%, NVDA -8.8%, MCD -1.7%",
-      "tag": "-5.96%",
+      "note": "Intraday \u00b7 $3,569 \u00b7 PLTR -9.7%, NVDA -8.3%, MCD -1.5%",
+      "tag": "-5.65%",
       "sev": "soon"
     }
   ]
