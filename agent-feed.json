@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05T14:21:00-05:00",
+  "updated": "2026-11-05T16:06:00-05:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -21,9 +21,9 @@
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
-      "title": "Weekend schoolwork: PHIL WS9 + FILM 181 wk5 (Sun)",
-      "note": "MATH HW due Fri; Mon: COMM Career Analysis (50 pts) + PHIL RA 11-10",
-      "tag": "4 due",
+      "title": "MATH-170 HW 4.5\u20134.7 due Fri 11:59p",
+      "note": "Sun: PHIL WS9 + FILM 181 wk5; Mon: COMM Career Analysis (50 pts) + PHIL RA 11-10",
+      "tag": "5 due",
       "sev": "soon"
     },
     {
@@ -44,27 +44,27 @@
     },
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Wed 9:40p \u00b7 next Thu 9:05p EST",
-      "tag": "ok",
+      "note": "Last ok Thu 2:20p \u00b7 next Thu 9:05p EST",
+      "tag": "ok 2h ago",
       "sev": "ok"
     },
     {
       "title": "Inbox",
-      "note": "0 needs reply \u00b7 0 waiting \u00b7 32 drafts (VC/IR outreach + Brilliant/TABOOST) \u2014 review",
-      "tag": "32 drafts",
+      "note": "0 needs reply \u00b7 0 waiting \u00b7 26 drafts (VC/IR outreach) \u2014 review",
+      "tag": "26 drafts",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Calendar read",
-      "note": "OK 2:20p \u00b7 PHIL until 2:50; NFP+MATH HW Fri; MLK Sat; PHIL+FILM Sun; COMM Mon",
+      "note": "OK 4:05p \u00b7 nothing left today; NFP+MATH HW Fri, go LIVE Fri 8p; MLK Sat; COMM Mon",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Intraday \u00b7 $3,569 \u00b7 PLTR -9.7%, NVDA -8.3%, MCD -1.5%",
-      "tag": "-5.65%",
+      "note": "Close \u00b7 $8,556 ($3,557 stocks) \u00b7 PLTR -10.2%, NVDA -9.5%, MCD -1.1%",
+      "tag": "-5.97%",
       "sev": "soon"
     }
   ]
