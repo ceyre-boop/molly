@@ -1,12 +1,6 @@
 {
-  "updated": "2026-11-04T22:07:00-05:00",
+  "updated": "2026-11-05T13:38:00-05:00",
   "needs": [
-    {
-      "title": "COMM-131 Online Speaking + PHIL RA 11-5 due tonight",
-      "note": "Both due 11:59p tonight on Canvas (~2h left)",
-      "tag": "today",
-      "sev": "urgent"
-    },
     {
       "title": "5 agent jobs gone from scheduled tasks",
       "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review still not listed",
@@ -22,13 +16,19 @@
     {
       "title": "Flint MLK Tribute due Sat Nov 7",
       "note": "Ask Mott financial aid how to apply; Stop Hunger (Oct 20) still To check \u2014 mark Skip",
-      "tag": "3 d",
+      "tag": "2 d",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
+      "title": "Weekend schoolwork: PHIL WS9 + FILM 181 wk5 (Sun)",
+      "note": "Then Mon: COMM Career Analysis (50 pts) + PHIL RA 11-10; MATH HW due Fri",
+      "tag": "3 due",
+      "sev": "soon"
+    },
+    {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
-      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (3 d)",
+      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (2 d)",
       "tag": "setup",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -57,15 +57,15 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 10:07p \u00b7 COMM+PHIL due tonight; PHIL Thu 1:30p; NFP+MATH HW Fri; MLK Sat",
+      "note": "OK 1:38p \u00b7 PHIL now; NFP+MATH HW Fri; MLK Sat; PHIL+FILM Sun; COMM Mon",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Close \u00b7 $3,767 \u00b7 MCD +6.0%, NVDA -3.3%, PLTR -2.7%",
-      "tag": "+0.81%",
-      "sev": "accent"
+      "note": "Intraday \u00b7 $3,560 \u00b7 PLTR -9.9%, NVDA -8.7%, MCD -1.5%",
+      "tag": "-5.87%",
+      "sev": "soon"
     }
   ]
 }
