@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05T16:06:00-05:00",
+  "updated": "2026-11-05T18:50:00-05:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -28,7 +28,7 @@
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
-      "note": "Unlocks Michigan Achievement + MCC Foundation; MLK Tribute due Nov 7 (2 d)",
+      "note": "Unlocks Michigan Achievement + MCC Foundation; next: PTK Dec 1, SMART Dec 4, JKC Dec 9",
       "tag": "setup",
       "sev": "soon",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
@@ -45,7 +45,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Thu 2:20p \u00b7 next Thu 9:05p EST",
-      "tag": "ok 2h ago",
+      "tag": "ok 4h ago",
       "sev": "ok"
     },
     {
@@ -57,14 +57,14 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 4:05p \u00b7 nothing left today; NFP+MATH HW Fri, go LIVE Fri 8p; MLK Sat; COMM Mon",
+      "note": "OK 6:50p \u00b7 nothing left today; NFP+MATH HW Fri, go LIVE Fri 8p; MLK Sat; COMM Mon",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Close \u00b7 $8,556 ($3,557 stocks) \u00b7 PLTR -10.2%, NVDA -9.5%, MCD -1.1%",
-      "tag": "-5.97%",
+      "note": "Close \u00b7 $8,535 ($3,535 stocks) \u00b7 PLTR -11.2%, NVDA -10.0%, MCD -1.5% \u00b7 total -2.8%",
+      "tag": "-6.5% stk",
       "sev": "soon"
     }
   ]
