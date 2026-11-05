@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05T13:38:00-05:00",
+  "updated": "2026-11-05T14:08:00-05:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -50,21 +50,21 @@
     },
     {
       "title": "Inbox",
-      "note": "0 needs reply \u00b7 0 waiting \u00b7 26 VC/IR drafts + 5 Brilliant/TABOOST drafts \u2014 review",
-      "tag": "31 drafts",
+      "note": "0 needs reply \u00b7 0 waiting \u00b7 32 drafts (VC/IR outreach + Brilliant/TABOOST) \u2014 review",
+      "tag": "32 drafts",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Calendar read",
-      "note": "OK 1:38p \u00b7 PHIL now; NFP+MATH HW Fri; MLK Sat; PHIL+FILM Sun; COMM Mon",
+      "note": "OK 2:08p \u00b7 PHIL until 2:50; NFP+MATH HW Fri; MLK Sat; PHIL+FILM Sun; COMM Mon",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Intraday \u00b7 $3,560 \u00b7 PLTR -9.9%, NVDA -8.7%, MCD -1.5%",
-      "tag": "-5.87%",
+      "note": "Intraday \u00b7 $3,557 \u00b7 PLTR -10.0%, NVDA -8.8%, MCD -1.7%",
+      "tag": "-5.96%",
       "sev": "soon"
     }
   ]
