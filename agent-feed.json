@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-06T08:08:00-05:00",
+  "updated": "2026-11-06T10:08:00-05:00",
   "needs": [
     {
       "title": "MATH-170 HW 4.5–4.7 due tonight 11:59p",
@@ -27,10 +27,11 @@
       "sev": "urgent"
     },
     {
-      "title": "NFP release 8:30a — no entries before 9:30a",
-      "note": "High vol day; hold existing positions",
-      "tag": "in 22m",
-      "sev": "urgent"
+      "title": "Review 26 VC/IR outreach drafts",
+      "note": "Sitting in Drafts since Mon Nov 2 (Khosla, Sequoia, a16z…) — send or trash",
+      "tag": "26 drafts",
+      "sev": "soon",
+      "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
@@ -51,27 +52,27 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Thu 9:06p · next Fri 9:05p EST",
-      "tag": "ok 11h ago",
+      "tag": "ok 13h ago",
       "sev": "ok"
     },
     {
       "title": "Inbox",
-      "note": "0 needs reply · 0 waiting · 26 drafts (VC/IR outreach) — review",
+      "note": "0 needs reply · 0 waiting · 26 drafts (VC/IR outreach)",
       "tag": "26 drafts",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Calendar read",
-      "note": "OK 8:08a · NFP 8:30a, MATH HW tonight, go LIVE 8p; MLK Sat; FILM/PHIL Sun",
+      "note": "OK 10:08a · MATH HW tonight, go LIVE 8p; MLK Sat; PHIL/FILM Sun; COMM Mon",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Pre-market · last close $8,535 · total -2.8% · refresh after open",
-      "tag": "pre-mkt",
-      "sev": "accent"
+      "note": "$8,645 · day +0.9% (NVDA +6.1%, PLTR +4.2%, MCD -1.4%) · positions -1.6% total",
+      "tag": "+0.9%",
+      "sev": "ok"
     }
   ]
 }
