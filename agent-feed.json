@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05T20:08:00-05:00",
+  "updated": "2026-11-05T22:06:00-05:00",
   "needs": [
     {
       "title": "5 agent jobs gone from scheduled tasks",
@@ -23,7 +23,7 @@
     {
       "title": "MATH-170 HW 4.5\u20134.7 due Fri 11:59p",
       "note": "Sun: PHIL WS9 + FILM 181 wk5; Mon: COMM Career Analysis (50 pts) + PHIL RA 11-10",
-      "tag": "5 due",
+      "tag": "tomorrow",
       "sev": "soon"
     },
     {
@@ -44,8 +44,8 @@
     },
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Thu 2:20p \u00b7 next Thu 9:05p EST",
-      "tag": "ok 6h ago",
+      "note": "Last ok Thu 9:06p \u00b7 next Fri 9:05p EST",
+      "tag": "ok 1h ago",
       "sev": "ok"
     },
     {
@@ -57,7 +57,7 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 8:08p \u00b7 nothing left today; NFP+MATH HW Fri, go LIVE Fri 8p; MLK Sat; COMM Mon",
+      "note": "OK 10:06p \u00b7 nothing left today; NFP 8:30a + MATH HW Fri, go LIVE Fri 8p; MLK Sat",
       "tag": "ok",
       "sev": "ok"
     },
