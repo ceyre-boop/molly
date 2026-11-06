@@ -1,6 +1,19 @@
 {
-  "updated": "2026-11-05T22:06:00-05:00",
+  "updated": "2026-11-06T06:08:00-05:00",
   "needs": [
+    {
+      "title": "MATH-170 HW 4.5–4.7 due tonight 11:59p",
+      "note": "Then Sun: PHIL WS9 + FILM 181 wk5; Mon: COMM Career Analysis (50 pts) + PHIL RA 11-10",
+      "tag": "today",
+      "sev": "urgent"
+    },
+    {
+      "title": "Flint MLK Tribute due tomorrow (Sat Nov 7)",
+      "note": "Ask Mott financial aid how to apply; Stop Hunger (Oct 20) still To check — mark Skip",
+      "tag": "1 d",
+      "sev": "urgent",
+      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
+    },
     {
       "title": "5 agent jobs gone from scheduled tasks",
       "note": "Inbox triage, Morning brief, Evening digest, Outbound, Weekly review still not listed",
@@ -14,16 +27,9 @@
       "sev": "urgent"
     },
     {
-      "title": "Flint MLK Tribute due Sat Nov 7",
-      "note": "Ask Mott financial aid how to apply; Stop Hunger (Oct 20) still To check \u2014 mark Skip",
-      "tag": "2 d",
-      "sev": "soon",
-      "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
-    },
-    {
-      "title": "MATH-170 HW 4.5\u20134.7 due Fri 11:59p",
-      "note": "Sun: PHIL WS9 + FILM 181 wk5; Mon: COMM Career Analysis (50 pts) + PHIL RA 11-10",
-      "tag": "tomorrow",
+      "title": "NFP release 8:30a — no entries before 9:30a",
+      "note": "High vol day; hold existing positions",
+      "tag": "8:30a",
       "sev": "soon"
     },
     {
@@ -37,35 +43,35 @@
   "jobs": [
     {
       "title": "Scholarship scout",
-      "note": "Last ok Mon Nov 2 8:42a \u00b7 next Mon Nov 9 8:03a EST",
-      "tag": "ok 3d ago",
+      "note": "Last ok Mon Nov 2 8:42a · next Mon Nov 9 8:03a EST",
+      "tag": "ok 4d ago",
       "sev": "ok",
       "url": "https://claude.ai/code/artifact/909cad25-0ba4-4ba4-854e-e629857b46b4"
     },
     {
       "title": "Mac tidy (nightly)",
-      "note": "Last ok Thu 9:06p \u00b7 next Fri 9:05p EST",
-      "tag": "ok 1h ago",
+      "note": "Last ok Thu 9:06p · next Fri 9:05p EST",
+      "tag": "ok 9h ago",
       "sev": "ok"
     },
     {
       "title": "Inbox",
-      "note": "0 needs reply \u00b7 0 waiting \u00b7 26 drafts (VC/IR outreach) \u2014 review",
+      "note": "0 needs reply · 0 waiting · 26 drafts (VC/IR outreach) — review",
       "tag": "26 drafts",
       "sev": "soon",
       "url": "https://mail.google.com/mail/u/0/#drafts"
     },
     {
       "title": "Calendar read",
-      "note": "OK 10:06p \u00b7 nothing left today; NFP 8:30a + MATH HW Fri, go LIVE Fri 8p; MLK Sat",
+      "note": "OK 6:06a · NFP 8:30a, MATH HW tonight, go LIVE 8p; MLK Sat; FILM/PHIL Sun",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Close \u00b7 $8,535 ($3,535 stocks) \u00b7 PLTR -11.2%, NVDA -10.0%, MCD -1.5% \u00b7 total -2.8%",
-      "tag": "-6.5% stk",
-      "sev": "soon"
+      "note": "Pre-market · last close $8,535 · PLTR -11.2%, NVDA -10.0% · total -2.8%",
+      "tag": "pre-mkt",
+      "sev": "accent"
     }
   ]
 }
