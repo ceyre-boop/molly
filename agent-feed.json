@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-06T06:08:00-05:00",
+  "updated": "2026-11-06T08:08:00-05:00",
   "needs": [
     {
       "title": "MATH-170 HW 4.5–4.7 due tonight 11:59p",
@@ -29,8 +29,8 @@
     {
       "title": "NFP release 8:30a — no entries before 9:30a",
       "note": "High vol day; hold existing positions",
-      "tag": "8:30a",
-      "sev": "soon"
+      "tag": "in 22m",
+      "sev": "urgent"
     },
     {
       "title": "File the 2027-28 FAFSA (open since Oct 1)",
@@ -51,7 +51,7 @@
     {
       "title": "Mac tidy (nightly)",
       "note": "Last ok Thu 9:06p · next Fri 9:05p EST",
-      "tag": "ok 9h ago",
+      "tag": "ok 11h ago",
       "sev": "ok"
     },
     {
@@ -63,13 +63,13 @@
     },
     {
       "title": "Calendar read",
-      "note": "OK 6:06a · NFP 8:30a, MATH HW tonight, go LIVE 8p; MLK Sat; FILM/PHIL Sun",
+      "note": "OK 8:08a · NFP 8:30a, MATH HW tonight, go LIVE 8p; MLK Sat; FILM/PHIL Sun",
       "tag": "ok",
       "sev": "ok"
     },
     {
       "title": "Portfolio",
-      "note": "Pre-market · last close $8,535 · PLTR -11.2%, NVDA -10.0% · total -2.8%",
+      "note": "Pre-market · last close $8,535 · total -2.8% · refresh after open",
       "tag": "pre-mkt",
       "sev": "accent"
     }
